@@ -1324,7 +1324,7 @@ pro fhd_versions_rlb
       max_sources = 200000
       calibration_catalog_file_path = filepath('GLEAM_plus_rlb2017.sav',root=rootdir('FHD'),subdir='catalog_data')
       gain_factor = 0.1
-      deconvolve = 0  ; removed for rerunning
+      deconvolve = 1
       return_decon_visibilities = 1
       deconvolution_filter = 'filter_uv_uniform'
       filter_background = 1
