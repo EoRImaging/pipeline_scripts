@@ -1599,6 +1599,7 @@ pro fhd_versions_rlb
       return_cal_visibilities = 1
       diffuse_calibrate = 0
       diffuse_model = 0
+      model_visibilities = 1
       cal_bp_transfer = 1  ; changed this for calibration transfer
       transfer_calibration = '/home/ubuntu/'+string(obs_id)+'_cal.sav'
       rephase_weights = 0
