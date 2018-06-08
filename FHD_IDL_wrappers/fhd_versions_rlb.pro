@@ -1600,6 +1600,7 @@ pro fhd_versions_rlb
       diffuse_calibrate = 0
       diffuse_model = 0
       model_visibilities = 1
+      model_catalog_file_path = '/home/ubuntu/'+string(obs_id)+'_decon_catalog_pol_leakage_corrected.sav'
       cal_bp_transfer = 1  ; changed this for calibration transfer
       transfer_calibration = '/home/ubuntu/'+string(obs_id)+'_cal.sav'
       rephase_weights = 0
