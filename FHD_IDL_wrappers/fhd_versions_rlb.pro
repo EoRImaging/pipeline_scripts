@@ -1623,7 +1623,7 @@ pro fhd_versions_rlb
       calibration_catalog_file_path = '/home/ubuntu/'+string(obs_id)+'_decon_catalog.sav'
       gain_factor = 0.1
       filter_background = 1
-      return_cal_visibilities = 1
+      return_cal_visibilities = 0  ; must be unset if model_visibilities is set
       diffuse_calibrate = 0
       diffuse_model = 0
       model_visibilities = 1
