@@ -1597,6 +1597,7 @@ pro fhd_versions_rlb
       gain_factor = 0.1
       filter_background = 1
       return_cal_visibilities = 0  ; changed this for calibration transfer
+      catalog_file_path = 0
       diffuse_calibrate = 0
       diffuse_model = 0
       model_visibilities = 1
