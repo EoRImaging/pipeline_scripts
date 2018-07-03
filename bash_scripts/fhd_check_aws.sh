@@ -103,7 +103,7 @@ done
 unset miss_flag
 while read line
 do
-    if [[ "$(grep -o $line <<< ${ls_output_filename[*]} | wc -l)" -ne "$num_files" ]]
+    if [[ "$(grep -o $line <<< ${ls_output_filename[*]} | wc -l)" -lt "$num_files" ]]
     then
         if [ -z ${miss_flag} ]
         then

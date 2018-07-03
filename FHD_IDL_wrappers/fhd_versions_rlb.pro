@@ -4,18 +4,14 @@ pro fhd_versions_rlb
   heap_gc
 
   ; parse command line args
-  ;compile_opt strictarr
-  ;args = Command_Line_Args(count=nargs)
-  ;obs_id = args[0]
-  ;output_directory = args[1]
-  ;version = args[2]
-  ;if nargs gt 3 then platform = args[3] else platform = '' ;indicates if running on AWS
+  compile_opt strictarr
+  args = Command_Line_Args(count=nargs)
+  obs_id = args[0]
+  output_directory = args[1]
+  version = args[2]
+  if nargs gt 3 then platform = args[3] else platform = '' ;indicates if running on AWS
 
-  ;cmd_args={version:version}
-
-  obs_id = '1131478776'
-  output_directory = '/Users/rubybyrne/transfer_cal_testing'
-  version = 'rlb_diffuse_survey_decon_2pol_May2018_debug'
+  cmd_args={version:version}
 
   case version of
 
