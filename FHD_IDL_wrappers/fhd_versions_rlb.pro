@@ -10,7 +10,7 @@ pro fhd_versions_rlb
   output_directory = args[1]
   version = args[2]
   if nargs gt 3 then platform = args[3] else platform = '' ;indicates if running on AWS
-  
+
   cmd_args={version:version}
 
   case version of
