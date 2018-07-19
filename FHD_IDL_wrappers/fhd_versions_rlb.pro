@@ -2001,6 +2001,42 @@ pro fhd_versions_rlb
       time_cut = -4 ;flag an extra 4 seconds from the end of each obs
       vis_file_list = '/Users/Shared/uvfits/5.1/'+string(obs_id)+'.uvfits'
     end
+    
+    'rlb_array_sim_Barry_effect_perfect_cal_Jul2018': begin
+      recalculate_all = 1
+      uvfits_version = 4
+      uvfits_subversion = 1
+      max_sources = 200000
+      max_model_sources = 4000
+      model_catalog_file_path = filepath('GLEAM_plus_rlb2017.sav',root=rootdir('FHD'),subdir='catalog_data')
+      smooth_width = 32
+      filter_background = 1
+      return_cal_visibilities = 1
+      min_cal_baseline = 0.
+      cal_mode_fit = 0
+      calibration_polyfit = 0
+      digital_gain_jump_polyfit = 0
+      pad_uv_image = 1
+      diffuse_calibrate = 0
+      diffuse_model = 0
+      cal_bp_transfer = 0
+      transfer_calibration = '/home/ubuntu/cal_files/'+obs_id+'_cal_perfect.sav'
+      rephase_weights = 0
+      restrict_hpx_inds = 0
+      hpx_radius = 10
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      debug_region_grow = 0
+      n_pol = 2
+      remove_sim_flags = 1 ;turn off flagging for simulation
+      sim_over_calibrate = 1 ;calibrate each fine frequency independently
+      debug_beam_clip_floor = 1
+      unflag_all = 1
+      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+      model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
+      cal_time_average = 0 ;don't average over time before calibrating
+    end
 
   endcase
 
