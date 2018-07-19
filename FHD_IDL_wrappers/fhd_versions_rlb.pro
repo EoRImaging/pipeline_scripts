@@ -2009,6 +2009,7 @@ pro fhd_versions_rlb
       max_sources = 200000
       max_model_sources = 4000
       model_catalog_file_path = filepath('GLEAM_plus_rlb2017.sav',root=rootdir('FHD'),subdir='catalog_data')
+      model_visibilities = 1
       calibrate_visibilities = 0 ;do not calibrate (perfect calibration)
       smooth_width = 32
       filter_background = 1
@@ -2046,6 +2047,7 @@ pro fhd_versions_rlb
       max_sources = 200000
       max_model_sources = 4000
       model_catalog_file_path = filepath('GLEAM_plus_rlb2017.sav',root=rootdir('FHD'),subdir='catalog_data')
+      model_visibilities = 1
       smooth_width = 32
       filter_background = 1
       return_cal_visibilities = 1
@@ -2083,6 +2085,7 @@ pro fhd_versions_rlb
       max_sources = 200000
       max_model_sources = 4000
       model_catalog_file_path = filepath('GLEAM_plus_rlb2017.sav',root=rootdir('FHD'),subdir='catalog_data')
+      model_visibilities = 1
       smooth_width = 32
       filter_background = 1
       return_cal_visibilities = 1
