@@ -188,8 +188,12 @@ done
 # Remove uvfits and metafits from the instance
 sudo rm /uvfits/${obs_id}.uvfits
 sudo rm /uvfits/${obs_id}.metafits
-sudo rm -r /uvfits/input_vis
-sudo rm -r /uvfits/input_eor
+if [ ! -z ${input_vis} ]; then
+    sudo rm -r /uvfits/input_vis
+fi
+if [ ! -z ${input_eor} ]; then
+    sudo rm -r /uvfits/input_eor
+fi
 
 echo "JOB END TIME" `date +"%Y-%m-%d_%H:%M:%S"`
 
