@@ -4,22 +4,22 @@
 # Top level script to integrate healpix cubes and run power spectrum code.
 #
 # A file path to the fhd directory is needed.
-# 
+#
 # A file path to a text file listing observation ids OR preintegrated subcubes is
 # needed.
-# 
-# If a text file of observation ids to be used in integration is specified, the obs 
+#
+# If a text file of observation ids to be used in integration is specified, the obs
 # ids are assumed to be seperated by newlines.
 #
 # If a text file of preintegrated subcubes is specified, the format should be
 # the name of the save file seperated by newlines.  "even_cube.sav" and "odd_cube.sav"
 # is not necessary to include, as both will be used anyways.  The subcubes are
-# assumed to be in <fhd_directory>/Healpix/. If elsewhere in the FHD directory, the 
+# assumed to be in <fhd_directory>/Healpix/. If elsewhere in the FHD directory, the
 # name of the subcubes must specify this in the text file as Other_than_Healpix/<name>.
 #
 # Set -ps to 1 to skip integration and make cubes only.
 #
-# Written by N. Barry 
+# Written by N. Barry
 #
 ######################################################################################
 
@@ -79,7 +79,7 @@ then
     then
         echo "ps_only flag must be set if integrate list is a single observation id. Set -o 1 if desired function"
         exit 1
-    fi 
+    fi
     version=$integrate_list  #Currently assuming that the integrate list is a single obsid
 else
     version=$(basename $integrate_list) # get filename
@@ -96,7 +96,7 @@ if [ -z ${ps_only} ]; then ps_only=0; fi
 if [ -z ${hold} ]; then hold_str=""; else hold_str="-hold_jid ${hold}"; fi
 
 # image filter
-if [[ -n ${image_filter} ]]; then 
+if [[ -n ${image_filter} ]]; then
     case $image_filter in
         "Blackman-Harris") image_letters="bh_" ;;
         "Blackman-Harris^2") image_letters="bh2_" ;;
@@ -134,8 +134,8 @@ else
 fi
 
 if [ "$first_line_len" == 10 ]; then
-    
-    obs=0   
+
+    obs=0
 
     while read line
     do
@@ -148,17 +148,17 @@ if [ "$first_line_len" == 10 ]; then
 else
 
     if [[ "$first_line" != */* ]]; then
-   
-        chunk=0 
+
+        chunk=0
         while read line
         do
             echo $line >> /Healpix/${version}_int_chunk${chunk}.txt        #put that obs id into the right txt file
         done < $integrate_list
         nchunk=$chunk                       #number of chunks we ended up with
-    
+
     else
 
-        chunk=0 
+        chunk=0
         while read line
         do
             echo $line >> /Healpix/${version}_int_chunk${chunk}.txt        #put that obs id into the right txt file
@@ -173,7 +173,7 @@ outfile=~/grid_out
 errfile=~/grid_out
 
 unset idlist
-if [ "$ps_only" -ne "1" ]; then   
+if [ "$ps_only" -ne "1" ]; then
     if [ "$nchunk" -gt "1" ]; then
 
         # set up files for master integration
@@ -185,9 +185,9 @@ if [ "$ps_only" -ne "1" ]; then
 	    chunk_obs_list=/Healpix/${version}_int_chunk${chunk}.txt
             readarray chunk_obs_array < $chunk_obs_list
 	    chunk_obs_array=$( IFS=$':'; echo "${chunk_obs_array[*]}" ) #qsub can't take arrays
-	    
+
             for evenodd in even odd; do
-		for pol in XX YY; do 
+		for pol in XX YY; do
 	    	    message=$(qsub ${hold_str} -V -b y -v file_path_cubes=$FHDdir,obs_list_array="$chunk_obs_array",obs_list_path=$chunk_obs_list,version=$version,chunk=$chunk,nslots=$nslots,legacy=$legacy,evenodd=$evenodd,pol=$pol -e $errfile -o $outfile -N int_c_${version} -pe smp $nslots -sync y integration_job_aws.sh)
 	    	    message=($message)
 		done
@@ -203,9 +203,9 @@ if [ "$ps_only" -ne "1" ]; then
         chunk=0
         readarray chunk_obs_array < $sub_cubes_list
 	chunk_obs_array=$( IFS=$':'; echo "${chunk_obs_array[*]}" ) #qsub can't take arrays
-	
+
         for evenodd in even odd; do
-	    for pol in XX YY; do 
+	    for pol in XX YY; do
 	    	message=$(qsub ${hold_str} -V -b y -v file_path_cubes=$FHDdir,obs_list_array="$chunk_obs_array",obs_list_path=$sub_cubes_list,version=$version,chunk=$chunk,nslots=$nslots,legacy=$legacy,evenodd=$evenodd,pol=$pol -e $errfile -o $outfile -N int_m_${version} -pe smp $nslots -sync y integration_job_aws.sh)
         	message=($message)
 	    done
@@ -224,7 +224,7 @@ if [ "$ps_only" -ne "1" ]; then
         chunk_obs_list=/Healpix/${version}_int_chunk${chunk}.txt
         readarray chunk_obs_array < $chunk_obs_list
 	chunk_obs_array=$( IFS=$':'; echo "${chunk_obs_array[*]}" ) #qsub can't take arrays
-	
+
         for evenodd in even odd; do
 	    for pol in XX YY; do
         	message=$(qsub ${hold_str} -V -b y -v file_path_cubes=$FHDdir,obs_list_array="$chunk_obs_array",obs_list_path=$chunk_obs_list,version=$version,chunk=$chunk,nslots=$nslots,legacy=$legacy,evenodd=$evenodd,pol=$pol -e $errfile -o $outfile -N int_${version} -pe smp $nslots -sync y integration_job_aws.sh)
@@ -307,6 +307,4 @@ if [ -z ${ps_plots_only} ]; then
 fi
 
 #final plots
-qsub -hold_jid $id_list -V -v file_path_cubes=$FHDdir,obs_list_path=$integrate_list,obs_list_array="$integrate_array",version=$version,nslots=$nslots,image_filter_name=$image_filter,image_letters=$image_letters -e ${errfile} -o ${outfile} -N PS_plots -pe smp $nslots -sync y eppsilon_job_aws.sh
-
-
+qsub -hold_jid $id_list -V -v file_path_cubes=$FHDdir,obs_list_path=$integrate_list,obs_list_array="$integrate_array",version=$version,nslots=$nslots,image_filter_name=$image_filter,image_letters=$image_letters -e ${errfile} -o ${outfile} -N PS_plots -pe smp $nslots -sync y eppsilon_job_aws.sh &
