@@ -26,7 +26,7 @@ pro aws_ps_single_obs_job
   if (refresh_ps ne 0) and (refresh_ps ne 1) then begin
     print, 'Parameter refresh_ps must be 0 or 1. Returning.'
     return
-  fi
+  endif
 
   ps_wrapper, outdir+'/fhd_'+fhd_version, obs_id, /png, image_window_name=image_window_name, image_window_frac_size=image_window_frac_size, refresh_ps=refresh_ps
 
