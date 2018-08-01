@@ -91,20 +91,18 @@ if [ ! -f "/uvfits/${obs_id}.metafits" ]; then
     # Check that the metafits file exists on S3
     metafits_exists=$(aws s3 ls ${metafits_s3_loc}/${obs_id}.metafits)
     if [ -z "$metafits_exists" ]; then
-        >&2 echo "ERROR: metafits file not found"
-        echo "Job Failed"
-        exit 1
-    fi
+        >&2 echo "WARNING: metafits file not found. Running without metafits."
+    else
+        # Download metafits from S3
+        sudo aws s3 cp ${metafits_s3_loc}/${obs_id}.metafits \
+        /uvfits/${obs_id}.metafits --quiet
 
-    # Download metafits from S3
-    sudo aws s3 cp ${metafits_s3_loc}/${obs_id}.metafits \
-    /uvfits/${obs_id}.metafits --quiet
-
-    # Verify that the metafits downloaded correctly
-    if [ ! -f "/uvfits/${obs_id}.metafits" ]; then
-        >&2 echo "ERROR: downloading metafits from S3 failed"
-        echo "Job Failed"
-        exit 1
+        # Verify that the metafits downloaded correctly
+        if [ ! -f "/uvfits/${obs_id}.metafits" ]; then
+            >&2 echo "ERROR: downloading metafits from S3 failed"
+            echo "Job Failed"
+            exit 1
+        fi
     fi
 fi
 
