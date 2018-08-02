@@ -1818,7 +1818,7 @@ pro fhd_versions_rlb
     end
 
     'rlb_array_sim_reference_Jun2018': begin
-      recalculate_all = 1
+      recalculate_all = 0
       uvfits_version = 4
       uvfits_subversion = 1
       max_sources = 200000
@@ -1848,7 +1848,7 @@ pro fhd_versions_rlb
     end
 
     'rlb_array_sim_Barry_effect_Jun2018': begin
-      recalculate_all = 1
+      recalculate_all = 0
       uvfits_version = 4
       uvfits_subversion = 1
       max_sources = 200000
