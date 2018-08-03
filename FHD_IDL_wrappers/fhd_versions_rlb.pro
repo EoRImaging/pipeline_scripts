@@ -2314,7 +2314,7 @@ pro fhd_versions_rlb
       ps_kspan=200 ; only include modes out to 100 lambda (speeds up eppsilon computation)
     end
     
-    'rlb_array_sim_eor_Jun2018': begin
+    'rlb_array_sim_eor_Aug2018': begin
       recalculate_all = 1
       uvfits_version = 4
       uvfits_subversion = 1
