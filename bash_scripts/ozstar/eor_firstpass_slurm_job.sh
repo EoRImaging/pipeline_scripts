@@ -18,10 +18,7 @@ echo $SLURM_JOBID
 obsids=("$@")
 obs_id=${obsids[$SLURM_ARRAY_TASK_ID]}
 
-#Specify the FHD file path that is used in IDL (generally specified in idl_startup)
-FHDpath=$(idl -e 'print,rootdir("fhd")') ### NOTE this only works if idlstartup doesn't have any print statements (e.g. healpix check)
-
-idl -IDL_DEVICE ps -quiet -IDL_CPU_TPOOL_NTHREADS $ncores -e ${FHDpath}../pipeline_scripts/FHD_IDL_wrappers/nb_eor_firstpass_versions -args $obs_id $outdir $version 
+idl -IDL_DEVICE ps -quiet -IDL_CPU_TPOOL_NTHREADS $ncores -e nb_eor_firstpass_versions -args $obs_id $outdir $version 
 
 if [ $? -eq 0 ]
 then
