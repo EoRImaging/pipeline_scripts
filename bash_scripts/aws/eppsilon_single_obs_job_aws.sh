@@ -60,7 +60,14 @@ fi
 aws s3 cp ${s3_path}/fhd_${version}/ ${outdir}/fhd_${version}/ --recursive \
 --exclude "*" --include "*${obs_id}*" --quiet
 
-# Run FHD
+# Create ps directory with full permissions if it doesn't exist
+if [ -d "${outdir}/fhd_${version}/ps" ]; then
+    sudo chmod -R 777 ${outdir}/fhd_${version}/ps
+else
+    sudo mkdir -m 777 ${outdir}/fhd_${version}/ps
+fi
+
+# Run eppsilon
 idl -IDL_DEVICE ps -IDL_CPU_TPOOL_NTHREADS $nslots -e aws_ps_single_obs_job -args \
 $obs_id $outdir $version $image_window_name $refresh_ps || :
 
