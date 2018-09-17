@@ -67,6 +67,9 @@ else
     sudo mkdir -m 777 ${outdir}/fhd_${version}/ps
 fi
 
+# Run backup script in the background
+eppsilon_on_aws_backup.sh $outdir $s3_path $version $JOB_ID $myip &
+
 # Run eppsilon
 idl -IDL_DEVICE ps -IDL_CPU_TPOOL_NTHREADS $nslots -e aws_ps_single_obs_job -args \
 $obs_id $outdir $version $image_window_name $refresh_ps || :
@@ -79,6 +82,8 @@ else
     echo "Job Failed"
     error_mode=1
 fi
+
+kill $(jobs -p) #kill epps_on_aws_backup.sh
 
 # Move outputs to S3
 i=1  #initialize counter
