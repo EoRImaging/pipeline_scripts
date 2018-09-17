@@ -9,6 +9,7 @@ pro aws_ps_single_obs_job
   fhd_version=args[2]
   image_window_name=args[3]
   refresh_ps=args[4]
+  uvf_input=args[5]
 
   if image_window_name eq '' then begin
     image_window_name = 0
@@ -28,6 +29,6 @@ pro aws_ps_single_obs_job
     return
   endif
 
-  ps_wrapper, outdir+'/fhd_'+fhd_version, obs_id, /png, image_window_name=image_window_name, image_window_frac_size=image_window_frac_size, refresh_ps=refresh_ps
+  ps_wrapper, outdir+'/fhd_'+fhd_version, obs_id, /png, image_window_name=image_window_name, image_window_frac_size=image_window_frac_size, refresh_ps=refresh_ps, uvf_input=uvf_input
 
 end
