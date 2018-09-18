@@ -31,7 +31,7 @@ if [ -z ${obs_id} ]; then
     exit 1
 fi
 if [ -z ${image_window_name} ]; then
-    image_window_name=''
+    image_window_name=0
 fi
 if [ -z ${refresh_ps} ]; then
     refresh_ps=0
