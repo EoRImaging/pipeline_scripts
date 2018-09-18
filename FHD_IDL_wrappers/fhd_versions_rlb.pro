@@ -2192,6 +2192,7 @@ pro fhd_versions_rlb
       cal_time_average = 0 ;don't average over time before calibrating
       restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave' ; triple the window size
       ps_kspan=200 ; only include modes out to 100 lambda (speeds up eppsilon computation)
+      save_uvf = 1
     end
     
     'rlb_array_sim_Barry_effect_amp_errors_only_large_window_Jul2018': begin
@@ -2272,6 +2273,7 @@ pro fhd_versions_rlb
       cal_time_average = 0 ;don't average over time before calibrating
       restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave' ; triple the window size
       ps_kspan=200 ; only include modes out to 100 lambda (speeds up eppsilon computation)
+      save_uvf = 1
     end
     
     'rlb_array_sim_Barry_effect_phase_errors_only_large_window_Jul2018': begin
@@ -2351,6 +2353,7 @@ pro fhd_versions_rlb
       cal_time_average = 0 ;don't average over time before calibrating
       restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave' ; triple the window size
       ps_kspan=200 ; only include modes out to 100 lambda (speeds up eppsilon computation)
+      save_uvf = 1
     end
 
   endcase
