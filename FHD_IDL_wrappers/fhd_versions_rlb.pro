@@ -2478,6 +2478,102 @@ pro fhd_versions_rlb
       freq_start = 191
       freq_end = 193
     end
+    
+    'rlb_single_source_sim_mid_freq_Oct2018_2': begin
+      recalculate_all = 0
+      uvfits_version = 4
+      uvfits_subversion = 1
+      max_sources = 200000
+      model_catalog_file_path = '/home/ubuntu/single_source.sav'
+      smooth_width = 32
+      filter_background = 1
+      return_cal_visibilities = 1
+      pad_uv_image = 1
+      diffuse_calibrate = 0
+      diffuse_model = 0
+      cal_bp_transfer = 0
+      rephase_weights = 0
+      restrict_hpx_inds = 0
+      hpx_radius = 10
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      debug_region_grow = 0
+      n_pol = 2
+      debug_beam_clip_floor = 1
+      calibrate_visibilities = 0
+      model_visibilities = 1
+      unflag_all = 1
+      return_cal_visibilities = 0
+      model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
+      freq_start = 181
+      freq_end = 183
+      in_situ_sim_input = '/uvfits/input_vis'
+    end
+    
+    'rlb_single_source_sim_low_freq_Oct2018_2': begin
+      recalculate_all = 0
+      uvfits_version = 4
+      uvfits_subversion = 1
+      max_sources = 200000
+      model_catalog_file_path = '/home/ubuntu/single_source.sav'
+      smooth_width = 32
+      filter_background = 1
+      return_cal_visibilities = 1
+      pad_uv_image = 1
+      diffuse_calibrate = 0
+      diffuse_model = 0
+      cal_bp_transfer = 0
+      rephase_weights = 0
+      restrict_hpx_inds = 0
+      hpx_radius = 10
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      debug_region_grow = 0
+      n_pol = 2
+      debug_beam_clip_floor = 1
+      calibrate_visibilities = 0
+      model_visibilities = 1
+      unflag_all = 1
+      return_cal_visibilities = 0
+      model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
+      freq_start = 171
+      freq_end = 173
+      in_situ_sim_input = '/uvfits/input_vis'
+    end
+    
+    'rlb_single_source_sim_high_freq_Oct2018_2': begin
+      recalculate_all = 0
+      uvfits_version = 4
+      uvfits_subversion = 1
+      max_sources = 200000
+      model_catalog_file_path = '/home/ubuntu/single_source.sav'
+      smooth_width = 32
+      filter_background = 1
+      return_cal_visibilities = 1
+      pad_uv_image = 1
+      diffuse_calibrate = 0
+      diffuse_model = 0
+      cal_bp_transfer = 0
+      rephase_weights = 0
+      restrict_hpx_inds = 0
+      hpx_radius = 10
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      debug_region_grow = 0
+      n_pol = 2
+      debug_beam_clip_floor = 1
+      calibrate_visibilities = 0
+      model_visibilities = 1
+      unflag_all = 1
+      return_cal_visibilities = 0
+      model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
+      freq_start = 191
+      freq_end = 193
+      in_situ_sim_input = '/uvfits/input_vis'
+    end
 
   endcase
 
