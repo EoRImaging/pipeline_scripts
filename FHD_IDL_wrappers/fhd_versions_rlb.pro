@@ -2386,12 +2386,12 @@ pro fhd_versions_rlb
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
     end
     
-    'rlb_array_sim_Barry_effect_50k_sources_Oct2018': begin
+    'rlb_array_sim_Barry_effect_6k_sources_Oct2018': begin
       recalculate_all = 0
       uvfits_version = 4
       uvfits_subversion = 1
       max_sources = 200000
-      max_calibration_sources = 50000
+      max_calibration_sources = 6000
       calibration_catalog_file_path = filepath('GLEAM_plus_rlb2017.sav',root=rootdir('FHD'),subdir='catalog_data')
       smooth_width = 32
       filter_background = 1
