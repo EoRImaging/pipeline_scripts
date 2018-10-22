@@ -119,7 +119,7 @@ if [ ! -z ${input_vis} ]; then
 
     # Download input_vis from S3
     sudo aws s3 cp ${input_vis} \
-    /uvfits/input_vis/vis_data/ --recursive --exclude "*" --include "*${obs_id}*" --quiet
+    /uvfits/input_vis/vis_data/ --recursive --exclude "*" --include "${obs_id}*" --quiet
 
     echo Input visibilities from ${input_vis} copied to /uvfits/input_vis/vis_data
 
