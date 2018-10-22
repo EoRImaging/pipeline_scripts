@@ -2460,7 +2460,7 @@ pro fhd_versions_rlb
       cal_time_average = 0 ;don't average over time before calibrating
     end
     
-    'rlb_array_sim_Barry_effect_Jun2018': begin
+    'rlb_array_sim_transfer_calfits_Oct2018': begin
       recalculate_all = 0
       uvfits_version = 4
       uvfits_subversion = 1
