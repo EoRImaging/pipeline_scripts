@@ -42,6 +42,6 @@ fi
 
 ### NOTE this only works if idlstartup doesn't have any print statements (e.g. healpix check)
 PSpath=$(idl -e 'print,rootdir("eppsilon")')
-pipe_path='../pipeline_scripts/eppsilon_IDL_wrapper/'
+pipe_path='../pipeline_scripts/eppsilon_IDL_wrappers/'
 
-idl -IDL_DEVICE ps -IDL_CPU_TPOOL_NTHREADS $ncores -e ${PSpath}${pipe_path}ozstar_ps_job -args $arg_string
+idl -IDL_DEVICE ps -IDL_CPU_TPOOL_NTHREADS $ncores -e ozstar_ps_job -args $arg_string

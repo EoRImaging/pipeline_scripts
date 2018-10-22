@@ -32,23 +32,55 @@ pro nb_eor_firstpass_versions
   ;;;;; Nichole's versions
   
   ;************************** models **************************
-  'nb_model_majickdegrid_uv': begin
+  'nb_model_beam_per_baseline': begin
     debug_beam_clip_floor=1
     calibrate_visibilities=0
     model_visibilities=1
     unflag_all=1
-    majick_beam=1
-    ;psf_image_resolution=1.
-   psf_resolution=2
+    beam_per_baseline=1
+    psf_image_resolution=1.
+    psf_resolution=2.
+    recalculate_all=1
+    mapfn_recalculate=0
+    return_cal_visibilities=0
+    ps_kspan=200.
+    healpix_recalculate=1
+    snapshot_recalculate=1
+    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    diffuse_model=0
+    diffuse_calibrate=0
+    nfreq_avg=384
+    model_catalog_file_path = filepath('master_sgal_cat.sav',root=rootdir('FHD'),subdir='catalog_data')
+  end
+  'nb_model_BHgrid': begin
+    debug_beam_clip_floor=1
+    calibrate_visibilities=0
+    model_visibilities=1
+    unflag_all=1
     recalculate_all=1
     mapfn_recalculate=0
     return_cal_visibilities=0
     diffuse_model=0
-   diffuse_calibrate=0
+    diffuse_calibrate=0
     nfreq_avg=384
-    remove_sim_flags=1
-    ;model_delay_filter=1
-    ;eor_savefile = '/nfs/mwa-04/r1/EoRuvfits/analysis/calibration_sim/'
+    ps_kspan=200.
+    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    model_delay_filter=1
+    model_catalog_file_path = filepath('master_sgal_cat.sav',root=rootdir('FHD'),subdir='catalog_data')
+  end
+  'nb_model_BHgrid_nofilter': begin
+    debug_beam_clip_floor=1
+    calibrate_visibilities=0
+    model_visibilities=1
+    unflag_all=1
+    recalculate_all=1
+    mapfn_recalculate=0
+    return_cal_visibilities=0
+    diffuse_model=0
+    diffuse_calibrate=0
+    nfreq_avg=384
+    ps_kspan=200.
+    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
     model_catalog_file_path = filepath('master_sgal_cat.sav',root=rootdir('FHD'),subdir='catalog_data')
   end
   'nb_model': begin
@@ -60,14 +92,12 @@ pro nb_eor_firstpass_versions
     mapfn_recalculate=0
     return_cal_visibilities=0
     diffuse_model=0
-    ;remove_sim_flags=1
     diffuse_calibrate=0
     nfreq_avg=384
     model_delay_filter=1
-    ;eor_savefile = '/nfs/mwa-04/r1/EoRuvfits/analysis/calibration_sim/'
     model_catalog_file_path = filepath('master_sgal_cat.sav',root=rootdir('FHD'),subdir='catalog_data')
   end
-  'nb_model_1e3': begin
+  'nb_model_nofilter': begin
     debug_beam_clip_floor=1
     calibrate_visibilities=0
     model_visibilities=1
@@ -77,11 +107,8 @@ pro nb_eor_firstpass_versions
     return_cal_visibilities=0
     diffuse_model=0
     beam_mask_threshold=1e3
-    ;remove_sim_flags=1
     diffuse_calibrate=0
     nfreq_avg=384
-    model_delay_filter=1
-    ;eor_savefile = '/nfs/mwa-04/r1/EoRuvfits/analysis/calibration_sim/'
     model_catalog_file_path = filepath('master_sgal_cat.sav',root=rootdir('FHD'),subdir='catalog_data')
   end
   'nb_model_goldenset': begin
@@ -95,7 +122,6 @@ pro nb_eor_firstpass_versions
     undefine, diffuse_model, diffuse_calibrate
     nfreq_avg=384
     model_delay_filter=1
-    ;eor_savefile = '/nfs/mwa-04/r1/EoRuvfits/analysis/calibration_sim/'
     model_catalog_file_path = filepath('master_sgal_cat.sav',root=rootdir('FHD'),subdir='catalog_data')
   end
   'nb_model_interpolate': begin
@@ -110,7 +136,6 @@ pro nb_eor_firstpass_versions
     undefine, diffuse_model, diffuse_calibrate
     nfreq_avg=384
     model_delay_filter=1
-    ;eor_savefile = '/nfs/mwa-04/r1/EoRuvfits/analysis/calibration_sim/'
     model_catalog_file_path = filepath('master_sgal_cat.sav',root=rootdir('FHD'),subdir='catalog_data')
   end
   'nb_model_filter_flagged': begin
@@ -123,14 +148,33 @@ pro nb_eor_firstpass_versions
     return_cal_visibilities=0
     undefine, diffuse_model, diffuse_calibrate
     nfreq_avg=16
-    ;remove_sim_flags=1
     model_delay_filter=1
-    ;eor_savefile = '/nfs/mwa-04/r1/EoRuvfits/analysis/calibration_sim/'
     model_catalog_file_path = filepath('master_sgal_cat.sav',root=rootdir('FHD'),subdir='catalog_data')
   end
   ;************************** models **************************
   
   ;************************** sims **************************
+  'nb_sim_beam_per_baseline': begin
+    debug_beam_clip_floor=1
+    in_situ_sim_input = '/fred/oz048/MWA/CODE/FHD/fhd_nb_model_beam_per_baseline'
+    beam_per_baseline=1
+    psf_image_resolution=1.
+    psf_resolution=2.
+    recalculate_all=1
+    mapfn_recalculate=0
+    ps_kspan=200.
+    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    diffuse_model=0
+    diffuse_calibrate=0
+    nfreq_avg=384
+    remove_sim_flags=1
+    max_calibration_sources=4000
+    sim_perf_calibrate=1
+    cal_mode_fit=0
+    cal_reflection_hyperresolve=0
+    cal_reflection_mode_theory=0
+    calibration_catalog_file_path = filepath('master_sgal_cat.sav',root=rootdir('FHD'),subdir='catalog_data')
+  end
   'nb_sim_noise_only': begin
     debug_beam_clip_floor=1
     restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
@@ -146,9 +190,46 @@ pro nb_eor_firstpass_versions
     model_delay_filter=1
     model_visibilities=0
     calibrate_visibilities=0
-    ;max_calibration_sources=4
-    ;eor_savefile = '/nfs/mwa-04/r1/EoRuvfits/analysis/calibration_sim/'
     model_catalog_file_path = filepath('master_sgal_cat.sav',root=rootdir('FHD'),subdir='catalog_data')
+  end
+  'nb_sim_BHgrid_nofilter_eor': begin
+    debug_beam_clip_floor=1
+    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    ps_kspan=200.
+    in_situ_sim_input = '/fred/oz048/MWA/CODE/FHD/fhd_nb_model_BHgrid_nofilter'
+    recalculate_all=1
+    mapfn_recalculate=0
+    diffuse_model=0
+    diffuse_calibrate=0
+    remove_sim_flags=1
+    nfreq_avg=384
+    sim_over_calibrate=1
+    cal_mode_fit=0
+    cal_reflection_hyperresolve=0
+    cal_reflection_mode_theory=0
+    eor_savefile='/fred/oz048/MWA/CODE/FHD/calibration_sim/fhd_mwa_hash/vis_data/'
+    cal_time_average=0
+    calibration_catalog_file_path = filepath('master_sgal_cat.sav',root=rootdir('FHD'),subdir='catalog_data')
+  end
+  'nb_sim_BHgrid_nofilter_eor_4000perf': begin
+    debug_beam_clip_floor=1
+    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    ps_kspan=200.
+    in_situ_sim_input = '/fred/oz048/MWA/CODE/FHD/fhd_nb_model_BHgrid_nofilter'
+    recalculate_all=1
+    mapfn_recalculate=0
+    diffuse_model=0
+    diffuse_calibrate=0
+    remove_sim_flags=1
+    nfreq_avg=384
+    sim_perf_calibrate=1
+    max_calibration_sources=4000
+    cal_mode_fit=0
+    cal_reflection_hyperresolve=0
+    cal_reflection_mode_theory=0
+    eor_savefile='/fred/oz048/MWA/CODE/FHD/calibration_sim/fhd_mwa_hash/vis_data/'
+    cal_time_average=0
+    calibration_catalog_file_path = filepath('master_sgal_cat.sav',root=rootdir('FHD'),subdir='catalog_data')
   end
   'nb_sim_signal_loss': begin
     debug_beam_clip_floor=1
@@ -165,12 +246,27 @@ pro nb_eor_firstpass_versions
     cal_mode_fit=0
     cal_reflection_hyperresolve=0
     cal_reflection_mode_theory=0
-    ;sim_noise='/fred/oz048/MWA/CODE/FHD/fhd_nb_pipeline_paper/metadata/1061316296_obs.sav'
     eor_savefile='/fred/oz048/MWA/CODE/FHD/calibration_sim/fhd_mwa_hash/vis_data/'
     model_delay_filter=1
     cal_time_average=0
-    ;max_calibration_sources=4
-    ;eor_savefile = '/nfs/mwa-04/r1/EoRuvfits/analysis/calibration_sim/'
+    calibration_catalog_file_path = filepath('master_sgal_cat.sav',root=rootdir('FHD'),subdir='catalog_data')
+  end
+  'nb_sim_nofilter': begin
+    debug_beam_clip_floor=1
+    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    ps_kspan=200.
+    in_situ_sim_input = '/fred/oz048/MWA/CODE/FHD/fhd_nb_model_nofilter'
+    recalculate_all=1
+    mapfn_recalculate=0
+    diffuse_model=0
+    diffuse_calibrate=0
+    remove_sim_flags=1
+    nfreq_avg=384
+    sim_perf_calibrate=1
+    cal_mode_fit=0
+    cal_reflection_hyperresolve=0
+    cal_reflection_mode_theory=0
+    cal_time_average=0
     calibration_catalog_file_path = filepath('master_sgal_cat.sav',root=rootdir('FHD'),subdir='catalog_data')
   end
   'nb_sim_overfit': begin
@@ -189,19 +285,33 @@ pro nb_eor_firstpass_versions
     cal_mode_fit=0
     cal_reflection_hyperresolve=0
     cal_reflection_mode_theory=0
-    ;sim_noise='/fred/oz048/MWA/CODE/FHD/fhd_nb_pipeline_paper/metadata/1061316296_obs.sav'
     eor_savefile='/fred/oz048/MWA/CODE/FHD/calibration_sim/fhd_mwa_hash/vis_data/'
     model_delay_filter=1
     cal_time_average=0
-    ;max_calibration_sources=4
-    ;eor_savefile = '/nfs/mwa-04/r1/EoRuvfits/analysis/calibration_sim/'
     calibration_catalog_file_path = filepath('master_sgal_cat.sav',root=rootdir('FHD'),subdir='catalog_data')
   end
-
+  'nb_sim_perf_noeor': begin
+    debug_beam_clip_floor=1
+    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    ps_kspan=200.
+    in_situ_sim_input = '/fred/oz048/MWA/CODE/FHD/fhd_nb_model'
+    recalculate_all=1
+    mapfn_recalculate=0
+    diffuse_model=0
+    diffuse_calibrate=0
+    remove_sim_flags=1
+    nfreq_avg=384
+    max_calibration_sources=4000
+    sim_perf_calibrate=1
+    cal_mode_fit=0
+    cal_reflection_hyperresolve=0
+    cal_reflection_mode_theory=0
+    model_delay_filter=1
+    cal_time_average=0
+    calibration_catalog_file_path = filepath('master_sgal_cat.sav',root=rootdir('FHD'),subdir='catalog_data')
+  end
   'nb_sim_goldenset': begin
     in_situ_sim_input = '/nfs/mwa-04/r1/EoRuvfits/analysis/fhd_nb_model_goldenset'
-    ;restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
-    ;calibrate_visibilities=0
     debug_beam_clip_floor=1
     max_calibration_sources=4000
     nfreq_avg=384
@@ -210,27 +320,7 @@ pro nb_eor_firstpass_versions
     recalculate_all=1
     mapfn_recalculate=0
     healpix_recalculate=1
-        model_delay_filter=1
-    ;eor_savefile = '/nfs/mwa-04/r1/EoRuvfits/analysis/calibration_sim/'
-    calibration_catalog_file_path=filepath('master_sgal_cat.sav',root=rootdir('FHD'),subdir='catalog_data')
-  end
-  'nb_sim_zenith_thermalnoise_bubbles_allmodel': begin
-    in_situ_sim_input = '/nfs/mwa-04/r1/EoRuvfits/analysis/fhd_nb_model_goldenset'
-    ;restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
-    ;calibrate_visibilities=0
-    debug_beam_clip_floor=1
-    ;max_calibration_sources=4000
-    sim_noise='/nfs/mwa-10/r1/EoRuvfits/analysis/fhd_nb_2013longrun_std/metadata/'+obs_id+'_obs.sav'
-    nfreq_avg=384
-    sim_over_calibrate=1
-    diffuse_model=0
-    diffuse_calibrate=0
-    cal_mode_fit=0
-    recalculate_all=1
-    mapfn_recalculate=0
-    healpix_recalculate=1
-        model_delay_filter=1
-    eor_savefile = '/nfs/mwa-04/r1/EoRuvfits/analysis/calibration_sim/fhd_nb_goldenset_bubbles/vis_data/'
+    model_delay_filter=1
     calibration_catalog_file_path=filepath('master_sgal_cat.sav',root=rootdir('FHD'),subdir='catalog_data')
   end
   'nb_sim_hash_perfect_smooth': begin
@@ -468,6 +558,56 @@ pro nb_eor_firstpass_versions
     cal_bp_transfer=0
   ;saved_run_bp=0
   ;double memory, time
+  end
+  'nb_data_gauss': begin
+    calibration_catalog_file_path=filepath('master_sgal_cat.sav',root=rootdir('FHD'),subdir='catalog_data')
+    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    debug_beam_clip_floor=1
+    ;return_cal_visibilities=0
+    FoV=0
+    time_cut=-2
+    snapshot_recalculate=1
+    ;recalculate_all=1
+    cal_time_average=0
+    calibration_subtract_sidelobe_catalog=filepath('GLEAM_EGC_catalog_KGSscale_ssextended.sav',root=rootdir('FHD'),subdir='catalog_data')
+    model_subtract_sidelobe_catalog=filepath('GLEAM_EGC_catalog_KGSscale_ssextended.sav',root=rootdir('FHD'),subdir='catalog_data')
+    subtract_sidelobe_catalog=filepath('GLEAM_EGC_catalog_KGSscale_ssextended.sav',root=rootdir('FHD'),subdir='catalog_data')
+    ALLOW_SIDELOBE_MODEL_SOURCES =1
+    ALLOW_SIDELOBE_CAL_SOURCES =1
+    ;return_sidelobe_catalog=1
+    diffuse_calibrate=0
+    diffuse_model=0
+    digital_gain_jump_polyfit=1
+    ps_kspan=200.
+    calibration_auto_fit=1
+    ;cal_stop=1
+    cal_bp_transfer=0
+  ;saved_run_bp=0
+  end
+  'nb_data_BHgrid': begin
+    calibration_catalog_file_path=filepath('master_sgal_cat.sav',root=rootdir('FHD'),subdir='catalog_data')
+    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    debug_beam_clip_floor=1
+    ;return_cal_visibilities=0
+    FoV=0
+    time_cut=-2
+    snapshot_recalculate=1
+    ;recalculate_all=1
+    cal_time_average=0
+    calibration_subtract_sidelobe_catalog=filepath('GLEAM_EGC_catalog_KGSscale_ssextended.sav',root=rootdir('FHD'),subdir='catalog_data')
+    model_subtract_sidelobe_catalog=filepath('GLEAM_EGC_catalog_KGSscale_ssextended.sav',root=rootdir('FHD'),subdir='catalog_data')
+    subtract_sidelobe_catalog=filepath('GLEAM_EGC_catalog_KGSscale_ssextended.sav',root=rootdir('FHD'),subdir='catalog_data')
+    ALLOW_SIDELOBE_MODEL_SOURCES =1
+    ALLOW_SIDELOBE_CAL_SOURCES =1
+    ;return_sidelobe_catalog=1
+    diffuse_calibrate=0
+    diffuse_model=0
+    digital_gain_jump_polyfit=1
+    ps_kspan=200.
+    calibration_auto_fit=1
+    ;cal_stop=1
+    cal_bp_transfer=0
+  ;saved_run_bp=0
   end
   'nb_no_long_tiles': begin
     diffuse_calibrate=filepath('EoR0_diffuse_model_94.sav',root=rootdir('FHD'),subdir='catalog_data')

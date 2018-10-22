@@ -1,4 +1,4 @@
-pro slurm_ps_job
+pro ozstar_ps_job
 
   ;***Read-in typical parameters
   compile_opt strictarr
