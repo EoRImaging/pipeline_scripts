@@ -127,8 +127,8 @@ fi
 if [ -z ${user} ]; then
     user='rlb'
 fi
-if [ ${user} != 'rlb' ] && [ ${user} != 'nb' ]; then
-    echo Invalid user. Option are -u rlb and -u nb
+if [ ${user} != 'rlb' ] && [ ${user} != 'nb' ] && [ ${user} != 'mjw' ]; then
+    echo Invalid user. Option are -u rlb and -u nb and -u mjw
     exit 1
 fi
 
@@ -136,6 +136,8 @@ if [ $user == 'nb' ]; then
     versions_script='nb_eor_firstpass_versions'
 elif [ $user == 'rlb' ]; then
     versions_script='fhd_versions_rlb'
+elif [ $user == 'mjw' ]; then
+    versions_cript='mjw_fhd_versions'
 fi
 
 #Set typical slots needed for standard FHD firstpass if not set.
