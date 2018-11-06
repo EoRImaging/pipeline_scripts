@@ -39,6 +39,9 @@ fi
 if [ -z ${uvf_input} ]; then
     uvf_input=0
 fi
+if [ -z ${wt_cutoffs} ]; then
+    wt_cutoffs=1
+fi
 
 #strip the last / if present in output directory filepath
 outdir=${outdir%/}
@@ -75,7 +78,7 @@ eppsilon_on_aws_backup.sh $outdir $s3_path $version $JOB_ID $myip &
 
 # Run eppsilon
 idl -IDL_DEVICE ps -IDL_CPU_TPOOL_NTHREADS $nslots -e aws_ps_single_obs_job -args \
-$obs_id $outdir $version $image_window_name $refresh_ps $uvf_input || :
+$obs_id $outdir $version $image_window_name $refresh_ps $uvf_input $wt_cutoffs || :
 
 if [ $? -eq 0 ]
 then
