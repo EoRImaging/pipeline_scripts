@@ -137,7 +137,7 @@ if [ $user == 'nb' ]; then
 elif [ $user == 'rlb' ]; then
     versions_script='fhd_versions_rlb'
 elif [ $user == 'mjw' ]; then
-    versions_cript='mjw_fhd_versions'
+    versions_script='mjw_fhd_versions'
 fi
 
 #Set typical slots needed for standard FHD firstpass if not set.
