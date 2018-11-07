@@ -43,12 +43,12 @@ while true; do
 
         j=1  #initialize counter
         aws s3 sync ${outdir}/fhd_${version}/ps/ ${s3_path}/fhd_${version}/ps/ \
-        --recursive --exclude "*" --include "*${obs_id}*" --quiet
+        --exclude "*" --include "*${obs_id}*" --quiet
         while [ $? -ne 0 ] && [ $j -lt 6 ]; do
             let "j += 1"  #increment counter
             >&2 echo "Backing up FHD outputs to S3 failed. Retrying (attempt $j)."
             aws s3 sync ${outdir}/fhd_${version}/ps/ ${s3_path}/fhd_${version}/ps/ \
-            --recursive --exclude "*" --include "*${obs_id}*" --quiet
+            --exclude "*" --include "*${obs_id}*" --quiet
         done
 
         i=0
