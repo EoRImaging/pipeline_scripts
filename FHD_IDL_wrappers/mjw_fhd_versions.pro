@@ -16,6 +16,10 @@ pro mjw_fhd_versions
 
   case version of
 
+    'mjw_no_transfer': begin
+    cal_bp_transfer=0
+    end
+
     'mjw_default': begin
 
     end
