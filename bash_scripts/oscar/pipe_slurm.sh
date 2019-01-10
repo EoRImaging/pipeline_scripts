@@ -27,6 +27,8 @@
 # nohup ./pipe_slurm.sh -f /path/to/obsfile -v yourinitials_jackknife_test > /path/to/your/output/log/file.txt &
 #
 ####################################################
+module load idl
+shopt -s expand_aliases; source $IDL/envi53/bin/envi_setup.bash
 
 #Clear input parameters
 unset obs_file_name

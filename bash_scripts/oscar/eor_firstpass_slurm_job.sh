@@ -13,7 +13,8 @@
 module load ghostscript
 module load imagemagick/6.6.4
 module load git/2.2.1
-
+module load idl
+shopt -s expand_aliases; source $IDL/envi53/bin/envi_setup.bash
 obsids=("$@")
 obs_id=${obsids[$SLURM_ARRAY_TASK_ID]}
 
