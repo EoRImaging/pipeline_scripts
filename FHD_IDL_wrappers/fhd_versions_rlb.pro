@@ -3100,7 +3100,7 @@ pro fhd_versions_rlb
       uvfits_version = 5
       uvfits_subversion = 1
       max_sources = 200000
-      model_catalog_file_path = filepath('GLEAM_plus_rlb2017.sav',root=rootdir('FHD'),subdir='catalog_data')
+      calibration_catalog_file_path = filepath('GLEAM_plus_rlb2017.sav',root=rootdir('FHD'),subdir='catalog_data')
       smooth_width = 32
       filter_background = 1
       return_cal_visibilities = 1
@@ -3121,7 +3121,7 @@ pro fhd_versions_rlb
       uvfits_version = 5
       uvfits_subversion = 1
       max_sources = 200000
-      model_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
+      calibration_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
       smooth_width = 32
       filter_background = 1
       return_cal_visibilities = 1
