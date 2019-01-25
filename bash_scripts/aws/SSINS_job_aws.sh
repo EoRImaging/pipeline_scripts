@@ -91,11 +91,11 @@ done
 sudo rm /uvfits/${obs_id}.uvfits
 
 # Copy gridengine stdout to S3
-aws s3 cp ~/grid_out/SSINS_job_aws.sh.o${JOB_ID} \
-${s3_path}/grid_out/SSINS_job_aws.sh.o${JOB_ID}_${myip}.txt \
+aws s3 cp ~/grid_out/SSINS_job_aws.sh.o${SGE_TASK_ID}.${JOB_ID} \
+${s3_path}/grid_out/SSINS_job_aws.sh.o${SGE_TASK_ID}.${JOB_ID}_${myip}.txt \
 --quiet
 
 # Copy gridengine stderr to S3
-aws s3 cp ~/grid_out/SSINS_job_aws.sh.e${JOB_ID} \
-${s3_path}/grid_out/SSINS_job_aws.sh.e${JOB_ID}_${myip}.txt \
+aws s3 cp ~/grid_out/SSINS_job_aws.sh.e${SGE_TASK_ID}.${JOB_ID} \
+${s3_path}/grid_out/SSINS_job_aws.sh.e${SGE_TASK_ID}.${JOB_ID}_${myip}.txt \
 --quiet
