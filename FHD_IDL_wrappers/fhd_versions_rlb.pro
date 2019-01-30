@@ -3168,12 +3168,12 @@ pro fhd_versions_rlb
     end
     
     'rlb_diffuse_survey_decon_4pol_Jan2019': begin
-      recalculate_all = 0
+      recalculate_all = 1
       uvfits_version = 5
       uvfits_subversion = 1
       max_sources = 200000
       calibration_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019',root=rootdir('FHD'),subdir='catalog_data')
-      max_cal_iter = 400L ;increase max calibration iterations to ensure convergence
+      max_cal_iter = 600L ;increase max calibration iterations to ensure convergence
       gain_factor = 0.1
       deconvolve = 1
       return_decon_visibilities = 1
