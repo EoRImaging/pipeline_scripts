@@ -3173,7 +3173,7 @@ pro fhd_versions_rlb
       uvfits_subversion = 1
       max_sources = 200000
       calibration_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019',root=rootdir('FHD'),subdir='catalog_data')
-      max_cal_iter = 600L ;increase max calibration iterations to ensure convergence
+      max_cal_iter = 1000L ;increase max calibration iterations to ensure convergence
       gain_factor = 0.1
       deconvolve = 1
       return_decon_visibilities = 1
