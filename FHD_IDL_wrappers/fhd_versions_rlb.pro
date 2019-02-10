@@ -3168,7 +3168,7 @@ pro fhd_versions_rlb
     end
     
     'rlb_diffuse_survey_decon_4pol_Jan2019': begin
-      recalculate_all = 1
+      recalculate_all = 0
       uvfits_version = 5
       uvfits_subversion = 1
       max_sources = 200000
@@ -3185,7 +3185,7 @@ pro fhd_versions_rlb
       cal_bp_transfer = 0
       rephase_weights = 0
       restrict_hpx_inds = 0
-      hpx_radius = 10
+      hpx_radius = 15
       subtract_sidelobe_catalog = filepath('GLEAM_v2_plus_rlb2019',root=rootdir('FHD'),subdir='catalog_data')
       return_sidelobe_catalog = 1
       dft_threshold = 0
