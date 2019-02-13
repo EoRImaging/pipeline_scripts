@@ -3210,8 +3210,8 @@ pro fhd_versions_rlb
       model_visibilities = 1
       model_catalog_file_path = '/home/ubuntu/decon_catalogs/'+string(obs_id)+'_decon_catalog_pol_leakage_corrected.sav'
       cal_bp_transfer = 0  ; changed this for calibration transfer
-      transfer_calibration = '/home/ubuntu/calibration_transferred/'+string(obs_id)+'_cal_transferred.sav'
-      transfer_weights = '/home/ubuntu/calibration_transferred/'+string(obs_id)+'_flags_transferred.sav'
+      transfer_calibration = '/home/ubuntu/calibration_transferred/'+string(obs_id)+'_cal.sav'
+      transfer_weights = '/home/ubuntu/calibration_transferred/'+string(obs_id)+'_flags.sav'
       rephase_weights = 0
       restrict_hpx_inds = 0
       hpx_radius = 15
