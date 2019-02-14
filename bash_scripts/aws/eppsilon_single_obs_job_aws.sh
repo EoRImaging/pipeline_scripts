@@ -30,9 +30,6 @@ if [ -z ${obs_id} ]; then
     >&2 echo "ERROR: no obs ID provided"
     exit 1
 fi
-if [ -z ${image_window_name} ]; then
-    image_window_name=0
-fi
 if [ -z ${refresh_ps} ]; then
     refresh_ps=0
 fi
@@ -78,7 +75,7 @@ eppsilon_on_aws_backup.sh $outdir $s3_path $version $JOB_ID $myip &
 
 # Run eppsilon
 idl -IDL_DEVICE ps -IDL_CPU_TPOOL_NTHREADS $nslots -e aws_ps_single_obs_job -args \
-$obs_id $outdir $version $image_window_name $refresh_ps $uvf_input $wt_cutoffs || :
+$obs_id $outdir $version $refresh_ps $uvf_input $wt_cutoffs || :
 
 if [ $? -eq 0 ]
 then
