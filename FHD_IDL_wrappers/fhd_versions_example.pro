@@ -32,6 +32,7 @@ pro fhd_versions_example
       debug_region_grow = 0
       n_pol = 2
       debug_beam_clip_floor = 1
+      bandpass_calibrate = 0
     end
 
   endcase
