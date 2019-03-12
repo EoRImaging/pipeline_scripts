@@ -3372,6 +3372,7 @@ pro fhd_versions_rlb
       ring_radius = 0
       write_healpix_fits = 1
       max_baseline = 50  ; use only baselines shorter than 50 wavelength
+      min_cal_baseline = 0
       debug_region_grow = 0
       n_pol = 4
       time_cut = -4 ;flag an extra 4 seconds from the end of each obs
