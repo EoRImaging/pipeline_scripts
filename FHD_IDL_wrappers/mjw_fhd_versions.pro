@@ -20,6 +20,11 @@ pro mjw_fhd_versions
     cal_bp_transfer=0
     end
 
+    'mjw_tv_cal': begin
+    cal_bp_transfer=0
+    bandpass_calibrate=1
+    end
+
     'mjw_default': begin
 
     end
