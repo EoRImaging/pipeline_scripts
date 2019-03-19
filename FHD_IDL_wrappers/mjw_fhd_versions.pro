@@ -23,6 +23,7 @@ pro mjw_fhd_versions
     'mjw_tv_cal': begin
     cal_bp_transfer=0
     bandpass_calibrate=1
+    vis_file_list = '/Volumes/Faramir/uvfits/1061313128_short_cal.uvfits'
     end
 
     'mjw_default': begin
