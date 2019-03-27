@@ -3441,7 +3441,7 @@ pro fhd_versions_rlb
       uvfits_version = 5
       uvfits_subversion = 1
       max_sources = 200000
-      model_catalog_file_path = filepath('/home/ubuntu/polarization_test_catalog.sav')
+      model_catalog_file_path = '/home/ubuntu/polarization_test_catalog.sav'
       smooth_width = 32
       filter_background = 1
       return_cal_visibilities = 1
