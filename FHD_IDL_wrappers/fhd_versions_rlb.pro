@@ -3456,7 +3456,8 @@ pro fhd_versions_rlb
       dft_threshold = 0
       ring_radius = 0
       debug_region_grow = 0
-      n_pol = 2
+      n_pol = 4
+      max_baseline = 50  ; use only baselines shorter than 50 wavelengths
       debug_beam_clip_floor = 1
       calibrate_visibilities = 0
       model_visibilities = 1
