@@ -3551,6 +3551,296 @@ pro fhd_versions_rlb
       nfreq_avg = 384 ; speed things up by using one beam for all frequencies
     end
     
+    'rlb_pol_bug_test_source_sim1_Mar2019': begin
+      recalculate_all = 1
+      uvfits_version = 5
+      uvfits_subversion = 1
+      max_sources = 200000
+      model_catalog_file_path = '/home/ubuntu/polarized_source_catalogs_for_testing/source1.sav'
+      smooth_width = 32
+      filter_background = 1
+      return_cal_visibilities = 1
+      pad_uv_image = 1
+      diffuse_calibrate = 0
+      diffuse_model = 0
+      cal_bp_transfer = 0
+      rephase_weights = 0
+      restrict_hpx_inds = 0
+      hpx_radius = 10
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      debug_region_grow = 0
+      n_pol = 4
+      debug_beam_clip_floor = 1
+      calibrate_visibilities = 0
+      model_visibilities = 1
+      unflag_all = 1
+      return_cal_visibilities = 0
+      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+    end
+    
+    'rlb_pol_bug_test_source_sim2_Mar2019': begin
+      recalculate_all = 1
+      uvfits_version = 5
+      uvfits_subversion = 1
+      max_sources = 200000
+      model_catalog_file_path = '/home/ubuntu/polarized_source_catalogs_for_testing/source2.sav'
+      smooth_width = 32
+      filter_background = 1
+      return_cal_visibilities = 1
+      pad_uv_image = 1
+      diffuse_calibrate = 0
+      diffuse_model = 0
+      cal_bp_transfer = 0
+      rephase_weights = 0
+      restrict_hpx_inds = 0
+      hpx_radius = 10
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      debug_region_grow = 0
+      n_pol = 4
+      debug_beam_clip_floor = 1
+      calibrate_visibilities = 0
+      model_visibilities = 1
+      unflag_all = 1
+      return_cal_visibilities = 0
+      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+    end
+    
+    'rlb_pol_bug_test_source_sim3_Mar2019': begin
+      recalculate_all = 1
+      uvfits_version = 5
+      uvfits_subversion = 1
+      max_sources = 200000
+      model_catalog_file_path = '/home/ubuntu/polarized_source_catalogs_for_testing/source3.sav'
+      smooth_width = 32
+      filter_background = 1
+      return_cal_visibilities = 1
+      pad_uv_image = 1
+      diffuse_calibrate = 0
+      diffuse_model = 0
+      cal_bp_transfer = 0
+      rephase_weights = 0
+      restrict_hpx_inds = 0
+      hpx_radius = 10
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      debug_region_grow = 0
+      n_pol = 4
+      debug_beam_clip_floor = 1
+      calibrate_visibilities = 0
+      model_visibilities = 1
+      unflag_all = 1
+      return_cal_visibilities = 0
+      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+    end
+    
+    'rlb_pol_bug_test_source_sim4_Mar2019': begin
+      recalculate_all = 1
+      uvfits_version = 5
+      uvfits_subversion = 1
+      max_sources = 200000
+      model_catalog_file_path = '/home/ubuntu/polarized_source_catalogs_for_testing/source4.sav'
+      smooth_width = 32
+      filter_background = 1
+      return_cal_visibilities = 1
+      pad_uv_image = 1
+      diffuse_calibrate = 0
+      diffuse_model = 0
+      cal_bp_transfer = 0
+      rephase_weights = 0
+      restrict_hpx_inds = 0
+      hpx_radius = 10
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      debug_region_grow = 0
+      n_pol = 4
+      debug_beam_clip_floor = 1
+      calibrate_visibilities = 0
+      model_visibilities = 1
+      unflag_all = 1
+      return_cal_visibilities = 0
+      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+    end
+    
+    'rlb_pol_bug_test_source_sim5_Mar2019': begin
+      recalculate_all = 1
+      uvfits_version = 5
+      uvfits_subversion = 1
+      max_sources = 200000
+      model_catalog_file_path = '/home/ubuntu/polarized_source_catalogs_for_testing/source5.sav'
+      smooth_width = 32
+      filter_background = 1
+      return_cal_visibilities = 1
+      pad_uv_image = 1
+      diffuse_calibrate = 0
+      diffuse_model = 0
+      cal_bp_transfer = 0
+      rephase_weights = 0
+      restrict_hpx_inds = 0
+      hpx_radius = 10
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      debug_region_grow = 0
+      n_pol = 4
+      debug_beam_clip_floor = 1
+      calibrate_visibilities = 0
+      model_visibilities = 1
+      unflag_all = 1
+      return_cal_visibilities = 0
+      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+    end
+    
+    'rlb_pol_bug_test_source_sim6_Mar2019': begin
+      recalculate_all = 1
+      uvfits_version = 5
+      uvfits_subversion = 1
+      max_sources = 200000
+      model_catalog_file_path = '/home/ubuntu/polarized_source_catalogs_for_testing/source6.sav'
+      smooth_width = 32
+      filter_background = 1
+      return_cal_visibilities = 1
+      pad_uv_image = 1
+      diffuse_calibrate = 0
+      diffuse_model = 0
+      cal_bp_transfer = 0
+      rephase_weights = 0
+      restrict_hpx_inds = 0
+      hpx_radius = 10
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      debug_region_grow = 0
+      n_pol = 4
+      debug_beam_clip_floor = 1
+      calibrate_visibilities = 0
+      model_visibilities = 1
+      unflag_all = 1
+      return_cal_visibilities = 0
+      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+    end
+    
+    'rlb_pol_bug_test_source_sim7_Mar2019': begin
+      recalculate_all = 1
+      uvfits_version = 5
+      uvfits_subversion = 1
+      max_sources = 200000
+      model_catalog_file_path = '/home/ubuntu/polarized_source_catalogs_for_testing/source7.sav'
+      smooth_width = 32
+      filter_background = 1
+      return_cal_visibilities = 1
+      pad_uv_image = 1
+      diffuse_calibrate = 0
+      diffuse_model = 0
+      cal_bp_transfer = 0
+      rephase_weights = 0
+      restrict_hpx_inds = 0
+      hpx_radius = 10
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      debug_region_grow = 0
+      n_pol = 4
+      debug_beam_clip_floor = 1
+      calibrate_visibilities = 0
+      model_visibilities = 1
+      unflag_all = 1
+      return_cal_visibilities = 0
+      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+    end
+    
+    'rlb_pol_bug_test_source_sim8_Mar2019': begin
+      recalculate_all = 1
+      uvfits_version = 5
+      uvfits_subversion = 1
+      max_sources = 200000
+      model_catalog_file_path = '/home/ubuntu/polarized_source_catalogs_for_testing/source8.sav'
+      smooth_width = 32
+      filter_background = 1
+      return_cal_visibilities = 1
+      pad_uv_image = 1
+      diffuse_calibrate = 0
+      diffuse_model = 0
+      cal_bp_transfer = 0
+      rephase_weights = 0
+      restrict_hpx_inds = 0
+      hpx_radius = 10
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      debug_region_grow = 0
+      n_pol = 4
+      debug_beam_clip_floor = 1
+      calibrate_visibilities = 0
+      model_visibilities = 1
+      unflag_all = 1
+      return_cal_visibilities = 0
+      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+    end
+    
+    'rlb_pol_bug_test_source_sim9_Mar2019': begin
+      recalculate_all = 1
+      uvfits_version = 5
+      uvfits_subversion = 1
+      max_sources = 200000
+      model_catalog_file_path = '/home/ubuntu/polarized_source_catalogs_for_testing/source9.sav'
+      smooth_width = 32
+      filter_background = 1
+      return_cal_visibilities = 1
+      pad_uv_image = 1
+      diffuse_calibrate = 0
+      diffuse_model = 0
+      cal_bp_transfer = 0
+      rephase_weights = 0
+      restrict_hpx_inds = 0
+      hpx_radius = 10
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      debug_region_grow = 0
+      n_pol = 4
+      debug_beam_clip_floor = 1
+      calibrate_visibilities = 0
+      model_visibilities = 1
+      unflag_all = 1
+      return_cal_visibilities = 0
+      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+    end
+    
+    'rlb_pol_bug_test_source_sim10_Mar2019': begin
+      recalculate_all = 1
+      uvfits_version = 5
+      uvfits_subversion = 1
+      max_sources = 200000
+      model_catalog_file_path = '/home/ubuntu/polarized_source_catalogs_for_testing/source10.sav'
+      smooth_width = 32
+      filter_background = 1
+      return_cal_visibilities = 1
+      pad_uv_image = 1
+      diffuse_calibrate = 0
+      diffuse_model = 0
+      cal_bp_transfer = 0
+      rephase_weights = 0
+      restrict_hpx_inds = 0
+      hpx_radius = 10
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      debug_region_grow = 0
+      n_pol = 4
+      debug_beam_clip_floor = 1
+      calibrate_visibilities = 0
+      model_visibilities = 1
+      unflag_all = 1
+      return_cal_visibilities = 0
+      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+    end
+    
   endcase
 
   if ~keyword_set(vis_file_list) then begin
