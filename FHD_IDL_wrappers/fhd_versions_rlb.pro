@@ -3167,13 +3167,105 @@ pro fhd_versions_rlb
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
     end
     
-    'rlb_diffuse_survey_decon_4pol_Jan2019': begin
+    'rlb_diffuse_survey_pol_leakage_correction_4pol_Jan2019': begin
+      recalculate_all = 1
+      uvfits_version = 5
+      uvfits_subversion = 1
+      max_sources = 200000
+      gain_factor = 0.1
+      filter_background = 1
+      return_cal_visibilities = 0  ; changed this for calibration transfer
+      catalog_file_path = 0
+      diffuse_calibrate = 0
+      diffuse_model = 0
+      model_visibilities = 1
+      model_catalog_file_path = '/home/ubuntu/decon_catalogs/'+string(obs_id)+'_decon_catalog_pol_leakage_corrected.sav'
+      cal_bp_transfer = 0  ; changed this for calibration transfer
+      transfer_calibration = '/home/ubuntu/calibration_transferred/'+string(obs_id)+'_cal.sav'
+      transfer_weights = '/home/ubuntu/calibration_transferred/'+string(obs_id)+'_flags.sav'
+      rephase_weights = 0
+      restrict_hpx_inds = 0
+      hpx_radius = 15
+      subtract_sidelobe_catalog = filepath('GLEAM_v2_plus_rlb2019',root=rootdir('FHD'),subdir='catalog_data')
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      write_healpix_fits = 1
+      debug_region_grow = 0
+      n_pol = 4
+      time_cut = -4 ;flag an extra 4 seconds from the end of each obs
+    end
+    
+    'rlb_testing_pre_merge_Feb2019': begin
+      recalculate_all = 1
+      uvfits_version = 5
+      uvfits_subversion = 1
+      max_sources = 200000
+      calibration_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
+      smooth_width = 32
+      filter_background = 1
+      return_cal_visibilities = 1
+      pad_uv_image = 1
+      diffuse_calibrate = 0
+      diffuse_model = 0
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      debug_region_grow = 0
+      n_pol = 2
+      debug_beam_clip_floor = 1
+      model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
+    end
+    
+    'rlb_testing_post_merge_Feb2019': begin
+      recalculate_all = 1
+      uvfits_version = 5
+      uvfits_subversion = 1
+      max_sources = 200000
+      calibration_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
+      smooth_width = 32
+      filter_background = 1
+      return_cal_visibilities = 1
+      pad_uv_image = 1
+      diffuse_calibrate = 0
+      diffuse_model = 0
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      debug_region_grow = 0
+      n_pol = 2
+      debug_beam_clip_floor = 1
+      model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
+    end
+    
+    'rlb_testing_jones_norm_bug_fix_Feb2019': begin
+      recalculate_all = 1
+      uvfits_version = 5
+      uvfits_subversion = 1
+      max_sources = 200000
+      calibration_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
+      smooth_width = 32
+      filter_background = 1
+      return_cal_visibilities = 1
+      pad_uv_image = 1
+      diffuse_calibrate = 0
+      diffuse_model = 0
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      debug_region_grow = 0
+      n_pol = 2
+      debug_beam_clip_floor = 1
+      model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
+    end
+    
+    'rlb_diffuse_survey_decon_4pol_Feb2019': begin
       recalculate_all = 0
       uvfits_version = 5
       uvfits_subversion = 1
       max_sources = 200000
       calibration_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019',root=rootdir('FHD'),subdir='catalog_data')
-      max_cal_iter = 200L ;increase max calibration iterations to ensure convergence
+      max_cal_iter = 1000L ;increase max calibration iterations to ensure convergence
       gain_factor = 0.1
       deconvolve = 1
       return_decon_visibilities = 1
@@ -3185,7 +3277,7 @@ pro fhd_versions_rlb
       cal_bp_transfer = 0
       rephase_weights = 0
       restrict_hpx_inds = 0
-      hpx_radius = 10
+      hpx_radius = 15
       subtract_sidelobe_catalog = filepath('GLEAM_v2_plus_rlb2019',root=rootdir('FHD'),subdir='catalog_data')
       return_sidelobe_catalog = 1
       dft_threshold = 0
@@ -3194,6 +3286,580 @@ pro fhd_versions_rlb
       debug_region_grow = 0
       n_pol = 4
       time_cut = -4 ;flag an extra 4 seconds from the end of each obs
+    end
+    
+    'rlb_diffuse_survey_pol_leakage_correction_4pol_Mar2019': begin
+      recalculate_all = 1
+      uvfits_version = 5
+      uvfits_subversion = 1
+      max_sources = 200000
+      gain_factor = 0.1
+      filter_background = 1
+      return_cal_visibilities = 0  ; changed this for calibration transfer
+      catalog_file_path = 0
+      diffuse_calibrate = 0
+      diffuse_model = 0
+      model_visibilities = 1
+      model_catalog_file_path = '/home/ubuntu/decon_catalogs/'+string(obs_id)+'_decon_catalog_pol_leakage_corrected.sav'
+      cal_bp_transfer = 0  ; changed this for calibration transfer
+      transfer_calibration = '/home/ubuntu/calibration_transferred/'+string(obs_id)+'_cal.sav'
+      transfer_weights = '/home/ubuntu/calibration_transferred/'+string(obs_id)+'_flags.sav'
+      rephase_weights = 0
+      restrict_hpx_inds = 0
+      hpx_radius = 15
+      subtract_sidelobe_catalog = filepath('GLEAM_v2_plus_rlb2019',root=rootdir('FHD'),subdir='catalog_data')
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      write_healpix_fits = 1
+      baseline_threshold = -50  ; use only baselines shorter than 50 wavelength
+      debug_region_grow = 0
+      n_pol = 4
+      time_cut = -4 ;flag an extra 4 seconds from the end of each obs
+    end
+    
+    'rlb_diffuse_survey_pol_leakage_correction_4pol_natural_weighting_Mar2019': begin
+      recalculate_all = 1
+      uvfits_version = 5
+      uvfits_subversion = 1
+      max_sources = 200000
+      gain_factor = 0.1
+      filter_background = 1
+      return_cal_visibilities = 0  ; changed this for calibration transfer
+      catalog_file_path = 0
+      diffuse_calibrate = 0
+      diffuse_model = 0
+      model_visibilities = 1
+      model_catalog_file_path = '/home/ubuntu/decon_catalogs/'+string(obs_id)+'_decon_catalog_pol_leakage_corrected.sav'
+      cal_bp_transfer = 0  ; changed this for calibration transfer
+      transfer_calibration = '/home/ubuntu/calibration_transferred/'+string(obs_id)+'_cal.sav'
+      transfer_weights = '/home/ubuntu/calibration_transferred/'+string(obs_id)+'_flags.sav'
+      rephase_weights = 0
+      restrict_hpx_inds = 0
+      hpx_radius = 15
+      subtract_sidelobe_catalog = filepath('GLEAM_v2_plus_rlb2019',root=rootdir('FHD'),subdir='catalog_data')
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      write_healpix_fits = 1
+      baseline_threshold = -50  ; use only baselines shorter than 50 wavelength
+      image_filter_fn = 'filter_uv_natural' ; use natural weighting
+      debug_region_grow = 0
+      n_pol = 4
+      time_cut = -4 ;flag an extra 4 seconds from the end of each obs
+    end
+    
+    'rlb_diffuse_survey_test_baseline_restriction_Mar2019': begin
+      recalculate_all = 0
+      uvfits_version = 5
+      uvfits_subversion = 1
+      max_sources = 200000
+      calibration_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019',root=rootdir('FHD'),subdir='catalog_data')
+      max_cal_iter = 1000L ;increase max calibration iterations to ensure convergence
+      min_cal_baseline = 0.
+      max_baseline = 50.
+      filter_background = 1
+      return_cal_visibilities = 1
+      diffuse_calibrate = 0
+      diffuse_model = 0
+      cal_bp_transfer = 0
+      rephase_weights = 0
+      restrict_hpx_inds = 0
+      hpx_radius = 15
+      subtract_sidelobe_catalog = filepath('GLEAM_v2_plus_rlb2019',root=rootdir('FHD'),subdir='catalog_data')
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      write_healpix_fits = 1
+      debug_region_grow = 0
+      n_pol = 4
+      time_cut = -4 ;flag an extra 4 seconds from the end of each obs
+    end
+    
+    'rlb_test_max_baseline_keyword_Mar2019': begin
+      recalculate_all = 1
+      uvfits_version = 5
+      uvfits_subversion = 1
+      max_sources = 200000
+      gain_factor = 0.1
+      filter_background = 1
+      return_cal_visibilities = 0  ; changed this for calibration transfer
+      catalog_file_path = 0
+      diffuse_calibrate = 0
+      diffuse_model = 0
+      model_visibilities = 1
+      model_catalog_file_path = '/home/ubuntu/decon_catalogs/'+string(obs_id)+'_decon_catalog_pol_leakage_corrected.sav'
+      cal_bp_transfer = 0  ; changed this for calibration transfer
+      transfer_calibration = '/home/ubuntu/calibration_transferred/'+string(obs_id)+'_cal.sav'
+      transfer_weights = '/home/ubuntu/calibration_transferred/'+string(obs_id)+'_flags.sav'
+      rephase_weights = 0
+      restrict_hpx_inds = 0
+      hpx_radius = 15
+      subtract_sidelobe_catalog = filepath('GLEAM_v2_plus_rlb2019',root=rootdir('FHD'),subdir='catalog_data')
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      write_healpix_fits = 1
+      max_baseline = 50  ; use only baselines shorter than 50 wavelengths
+      debug_region_grow = 0
+      n_pol = 4
+      time_cut = -4 ;flag an extra 4 seconds from the end of each obs
+    end
+    
+    'rlb_test_max_baseline_keyword_2pol_Mar2019': begin
+      recalculate_all = 1
+      uvfits_version = 5
+      uvfits_subversion = 1
+      max_sources = 200000
+      gain_factor = 0.1
+      filter_background = 1
+      return_cal_visibilities = 0  ; changed this for calibration transfer
+      catalog_file_path = 0
+      diffuse_calibrate = 0
+      diffuse_model = 0
+      model_visibilities = 1
+      model_catalog_file_path = '/home/ubuntu/decon_catalogs/'+string(obs_id)+'_decon_catalog_pol_leakage_corrected.sav'
+      cal_bp_transfer = 0  ; changed this for calibration transfer
+      transfer_calibration = '/home/ubuntu/calibration_transferred/'+string(obs_id)+'_cal.sav'
+      transfer_weights = '/home/ubuntu/calibration_transferred/'+string(obs_id)+'_flags.sav'
+      rephase_weights = 0
+      restrict_hpx_inds = 0
+      hpx_radius = 15
+      subtract_sidelobe_catalog = filepath('GLEAM_v2_plus_rlb2019',root=rootdir('FHD'),subdir='catalog_data')
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      write_healpix_fits = 1
+      max_baseline = 50  ; use only baselines shorter than 50 wavelengths
+      debug_region_grow = 0
+      n_pol = 2
+      time_cut = -4 ;flag an extra 4 seconds from the end of each obs
+    end
+    
+    'rlb_simulated_polarized_sources_May2018': begin
+      recalculate_all = 1
+      uvfits_version = 5
+      uvfits_subversion = 1
+      max_sources = 200000
+      model_catalog_file_path = '/home/ubuntu/polarization_test_catalog.sav'
+      smooth_width = 32
+      filter_background = 1
+      return_cal_visibilities = 1
+      pad_uv_image = 1
+      diffuse_calibrate = 0
+      diffuse_model = 0
+      cal_bp_transfer = 0
+      rephase_weights = 0
+      restrict_hpx_inds = 0
+      hpx_radius = 10
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      debug_region_grow = 0
+      n_pol = 4
+      max_baseline = 50  ; use only baselines shorter than 50 wavelengths
+      debug_beam_clip_floor = 1
+      calibrate_visibilities = 0
+      model_visibilities = 1
+      unflag_all = 1
+      return_cal_visibilities = 0
+      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+      model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
+    end
+    
+    'rlb_test_max_baseline_baseline_threshold_together_Mar2019': begin
+      recalculate_all = 1
+      uvfits_version = 5
+      uvfits_subversion = 1
+      max_sources = 200000
+      gain_factor = 0.1
+      filter_background = 1
+      return_cal_visibilities = 0  ; changed this for calibration transfer
+      catalog_file_path = 0
+      diffuse_calibrate = 0
+      diffuse_model = 0
+      model_visibilities = 1
+      model_catalog_file_path = '/home/ubuntu/decon_catalogs/'+string(obs_id)+'_decon_catalog_pol_leakage_corrected.sav'
+      cal_bp_transfer = 0  ; changed this for calibration transfer
+      transfer_calibration = '/home/ubuntu/calibration_transferred/'+string(obs_id)+'_cal.sav'
+      transfer_weights = '/home/ubuntu/calibration_transferred/'+string(obs_id)+'_flags.sav'
+      rephase_weights = 0
+      restrict_hpx_inds = 0
+      hpx_radius = 15
+      subtract_sidelobe_catalog = filepath('GLEAM_v2_plus_rlb2019',root=rootdir('FHD'),subdir='catalog_data')
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      write_healpix_fits = 1
+      max_baseline = 50  ; use only baselines shorter than 50 wavelengths
+      baseline_threshold = -50
+      debug_region_grow = 0
+      n_pol = 4
+      time_cut = -4 ;flag an extra 4 seconds from the end of each obs
+    end
+    
+    'rlb_simulated_polarized_signal_baseline_cut_Mar2018': begin
+      recalculate_all = 1
+      uvfits_version = 5
+      uvfits_subversion = 1
+      smooth_width = 32
+      filter_background = 1
+      pad_uv_image = 1
+      diffuse_calibrate = 0
+      diffuse_model = 0
+      cal_bp_transfer = 0
+      rephase_weights = 0
+      restrict_hpx_inds = 0
+      hpx_radius = 10
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      debug_region_grow = 0
+      n_pol = 4
+      max_baseline = 50  ; use only baselines shorter than 50 wavelengths
+      debug_beam_clip_floor = 1
+      calibrate_visibilities = 0
+      model_visibilities = 0
+      unflag_all = 1
+      return_cal_visibilities = 0
+      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+    end
+    
+    'rlb_simulated_polarized_signal_no_baseline_cut_Mar2018': begin
+      recalculate_all = 1
+      uvfits_version = 5
+      uvfits_subversion = 1
+      smooth_width = 32
+      filter_background = 1
+      pad_uv_image = 1
+      diffuse_calibrate = 0
+      diffuse_model = 0
+      cal_bp_transfer = 0
+      rephase_weights = 0
+      restrict_hpx_inds = 0
+      hpx_radius = 10
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      debug_region_grow = 0
+      n_pol = 4
+      debug_beam_clip_floor = 1
+      calibrate_visibilities = 0
+      model_visibilities = 0
+      unflag_all = 1
+      return_cal_visibilities = 0
+      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+    end
+    
+    'rlb_pol_bug_test_source_sim1_Mar2019': begin
+      recalculate_all = 1
+      uvfits_version = 5
+      uvfits_subversion = 1
+      max_sources = 200000
+      model_catalog_file_path = '/home/ubuntu/polarized_source_catalogs_for_testing/source1.sav'
+      smooth_width = 32
+      filter_background = 1
+      return_cal_visibilities = 1
+      pad_uv_image = 1
+      diffuse_calibrate = 0
+      diffuse_model = 0
+      cal_bp_transfer = 0
+      rephase_weights = 0
+      restrict_hpx_inds = 0
+      hpx_radius = 10
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      debug_region_grow = 0
+      n_pol = 4
+      debug_beam_clip_floor = 1
+      calibrate_visibilities = 0
+      model_visibilities = 1
+      unflag_all = 1
+      return_cal_visibilities = 0
+      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+    end
+    
+    'rlb_pol_bug_test_source_sim2_Mar2019': begin
+      recalculate_all = 1
+      uvfits_version = 5
+      uvfits_subversion = 1
+      max_sources = 200000
+      model_catalog_file_path = '/home/ubuntu/polarized_source_catalogs_for_testing/source2.sav'
+      smooth_width = 32
+      filter_background = 1
+      return_cal_visibilities = 1
+      pad_uv_image = 1
+      diffuse_calibrate = 0
+      diffuse_model = 0
+      cal_bp_transfer = 0
+      rephase_weights = 0
+      restrict_hpx_inds = 0
+      hpx_radius = 10
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      debug_region_grow = 0
+      n_pol = 4
+      debug_beam_clip_floor = 1
+      calibrate_visibilities = 0
+      model_visibilities = 1
+      unflag_all = 1
+      return_cal_visibilities = 0
+      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+    end
+    
+    'rlb_pol_bug_test_source_sim3_Mar2019': begin
+      recalculate_all = 1
+      uvfits_version = 5
+      uvfits_subversion = 1
+      max_sources = 200000
+      model_catalog_file_path = '/home/ubuntu/polarized_source_catalogs_for_testing/source3.sav'
+      smooth_width = 32
+      filter_background = 1
+      return_cal_visibilities = 1
+      pad_uv_image = 1
+      diffuse_calibrate = 0
+      diffuse_model = 0
+      cal_bp_transfer = 0
+      rephase_weights = 0
+      restrict_hpx_inds = 0
+      hpx_radius = 10
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      debug_region_grow = 0
+      n_pol = 4
+      debug_beam_clip_floor = 1
+      calibrate_visibilities = 0
+      model_visibilities = 1
+      unflag_all = 1
+      return_cal_visibilities = 0
+      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+    end
+    
+    'rlb_pol_bug_test_source_sim4_Mar2019': begin
+      recalculate_all = 1
+      uvfits_version = 5
+      uvfits_subversion = 1
+      max_sources = 200000
+      model_catalog_file_path = '/home/ubuntu/polarized_source_catalogs_for_testing/source4.sav'
+      smooth_width = 32
+      filter_background = 1
+      return_cal_visibilities = 1
+      pad_uv_image = 1
+      diffuse_calibrate = 0
+      diffuse_model = 0
+      cal_bp_transfer = 0
+      rephase_weights = 0
+      restrict_hpx_inds = 0
+      hpx_radius = 10
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      debug_region_grow = 0
+      n_pol = 4
+      debug_beam_clip_floor = 1
+      calibrate_visibilities = 0
+      model_visibilities = 1
+      unflag_all = 1
+      return_cal_visibilities = 0
+      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+    end
+    
+    'rlb_pol_bug_test_source_sim5_Mar2019': begin
+      recalculate_all = 1
+      uvfits_version = 5
+      uvfits_subversion = 1
+      max_sources = 200000
+      model_catalog_file_path = '/home/ubuntu/polarized_source_catalogs_for_testing/source5.sav'
+      smooth_width = 32
+      filter_background = 1
+      return_cal_visibilities = 1
+      pad_uv_image = 1
+      diffuse_calibrate = 0
+      diffuse_model = 0
+      cal_bp_transfer = 0
+      rephase_weights = 0
+      restrict_hpx_inds = 0
+      hpx_radius = 10
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      debug_region_grow = 0
+      n_pol = 4
+      debug_beam_clip_floor = 1
+      calibrate_visibilities = 0
+      model_visibilities = 1
+      unflag_all = 1
+      return_cal_visibilities = 0
+      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+    end
+    
+    'rlb_pol_bug_test_source_sim6_Mar2019': begin
+      recalculate_all = 1
+      uvfits_version = 5
+      uvfits_subversion = 1
+      max_sources = 200000
+      model_catalog_file_path = '/home/ubuntu/polarized_source_catalogs_for_testing/source6.sav'
+      smooth_width = 32
+      filter_background = 1
+      return_cal_visibilities = 1
+      pad_uv_image = 1
+      diffuse_calibrate = 0
+      diffuse_model = 0
+      cal_bp_transfer = 0
+      rephase_weights = 0
+      restrict_hpx_inds = 0
+      hpx_radius = 10
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      debug_region_grow = 0
+      n_pol = 4
+      debug_beam_clip_floor = 1
+      calibrate_visibilities = 0
+      model_visibilities = 1
+      unflag_all = 1
+      return_cal_visibilities = 0
+      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+    end
+    
+    'rlb_pol_bug_test_source_sim7_Mar2019': begin
+      recalculate_all = 1
+      uvfits_version = 5
+      uvfits_subversion = 1
+      max_sources = 200000
+      model_catalog_file_path = '/home/ubuntu/polarized_source_catalogs_for_testing/source7.sav'
+      smooth_width = 32
+      filter_background = 1
+      return_cal_visibilities = 1
+      pad_uv_image = 1
+      diffuse_calibrate = 0
+      diffuse_model = 0
+      cal_bp_transfer = 0
+      rephase_weights = 0
+      restrict_hpx_inds = 0
+      hpx_radius = 10
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      debug_region_grow = 0
+      n_pol = 4
+      debug_beam_clip_floor = 1
+      calibrate_visibilities = 0
+      model_visibilities = 1
+      unflag_all = 1
+      return_cal_visibilities = 0
+      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+    end
+    
+    'rlb_pol_bug_test_source_sim8_Mar2019': begin
+      recalculate_all = 1
+      uvfits_version = 5
+      uvfits_subversion = 1
+      max_sources = 200000
+      model_catalog_file_path = '/home/ubuntu/polarized_source_catalogs_for_testing/source8.sav'
+      smooth_width = 32
+      filter_background = 1
+      return_cal_visibilities = 1
+      pad_uv_image = 1
+      diffuse_calibrate = 0
+      diffuse_model = 0
+      cal_bp_transfer = 0
+      rephase_weights = 0
+      restrict_hpx_inds = 0
+      hpx_radius = 10
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      debug_region_grow = 0
+      n_pol = 4
+      debug_beam_clip_floor = 1
+      calibrate_visibilities = 0
+      model_visibilities = 1
+      unflag_all = 1
+      return_cal_visibilities = 0
+      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+    end
+    
+    'rlb_pol_bug_test_source_sim9_Mar2019': begin
+      recalculate_all = 1
+      uvfits_version = 5
+      uvfits_subversion = 1
+      max_sources = 200000
+      model_catalog_file_path = '/home/ubuntu/polarized_source_catalogs_for_testing/source9.sav'
+      smooth_width = 32
+      filter_background = 1
+      return_cal_visibilities = 1
+      pad_uv_image = 1
+      diffuse_calibrate = 0
+      diffuse_model = 0
+      cal_bp_transfer = 0
+      rephase_weights = 0
+      restrict_hpx_inds = 0
+      hpx_radius = 10
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      debug_region_grow = 0
+      n_pol = 4
+      debug_beam_clip_floor = 1
+      calibrate_visibilities = 0
+      model_visibilities = 1
+      unflag_all = 1
+      return_cal_visibilities = 0
+      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+    end
+    
+    'rlb_pol_bug_test_source_sim10_Mar2019': begin
+      recalculate_all = 1
+      uvfits_version = 5
+      uvfits_subversion = 1
+      max_sources = 200000
+      model_catalog_file_path = '/home/ubuntu/polarized_source_catalogs_for_testing/source10.sav'
+      smooth_width = 32
+      filter_background = 1
+      return_cal_visibilities = 1
+      pad_uv_image = 1
+      diffuse_calibrate = 0
+      diffuse_model = 0
+      cal_bp_transfer = 0
+      rephase_weights = 0
+      restrict_hpx_inds = 0
+      hpx_radius = 10
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      debug_region_grow = 0
+      n_pol = 4
+      debug_beam_clip_floor = 1
+      calibrate_visibilities = 0
+      model_visibilities = 1
+      unflag_all = 1
+      return_cal_visibilities = 0
+      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+    end
+    
+    'rlb_testing_stokes_convert_fix_Apr2019': begin
+      recalculate_all = 1
+      uvfits_version = 5
+      uvfits_subversion = 1
+      max_sources = 200000
+      calibration_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
+      smooth_width = 32
+      filter_background = 1
+      return_cal_visibilities = 1
+      pad_uv_image = 1
+      diffuse_calibrate = 0
+      diffuse_model = 0
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      debug_region_grow = 0
+      n_pol = 2
+      debug_beam_clip_floor = 1
+      model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
     end
     
   endcase

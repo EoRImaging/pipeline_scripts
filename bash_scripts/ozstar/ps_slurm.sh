@@ -94,13 +94,13 @@ fi
 if [ -z ${priority} ]; then priority=0; fi
 
 #Set typical wallclock_time for standard PS with obs ids if not set.
-if [ -z ${wallclock_time} ]; then wallclock_time=40:00:00; fi
+if [ -z ${wallclock_time} ]; then wallclock_time=10:00:00; fi
 
 #Set typical slots needed for standard PS with obs ids if not set.
-if [ -z ${ncores} ]; then ncores=10; fi
+if [ -z ${ncores} ]; then ncores=1; fi
 
 #Set typical memory needed for standard PS with obs ids if not set.
-if [ -z ${mem} ]; then mem=45G; fi
+if [ -z ${mem} ]; then mem=25G; fi
 
 #Set default to do integration
 if [ -z ${ps_only} ]; then ps_only=0; fi
@@ -198,7 +198,7 @@ else
         chunk=0 
         while read line
         do
-            echo Healpix/$line >> ${FHDdir}/Healpix/${version}_int_chunk${chunk}.txt        #put that obs id into the right txt file
+            echo $line >> ${FHDdir}/Healpix/${version}_int_chunk${chunk}.txt        #put that obs id into the right txt file
         done < $integrate_list
         nchunk=$chunk                       #number of chunks we ended up with
     
@@ -244,7 +244,7 @@ if [ "$ps_only" -ne "1" ]; then
         errfile=${FHDdir}/Healpix/${version}_int_chunk${chunk}_err.log
 	for evenodd in even odd; do
 	    for pol in XX YY; do 
-                message=$(sbatch --dependency=afterok:$idlist --mem=$mem -t $wallclock_time -n $ncores --export=file_path_cubes=$FHDdir,obs_list_path=$chunk_obs_list,version=$version,chunk=$chunk,ncores=$ncores,legacy=$legacy,evenodd=$evenodd,pol=$pol -e $errfile -o $outfile ${PSpath}../pipeline_scripts/bash_scripts/ozstar/integrate_slurm_job.sh)
+                message=$(sbatch --dependency=afterok:$idlist --mem=$mem -t $wallclock_time -n $ncores --export=file_path_cubes=$FHDdir,obs_list_path=$sub_cubes_list,version=$version,chunk=$chunk,ncores=$ncores,legacy=$legacy,evenodd=$evenodd,pol=$pol -e $errfile -o $outfile ${PSpath}../pipeline_scripts/bash_scripts/ozstar/integrate_slurm_job.sh)
         	message=($message)
 		if [[ "$evenodd" = "even" ]] && [[ "$pol" = "XX" ]]; then idlist_master=${message[3]}; else idlist_master=${idlist_master}:${message[3]}; fi
 	    done
@@ -401,5 +401,5 @@ message=($message)
 id_list=${id_list}:${message[3]}
 
 #final plots
-if [[ -n ${tukey_filter} ]]; then plot_walltime=10:00:00; else plot_walltime=00:20:00; fi
+if [[ -n ${tukey_filter} ]]; then plot_walltime=1:00:00; else plot_walltime=00:20:00; fi
 sbatch --dependency=afterok:$id_list --mem=$mem -t ${wallclock_time} -n ${ncores} --export=file_path_cubes=$FHDdir,obs_list_path=$integrate_list,version=$version,ncores=$ncores,image_filter_name=$tukey_filter -e ${errfile}_plots.log -o ${outfile}_plots.log -J PS_plots ${PSpath}${pipe_path}PS_list_slurm_job.sh
