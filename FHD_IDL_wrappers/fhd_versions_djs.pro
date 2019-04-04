@@ -1,4 +1,4 @@
-pro fhd_versions_rlb
+pro fhd_versions_djs
   except=!except
   !except=0
   heap_gc
@@ -14,17 +14,17 @@ pro fhd_versions_rlb
   ;cmd_args={version:version}
   
   obs_id = "ref_1.1_uniform"
-  output_directory = "/Volumes/Boromir/DaraOutputs"
-  version = "djs_test_run_Jan2019"
+  output_directory = "/Volumes/Bilbo/djs_outputs"
+  version = "djs_test_run_Feb2019"
   vis_file_list = "/Users/dstorer/Desktop/ref_1.1_uniform.uvfits"
 
   case version of
 
-    'djs_test_run_Jan2019': begin
+    'djs_test_run_Feb2019': begin
       recalculate_all = 1
       uvfits_version = 5
       uvfits_subversion = 1
-      calibration_catalog_file_path=filepath('GLEAM_plus_rlb2017.sav',root=rootdir('FHD'),subdir='catalog_data')
+      catalog_file_path=filepath('GLEAM_plus_rlb2017.sav',root=rootdir('FHD'),subdir='catalog_data')
       rephase_weights = 0
       diffuse_calibrate = 0
       diffuse_model = 0
@@ -34,6 +34,13 @@ pro fhd_versions_rlb
       calibration_polyfit = 0
       digital_gain_jump_polyfit = 0
       cal_bp_transfer = 0
+      sim_over_calibrate = 1
+      remove_sim_flags = 1
+      unflag_all = 1 
+      flag_calibration = 0
+      bandpass_calibrate = 0
+      split_ps_export = 0
+      n_avg = 1
     end
     
   endcase
