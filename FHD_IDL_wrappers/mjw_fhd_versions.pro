@@ -29,8 +29,9 @@ pro mjw_fhd_versions
     'mjw_tv_transfer': begin
     cal_bp_transfer = '/Users/mikewilensky/TV_cal/mjw_tv_cal/calibration/1061313128_short_bandpass.txt'
     transfer_calibration = '/Users/mikewilensky/TV_cal/mjw_tv_cal/calibration/1061313128_short_cal.sav'
-    vis_file_list = '/Volumes/Faramir/uvfits/1061313128_short_image.uvfits'
-    no_ps = 0
+    bandpass_calibrate = 1
+    model_visibilities = 1
+    vis_file_list = '/Volumes/Faramir/uvfits/1061313128_t11.uvfits'
     end
 
     'mjw_default': begin
