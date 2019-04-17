@@ -75,6 +75,7 @@ PRO eor_wrapper_defaults,extra
   bandpass_calibrate=1
   cable_bandpass_fit=1
   cal_bp_transfer=1
+  calibration_polyfit=1
   cal_amp_degree_fit=2
   cal_phase_degree_fit=1
   cal_reflection_hyperresolve=150
