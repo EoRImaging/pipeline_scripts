@@ -145,6 +145,15 @@ do
 		  exit_flag=1
 	      fi
 	  fi
+      pol_files=$(($(ls $FHDdir/Healpix/$line*cube*.sav | wc -l) / 2))
+      if [[ "$pol_files" -eq 2 ]]; then 
+          n_pol=2; else
+              if [[ "$pol_files" -eq 4 ]]; then
+                  n_pol=4; else 
+                      echo Non-standard amount of cubes per obs $line
+                      exit_flag=1
+              fi
+      fi 
       else
 	  if ! ls $FHDdir/$line*cube*.sav &> /dev/null; then
 	      echo Missing cube for obs $line
@@ -169,17 +178,6 @@ if [ "$exit_flag" -eq 1 ]; then exit 1; fi
 
 if [ "$first_line_len" == 10 ]; then
     
-    # Just PS if flag has been set
-    #if [ "$ps_only" -eq "1" ]; then
-    #    outfile=${FHDdir}/ps/${version}_ps_out.log
-    #    errfile=${FHDdir}/ps/${version}_ps_err.log
-    #    if [ ! -d ${FHDdir}/ps ]; then mkdir ${FHDdir}/ps; fi
-#	echo "Running only ps code"
-        #qsub ${hold_str} -l h_vmem=$mem,h_stack=512k,h_rt=$wallclock_time -V -v file_path_cubes=$FHDdir,obs_list_path=$integrate_list,version=$version,nslots=$nslots -e $errfile -o $outfile -pe chost $nslots ${PSpath}ps_wrappers/PS_list_job.sh
-        #exit $?
-	
-    #fi
-
     # read in obs ids 100 at a time and divide into chunks to integrate in parallel mode
     obs=0   
 
@@ -215,6 +213,9 @@ else
 
 fi
 
+if [[ "$n_pol" -eq 2 ]]; then pol_list=( XX YY );fi
+if [[ "$n_pol" -eq 4 ]]; then pol_list=( XX YY XY YX );fi
+
 unset idlist
 if [ "$ps_only" -ne "1" ]; then   
     if [ "$nchunk" -gt "1" ]; then
@@ -229,7 +230,7 @@ if [ "$ps_only" -ne "1" ]; then
 	    outfile=${FHDdir}/Healpix/${version}_int_chunk${chunk}_out.log
 	    errfile=${FHDdir}/Healpix/${version}_int_chunk${chunk}_err.log
 	    for evenodd in even odd; do
-		for pol in XX YY; do 
+		for pol in ${pol_list[@]}; do 
 		    message=$(sbatch ${hold_str} --mem=$mem -t ${wallclock_time} -n ${ncores} --export=file_path_cubes=$FHDdir,obs_list_path=$chunk_obs_list,version=$version,chunk=$chunk,ncores=$ncores,legacy=$legacy,evenodd=$evenodd,pol=$pol -e $errfile -o $outfile ${PSpath}../pipeline_scripts/bash_scripts/ozstar/integrate_slurm_job.sh)
 	    	    message=($message)
 	    	    if [ "$chunk" -eq 1 ] && [[ "$evenodd" = "even" ]] && [[ "$pol" = "XX" ]]; then idlist=${message[3]}; else idlist=${idlist}:${message[3]}; fi
@@ -243,7 +244,7 @@ if [ "$ps_only" -ne "1" ]; then
         outfile=${FHDdir}/Healpix/${version}_int_chunk${chunk}_out.log
         errfile=${FHDdir}/Healpix/${version}_int_chunk${chunk}_err.log
 	for evenodd in even odd; do
-	    for pol in XX YY; do 
+	    for pol in ${pol_list[@]}; do
                 message=$(sbatch --dependency=afterok:$idlist --mem=$mem -t $wallclock_time -n $ncores --export=file_path_cubes=$FHDdir,obs_list_path=$sub_cubes_list,version=$version,chunk=$chunk,ncores=$ncores,legacy=$legacy,evenodd=$evenodd,pol=$pol -e $errfile -o $outfile ${PSpath}../pipeline_scripts/bash_scripts/ozstar/integrate_slurm_job.sh)
         	message=($message)
 		if [[ "$evenodd" = "even" ]] && [[ "$pol" = "XX" ]]; then idlist_master=${message[3]}; else idlist_master=${idlist_master}:${message[3]}; fi
@@ -260,7 +261,7 @@ if [ "$ps_only" -ne "1" ]; then
         outfile=${FHDdir}/Healpix/${version}_int_chunk${chunk}_out.log
         errfile=${FHDdir}/Healpix/${version}_int_chunk${chunk}_err.log
 	for evenodd in even odd; do
-	    for pol in XX YY; do
+	    for pol in ${pol_list[@]}; do
                 message=$(sbatch ${hold_str} --mem=$mem -t ${wallclock_time} -n ${ncores} --export=file_path_cubes=$FHDdir,obs_list_path=$chunk_obs_list,version=$version,chunk=$chunk,ncores=$ncores,legacy=$legacy,evenodd=$evenodd,pol=$pol -e $errfile -o $outfile ${PSpath}../pipeline_scripts/bash_scripts/ozstar/integrate_slurm_job.sh)
        		message=($message)
 		if [[ "$evenodd" = "even" ]] && [[ "$pol" = "XX" ]]; then idlist_int=${message[3]}; else idlist_int=${idlist_int}:${message[3]}; fi
@@ -286,119 +287,36 @@ mkdir -p ${FHDdir}/ps/plots/slices
 mkdir -p ${FHDdir}/ps/plots/2d_binning
 mkdir -p ${FHDdir}/ps/plots/1d_binning
 
-###XX, even
-pol='xx'
-evenodd='even'
+if [[ "$n_pol" -eq 2 ]]; then pol_list=( xx yy );fi
+if [[ "$n_pol" -eq 4 ]]; then pol_list=( xx yy xy yx );fi
+
+evenodd_list=( even odd )
+cube_type_list=( weights dirty model res )
 
 pipe_path='../pipeline_scripts/bash_scripts/ozstar/'
+hold_str_cubes=$hold_str
 
-#weights/variance
-cube_type='weights'
-message=$(sbatch ${hold_str} --mem=$mem -t ${wallclock_time} -n ${ncores} --export=file_path_cubes=$FHDdir,obs_list_path=$integrate_list,version=$version,ncores=$ncores,cube_type=$cube_type,pol=$pol,evenodd=$evenodd,image_filter_name=$tukey_filter -e ${errfile}_xx_even_weights.log -o ${outfile}_xx_even_weights.log -J PS_xe_weights ${PSpath}${pipe_path}PS_list_slurm_job.sh)
-message=($message)
-id="--dependency=afterok:${message[3]}"
-
-#dirty
-cube_type='dirty'
-message=$(sbatch $id --mem=$mem -t ${wallclock_time} -n ${ncores} --export=file_path_cubes=$FHDdir,obs_list_path=$integrate_list,version=$version,ncores=$ncores,cube_type=$cube_type,pol=$pol,evenodd=$evenodd,image_filter_name=$tukey_filter -e ${errfile}_xx_even_dirty.log -o ${outfile}_xx_even_dirty.log -J PS_xe_dirty ${PSpath}${pipe_path}PS_list_slurm_job.sh)
-message=($message)
-id_list=${message[3]}
-
-#model
-cube_type='model'
-message=$(sbatch $id --mem=$mem -t ${wallclock_time} -n ${ncores} --export=file_path_cubes=$FHDdir,obs_list_path=$integrate_list,version=$version,ncores=$ncores,cube_type=$cube_type,pol=$pol,evenodd=$evenodd,image_filter_name=$tukey_filter -e ${errfile}_xx_even_model.log -o ${outfile}_xx_even_model.log -J PS_xe_model ${PSpath}${pipe_path}PS_list_slurm_job.sh)
-message=($message)
-id_list=${id_list}:${message[3]}
-
-#res
-cube_type='res'
-message=$(sbatch $id --mem=$mem -t ${wallclock_time} -n ${ncores} --export=file_path_cubes=$FHDdir,obs_list_path=$integrate_list,version=$version,ncores=$ncores,cube_type=$cube_type,pol=$pol,evenodd=$evenodd,image_filter_name=$tukey_filter -e ${errfile}_xx_even_res.log -o ${outfile}_xx_even_res.log -J PS_xe_res ${PSpath}${pipe_path}PS_list_slurm_job.sh)
-message=($message)
-id_list=${id_list}:${message[3]}
-
-###XX, odd
-pol='xx'
-evenodd='odd'
-
-#weights/variance
-cube_type='weights'
-message=$(sbatch ${hold_str} --mem=$mem -t ${wallclock_time} -n ${ncores} --export=file_path_cubes=$FHDdir,obs_list_path=$integrate_list,version=$version,ncores=$ncores,cube_type=$cube_type,pol=$pol,evenodd=$evenodd,image_filter_name=$tukey_filter -e ${errfile}_xx_odd_weights.log -o ${outfile}_xx_odd_weights.log -J PS_xo_weights ${PSpath}${pipe_path}PS_list_slurm_job.sh)
-message=($message)
-id="--dependency=afterok:${message[3]}"
-
-#dirty
-cube_type='dirty'
-message=$(sbatch $id --mem=$mem -t ${wallclock_time} -n ${ncores} --export=file_path_cubes=$FHDdir,obs_list_path=$integrate_list,version=$version,ncores=$ncores,cube_type=$cube_type,pol=$pol,evenodd=$evenodd,image_filter_name=$tukey_filter -e ${errfile}_xx_odd_dirty.log -o ${outfile}_xx_odd_dirty.log -J PS_xo_dirty ${PSpath}${pipe_path}PS_list_slurm_job.sh)
-message=($message)
-id_list=${id_list}:${message[3]}
-
-#model
-cube_type='model'
-message=$(sbatch $id --mem=$mem -t ${wallclock_time} -n ${ncores} --export=file_path_cubes=$FHDdir,obs_list_path=$integrate_list,version=$version,ncores=$ncores,cube_type=$cube_type,pol=$pol,evenodd=$evenodd,image_filter_name=$tukey_filter -e ${errfile}_xx_odd_model.log -o ${outfile}_xx_odd_model.log -J PS_xo_model ${PSpath}${pipe_path}PS_list_slurm_job.sh)
-message=($message)
-id_list=${id_list}:${message[3]}
-
-#res
-cube_type='res'
-message=$(sbatch $id --mem=$mem -t ${wallclock_time} -n ${ncores} --export=file_path_cubes=$FHDdir,obs_list_path=$integrate_list,version=$version,ncores=$ncores,cube_type=$cube_type,pol=$pol,evenodd=$evenodd,image_filter_name=$tukey_filter -e ${errfile}_xx_odd_res.log -o ${outfile}_xx_odd_res.log -J PS_xo_res ${PSpath}${pipe_path}PS_list_slurm_job.sh)
-message=($message)
-id_list=${id_list}:${message[3]}
-
-###YY, even
-pol='yy'
-evenodd='even'
-
-#weights/variance
-cube_type='weights'
-message=$(sbatch ${hold_str} --mem=$mem -t ${wallclock_time} -n ${ncores} --export=file_path_cubes=$FHDdir,obs_list_path=$integrate_list,version=$version,ncores=$ncores,cube_type=$cube_type,pol=$pol,evenodd=$evenodd,image_filter_name=$tukey_filter -e ${errfile}_yy_even_weights.log -o ${outfile}_yy_even_weights.log -J PS_ye_weights ${PSpath}${pipe_path}PS_list_slurm_job.sh)
-message=($message)
-id="--dependency=afterok:${message[3]}"
-
-#dirty
-cube_type='dirty'
-message=$(sbatch $id --mem=$mem -t ${wallclock_time} -n ${ncores} --export=file_path_cubes=$FHDdir,obs_list_path=$integrate_list,version=$version,ncores=$ncores,cube_type=$cube_type,pol=$pol,evenodd=$evenodd,image_filter_name=$tukey_filter -e ${errfile}_yy_even_dirty.log -o ${outfile}_yy_even_dirty.log -J PS_ye_dirty ${PSpath}${pipe_path}PS_list_slurm_job.sh)
-message=($message)
-id_list=${id_list}:${message[3]}
-
-#model
-cube_type='model'
-message=$(sbatch $id --mem=$mem -t ${wallclock_time} -n ${ncores} --export=file_path_cubes=$FHDdir,obs_list_path=$integrate_list,version=$version,ncores=$ncores,cube_type=$cube_type,pol=$pol,evenodd=$evenodd,image_filter_name=$tukey_filter -e ${errfile}_yy_even_model.log -o ${outfile}_yy_even_model.log -J PS_ye_model ${PSpath}${pipe_path}PS_list_slurm_job.sh)
-message=($message)
-id_list=${id_list}:${message[3]}
-
-#res
-cube_type='res'
-message=$(sbatch $id --mem=$mem -t ${wallclock_time} -n ${ncores} --export=file_path_cubes=$FHDdir,obs_list_path=$integrate_list,version=$version,ncores=$ncores,cube_type=$cube_type,pol=$pol,evenodd=$evenodd,image_filter_name=$tukey_filter -e ${errfile}_yy_even_res.log -o ${outfile}_yy_even_res.log -J PS_ye_res ${PSpath}${pipe_path}PS_list_slurm_job.sh)
-message=($message)
-id_list=${id_list}:${message[3]}
-
-###YY, odd
-pol='yy'
-evenodd='odd'
-
-#weights/variance
-cube_type='weights'
-message=$(sbatch ${hold_str} --mem=$mem -t ${wallclock_time} -n ${ncores} --export=file_path_cubes=$FHDdir,obs_list_path=$integrate_list,version=$version,ncores=$ncores,cube_type=$cube_type,pol=$pol,evenodd=$evenodd,image_filter_name=$tukey_filter -e ${errfile}_yy_odd_weights.log -o ${outfile}_yy_odd_weights.log -J PS_yo_weights ${PSpath}${pipe_path}PS_list_slurm_job.sh)
-message=($message)
-id="--dependency=afterok:${message[3]}"
-
-#dirty
-cube_type='dirty'
-message=$(sbatch $id --mem=$mem -t ${wallclock_time} -n ${ncores} --export=file_path_cubes=$FHDdir,obs_list_path=$integrate_list,version=$version,ncores=$ncores,cube_type=$cube_type,pol=$pol,evenodd=$evenodd,image_filter_name=$tukey_filter -e ${errfile}_yy_odd_dirty.log -o ${outfile}_yy_odd_dirty.log -J PS_yo_dirty ${PSpath}${pipe_path}PS_list_slurm_job.sh)
-message=($message)
-id_list=${id_list}:${message[3]}
-
-#model
-cube_type='model'
-message=$(sbatch $id --mem=$mem -t ${wallclock_time} -n ${ncores} --export=file_path_cubes=$FHDdir,obs_list_path=$integrate_list,version=$version,ncores=$ncores,cube_type=$cube_type,pol=$pol,evenodd=$evenodd,image_filter_name=$tukey_filter -e ${errfile}_yy_odd_model.log -o ${outfile}_yy_odd_model.log -J PS_yo_model ${PSpath}${pipe_path}PS_list_slurm_job.sh)
-message=($message)
-id_list=${id_list}:${message[3]}
-
-#res
-cube_type='res'
-message=$(sbatch $id --mem=$mem -t ${wallclock_time} -n ${ncores} --export=file_path_cubes=$FHDdir,obs_list_path=$integrate_list,version=$version,ncores=$ncores,cube_type=$cube_type,pol=$pol,evenodd=$evenodd,image_filter_name=$tukey_filter -e ${errfile}_yy_odd_res.log -o ${outfile}_yy_odd_res.log -J PS_yo_res ${PSpath}${pipe_path}PS_list_slurm_job.sh)
-message=($message)
-id_list=${id_list}:${message[3]}
+for pol in ${pol_list[@]}; do
+    for evenodd in ${evenodd_list[@]}; do
+        evenodd_initial="$(echo $evenodd | head -c 1)"
+        for cube_type in ${cube_type_list[@]}; do
+	    if [ "$cube_type" == "weights" ]; then hold_str_cubes=$hold_str; fi
+            message=$(sbatch ${hold_str_cubes} --mem=$mem -t ${wallclock_time} -n ${ncores} --export=file_path_cubes=$FHDdir,obs_list_path=$integrate_list,version=$version,ncores=$ncores,cube_type=$cube_type,pol=$pol,evenodd=$evenodd,image_filter_name=$tukey_filter -e ${errfile}_${pol}_${evenodd}_${cube_type}.log -o ${outfile}_${pol}_${evenodd}_${cube_type}.log -J PS_${pol}${evenodd_initial}_${cube_type} ${PSpath}${pipe_path}PS_list_slurm_job.sh)
+            message=($message)
+            if [ "$cube_type" == "weights" ]; then hold_str_cubes="--dependency=afterok:${message[3]}"; fi
+                if [ "$cube_type" == "weights" ]; then
+                    if [ "$evenodd" == "even" ]; then
+                        if [ "$pol" == "XX" ]; then
+                            id_list=${message[3]}
+                            else id_list=${id_list}:${message[3]}
+                        fi
+                        else id_list=${id_list}:${message[3]}
+                    fi
+                    else id_list=${id_list}:${message[3]}
+                fi
+        done
+    done
+done
 
 #final plots
 if [[ -n ${tukey_filter} ]]; then plot_walltime=1:00:00; else plot_walltime=00:20:00; fi
