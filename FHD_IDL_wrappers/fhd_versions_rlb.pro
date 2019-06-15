@@ -958,7 +958,6 @@ pro fhd_versions_rlb
       in_situ_sim_input = '/uvfits/input_vis'
       remove_sim_flags = 1 ;turn off flagging for simulation
       sim_over_calibrate = 1 ;calibrate each fine frequency independently
-      debug_beam_clip_floor = 1
       unflag_all = 1
       nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
@@ -995,7 +994,6 @@ pro fhd_versions_rlb
       in_situ_sim_input = '/uvfits/input_vis'
       remove_sim_flags = 1 ;turn off flagging for simulation
       sim_over_calibrate = 1 ;calibrate each fine frequency independently
-      debug_beam_clip_floor = 1
       unflag_all = 1
       nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
@@ -1023,7 +1021,6 @@ pro fhd_versions_rlb
       ring_radius = 0
       debug_region_grow = 0
       n_pol = 2
-      debug_beam_clip_floor = 1
       calibrate_visibilities = 0
       model_visibilities = 1
       unflag_all = 1
@@ -1053,7 +1050,6 @@ pro fhd_versions_rlb
       ring_radius = 0
       debug_region_grow = 0
       n_pol = 2
-      debug_beam_clip_floor = 1
       calibrate_visibilities = 0
       model_visibilities = 1
       unflag_all = 1
@@ -1091,7 +1087,6 @@ pro fhd_versions_rlb
       in_situ_sim_input = '/uvfits/input_vis'
       remove_sim_flags = 1 ;turn off flagging for simulation
       sim_over_calibrate = 1 ;calibrate each fine frequency independently
-      debug_beam_clip_floor = 1
       unflag_all = 1
       nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
@@ -1127,7 +1122,6 @@ pro fhd_versions_rlb
       in_situ_sim_input = '/uvfits/input_vis'
       remove_sim_flags = 1 ;turn off flagging for simulation
       sim_over_calibrate = 1 ;calibrate each fine frequency independently
-      debug_beam_clip_floor = 1
       unflag_all = 1
       nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
@@ -1157,7 +1151,6 @@ pro fhd_versions_rlb
       remove_sim_flags = 1 ;turn off flagging for simulation
       calibrate_visibilities = 0 ;turn off calibration
       model_visibilities = filepath('GLEAM_plus_rlb2017.sav',root=rootdir('FHD'),subdir='catalog_data')
-      debug_beam_clip_floor = 1
       unflag_all = 1
       nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
@@ -1187,7 +1180,6 @@ pro fhd_versions_rlb
       remove_sim_flags = 1 ;turn off flagging for simulation
       calibrate_visibilities = 0 ;turn off calibration
       model_visibilities = filepath('GLEAM_plus_rlb2017.sav',root=rootdir('FHD'),subdir='catalog_data')
-      debug_beam_clip_floor = 1
       unflag_all = 1
       nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
@@ -1214,7 +1206,6 @@ pro fhd_versions_rlb
       ring_radius = 0
       debug_region_grow = 0
       n_pol = 4
-      debug_beam_clip_floor = 1
       calibrate_visibilities = 0
       model_visibilities = 1
       unflag_all = 1
@@ -1251,7 +1242,6 @@ pro fhd_versions_rlb
       n_pol = 4
       in_situ_sim_input = '/uvfits/input_vis'
       remove_sim_flags = 1 ;turn off flagging for simulation
-      debug_beam_clip_floor = 1
       unflag_all = 1
       nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
@@ -1284,7 +1274,6 @@ pro fhd_versions_rlb
       n_pol = 4
       in_situ_sim_input = '/uvfits/input_vis'
       remove_sim_flags = 1 ;turn off flagging for simulation
-      debug_beam_clip_floor = 1
       unflag_all = 1
       nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
@@ -1421,7 +1410,6 @@ pro fhd_versions_rlb
       ring_radius = 0
       debug_region_grow = 0
       n_pol = 2
-      debug_beam_clip_floor = 1
       calibrate_visibilities = 0
       model_visibilities = 1
       unflag_all = 1
@@ -1461,7 +1449,6 @@ pro fhd_versions_rlb
       in_situ_sim_input = '/uvfits/input_vis'
       remove_sim_flags = 1 ;turn off flagging for simulation
       sim_over_calibrate = 1 ;calibrate each fine frequency independently
-      debug_beam_clip_floor = 1
       unflag_all = 1
       nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
@@ -1490,7 +1477,6 @@ pro fhd_versions_rlb
       ring_radius = 0
       debug_region_grow = 0
       n_pol = 2
-      debug_beam_clip_floor = 1
       calibrate_visibilities = 0
       model_visibilities = 1
       unflag_all = 1
@@ -1530,7 +1516,6 @@ pro fhd_versions_rlb
       in_situ_sim_input = '/uvfits/input_vis'
       remove_sim_flags = 1 ;turn off flagging for simulation
       sim_over_calibrate = 1 ;calibrate each fine frequency independently
-      debug_beam_clip_floor = 1
       unflag_all = 1
       nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
@@ -1838,7 +1823,6 @@ pro fhd_versions_rlb
       ring_radius = 0
       debug_region_grow = 0
       n_pol = 2
-      debug_beam_clip_floor = 1
       calibrate_visibilities = 0
       model_visibilities = 1
       unflag_all = 1
@@ -1877,7 +1861,6 @@ pro fhd_versions_rlb
       in_situ_sim_input = '/uvfits/input_vis'
       remove_sim_flags = 1 ;turn off flagging for simulation
       sim_over_calibrate = 1 ;calibrate each fine frequency independently
-      debug_beam_clip_floor = 1
       unflag_all = 1
       nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
@@ -2033,7 +2016,6 @@ pro fhd_versions_rlb
       in_situ_sim_input = '/uvfits/input_vis'
       remove_sim_flags = 1 ;turn off flagging for simulation
       sim_over_calibrate = 1 ;calibrate each fine frequency independently
-      debug_beam_clip_floor = 1
       unflag_all = 1
       nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
@@ -2071,7 +2053,6 @@ pro fhd_versions_rlb
       in_situ_sim_input = '/uvfits/input_vis'
       remove_sim_flags = 1 ;turn off flagging for simulation
       sim_over_calibrate = 1 ;calibrate each fine frequency independently
-      debug_beam_clip_floor = 1
       unflag_all = 1
       nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
@@ -2109,7 +2090,6 @@ pro fhd_versions_rlb
       in_situ_sim_input = '/uvfits/input_vis'
       remove_sim_flags = 1 ;turn off flagging for simulation
       sim_over_calibrate = 1 ;calibrate each fine frequency independently
-      debug_beam_clip_floor = 1
       unflag_all = 1
       nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
@@ -2147,7 +2127,6 @@ pro fhd_versions_rlb
       in_situ_sim_input = '/uvfits/input_vis'
       remove_sim_flags = 1 ;turn off flagging for simulation
       sim_over_calibrate = 1 ;calibrate each fine frequency independently
-      debug_beam_clip_floor = 1
       unflag_all = 1
       nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
@@ -2185,7 +2164,6 @@ pro fhd_versions_rlb
       in_situ_sim_input = '/uvfits/input_vis'
       remove_sim_flags = 1 ;turn off flagging for simulation
       sim_over_calibrate = 1 ;calibrate each fine frequency independently
-      debug_beam_clip_floor = 1
       unflag_all = 1
       nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
@@ -2226,7 +2204,6 @@ pro fhd_versions_rlb
       in_situ_sim_input = '/uvfits/input_vis'
       remove_sim_flags = 1 ;turn off flagging for simulation
       sim_over_calibrate = 1 ;calibrate each fine frequency independently
-      debug_beam_clip_floor = 1
       unflag_all = 1
       nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
@@ -2266,7 +2243,6 @@ pro fhd_versions_rlb
       in_situ_sim_input = '/uvfits/input_vis'
       remove_sim_flags = 1 ;turn off flagging for simulation
       sim_over_calibrate = 1 ;calibrate each fine frequency independently
-      debug_beam_clip_floor = 1
       unflag_all = 1
       nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
@@ -2307,7 +2283,6 @@ pro fhd_versions_rlb
       in_situ_sim_input = '/uvfits/input_vis'
       remove_sim_flags = 1 ;turn off flagging for simulation
       sim_over_calibrate = 1 ;calibrate each fine frequency independently
-      debug_beam_clip_floor = 1
       unflag_all = 1
       nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
@@ -2346,7 +2321,6 @@ pro fhd_versions_rlb
       in_situ_sim_input = '/uvfits/input_vis'
       remove_sim_flags = 1 ;turn off flagging for simulation
       sim_over_calibrate = 1 ;calibrate each fine frequency independently
-      debug_beam_clip_floor = 1
       unflag_all = 1
       nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
@@ -2377,7 +2351,6 @@ pro fhd_versions_rlb
       ring_radius = 0
       debug_region_grow = 0
       n_pol = 2
-      debug_beam_clip_floor = 1
       calibrate_visibilities = 0
       model_visibilities = 1
       unflag_all = 1
@@ -2416,7 +2389,6 @@ pro fhd_versions_rlb
       in_situ_sim_input = '/uvfits/input_vis'
       remove_sim_flags = 1 ;turn off flagging for simulation
       sim_over_calibrate = 1 ;calibrate each fine frequency independently
-      debug_beam_clip_floor = 1
       unflag_all = 1
       nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
@@ -2453,7 +2425,6 @@ pro fhd_versions_rlb
       in_situ_sim_input = '/uvfits/input_vis'
       remove_sim_flags = 1 ;turn off flagging for simulation
       sim_over_calibrate = 1 ;calibrate each fine frequency independently
-      debug_beam_clip_floor = 1
       unflag_all = 1
       nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
@@ -2490,7 +2461,6 @@ pro fhd_versions_rlb
       in_situ_sim_input = '/uvfits/input_vis'
       remove_sim_flags = 1 ;turn off flagging for simulation
       sim_over_calibrate = 1 ;calibrate each fine frequency independently
-      debug_beam_clip_floor = 1
       unflag_all = 1
       nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
@@ -2528,7 +2498,6 @@ pro fhd_versions_rlb
       in_situ_sim_input = '/uvfits/input_vis'
       remove_sim_flags = 1 ;turn off flagging for simulation
       sim_over_calibrate = 1 ;calibrate each fine frequency independently
-      debug_beam_clip_floor = 1
       unflag_all = 1
       nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
@@ -2565,7 +2534,6 @@ pro fhd_versions_rlb
       in_situ_sim_input = '/uvfits/input_vis'
       remove_sim_flags = 1 ;turn off flagging for simulation
       sim_over_calibrate = 1 ;calibrate each fine frequency independently
-      debug_beam_clip_floor = 1
       unflag_all = 1
       nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 0 ;try turning this off
@@ -2602,7 +2570,6 @@ pro fhd_versions_rlb
       in_situ_sim_input = '/uvfits/input_vis'
       remove_sim_flags = 1 ;turn off flagging for simulation
       sim_over_calibrate = 1 ;calibrate each fine frequency independently
-      debug_beam_clip_floor = 1
       unflag_all = 1
       nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 0
@@ -2630,7 +2597,6 @@ pro fhd_versions_rlb
       ring_radius = 0
       debug_region_grow = 0
       n_pol = 2
-      debug_beam_clip_floor = 1
       calibrate_visibilities = 0
       model_visibilities = 1
       unflag_all = 1
@@ -2668,7 +2634,6 @@ pro fhd_versions_rlb
       in_situ_sim_input = '/uvfits/input_vis'
       remove_sim_flags = 1 ;turn off flagging for simulation
       sim_over_calibrate = 1 ;calibrate each fine frequency independently
-      debug_beam_clip_floor = 1
       unflag_all = 1
       nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 0
@@ -2704,7 +2669,6 @@ pro fhd_versions_rlb
       in_situ_sim_input = '/uvfits/input_vis'
       remove_sim_flags = 1 ;turn off flagging for simulation
       sim_over_calibrate = 1 ;calibrate each fine frequency independently
-      debug_beam_clip_floor = 1
       unflag_all = 1
       nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 0
@@ -2740,7 +2704,6 @@ pro fhd_versions_rlb
       in_situ_sim_input = '/uvfits/input_vis'
       remove_sim_flags = 1 ;turn off flagging for simulation
       sim_over_calibrate = 1 ;calibrate each fine frequency independently
-      debug_beam_clip_floor = 1
       unflag_all = 1
       nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 0
@@ -2768,7 +2731,6 @@ pro fhd_versions_rlb
       ring_radius = 0
       debug_region_grow = 0
       n_pol = 2
-      debug_beam_clip_floor = 1
       calibrate_visibilities = 0
       model_visibilities = 1
       unflag_all = 1
@@ -2806,7 +2768,6 @@ pro fhd_versions_rlb
       in_situ_sim_input = '/uvfits/input_vis'
       remove_sim_flags = 1 ;turn off flagging for simulation
       sim_over_calibrate = 1 ;calibrate each fine frequency independently
-      debug_beam_clip_floor = 1
       unflag_all = 1
       nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 0
@@ -2842,7 +2803,6 @@ pro fhd_versions_rlb
       in_situ_sim_input = '/uvfits/input_vis'
       remove_sim_flags = 1 ;turn off flagging for simulation
       sim_over_calibrate = 1 ;calibrate each fine frequency independently
-      debug_beam_clip_floor = 1
       unflag_all = 1
       nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 0
@@ -2878,7 +2838,6 @@ pro fhd_versions_rlb
       in_situ_sim_input = '/uvfits/input_vis'
       remove_sim_flags = 1 ;turn off flagging for simulation
       sim_over_calibrate = 1 ;calibrate each fine frequency independently
-      debug_beam_clip_floor = 1
       unflag_all = 1
       nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 0
@@ -2906,7 +2865,6 @@ pro fhd_versions_rlb
       ring_radius = 0
       debug_region_grow = 0
       n_pol = 2
-      debug_beam_clip_floor = 1
       calibrate_visibilities = 0
       model_visibilities = 1
       unflag_all = 1
@@ -2944,7 +2902,6 @@ pro fhd_versions_rlb
       in_situ_sim_input = '/uvfits/input_vis'
       remove_sim_flags = 1 ;turn off flagging for simulation
       sim_over_calibrate = 1 ;calibrate each fine frequency independently
-      debug_beam_clip_floor = 1
       unflag_all = 1
       nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 0
@@ -2980,7 +2937,6 @@ pro fhd_versions_rlb
       in_situ_sim_input = '/uvfits/input_vis'
       remove_sim_flags = 1 ;turn off flagging for simulation
       sim_over_calibrate = 1 ;calibrate each fine frequency independently
-      debug_beam_clip_floor = 1
       unflag_all = 1
       nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 0
@@ -3016,7 +2972,6 @@ pro fhd_versions_rlb
       in_situ_sim_input = '/uvfits/input_vis'
       remove_sim_flags = 1 ;turn off flagging for simulation
       sim_over_calibrate = 1 ;calibrate each fine frequency independently
-      debug_beam_clip_floor = 1
       unflag_all = 1
       nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 0
@@ -3112,7 +3067,6 @@ pro fhd_versions_rlb
       ring_radius = 0
       debug_region_grow = 0
       n_pol = 2
-      debug_beam_clip_floor = 1
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
     end
     
@@ -3133,7 +3087,6 @@ pro fhd_versions_rlb
       ring_radius = 0
       debug_region_grow = 0
       n_pol = 2
-      debug_beam_clip_floor = 1
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
     end
     
@@ -3158,7 +3111,6 @@ pro fhd_versions_rlb
       ring_radius = 0
       debug_region_grow = 0
       n_pol = 2
-      debug_beam_clip_floor = 1
       calibrate_visibilities = 0
       model_visibilities = 1
       unflag_all = 1
@@ -3213,7 +3165,6 @@ pro fhd_versions_rlb
       ring_radius = 0
       debug_region_grow = 0
       n_pol = 2
-      debug_beam_clip_floor = 1
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
     end
     
@@ -3234,7 +3185,6 @@ pro fhd_versions_rlb
       ring_radius = 0
       debug_region_grow = 0
       n_pol = 2
-      debug_beam_clip_floor = 1
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
     end
     
@@ -3255,7 +3205,6 @@ pro fhd_versions_rlb
       ring_radius = 0
       debug_region_grow = 0
       n_pol = 2
-      debug_beam_clip_floor = 1
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
     end
     
@@ -3429,7 +3378,6 @@ pro fhd_versions_rlb
       debug_region_grow = 0
       n_pol = 4
       max_baseline = 50  ; use only baselines shorter than 50 wavelengths
-      debug_beam_clip_floor = 1
       calibrate_visibilities = 0
       model_visibilities = 1
       unflag_all = 1
@@ -3488,7 +3436,6 @@ pro fhd_versions_rlb
       debug_region_grow = 0
       n_pol = 4
       max_baseline = 50  ; use only baselines shorter than 50 wavelengths
-      debug_beam_clip_floor = 1
       calibrate_visibilities = 0
       model_visibilities = 0
       unflag_all = 1
@@ -3514,7 +3461,6 @@ pro fhd_versions_rlb
       ring_radius = 0
       debug_region_grow = 0
       n_pol = 4
-      debug_beam_clip_floor = 1
       calibrate_visibilities = 0
       model_visibilities = 0
       unflag_all = 1
@@ -3539,7 +3485,6 @@ pro fhd_versions_rlb
       ring_radius = 0
       debug_region_grow = 0
       n_pol = 2
-      debug_beam_clip_floor = 1
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
     end
     
@@ -3560,7 +3505,6 @@ pro fhd_versions_rlb
       ring_radius = 0
       debug_region_grow = 0
       n_pol = 2
-      debug_beam_clip_floor = 1
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
     end
     
@@ -3581,7 +3525,6 @@ pro fhd_versions_rlb
       ring_radius = 0
       debug_region_grow = 0
       n_pol = 2
-      debug_beam_clip_floor = 1
       model_delay_filter = 0 ; turn this off for testing
     end
     
@@ -3602,11 +3545,39 @@ pro fhd_versions_rlb
       ring_radius = 0
       debug_region_grow = 0
       n_pol = 2
-      debug_beam_clip_floor = 1
       model_delay_filter = 0 ; turn this off for testing
     end
     
     'rlb_diffuse_survey_decon_4pol_Jun2019': begin
+      recalculate_all = 0
+      uvfits_version = 5
+      uvfits_subversion = 1
+      max_sources = 200000
+      calibration_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019',root=rootdir('FHD'),subdir='catalog_data')
+      max_cal_iter = 1000L ;increase max calibration iterations to ensure convergence
+      gain_factor = 0.1
+      deconvolve = 1
+      return_decon_visibilities = 1
+      deconvolution_filter = 'filter_uv_uniform'
+      filter_background = 1
+      return_cal_visibilities = 1
+      diffuse_calibrate = 0
+      diffuse_model = 0
+      cal_bp_transfer = 0
+      rephase_weights = 0
+      restrict_hpx_inds = 0
+      hpx_radius = 15
+      subtract_sidelobe_catalog = filepath('GLEAM_v2_plus_rlb2019',root=rootdir('FHD'),subdir='catalog_data')
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      write_healpix_fits = 1
+      debug_region_grow = 0
+      n_pol = 4
+      time_cut = -4 ;flag an extra 4 seconds from the end of each obs
+    end
+    
+    'rlb_diffuse_survey_decon_master_4pol_Jun2019': begin
       recalculate_all = 0
       uvfits_version = 5
       uvfits_subversion = 1
