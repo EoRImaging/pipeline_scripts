@@ -35,22 +35,24 @@ unset version
 while getopts ":f:s:e:o:b:v:n:r:u:p:m:i:j:" option
 do
    case $option in
-    f) obs_file_name="$OPTARG";;	#text file of observation id's
-    s) starting_obs=$OPTARG;;	#starting observation in text file for choosing a range
-    e) ending_obs=$OPTARG;;		#ending observation in text file for choosing a range
-    o) outdir=$OPTARG;;		#output directory for FHD
-    b) s3_path=$OPTARG;;		#output bucket on S3
-    v) version=$OPTARG;;		#FHD folder name and case
+    f) obs_file_name="$OPTARG";; #text file of observation id's
+    s) starting_obs=$OPTARG;; #starting observation in text file for choosing a range
+    e) ending_obs=$OPTARG;; #ending observation in text file for choosing a range
+    o) outdir=$OPTARG;; #output directory for FHD
+    b) s3_path=$OPTARG;; #output bucket on S3
+    v) version=$OPTARG;; #FHD folder name and case
 		#Example: nb_foo creates folder named fhd_nb_foo
-    n) nslots=$OPTARG;;		#Number of slots for grid engine
-    u) user=$OPTARG;;		#User: options are rlb (default) or nb
-    p) uvfits_s3_loc=$OPTARG;;		#Path to uvfits files on S3
-    m) metafits_s3_loc=$OPTARG;;		#Path to metafits files on S3
-    i) input_vis=$OPTARG;;              #Optional input visibilities for in situ sim
-    j) input_eor=$OPTARG;;             #Optional input eor sim for in situ sim
+    n) nslots=$OPTARG;; #Number of slots for grid engine
+    u) versions_script=$OPTARG;; #Versions script: default fhd_versions_rlb
+    p) uvfits_s3_loc=$OPTARG;; #Path to uvfits files on S3
+    m) metafits_s3_loc=$OPTARG;; #Path to metafits files on S3
+    r) run_ps=$OPTARG;; #Run eppsilon PS code (on individual obs)
+    i) input_vis=$OPTARG;; #Optional input visibilities for in situ sim
+    j) input_eor=$OPTARG;; #Optional input eor sim for in situ sim
     \?) echo "Unknown option: Accepted flags are -f (obs_file_name), -s (starting_obs), -e (ending obs), -o (output directory), "
         echo "-b (output bucket on S3), -v (version input for FHD),  -n (number of slots to use), "
-        echo "-u (user), -p (path to uvfits files on S3), -m (path to metafits files on S3)."
+        echo "-u (versions script), -p (path to uvfits files on S3), -m (path to metafits files on S3)"
+        echo "-r (option to run eppsilon on each obs), -i (visibilities for in situ sim), -j (EoR sim)."
         exit 1;;
     :) echo "Missing option argument for input flag"
        exit 1;;
@@ -80,7 +82,6 @@ then
 else
     echo Ending on observation $ending_obs
 fi
-
 
 #Set default output directory if one is not supplied and update user
 if [ -z ${outdir} ]
@@ -124,20 +125,8 @@ if [ -z ${version} ]; then
    exit 1
 fi
 
-if [ -z ${user} ]; then
-    user='rlb'
-fi
-if [ ${user} != 'rlb' ] && [ ${user} != 'nb' ] && [ ${user} != 'mjw' ]; then
-    echo Invalid user. Option are -u rlb and -u nb and -u mjw
-    exit 1
-fi
-
-if [ $user == 'nb' ]; then
-    versions_script='nb_eor_firstpass_versions'
-elif [ $user == 'rlb' ]; then
+if [ -z ${versions_script} ]; then
     versions_script='fhd_versions_rlb'
-elif [ $user == 'mjw' ]; then
-    versions_script='mjw_fhd_versions'
 fi
 
 #Set typical slots needed for standard FHD firstpass if not set.
@@ -145,7 +134,9 @@ if [ -z ${nslots} ]; then
     nslots=10
 fi
 
-
+if [ -z ${run_ps} ]; then
+    run_ps=0
+fi
 
 #Make directory if it doesn't already exist
 sudo mkdir -p -m 777 ${outdir}/fhd_${version}/grid_out
@@ -209,5 +200,5 @@ done
 
 for obs_id in "${good_obs_list[@]}"
 do
-   qsub -V -b y -cwd -v nslots=${nslots},outdir=${outdir},version=${version},s3_path=${s3_path},obs_id=$obs_id,versions_script=$versions_script,uvfits_s3_loc=$uvfits_s3_loc,metafits_s3_loc=$metafits_s3_loc,input_vis=$input_vis,input_eor=$input_eor -e ${logdir} -o ${logdir} -pe smp ${nslots} -sync y fhd_job_aws.sh &
+   qsub -V -b y -cwd -v nslots=${nslots},outdir=${outdir},version=${version},s3_path=${s3_path},obs_id=$obs_id,versions_script=$versions_script,uvfits_s3_loc=$uvfits_s3_loc,metafits_s3_loc=$metafits_s3_loc,run_ps=${run_ps},input_vis=${input_vis},input_eor=$input_eor -e ${logdir} -o ${logdir} -pe smp ${nslots} -sync y fhd_job_aws.sh &
 done
