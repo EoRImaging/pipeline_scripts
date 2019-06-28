@@ -3646,7 +3646,7 @@ pro fhd_versions_rlb
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
     end
     
-    'rlb_diffuse_survey_decon_master_4pol_Jul2019': begin
+    'rlb_diffuse_survey_decon_4pol_Jul2019': begin
       recalculate_all = 0
       uvfits_version = 5
       uvfits_subversion = 1
