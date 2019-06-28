@@ -206,7 +206,7 @@ if [ "$run_fhd" -eq 1 ]; then  # Start FHD
 
 fi  # End FHD
 
-if [ "$run_fhd" -eq 1 ]; then  # Start PS
+if [ "$run_ps" -eq 1 ]; then  # Start PS
 
     # Create ps directory with full permissions if it doesn't exist
     if [ -d "${outdir}/fhd_${version}/ps" ]; then
