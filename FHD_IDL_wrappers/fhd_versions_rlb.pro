@@ -3606,7 +3606,7 @@ pro fhd_versions_rlb
       time_cut = -4 ;flag an extra 4 seconds from the end of each obs
     end
     
-    'rlb_test_complex_jones_branch_Jun2019': begin
+    'rlb_test_Stokes_V_fix_branch_Jun2019': begin
       recalculate_all = 1
       uvfits_version = 5
       uvfits_subversion = 1
