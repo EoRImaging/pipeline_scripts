@@ -1743,7 +1743,7 @@ pro fhd_versions_rlb
       n_pol = 2
       time_cut = -4 ;flag an extra 4 seconds from the end of each obs
     end
-    
+
     'rlb_transfer_cal_test_2pol_master_Jun2018': begin
       recalculate_all = 1
       uvfits_version = 5
@@ -1866,7 +1866,7 @@ pro fhd_versions_rlb
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
       cal_time_average = 0 ;don't average over time before calibrating
     end
-    
+
     'rlb_transfer_cal_test_2pol_master_Jun2018_debug': begin
       recalculate_all = 1
       uvfits_version = 5
@@ -1896,7 +1896,7 @@ pro fhd_versions_rlb
       time_cut = -4 ;flag an extra 4 seconds from the end of each obs
       vis_file_list = '/Users/Shared/uvfits/5.1/'+string(obs_id)+'.uvfits'
     end
-    
+
     'rlb_firstpass_2pol_master_Jul2018': begin
       recalculate_all = 1
       uvfits_version = 5
@@ -1925,7 +1925,7 @@ pro fhd_versions_rlb
       time_cut = -4 ;flag an extra 4 seconds from the end of each obs
       vis_file_list = '/Users/Shared/uvfits/5.1/'+string(obs_id)+'.uvfits'
     end
-    
+
     'rlb_transfer_cal_firstpass_2pol_master_Jul2018': begin
       recalculate_all = 1
       uvfits_version = 5
@@ -1955,7 +1955,7 @@ pro fhd_versions_rlb
       time_cut = -4 ;flag an extra 4 seconds from the end of each obs
       vis_file_list = '/Users/Shared/uvfits/5.1/'+string(obs_id)+'.uvfits'
     end
-    
+
     'rlb_decon_2pol_master_Jul2018': begin
       recalculate_all = 1
       uvfits_version = 5
@@ -1984,7 +1984,7 @@ pro fhd_versions_rlb
       time_cut = -4 ;flag an extra 4 seconds from the end of each obs
       vis_file_list = '/Users/Shared/uvfits/5.1/'+string(obs_id)+'.uvfits'
     end
-    
+
     'rlb_array_sim_Barry_effect_perfect_cal_Jul2018': begin
       recalculate_all = 1
       uvfits_version = 4
@@ -2021,7 +2021,7 @@ pro fhd_versions_rlb
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
       cal_time_average = 0 ;don't average over time before calibrating
     end
-    
+
     'rlb_array_sim_Barry_effect_amp_errors_only_Jul2018': begin
       recalculate_all = 1
       uvfits_version = 4
@@ -2058,7 +2058,7 @@ pro fhd_versions_rlb
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
       cal_time_average = 0 ;don't average over time before calibrating
     end
-    
+
     'rlb_array_sim_Barry_effect_abs_errors_only_Jul2018': begin
       recalculate_all = 1
       uvfits_version = 4
@@ -2095,7 +2095,7 @@ pro fhd_versions_rlb
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
       cal_time_average = 0 ;don't average over time before calibrating
     end
-    
+
     'rlb_array_sim_Barry_effect_phase_errors_only_Jul2018': begin
       recalculate_all = 1
       uvfits_version = 4
@@ -2132,7 +2132,7 @@ pro fhd_versions_rlb
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
       cal_time_average = 0 ;don't average over time before calibrating
     end
-    
+
     'rlb_array_sim_Barry_effect_perfect_cal_large_window_Jul2018': begin
       recalculate_all = 1
       uvfits_version = 4
@@ -2172,7 +2172,7 @@ pro fhd_versions_rlb
       ps_kspan=200 ; only include modes out to 100 lambda (speeds up eppsilon computation)
       save_uvf = 1
     end
-    
+
     'rlb_array_sim_Barry_effect_amp_errors_only_large_window_Jul2018': begin
       recalculate_all = 0
       uvfits_version = 4
@@ -2211,7 +2211,7 @@ pro fhd_versions_rlb
       restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave' ; triple the window size
       ps_kspan=200 ; only include modes out to 100 lambda (speeds up eppsilon computation)
     end
-    
+
     'rlb_array_sim_Barry_effect_abs_errors_only_large_window_Jul2018': begin
       recalculate_all = 1
       uvfits_version = 4
@@ -2251,7 +2251,7 @@ pro fhd_versions_rlb
       ps_kspan=200 ; only include modes out to 100 lambda (speeds up eppsilon computation)
       save_uvf = 1
     end
-    
+
     'rlb_array_sim_Barry_effect_phase_errors_only_large_window_Jul2018': begin
       recalculate_all = 0
       uvfits_version = 4
@@ -2290,7 +2290,7 @@ pro fhd_versions_rlb
       restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave' ; triple the window size
       ps_kspan=200 ; only include modes out to 100 lambda (speeds up eppsilon computation)
     end
-    
+
     'rlb_array_sim_Barry_effect_traditional_cal_large_window_Jul2018': begin
       recalculate_all = 1
       uvfits_version = 4
@@ -2329,7 +2329,7 @@ pro fhd_versions_rlb
       ps_kspan=200 ; only include modes out to 100 lambda (speeds up eppsilon computation)
       save_uvf = 1
     end
-    
+
     'rlb_single_source_sim_Oct2018': begin
       recalculate_all = 0
       uvfits_version = 4
@@ -2358,7 +2358,7 @@ pro fhd_versions_rlb
       nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
     end
-    
+
     'rlb_array_sim_Barry_effect_6k_sources_Oct2018': begin
       recalculate_all = 0
       uvfits_version = 4
@@ -2394,7 +2394,7 @@ pro fhd_versions_rlb
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
       cal_time_average = 0 ;don't average over time before calibrating
     end
-    
+
     'rlb_array_sim_Barry_effect_1k_sources_Oct2018': begin
       recalculate_all = 0
       uvfits_version = 4
@@ -2430,7 +2430,7 @@ pro fhd_versions_rlb
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
       cal_time_average = 0 ;don't average over time before calibrating
     end
-    
+
     'rlb_array_sim_Barry_effect_50k_sources_Oct2018': begin
       recalculate_all = 0
       uvfits_version = 4
@@ -2466,7 +2466,7 @@ pro fhd_versions_rlb
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
       cal_time_average = 0 ;don't average over time before calibrating
     end
-    
+
     'rlb_array_sim_transfer_calfits_Oct2018': begin
       recalculate_all = 1
       uvfits_version = 4
@@ -2503,7 +2503,7 @@ pro fhd_versions_rlb
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
       cal_time_average = 0 ;don't average over time before calibrating
     end
-    
+
     'rlb_array_sim_Barry_effect_no_delay_filter_Oct2018': begin
       recalculate_all = 0
       uvfits_version = 4
@@ -2539,7 +2539,7 @@ pro fhd_versions_rlb
       model_delay_filter = 0 ;try turning this off
       cal_time_average = 0 ;don't average over time before calibrating
     end
-    
+
     'rlb_array_sim_Barry_effect_model_fake_sources_Oct2018': begin
       recalculate_all = 0
       uvfits_version = 4
@@ -2575,7 +2575,7 @@ pro fhd_versions_rlb
       model_delay_filter = 0
       cal_time_average = 0 ;don't average over time before calibrating
     end
-    
+
     'rlb_catalog_testing_reference_Oct2018': begin
       recalculate_all = 0
       uvfits_version = 4
@@ -2604,7 +2604,7 @@ pro fhd_versions_rlb
       nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
     end
-    
+
     'rlb_catalog_testing_extra_sources_Oct2018': begin
       recalculate_all = 0
       uvfits_version = 4
@@ -2639,7 +2639,7 @@ pro fhd_versions_rlb
       model_delay_filter = 0
       cal_time_average = 0 ;don't average over time before calibrating
     end
-    
+
     'rlb_catalog_testing_extra_negative_sources_Oct2018': begin
       recalculate_all = 0
       uvfits_version = 4
@@ -2674,7 +2674,7 @@ pro fhd_versions_rlb
       model_delay_filter = 0
       cal_time_average = 0 ;don't average over time before calibrating
     end
-    
+
     'rlb_catalog_testing_barry_effect_Oct2018': begin
       recalculate_all = 0
       uvfits_version = 4
@@ -2709,7 +2709,7 @@ pro fhd_versions_rlb
       model_delay_filter = 0
       cal_time_average = 0 ;don't average over time before calibrating
     end
-    
+
     'rlb_catalog_testing_reference_Nov2018': begin
       recalculate_all = 0
       uvfits_version = 4
@@ -2738,7 +2738,7 @@ pro fhd_versions_rlb
       nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
     end
-    
+
     'rlb_catalog_testing_extra_sources_Nov2018': begin
       recalculate_all = 0
       uvfits_version = 4
@@ -2773,7 +2773,7 @@ pro fhd_versions_rlb
       model_delay_filter = 0
       cal_time_average = 0 ;don't average over time before calibrating
     end
-    
+
     'rlb_catalog_testing_extra_negative_sources_Nov2018': begin
       recalculate_all = 0
       uvfits_version = 4
@@ -2808,7 +2808,7 @@ pro fhd_versions_rlb
       model_delay_filter = 0
       cal_time_average = 0 ;don't average over time before calibrating
     end
-    
+
     'rlb_catalog_testing_missing_sources_Nov2018': begin
       recalculate_all = 0
       uvfits_version = 4
@@ -2843,7 +2843,7 @@ pro fhd_versions_rlb
       model_delay_filter = 0
       cal_time_average = 0 ;don't average over time before calibrating
     end
-    
+
     'rlb_GLEAM_catalog_testing_reference_Nov2018': begin
       recalculate_all = 0
       uvfits_version = 4
@@ -2872,7 +2872,7 @@ pro fhd_versions_rlb
       nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
     end
-    
+
     'rlb_GLEAM_catalog_testing_missing_sources_Nov2018': begin
       recalculate_all = 0
       uvfits_version = 4
@@ -2907,7 +2907,7 @@ pro fhd_versions_rlb
       model_delay_filter = 0
       cal_time_average = 0 ;don't average over time before calibrating
     end
-    
+
     'rlb_GLEAM_catalog_testing_extra_sources_Nov2018': begin
       recalculate_all = 0
       uvfits_version = 4
@@ -2942,7 +2942,7 @@ pro fhd_versions_rlb
       model_delay_filter = 0
       cal_time_average = 0 ;don't average over time before calibrating
     end
-    
+
     'rlb_GLEAM_catalog_testing_negative_sources_Nov2018': begin
       recalculate_all = 0
       uvfits_version = 4
@@ -2977,7 +2977,7 @@ pro fhd_versions_rlb
       model_delay_filter = 0
       cal_time_average = 0 ;don't average over time before calibrating
     end
-    
+
     'rlb_test_Fornax_gaussian_model_2pol_Dec2018': begin
       recalculate_all = 0
       uvfits_version = 5
@@ -2999,9 +2999,9 @@ pro fhd_versions_rlb
       debug_region_grow = 0
       n_pol = 2
       time_cut = -4 ;flag an extra 4 seconds from the end of each obs
-      gaussian_source_models = 1 
+      gaussian_source_models = 1
     end
-    
+
     'rlb_test_Fornax_FHD_model_2pol_Dec2018': begin
       recalculate_all = 0
       uvfits_version = 5
@@ -3025,7 +3025,7 @@ pro fhd_versions_rlb
       time_cut = -4 ;flag an extra 4 seconds from the end of each obs
       gaussian_source_models = 0
     end
-    
+
     'rlb_test_Fornax_gaussian_model_without_gaussians_2pol_Dec2018': begin
       recalculate_all = 0
       uvfits_version = 5
@@ -3049,7 +3049,7 @@ pro fhd_versions_rlb
       time_cut = -4 ;flag an extra 4 seconds from the end of each obs
       gaussian_source_models = 0
     end
-    
+
     'rlb_gleam_v1_catalog_testing_Jan2019': begin
       recalculate_all = 1
       uvfits_version = 5
@@ -3069,7 +3069,7 @@ pro fhd_versions_rlb
       n_pol = 2
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
     end
-    
+
     'rlb_gleam_v2_catalog_testing_Jan2019': begin
       recalculate_all = 1
       uvfits_version = 5
@@ -3089,7 +3089,7 @@ pro fhd_versions_rlb
       n_pol = 2
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
     end
-    
+
     'rlb_gaussian_source_test_Jan2018': begin
       recalculate_all = 0
       uvfits_version = 5
@@ -3118,7 +3118,7 @@ pro fhd_versions_rlb
       nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
     end
-    
+
     'rlb_diffuse_survey_pol_leakage_correction_4pol_Jan2019': begin
       recalculate_all = 1
       uvfits_version = 5
@@ -3147,7 +3147,7 @@ pro fhd_versions_rlb
       n_pol = 4
       time_cut = -4 ;flag an extra 4 seconds from the end of each obs
     end
-    
+
     'rlb_testing_pre_merge_Feb2019': begin
       recalculate_all = 1
       uvfits_version = 5
@@ -3167,7 +3167,7 @@ pro fhd_versions_rlb
       n_pol = 2
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
     end
-    
+
     'rlb_testing_post_merge_Feb2019': begin
       recalculate_all = 1
       uvfits_version = 5
@@ -3187,7 +3187,7 @@ pro fhd_versions_rlb
       n_pol = 2
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
     end
-    
+
     'rlb_testing_jones_norm_bug_fix_Feb2019': begin
       recalculate_all = 1
       uvfits_version = 5
@@ -3207,7 +3207,7 @@ pro fhd_versions_rlb
       n_pol = 2
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
     end
-    
+
     'rlb_diffuse_survey_pol_leakage_correction_4pol_Mar2019': begin
       recalculate_all = 1
       uvfits_version = 5
@@ -3237,7 +3237,7 @@ pro fhd_versions_rlb
       n_pol = 4
       time_cut = -4 ;flag an extra 4 seconds from the end of each obs
     end
-    
+
     'rlb_diffuse_survey_pol_leakage_correction_4pol_natural_weighting_Mar2019': begin
       recalculate_all = 1
       uvfits_version = 5
@@ -3268,7 +3268,7 @@ pro fhd_versions_rlb
       n_pol = 4
       time_cut = -4 ;flag an extra 4 seconds from the end of each obs
     end
-    
+
     'rlb_diffuse_survey_test_baseline_restriction_Mar2019': begin
       recalculate_all = 0
       uvfits_version = 5
@@ -3295,7 +3295,7 @@ pro fhd_versions_rlb
       n_pol = 4
       time_cut = -4 ;flag an extra 4 seconds from the end of each obs
     end
-    
+
     'rlb_test_max_baseline_keyword_Mar2019': begin
       recalculate_all = 1
       uvfits_version = 5
@@ -3325,7 +3325,7 @@ pro fhd_versions_rlb
       n_pol = 4
       time_cut = -4 ;flag an extra 4 seconds from the end of each obs
     end
-    
+
     'rlb_test_max_baseline_keyword_2pol_Mar2019': begin
       recalculate_all = 1
       uvfits_version = 5
@@ -3355,7 +3355,7 @@ pro fhd_versions_rlb
       n_pol = 2
       time_cut = -4 ;flag an extra 4 seconds from the end of each obs
     end
-    
+
     'rlb_simulated_polarized_sources_May2018': begin
       recalculate_all = 1
       uvfits_version = 5
@@ -3385,7 +3385,7 @@ pro fhd_versions_rlb
       nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
     end
-    
+
     'rlb_test_max_baseline_baseline_threshold_together_Mar2019': begin
       recalculate_all = 1
       uvfits_version = 5
@@ -3416,7 +3416,7 @@ pro fhd_versions_rlb
       n_pol = 4
       time_cut = -4 ;flag an extra 4 seconds from the end of each obs
     end
-    
+
     'rlb_simulated_polarized_signal_baseline_cut_Mar2018': begin
       recalculate_all = 1
       uvfits_version = 5
@@ -3442,7 +3442,7 @@ pro fhd_versions_rlb
       return_cal_visibilities = 0
       nfreq_avg = 384 ; speed things up by using one beam for all frequencies
     end
-    
+
     'rlb_simulated_polarized_signal_no_baseline_cut_Mar2018': begin
       recalculate_all = 1
       uvfits_version = 5
@@ -3467,7 +3467,7 @@ pro fhd_versions_rlb
       return_cal_visibilities = 0
       nfreq_avg = 384 ; speed things up by using one beam for all frequencies
     end
-    
+
     'rlb_test_beam_power_polarized_calculation_branch_Jun2019': begin
       recalculate_all = 1
       uvfits_version = 5
@@ -3487,7 +3487,7 @@ pro fhd_versions_rlb
       n_pol = 2
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
     end
-    
+
     'rlb_test_master_branch_May2019': begin
       recalculate_all = 1
       uvfits_version = 5
@@ -3507,7 +3507,7 @@ pro fhd_versions_rlb
       n_pol = 2
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
     end
-    
+
     'rlb_test_beam_power_polarized_calculation_branch_no_delay_filter_Jun2019': begin
       recalculate_all = 1
       uvfits_version = 5
@@ -3527,7 +3527,7 @@ pro fhd_versions_rlb
       n_pol = 2
       model_delay_filter = 0 ; turn this off for testing
     end
-    
+
     'rlb_test_master_branch_no_delay_filter_Jun2019': begin
       recalculate_all = 1
       uvfits_version = 5
@@ -3547,7 +3547,7 @@ pro fhd_versions_rlb
       n_pol = 2
       model_delay_filter = 0 ; turn this off for testing
     end
-    
+
     'rlb_diffuse_survey_decon_4pol_Jun2019': begin
       recalculate_all = 0
       uvfits_version = 5
@@ -3576,7 +3576,7 @@ pro fhd_versions_rlb
       n_pol = 4
       time_cut = -4 ;flag an extra 4 seconds from the end of each obs
     end
-    
+
     'rlb_diffuse_survey_decon_master_4pol_Jun2019': begin
       recalculate_all = 0
       uvfits_version = 5
@@ -3605,7 +3605,7 @@ pro fhd_versions_rlb
       n_pol = 4
       time_cut = -4 ;flag an extra 4 seconds from the end of each obs
     end
-    
+
     'rlb_test_Stokes_V_fix_branch_Jun2019': begin
       recalculate_all = 1
       uvfits_version = 5
@@ -3625,7 +3625,7 @@ pro fhd_versions_rlb
       n_pol = 2
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
     end
-    
+
     'rlb_test_master_branch_Jun2019': begin
       recalculate_all = 1
       uvfits_version = 5
@@ -3645,7 +3645,7 @@ pro fhd_versions_rlb
       n_pol = 2
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
     end
-    
+
     'rlb_diffuse_survey_decon_4pol_Jul2019': begin
       recalculate_all = 0
       uvfits_version = 5
@@ -3674,7 +3674,36 @@ pro fhd_versions_rlb
       n_pol = 4
       time_cut = -4 ;flag an extra 4 seconds from the end of each obs
     end
-    
+
+    'rlb_diffuse_survey_pol_leakage_correction_Jul2019': begin
+      recalculate_all = 0
+      uvfits_version = 5
+      uvfits_subversion = 1
+      max_sources = 200000
+      filter_background = 1
+      return_cal_visibilities = 0  ; changed this for calibration transfer
+      catalog_file_path = 0
+      diffuse_calibrate = 0
+      diffuse_model = 0
+      model_visibilities = 1
+      model_catalog_file_path = '/home/ubuntu/decon_catalogs/'+string(obs_id)+'_decon_catalog_pol_leakage_corrected.sav'
+      cal_bp_transfer = 0  ; changed this for calibration transfer
+      transfer_calibration = '/home/ubuntu/calibration_transferred/'+string(obs_id)+'_cal.sav'
+      transfer_weights = '/home/ubuntu/calibration_transferred/'+string(obs_id)+'_flags.sav'
+      rephase_weights = 0
+      restrict_hpx_inds = 0
+      hpx_radius = 15
+      subtract_sidelobe_catalog = filepath('GLEAM_v2_plus_rlb2019',root=rootdir('FHD'),subdir='catalog_data')
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      write_healpix_fits = 1
+      max_baseline = 50  ; use only baselines shorter than 50 wavelength
+      debug_region_grow = 0
+      n_pol = 4
+      time_cut = -4 ;flag an extra 4 seconds from the end of each obs
+    end
+
   endcase
 
   if ~keyword_set(vis_file_list) then begin
