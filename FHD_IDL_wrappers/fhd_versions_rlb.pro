@@ -3654,7 +3654,9 @@ pro fhd_versions_rlb
       calibration_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019',root=rootdir('FHD'),subdir='catalog_data')
       max_cal_iter = 1000L ;increase max calibration iterations to ensure convergence
       gain_factor = 0.1
-      deconvolve = 1
+      deconvolve = 0 ;changed for baseline cut
+      export_images = 1 ;changed for baseline cut
+      max_baseline = 50 ;changed for baseline cut
       return_decon_visibilities = 1
       deconvolution_filter = 'filter_uv_uniform'
       filter_background = 1
