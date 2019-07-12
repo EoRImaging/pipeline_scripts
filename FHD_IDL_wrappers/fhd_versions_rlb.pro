@@ -3706,6 +3706,35 @@ pro fhd_versions_rlb
       n_pol = 4
       time_cut = -4 ;flag an extra 4 seconds from the end of each obs
     end
+    
+    'rlb_test_fix_polarized_source_modeling_branch_4pol_Jul2019': begin
+      recalculate_all = 0
+      uvfits_version = 5
+      uvfits_subversion = 1
+      max_sources = 200000
+      calibration_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019',root=rootdir('FHD'),subdir='catalog_data')
+      max_cal_iter = 1000L ;increase max calibration iterations to ensure convergence
+      deconvolve = 0
+      export_images = 1
+      max_baseline = 50
+      deconvolution_filter = 'filter_uv_uniform'
+      filter_background = 1
+      return_cal_visibilities = 1
+      diffuse_calibrate = 0
+      diffuse_model = 0
+      cal_bp_transfer = 0
+      rephase_weights = 0
+      restrict_hpx_inds = 0
+      hpx_radius = 15
+      subtract_sidelobe_catalog = filepath('GLEAM_v2_plus_rlb2019',root=rootdir('FHD'),subdir='catalog_data')
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      write_healpix_fits = 1
+      debug_region_grow = 0
+      n_pol = 4
+      time_cut = -4 ;flag an extra 4 seconds from the end of each obs
+    end
 
   endcase
 
