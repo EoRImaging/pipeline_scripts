@@ -3706,9 +3706,9 @@ pro fhd_versions_rlb
       n_pol = 4
       time_cut = -4 ;flag an extra 4 seconds from the end of each obs
     end
-    
+
     'rlb_diffuse_survey_pol_leakage_correction_bug_hunting_Jul2019': begin
-      recalculate_all = 0
+      recalculate_all = 1
       uvfits_version = 5
       uvfits_subversion = 1
       max_sources = 200000
