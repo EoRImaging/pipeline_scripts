@@ -3763,7 +3763,25 @@ pro fhd_versions_rlb
       n_pol = 4
       time_cut = -4 ;flag an extra 4 seconds from the end of each obs
     end
-
+    
+    'rlb_fix_polarized_source_modeling_make_fits_Jul2019': begin
+      recalculate_all = 0
+      uvfits_version = 5
+      uvfits_subversion = 1
+      model_visibilities = 0
+      calibrate_visibilities = 0
+      rephase_weights = 0
+      restrict_hpx_inds = 0
+      hpx_radius = 15
+      dft_threshold = 0
+      ring_radius = 0
+      max_baseline = 50  ; use only baselines shorter than 50 wavelength
+      debug_region_grow = 0
+      n_pol = 4
+      time_cut = -4 ;flag an extra 4 seconds from the end of each obs
+      in_situ_sim_input = '/uvfits/input_vis'
+    end
+    
   endcase
 
   if ~keyword_set(vis_file_list) then begin
