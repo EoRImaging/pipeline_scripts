@@ -3897,6 +3897,8 @@ pro fhd_versions_rlb
       debug_region_grow = 0
       n_pol = 4
       time_cut = -4 ;flag an extra 4 seconds from the end of each obs
+      stokes_low = -5
+      stokes_high = 5
     end
     
   endcase
