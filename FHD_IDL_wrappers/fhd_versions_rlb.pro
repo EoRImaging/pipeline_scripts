@@ -4116,6 +4116,7 @@ pro fhd_versions_rlb
       max_baseline = 50 ;changed for baseline cut
       healpix_recalculate = 1 ;changed for baseline cut
       export_images = 1 ;try adding for baseline cut
+      grid_recalculate = 1 ;changed for baseline cut
       return_decon_visibilities = 1
       deconvolution_filter = 'filter_uv_uniform'
       filter_background = 1
