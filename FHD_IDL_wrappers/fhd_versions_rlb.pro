@@ -4162,6 +4162,34 @@ pro fhd_versions_rlb
       time_cut = -4 ;flag an extra 4 seconds from the end of each obs
     end
     
+    'rlb_single_source_test_new_beam_calc_Sept2019': begin
+      recalculate_all = 1
+      uvfits_version = 5
+      uvfits_subversion = 1
+      max_sources = 200000
+      filter_background = 1
+      return_cal_visibilities = 0
+      catalog_file_path = 0
+      diffuse_calibrate = 0
+      diffuse_model = 0
+      model_visibilities = 1
+      model_catalog_file_path = '/home/ubuntu/single_source_test.sav'
+      calibrate_visibilities = 0
+      rephase_weights = 0
+      restrict_hpx_inds = 0
+      hpx_radius = 15
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      write_healpix_fits = 1
+      max_baseline = 50  ; use only baselines shorter than 50 wavelength
+      debug_region_grow = 0
+      n_pol = 4
+      unflag_all = 1  ; unflag for simulation
+      stokes_low = -5
+      stokes_high = 5
+    end
+    
   endcase
 
   if ~keyword_set(vis_file_list) then begin
