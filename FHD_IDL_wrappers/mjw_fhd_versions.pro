@@ -11,7 +11,7 @@ pro mjw_fhd_versions
   ;output_directory = args[1]
   output_directory = '/Users/mikewilensky/RFI_Catalog_Sim'
   ;version = args[2]
-  version = 'catalog_sim_plus_gleam_double_flux_nocal_widefield'
+  version = 'catalog_sim_plus_gleam_widefield'
 
   if nargs gt 3 then platform = args[3] else platform = '' ;indicates if running on AWS
   if nargs gt 4 then cal_obs_id = args[4] else cal_obs_id = '' ;let it run calibration on my funky obs names...
@@ -96,6 +96,18 @@ pro mjw_fhd_versions
     'catalog_sim_plus_gleam_double_flux_nocal_widefield': begin
       calibrate_visibilities=0
       vis_file_list = '/Users/mikewilensky/RFI_catalog_sim/1061312640_nsamplemax_RFI_plus_gleam_double_flux_newpos.uvfits'
+      model_catalog_file_path = filepath('GLEAM_EGC_v2_181MHz.sav',root=rootdir('FHD'),subdir='catalog_data')
+      model_visibilities=1
+      save_visibilities=1
+      return_cal_visibilities=0
+      calibration_visibilities_subtract=0
+      fill_model_visibilities=1
+      restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    end
+    
+    'catalog_sim_plus_gleam_widefield': begin
+      calibrate_visibilities=0
+      vis_file_list = '/Volumes/Bilbo/mjw_fhd_outputs/1061312640_nsamplemax_gleam.uvfits'
       model_catalog_file_path = filepath('GLEAM_EGC_v2_181MHz.sav',root=rootdir('FHD'),subdir='catalog_data')
       model_visibilities=1
       save_visibilities=1
