@@ -9,9 +9,10 @@ pro mjw_fhd_versions
   ;obs_id = args[0]
   obs_id = '1061312640'
   ;output_directory = args[1]
-  output_directory = '/Volumes/Bilbo/mjw_fhd_outputs'
+  output_directory = '/Users/mikewilensky/RFI_Catalog_Sim'
   ;version = args[2]
-  version = 'catalog_sim_plus_gleam_nocol'
+  version = 'catalog_sim_plus_gleam_double_flux_nocal_widefield'
+
   if nargs gt 3 then platform = args[3] else platform = '' ;indicates if running on AWS
   if nargs gt 4 then cal_obs_id = args[4] else cal_obs_id = '' ;let it run calibration on my funky obs names...
 
@@ -47,6 +48,63 @@ pro mjw_fhd_versions
     calibration_visibilities_subtract=0
     end
     
+
+    'catalog_sim_half_flux': begin
+      calibrate_visibilities=0
+      vis_file_list = '/Volumes/Faramir/uvfits/1061312640.uvfits'
+      model_catalog_file_path = '/Users/mikewilensky/test_RFI_source_newpos_half_flux.sav'
+      model_visibilities=1
+      save_visibilities=1
+      return_cal_visibilities=0
+      calibration_visibilities_subtract=0
+      fill_model_visibilities=1
+    end
+    
+    'catalog_sim_double_flux_newpos': begin
+      calibrate_visibilities=0
+      vis_file_list = '/Volumes/Faramir/uvfits/1061312640.uvfits'
+      model_catalog_file_path = '/Users/mikewilensky/test_RFI_source_newpos_double_flux.sav'
+      model_visibilities=1
+      save_visibilities=1
+      return_cal_visibilities=0
+      calibration_visibilities_subtract=0
+      fill_model_visibilities=1
+    end
+    
+    'catalog_sim_plus_gleam_half_flux_nocal': begin
+      calibrate_visibilities=0
+      vis_file_list = '/Users/mikewilensky/RFI_catalog_sim/1061312640_nsamplemax_RFI_plus_gleam_half_flux_same_pos.uvfits'
+      model_catalog_file_path = filepath('GLEAM_EGC_v2_181MHz.sav',root=rootdir('FHD'),subdir='catalog_data')
+      model_visibilities=1
+      save_visibilities=1
+      return_cal_visibilities=0
+      calibration_visibilities_subtract=0
+      fill_model_visibilities=1
+    end
+    
+    'catalog_sim_plus_gleam_double_flux_nocal': begin
+      calibrate_visibilities=0
+      vis_file_list = '/Users/mikewilensky/RFI_catalog_sim/1061312640_nsamplemax_RFI_plus_gleam_double_flux_newpos.uvfits'
+      model_catalog_file_path = filepath('GLEAM_EGC_v2_181MHz.sav',root=rootdir('FHD'),subdir='catalog_data')
+      model_visibilities=1
+      save_visibilities=1
+      return_cal_visibilities=0
+      calibration_visibilities_subtract=0
+      fill_model_visibilities=1
+    end
+    
+    'catalog_sim_plus_gleam_double_flux_nocal_widefield': begin
+      calibrate_visibilities=0
+      vis_file_list = '/Users/mikewilensky/RFI_catalog_sim/1061312640_nsamplemax_RFI_plus_gleam_double_flux_newpos.uvfits'
+      model_catalog_file_path = filepath('GLEAM_EGC_v2_181MHz.sav',root=rootdir('FHD'),subdir='catalog_data')
+      model_visibilities=1
+      save_visibilities=1
+      return_cal_visibilities=0
+      calibration_visibilities_subtract=0
+      fill_model_visibilities=1
+      restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    end
+
     'catalog_sim_fill': begin
       calibrate_visibilities=0
       vis_file_list = '/Volumes/Faramir/uvfits/1061312640.uvfits'
@@ -58,20 +116,10 @@ pro mjw_fhd_versions
       fill_model_visibilities=1
     end
     
-    'catalog_sim_gleam_nocol': begin
+
+    'catalog_sim_gleamonly': begin
       calibrate_visibilities=0
-      vis_file_list = '/Volumes/Bilbo/mjw_fhd_outputs/1061312640_nsamplemax.uvfits'
-      model_catalog_file_path = filepath('GLEAM_EGC_v2_181MHz.sav',root=rootdir('FHD'),subdir='catalog_data')
-      model_visibilities=1
-      save_visibilities=1
-      return_cal_visibilities=0
-      calibration_visibilities_subtract=0
-      fill_model_visibilities=1
-    end
-    
-    'catalog_sim_plus_gleam_nocol': begin
-      calibrate_visibilities=0
-      vis_file_list = '/Volumes/Bilbo/mjw_fhd_outputs/1061312640_nsamplemax_gleam.uvfits'
+      vis_file_list = '/Volumes/Faramir/uvfits/1061312640.uvfits'
       model_catalog_file_path = filepath('GLEAM_EGC_v2_181MHz.sav',root=rootdir('FHD'),subdir='catalog_data')
       model_visibilities=1
       save_visibilities=1
