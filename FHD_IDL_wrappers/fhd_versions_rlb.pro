@@ -4217,6 +4217,8 @@ pro fhd_versions_rlb
       stokes_low = -5
       stokes_high = 5
       nfreq_avg = 384 ; use one beam for all frequencies
+      remove_sim_flags = 1 ;turn off flagging
+      unflag_all = 1 ;turn off flagging
     end
     
     'rlb_single_source_test_zenith_Sept2019': begin
@@ -4246,6 +4248,8 @@ pro fhd_versions_rlb
       stokes_low = -5
       stokes_high = 5
       nfreq_avg = 384 ; use one beam for all frequencies
+      remove_sim_flags = 1 ;turn off flagging
+      unflag_all = 1 ;turn off flagging
     end
     
     'rlb_single_source_test_pointing_center_Sept2019': begin
@@ -4275,8 +4279,9 @@ pro fhd_versions_rlb
       stokes_low = -5
       stokes_high = 5
       nfreq_avg = 384 ; use one beam for all frequencies
+      remove_sim_flags = 1 ;turn off flagging
+      unflag_all = 1 ;turn off flagging
     end
-    
     
   endcase
 
