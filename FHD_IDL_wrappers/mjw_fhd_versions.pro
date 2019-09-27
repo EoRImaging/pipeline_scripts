@@ -6,12 +6,12 @@ pro mjw_fhd_versions
   ; parse command line args
   compile_opt strictarr
   args = Command_Line_Args(count=nargs)
-  ;obs_id = args[0]
-  obs_id = '1061312640'
-  ;output_directory = args[1]
-  output_directory = '/Users/mikewilensky/RFI_Catalog_Sim'
-  ;version = args[2]
-  version = 'catalog_sim_plus_gleam_widefield'
+  obs_id = args[0]
+  ;obs_id = '1061312640'
+  output_directory = args[1]
+  ;output_directory = '/Users/mikewilensky/RFI_Catalog_Sim'
+  version = args[2]
+  ;version = 'plaw_catalog_sim_plus_gleam_nocal_widefield'
 
   if nargs gt 3 then platform = args[3] else platform = '' ;indicates if running on AWS
   if nargs gt 4 then cal_obs_id = args[4] else cal_obs_id = '' ;let it run calibration on my funky obs names...
@@ -48,6 +48,125 @@ pro mjw_fhd_versions
     calibration_visibilities_subtract=0
     end
     
+    'plaw_catalog_sim_widefield': begin
+      calibrate_visibilities=0
+      vis_file_list = '/Volumes/Faramir/uvfits/1061312640.uvfits'
+      model_catalog_file_path = '/Users/mikewilensky/RFI_PLAW_Cat.sav'
+      model_visibilities=1
+      save_visibilities=1
+      return_cal_visibilities=0
+      calibration_visibilities_subtract=0
+      fill_model_visibilities=1
+      restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    end
+    
+    'plaw_10x_catalog_sim_widefield': begin
+      calibrate_visibilities=0
+      vis_file_list = '/Volumes/Faramir/uvfits/1061312640.uvfits'
+      model_catalog_file_path = '/Users/mikewilensky/RFI_PLAW_10x_Cat.sav'
+      model_visibilities=1
+      save_visibilities=1
+      return_cal_visibilities=0
+      calibration_visibilities_subtract=0
+      fill_model_visibilities=1
+      restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    end
+    
+    'plaw_100x_catalog_sim_widefield': begin
+      calibrate_visibilities=0
+      vis_file_list = '/Volumes/Faramir/uvfits/1061312640.uvfits'
+      model_catalog_file_path = '/Users/mikewilensky/RFI_PLAW_100x_Cat.sav'
+      model_visibilities=1
+      save_visibilities=1
+      return_cal_visibilities=0
+      calibration_visibilities_subtract=0
+      fill_model_visibilities=1
+      restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    end
+    
+    'plaw_1000x_catalog_sim_widefield': begin
+      calibrate_visibilities=0
+      vis_file_list = '/Volumes/Faramir/uvfits/1061312640.uvfits'
+      model_catalog_file_path = '/Users/mikewilensky/RFI_PLAW_1000x_Cat.sav'
+      model_visibilities=1
+      save_visibilities=1
+      return_cal_visibilities=0
+      calibration_visibilities_subtract=0
+      fill_model_visibilities=1
+      restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    end
+    
+    'plaw_1000s_catalog_sim_widefield': begin
+      calibrate_visibilities=0
+      vis_file_list = '/Volumes/Faramir/uvfits/1061312640.uvfits'
+      model_catalog_file_path = '/Users/mikewilensky/RFI_PLAW_1000s_Cat.sav'
+      model_visibilities=1
+      save_visibilities=1
+      return_cal_visibilities=0
+      calibration_visibilities_subtract=0
+      fill_model_visibilities=1
+      restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    end
+    
+    'plaw_catalog_sim_plus_gleam_nocal_widefield': begin
+      calibrate_visibilities=0
+      vis_file_list = '/Users/mikewilensky/RFI_catalog_sim/1061312640_nsamplemax_RFI_plus_gleam_plaw_widefield.uvfits'
+      model_catalog_file_path = filepath('GLEAM_EGC_v2_181MHz.sav',root=rootdir('FHD'),subdir='catalog_data')
+      model_visibilities=1
+      save_visibilities=1
+      return_cal_visibilities=0
+      calibration_visibilities_subtract=0
+      fill_model_visibilities=1
+      restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    end
+    
+    'plaw_10x_catalog_sim_plus_gleam_nocal_widefield': begin
+      calibrate_visibilities=0
+      vis_file_list = '/Users/mikewilensky/RFI_catalog_sim/1061312640_nsamplemax_RFI_plus_gleam_plaw_10x_widefield.uvfits'
+      model_catalog_file_path = filepath('GLEAM_EGC_v2_181MHz.sav',root=rootdir('FHD'),subdir='catalog_data')
+      model_visibilities=1
+      save_visibilities=1
+      return_cal_visibilities=0
+      calibration_visibilities_subtract=0
+      fill_model_visibilities=1
+      restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    end
+    
+    'plaw_100x_catalog_sim_plus_gleam_nocal_widefield': begin
+      calibrate_visibilities=0
+      vis_file_list = '/Users/mikewilensky/RFI_catalog_sim/1061312640_nsamplemax_RFI_plus_gleam_plaw_100x_widefield.uvfits'
+      model_catalog_file_path = filepath('GLEAM_EGC_v2_181MHz.sav',root=rootdir('FHD'),subdir='catalog_data')
+      model_visibilities=1
+      save_visibilities=1
+      return_cal_visibilities=0
+      calibration_visibilities_subtract=0
+      fill_model_visibilities=1
+      restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    end
+    
+    'plaw_1000x_catalog_sim_plus_gleam_nocal_widefield': begin
+      calibrate_visibilities=0
+      vis_file_list = '/Users/mikewilensky/RFI_catalog_sim/1061312640_nsamplemax_RFI_plus_gleam_plaw_1000x_widefield.uvfits'
+      model_catalog_file_path = filepath('GLEAM_EGC_v2_181MHz.sav',root=rootdir('FHD'),subdir='catalog_data')
+      model_visibilities=1
+      save_visibilities=1
+      return_cal_visibilities=0
+      calibration_visibilities_subtract=0
+      fill_model_visibilities=1
+      restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    end
+    
+    'plaw_1000s_catalog_sim_plus_gleam_nocal_widefield': begin
+      calibrate_visibilities=0
+      vis_file_list = '/Users/mikewilensky/RFI_catalog_sim/1061312640_nsamplemax_RFI_plus_gleam_plaw_1000s_widefield.uvfits'
+      model_catalog_file_path = filepath('GLEAM_EGC_v2_181MHz.sav',root=rootdir('FHD'),subdir='catalog_data')
+      model_visibilities=1
+      save_visibilities=1
+      return_cal_visibilities=0
+      calibration_visibilities_subtract=0
+      fill_model_visibilities=1
+      restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    end
 
     'catalog_sim_half_flux': begin
       calibrate_visibilities=0
@@ -105,9 +224,9 @@ pro mjw_fhd_versions
       restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
     end
     
-    'catalog_sim_plus_gleam_widefield': begin
+    'catalog_sim_plus_gleam_nocal_widefield': begin
       calibrate_visibilities=0
-      vis_file_list = '/Volumes/Bilbo/mjw_fhd_outputs/1061312640_nsamplemax_gleam.uvfits'
+      vis_file_list = '/Users/mikewilensky/RFI_catalog_sim/1061312640_nsamplemax_gleam.uvfits'
       model_catalog_file_path = filepath('GLEAM_EGC_v2_181MHz.sav',root=rootdir('FHD'),subdir='catalog_data')
       model_visibilities=1
       save_visibilities=1
