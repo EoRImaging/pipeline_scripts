@@ -4467,6 +4467,7 @@ pro fhd_versions_rlb
       ; try using only one frequency
       freq_start = 182.40
       freq_end = 182.46
+      nfreq_avg = 1
     end
     
   endcase
