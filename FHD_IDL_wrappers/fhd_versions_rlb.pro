@@ -4465,8 +4465,8 @@ pro fhd_versions_rlb
       stokes_low = -5
       stokes_high = 5
       ; try using only one frequency
-      freq_start = 182.40
-      freq_end = 182.46
+      freq_start = 183.04
+      freq_end = 183.12
       nfreq_avg = 1
     end
     
