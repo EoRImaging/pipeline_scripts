@@ -4467,7 +4467,7 @@ pro fhd_versions_rlb
       ; try using only one frequency
       freq_start = 167.5-.08
       freq_end = 167.5+.08
-      nfreq_avg = 1
+      nfreq_avg = 384
     end
     
     'rlb_single_source_test_natural_weighting_flipped_beam_norm_Oct2019': begin
