@@ -65,10 +65,100 @@ pro mjw_fhd_versions
     restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
     end
 
+    'kernel_window_rfi_run': begin
+    kernel_window=1
+    calibrate_visibilities=0
+    return_cal_visibilities=0
+    calibration_visibilities_subtract=0
+    model_visibilities=1
+    save_visibilities=1
+    unflag_all=1
+    debug_dim=1
+    beam_mask_threshold=1e3
+    beam_clip_floor=1
+    nfreq_avg=384
+    ps_kspan=200.
+    interpolate_kernel=1
+    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    model_catalog_file_path = '/RFI_Catalogs/RFI_PLAW_Cat.sav'
+    end
+
+    'kernel_window_rfi_10x_run': begin
+    kernel_window=1
+    calibrate_visibilities=0
+    return_cal_visibilities=0
+    calibration_visibilities_subtract=0
+    model_visibilities=1
+    save_visibilities=1
+    unflag_all=1
+    debug_dim=1
+    beam_mask_threshold=1e3
+    beam_clip_floor=1
+    nfreq_avg=384
+    ps_kspan=200.
+    interpolate_kernel=1
+    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    model_catalog_file_path = '/RFI_Catalogs/RFI_PLAW_10x_Cat.sav'
+    end
+
+    'kernel_window_rfi_100x_run': begin
+    kernel_window=1
+    calibrate_visibilities=0
+    return_cal_visibilities=0
+    calibration_visibilities_subtract=0
+    model_visibilities=1
+    save_visibilities=1
+    unflag_all=1
+    debug_dim=1
+    beam_mask_threshold=1e3
+    beam_clip_floor=1
+    nfreq_avg=384
+    ps_kspan=200.
+    interpolate_kernel=1
+    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    model_catalog_file_path = '/RFI_Catalogs/RFI_PLAW_100x_Cat.sav'
+    end
+
+    'kernel_window_rfi_1000x_run': begin
+    kernel_window=1
+    calibrate_visibilities=0
+    return_cal_visibilities=0
+    calibration_visibilities_subtract=0
+    model_visibilities=1
+    save_visibilities=1
+    unflag_all=1
+    debug_dim=1
+    beam_mask_threshold=1e3
+    beam_clip_floor=1
+    nfreq_avg=384
+    ps_kspan=200.
+    interpolate_kernel=1
+    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    model_catalog_file_path = '/RFI_Catalogs/RFI_PLAW_1000x_Cat.sav'
+    end
+
+    'kernel_window_rfi_1000s_run': begin
+    kernel_window=1
+    calibrate_visibilities=0
+    return_cal_visibilities=0
+    calibration_visibilities_subtract=0
+    model_visibilities=1
+    save_visibilities=1
+    unflag_all=1
+    debug_dim=1
+    beam_mask_threshold=1e3
+    beam_clip_floor=1
+    nfreq_avg=384
+    ps_kspan=200.
+    interpolate_kernel=1
+    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    model_catalog_file_path = '/RFI_Catalogs/RFI_PLAW_1000s_Cat.sav'
+    end
+
     'plaw_catalog_sim_widefield': begin
       calibrate_visibilities=0
-      vis_file_list = '/Volumes/Faramir/uvfits/1061312640.uvfits'
-      model_catalog_file_path = '/Users/mikewilensky/RFI_PLAW_Cat.sav'
+      ;vis_file_list = '/Volumes/Faramir/uvfits/1061312640.uvfits'
+      model_catalog_file_path = '/RFI_Catalogs/RFI_PLAW_Cat.sav'
       model_visibilities=1
       save_visibilities=1
       return_cal_visibilities=0
@@ -80,7 +170,7 @@ pro mjw_fhd_versions
     'plaw_10x_catalog_sim_widefield': begin
       calibrate_visibilities=0
       ;vis_file_list = '/Volumes/Faramir/uvfits/1061312640.uvfits'
-      model_catalog_file_path = '/RFI_PLAW_10x_Cat.sav'
+      model_catalog_file_path = '/RFI_Catalogs/RFI_PLAW_10x_Cat.sav'
       model_visibilities=1
       save_visibilities=1
       return_cal_visibilities=0
@@ -92,7 +182,7 @@ pro mjw_fhd_versions
     'plaw_100x_catalog_sim_widefield': begin
       calibrate_visibilities=0
       ;vis_file_list = '/Volumes/Faramir/uvfits/1061312640.uvfits'
-      model_catalog_file_path = '/RFI_PLAW_100x_Cat.sav'
+      model_catalog_file_path = '/RFI_Catalogs/RFI_PLAW_100x_Cat.sav'
       model_visibilities=1
       save_visibilities=1
       return_cal_visibilities=0
@@ -104,7 +194,7 @@ pro mjw_fhd_versions
     'plaw_1000x_catalog_sim_widefield': begin
       calibrate_visibilities=0
       ;vis_file_list = '/Volumes/Faramir/uvfits/1061312640.uvfits'
-      model_catalog_file_path = '/RFI_PLAW_1000x_Cat.sav'
+      model_catalog_file_path = '/RFI_Catalogs/RFI_PLAW_1000x_Cat.sav'
       model_visibilities=1
       save_visibilities=1
       return_cal_visibilities=0
@@ -116,7 +206,7 @@ pro mjw_fhd_versions
     'plaw_1000s_catalog_sim_widefield': begin
       calibrate_visibilities=0
       ;vis_file_list = '/Volumes/Faramir/uvfits/1061312640.uvfits'
-      model_catalog_file_path = '/RFI_PLAW_1000s_Cat.sav'
+      model_catalog_file_path = '/RFI_Catalogs/RFI_PLAW_1000s_Cat.sav'
       model_visibilities=1
       save_visibilities=1
       return_cal_visibilities=0
