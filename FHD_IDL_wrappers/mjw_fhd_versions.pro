@@ -79,8 +79,8 @@ pro mjw_fhd_versions
 
     'plaw_10x_catalog_sim_widefield': begin
       calibrate_visibilities=0
-      vis_file_list = '/Volumes/Faramir/uvfits/1061312640.uvfits'
-      model_catalog_file_path = '/Users/mikewilensky/RFI_PLAW_10x_Cat.sav'
+      ;vis_file_list = '/Volumes/Faramir/uvfits/1061312640.uvfits'
+      model_catalog_file_path = '/RFI_PLAW_10x_Cat.sav'
       model_visibilities=1
       save_visibilities=1
       return_cal_visibilities=0
@@ -91,8 +91,8 @@ pro mjw_fhd_versions
 
     'plaw_100x_catalog_sim_widefield': begin
       calibrate_visibilities=0
-      vis_file_list = '/Volumes/Faramir/uvfits/1061312640.uvfits'
-      model_catalog_file_path = '/Users/mikewilensky/RFI_PLAW_100x_Cat.sav'
+      ;vis_file_list = '/Volumes/Faramir/uvfits/1061312640.uvfits'
+      model_catalog_file_path = '/RFI_PLAW_100x_Cat.sav'
       model_visibilities=1
       save_visibilities=1
       return_cal_visibilities=0
@@ -103,8 +103,8 @@ pro mjw_fhd_versions
 
     'plaw_1000x_catalog_sim_widefield': begin
       calibrate_visibilities=0
-      vis_file_list = '/Volumes/Faramir/uvfits/1061312640.uvfits'
-      model_catalog_file_path = '/Users/mikewilensky/RFI_PLAW_1000x_Cat.sav'
+      ;vis_file_list = '/Volumes/Faramir/uvfits/1061312640.uvfits'
+      model_catalog_file_path = '/RFI_PLAW_1000x_Cat.sav'
       model_visibilities=1
       save_visibilities=1
       return_cal_visibilities=0
@@ -115,8 +115,8 @@ pro mjw_fhd_versions
 
     'plaw_1000s_catalog_sim_widefield': begin
       calibrate_visibilities=0
-      vis_file_list = '/Volumes/Faramir/uvfits/1061312640.uvfits'
-      model_catalog_file_path = '/Users/mikewilensky/RFI_PLAW_1000s_Cat.sav'
+      ;vis_file_list = '/Volumes/Faramir/uvfits/1061312640.uvfits'
+      model_catalog_file_path = '/RFI_PLAW_1000s_Cat.sav'
       model_visibilities=1
       save_visibilities=1
       return_cal_visibilities=0
