@@ -79,8 +79,9 @@ pro mjw_fhd_versions
     nfreq_avg=384
     ps_kspan=200.
     interpolate_kernel=1
-    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
-    model_catalog_file_path = '/RFI_Catalogs/RFI_PLAW_Cat.sav'
+    ;restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    snapshot_healpix_export = 0
+    model_catalog_file_path = filepath('RFI_PLAW_Cat.sav',root=rootdir('FHD'),subdir='catalog_data')
     end
 
     'kernel_window_rfi_10x_run': begin
@@ -97,8 +98,9 @@ pro mjw_fhd_versions
     nfreq_avg=384
     ps_kspan=200.
     interpolate_kernel=1
-    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
-    model_catalog_file_path = '/RFI_Catalogs/RFI_PLAW_10x_Cat.sav'
+    ;restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    snapshot_healpix_export = 0
+    model_catalog_file_path = filepath('RFI_PLAW_10x_Cat.sav',root=rootdir('FHD'),subdir='catalog_data')
     end
 
     'kernel_window_rfi_100x_run': begin
@@ -115,8 +117,9 @@ pro mjw_fhd_versions
     nfreq_avg=384
     ps_kspan=200.
     interpolate_kernel=1
-    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
-    model_catalog_file_path = '/RFI_Catalogs/RFI_PLAW_100x_Cat.sav'
+    ;restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    snapshot_healpix_export = 0
+    model_catalog_file_path = filepath('RFI_PLAW_100x_Cat.sav',root=rootdir('FHD'),subdir='catalog_data')
     end
 
     'kernel_window_rfi_1000x_run': begin
@@ -133,8 +136,9 @@ pro mjw_fhd_versions
     nfreq_avg=384
     ps_kspan=200.
     interpolate_kernel=1
-    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
-    model_catalog_file_path = '/RFI_Catalogs/RFI_PLAW_1000x_Cat.sav'
+    ;restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    snapshot_healpix_export = 0
+    model_catalog_file_path = filepath('RFI_PLAW_1000x_Cat.sav',root=rootdir('FHD'),subdir='catalog_data')
     end
 
     'kernel_window_rfi_1000s_run': begin
@@ -151,8 +155,9 @@ pro mjw_fhd_versions
     nfreq_avg=384
     ps_kspan=200.
     interpolate_kernel=1
-    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
-    model_catalog_file_path = '/RFI_Catalogs/RFI_PLAW_1000s_Cat.sav'
+    ;restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    snapshot_healpix_export = 0
+    model_catalog_file_path = filepath('RFI_PLAW_1000s_Cat.sav',root=rootdir('FHD'),subdir='catalog_data')
     end
 
     'plaw_catalog_sim_widefield': begin
