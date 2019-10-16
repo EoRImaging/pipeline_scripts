@@ -49,10 +49,12 @@ do
     r) run_ps=$OPTARG;; #Run eppsilon PS code (on individual obs)
     i) input_vis=$OPTARG;; #Optional input visibilities for in situ sim
     j) input_eor=$OPTARG;; #Optional input eor sim for in situ sim
+    k) extra_vis=$OPTARG;; #Optional additional visibilities for in situ sim (e.g. RFI visibilities)
     \?) echo "Unknown option: Accepted flags are -f (obs_file_name), -s (starting_obs), -e (ending obs), -o (output directory), "
         echo "-b (output bucket on S3), -v (version input for FHD),  -n (number of slots to use), "
         echo "-u (versions script), -p (path to uvfits files on S3), -m (path to metafits files on S3)"
         echo "-r (option to run eppsilon on each obs), -i (visibilities for in situ sim), -j (EoR sim)."
+        echo "-k (extra visibilities to add to simulation visibilities)"
         exit 1;;
     :) echo "Missing option argument for input flag"
        exit 1;;
