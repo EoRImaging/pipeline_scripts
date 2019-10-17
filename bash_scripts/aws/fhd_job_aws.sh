@@ -178,7 +178,7 @@ if [ "$run_fhd" -eq 1 ]; then  # Start FHD
         sudo aws s3 cp ${extra_vis} \
         /uvfits/extra_vis/ --recursive --quiet
         # Check the download...
-        if [ -z $(ls /uvfits/extra_vis/) ]:
+        if [ -z $(ls /uvfits/extra_vis/) ]; then
             >&2 echo "ERROR: extra_vis file not found on filesystem"
             echo "Job Failed"
             exit 1
