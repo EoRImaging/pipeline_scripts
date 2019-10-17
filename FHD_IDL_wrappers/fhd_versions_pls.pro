@@ -58,6 +58,26 @@ pro fhd_versions_pls
       cal_mode_fit = 0
     end
 
+'test_reader': begin
+      recalculate_all = 1
+      uvfits_version = 5
+      uvfits_subversion = 1
+      max_sources = 200000
+      calibration_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
+      smooth_width = 32
+      return_cal_visibilities = 1
+      pad_uv_image = 1
+      diffuse_calibrate = 0
+      diffuse_model = 0
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      debug_region_grow = 0
+      n_pol = 2
+      bandpass_calibrate = 0
+      cable_bandpass_fit = 0
+      cal_mode_fit = 0
+    end
   endcase
 
   if ~keyword_set(vis_file_list) then begin
