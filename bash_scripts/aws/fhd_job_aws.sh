@@ -165,6 +165,21 @@ if [ "$run_fhd" -eq 1 ]; then  # Start FHD
         echo Input EoR visibilities from ${input_eor} copied to /uvfits/input_eor/vis_data
     fi
 
+    #Get extra_vis files
+    if [ ! -z ${extra_vis} ]; then
+        # Check that the extra_vis file/loc exists on s3
+        extra_vis_exists=$(aws s3 ls ${extra_vis})
+        if [ -z "$extra_vis_exists" ]; then
+            >&2 echo "ERROR: extra_vis file not found"
+            echo "Job Failed"
+            exit 1
+        fi
+        # Download extra_vis from s3
+        sudo aws s3 cp ${extra_vis} \
+        /uvfits/extra_vis/ --recursive --quiet
+        echo Extra visibilities from ${extra_vis} copied to /uvfits/extra_vis/
+    fi
+
     # Run FHD
     idl -IDL_DEVICE ps -IDL_CPU_TPOOL_NTHREADS $nslots -e $versions_script -args \
     $obs_id $outdir $version aws || :
