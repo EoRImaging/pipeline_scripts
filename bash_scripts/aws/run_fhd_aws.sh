@@ -32,7 +32,7 @@ unset version
 #######Gathering the input arguments and applying defaults if necessary
 
 #Parse flags for inputs
-while getopts ":f:s:e:o:b:v:n:r:u:p:m:i:j:" option
+while getopts ":f:s:e:o:b:v:n:r:u:p:m:i:j:k:" option
 do
    case $option in
     f) obs_file_name="$OPTARG";; #text file of observation id's
