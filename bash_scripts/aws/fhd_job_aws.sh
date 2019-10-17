@@ -170,13 +170,19 @@ if [ "$run_fhd" -eq 1 ]; then  # Start FHD
         # Check that the extra_vis file/loc exists on s3
         extra_vis_exists=$(aws s3 ls ${extra_vis})
         if [ -z "$extra_vis_exists" ]; then
-            >&2 echo "ERROR: extra_vis file not found"
+            >&2 echo "ERROR: extra_vis file not found on s3"
             echo "Job Failed"
             exit 1
         fi
         # Download extra_vis from s3
         sudo aws s3 cp ${extra_vis} \
         /uvfits/extra_vis/ --recursive --quiet
+        # Check the download...
+        if [ -z $(ls /uvfits/extra_vis/) ]:
+            >&2 echo "ERROR: extra_vis file not found on filesystem"
+            echo "Job Failed"
+            exit 1
+        fi
         echo Extra visibilities from ${extra_vis} copied to /uvfits/extra_vis/
     fi
 
