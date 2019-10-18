@@ -80,7 +80,7 @@ pro mjw_fhd_versions
     ps_kspan=200.
     interpolate_kernel=1
     restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
-    extra_vis_filepath='/uvfits/extra_vis/1061312640_nsamplemax_RFI_plaw.uvfits'
+    extra_vis_filepath='/uvfits/extra_vis/1061312640_nsamplemax_RFI_plaw_1x.uvfits'
     in_situ_sim_input='/uvfits/input_vis/vis_data'
     end
 
