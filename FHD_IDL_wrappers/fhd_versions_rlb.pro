@@ -3857,7 +3857,8 @@ pro fhd_versions_rlb
       uvfits_subversion = 1
       max_sources = 200000
       calibration_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
-      diffuse_calibrate = '/home/ubuntu/nearest_short_baselines_Aug2019.sav'
+      diffuse_model = '/home/ubuntu/nearest_short_baselines_Aug2019.sav'
+      diffuse_calibrate = 0
       smooth_width = 32
       filter_background = 1
       return_cal_visibilities = 1
