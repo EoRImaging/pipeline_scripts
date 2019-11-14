@@ -3857,7 +3857,7 @@ pro fhd_versions_rlb
       uvfits_subversion = 1
       max_sources = 200000
       calibration_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
-      diffuse_calibrate = filepath('EoR0_diffuse_model_94.sav',root=rootdir('FHD'),subdir='catalog_data')
+      diffuse_calibrate = '/home/ubuntu/nearest_short_baselines_Aug2019.sav'
       smooth_width = 32
       filter_background = 1
       return_cal_visibilities = 1
@@ -4074,6 +4074,25 @@ pro fhd_versions_rlb
       unflag_all = 0
       freq_start = 167.555-.04
       freq_end = 167.555+.04
+    end
+    
+    'rlb_diffuse_subtract_no_diffuse_cal_Nov2019': begin
+      recalculate_all = 1
+      uvfits_version = 5
+      uvfits_subversion = 1
+      max_sources = 200000
+      calibration_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
+      diffuse_model = '/home/ubuntu/nearest_short_baselines_Aug2019.sav'
+      diffuse_calibrate = 0
+      smooth_width = 32
+      filter_background = 1
+      return_cal_visibilities = 1
+      pad_uv_image = 1
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      debug_region_grow = 0
+      n_pol = 2
     end
     
   endcase
