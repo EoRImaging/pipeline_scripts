@@ -4085,6 +4085,7 @@ pro fhd_versions_rlb
       diffuse_calibrate = 0
       diffuse_model = '/home/ubuntu/nearest_short_baselines_Aug2019.sav'
       model_visibilities = 1
+      model_catalog_file_path = 0 ;this must be set explicitly if model_visibilities is set and we don't want to re-model sources
       return_cal_visibilities = 1
       smooth_width = 32
       filter_background = 1
