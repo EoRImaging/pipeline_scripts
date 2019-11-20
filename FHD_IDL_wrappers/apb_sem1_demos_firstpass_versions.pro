@@ -1,4 +1,4 @@
-pro eor_firstpass_versions
+pro apb_sem1_demos_firstpass_versions
 except=!except
 !except=0
 heap_gc
