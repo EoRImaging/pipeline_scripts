@@ -6,6 +6,9 @@ heap_gc
 ; wrapper to contain all the parameters for various runs we might do
 ; using firstpass.
 
+; To replicate Beardsley's thesis/paper, this should be run against FHD
+; githash 2e8225bc02ed94968f55740f93026029030d6ba1
+
 ; parse command line args
 compile_opt strictarr
 args = Command_Line_Args(count=nargs)
