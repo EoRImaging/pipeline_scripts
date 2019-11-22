@@ -139,6 +139,11 @@ if [ "$run_fhd" -eq 1 ]; then  # Start FHD
             echo "Job Failed"
             exit 1
         fi
+        if [ -d /uvfits/input_vis ]; then
+            sudo chmod -R 777 /uvfits/input_vis
+        else
+            sudo mkdir -m 777 /uvfits/input_vis
+        fi
         # Download input_vis from S3
         sudo aws s3 cp ${input_vis} \
         /uvfits/input_vis/vis_data/ --recursive --exclude "*" --include "${obs_id}*" --quiet
@@ -159,11 +164,21 @@ if [ "$run_fhd" -eq 1 ]; then  # Start FHD
             echo "Job Failed"
             exit 1
         fi
+        if [ -d /uvfits/input_eor ]; then
+            sudo chmod -R 777 /uvfits/input_eor
+        else
+            sudo mkdir -m 777 /uvfits/input_eor
+        fi
         # Download input_eor from S3
         sudo aws s3 cp ${input_eor} \
         /uvfits/input_eor/vis_data/ --recursive --quiet
         echo Input EoR visibilities from ${input_eor} copied to /uvfits/input_eor/vis_data
-    fi
+        if [ -z $(ls /uvfits/input_eor/vis_data/) ]; then
+            >&2 echo "ERROR: input_eor file not found on filesystem"
+            echo "Job Failed"
+            exit 1
+        fi
+     fi
 
     #Get extra_vis files
     if [ ! -z ${extra_vis} ]; then
