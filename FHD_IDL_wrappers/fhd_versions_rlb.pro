@@ -4123,7 +4123,7 @@ pro fhd_versions_rlb
       uvfits_subversion = 1
       calibrate_visibilities = 0
       diffuse_calibrate = 0
-      diffuse_model = '/home/ubuntu/nearest_short_baselines_Aug2019.sav'
+      diffuse_model = '/home/ubuntu/nearest_short_baselines_ring_ordering_Aug2019.sav'
       model_visibilities = 1
       model_catalog_file_path = 0
       return_cal_visibilities = 0
