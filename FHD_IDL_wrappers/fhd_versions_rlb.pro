@@ -4171,7 +4171,7 @@ pro fhd_versions_rlb
       calibration_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
       diffuse_calibrate = 0
       diffuse_model = '/home/ubuntu/nearest_short_baselines_ring_ordering_Aug2019.sav'
-      model_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data') ;try changing this and see if it works
+      model_catalog_file_path = 0
       model_visibilities = 1
       smooth_width = 32
       filter_background = 1
