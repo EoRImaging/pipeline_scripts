@@ -4163,6 +4163,27 @@ pro fhd_versions_rlb
       image_filter_fn = 'filter_uv_weighted'
     end
     
+    'rlb_diffuse_subtract_Dec2019': begin
+      recalculate_all = 1
+      uvfits_version = 4
+      uvfits_subversion = 1
+      max_sources = 200000
+      calibration_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
+      diffuse_calibrate = 0
+      diffuse_model = '/home/ubuntu/nearest_short_baselines_ring_ordering_Aug2019.sav'
+      model_catalog_file_path = 0
+      model_visibilities = 1
+      smooth_width = 32
+      filter_background = 1
+      return_cal_visibilities = 1
+      pad_uv_image = 1
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      debug_region_grow = 0
+      n_pol = 2
+    end
+    
   endcase
 
   if ~keyword_set(vis_file_list) then begin
