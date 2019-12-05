@@ -4232,25 +4232,27 @@ pro fhd_versions_rlb
       write_healpix_fits = 1
     end
     
-    'rlb_diffuse_subtract_jypersr_Dec2019': begin
+    'rlb_diffuse_model_normalized_Dec2019': begin
       recalculate_all = 1
-      uvfits_version = 4
+      uvfits_version = 5
       uvfits_subversion = 1
-      max_sources = 200000
-      calibration_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
+      calibrate_visibilities = 0
       diffuse_calibrate = 0
-      diffuse_model = '/home/ubuntu/averaged_diffuse_jypersr.sav'
-      model_catalog_file_path = 0
+      diffuse_model = '/home/ubuntu/averaged_diffuse_normalized.sav'
       model_visibilities = 1
+      model_catalog_file_path = 0
+      return_cal_visibilities = 0
       smooth_width = 32
       filter_background = 1
-      return_cal_visibilities = 1
       pad_uv_image = 1
       return_sidelobe_catalog = 1
       dft_threshold = 0
       ring_radius = 0
       debug_region_grow = 0
-      n_pol = 2
+      n_pol = 4
+      max_baseline = 50  ; use only baselines shorter than 50 wavelength
+      hpx_radius = 15
+      write_healpix_fits = 1
     end
     
   endcase
