@@ -4170,7 +4170,7 @@ pro fhd_versions_rlb
       max_sources = 200000
       calibration_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
       diffuse_calibrate = 0
-      diffuse_model = '/home/ubuntu/nearest_short_baselines_ring_ordering_Aug2019.sav'
+      diffuse_model = '/home/ubuntu/averaged_diffuse_normalized.sav'
       model_catalog_file_path = 0
       model_visibilities = 1
       smooth_width = 32
