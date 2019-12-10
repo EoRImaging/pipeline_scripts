@@ -4316,6 +4316,7 @@ pro fhd_versions_rlb
       ring_radius = 0
       debug_region_grow = 0
       n_pol = 2
+      cal_bp_transfer = 0
     end
     
     'rlb_kelcey_source_subtract': begin
@@ -4336,6 +4337,7 @@ pro fhd_versions_rlb
       ring_radius = 0
       debug_region_grow = 0
       n_pol = 2
+      cal_bp_transfer = 0
     end
     
   endcase
