@@ -4320,7 +4320,7 @@ pro fhd_versions_rlb
     end
     
     'rlb_kelcey_source_subtract': begin
-      recalculate_all = 1
+      recalculate_all = 0
       uvfits_version = 5
       uvfits_subversion = 1
       max_sources = 200000
@@ -4328,6 +4328,7 @@ pro fhd_versions_rlb
       smooth_width = 32
       filter_background = 1
       model_catalog_file_path = '/home/ubuntu/GLEAM_plus_75219.sav'
+      model_visibilities = 1
       return_cal_visibilities = 0
       pad_uv_image = 1
       diffuse_calibrate = 0
