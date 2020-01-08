@@ -4388,6 +4388,30 @@ pro fhd_versions_rlb
       image_filter_fn = 'filter_uv_weighted'
     end
     
+    'rlb_diffuse_model_correct_diffuse_normalization_branch_Jan2019': begin
+      recalculate_all = 1
+      uvfits_version = 5
+      uvfits_subversion = 1
+      calibrate_visibilities = 0
+      diffuse_calibrate = 0
+      diffuse_model = '/home/ubuntu/nearest_Jan2020norm_Aug2019.sav'
+      model_visibilities = 1
+      model_catalog_file_path = 0
+      return_cal_visibilities = 0
+      smooth_width = 32
+      filter_background = 1
+      pad_uv_image = 1
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      debug_region_grow = 0
+      n_pol = 4
+      max_baseline = 50  ; use only baselines shorter than 50 wavelength
+      hpx_radius = 15
+      write_healpix_fits = 1
+      image_filter_fn = 'filter_uv_weighted'
+    end
+    
   endcase
 
   if ~keyword_set(vis_file_list) then begin
