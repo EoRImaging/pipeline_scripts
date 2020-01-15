@@ -16,8 +16,8 @@ fi
 if [ -z ${s3_path} ]; then
     s3_path=s3://mw-mwa-ultra-faint-rfi
 fi
-if [ -z ${uvfits_s3_loc} ]; then
-    uvfits_s3_loc=s3://mwapublic/uvfits/4.1
+if [ -z ${input_s3_loc} ]; then
+    input_s3_loc=s3://mwapublic/uvfits/4.1
 fi
 
 obs_id=$(sed "${SGE_TASK_ID}q;d" ${obs_file_name})
@@ -31,8 +31,8 @@ echo Using output directory: $outdir
 s3_path=${s3_path%/}
 echo Using output S3 location: $s3_path
 
-uvfits_s3_loc=${uvfits_s3_loc%/}
-echo Using uvfits_s3_loc: $uvfits_s3_loc
+input_s3_loc=${uvfits_s3_loc%/}
+echo Using input_s3_loc: $input_s3_loc
 
 #create output directory with full permissions
 if [ -d "$outdir" ]; then
@@ -41,40 +41,91 @@ else
     sudo mkdir -m 777 $outdir
 fi
 
-#create uvfits download location with full permissions
-if [ -d /uvfits ]; then
-    sudo chmod -R 777 /uvfits
+#create input download location with full permissions
+if [ -d /${input_type} ]; then
+    sudo chmod -R 777 /${input_type}
 else
-    sudo mkdir -m 777 /uvfits
+    sudo mkdir -m 777 /${input_type}
 fi
 
-# Check if the uvfits file exists locally; if not, download it from S3
-if [ ! -f "/uvfits/${obs_id}.uvfits" ]; then
+# Check input type
+if [ $input_type == "uvfits" ]; then
 
-    # Check that the uvfits file exists on S3
-    uvfits_exists=$(aws s3 ls ${uvfits_s3_loc}/${obs_id}.uvfits)
-    if [ -z "$uvfits_exists" ]; then
-        >&2 echo "ERROR: uvfits file not found"
-        echo $obs_id >> /home/ubuntu/MWA/MJW-MWA/Obs_Lists/obs_fail.txt
-        echo "Job Failed"
-        exit 1
-    fi
+  # Check if the uvfits file exists locally; if not, download it from S3
+  if [ ! -f "/uvfits/${obs_id}.uvfits" ]; then
 
-    # Download uvfits from S3
-    sudo aws s3 cp ${uvfits_s3_loc}/${obs_id}.uvfits \
-    /uvfits/${obs_id}.uvfits --quiet
+      # Check that the uvfits file exists on S3
+      uvfits_exists=$(aws s3 ls ${input_s3_loc}/${obs_id}.uvfits)
+      if [ -z "$uvfits_exists" ]; then
+          >&2 echo "ERROR: uvfits file not found"
+          echo $obs_id >> /home/ubuntu/MWA/MJW-MWA/Obs_Lists/obs_fail.txt
+          echo "Job Failed"
+          exit 1
+      fi
 
-    # Verify that the uvfits downloaded correctly
-    if [ ! -f "/uvfits/${obs_id}.uvfits" ]; then
-        >&2 echo "ERROR: downloading uvfits from S3 failed"
-        echo $obs_id >> /home/ubuntu/MWA/MJW-MWA/Obs_Lists/obs_fail.txt
-        echo "Job Failed"
-        exit 1
-    fi
+      # Download uvfits from S3
+      sudo aws s3 cp ${input_s3_loc}/${obs_id}.uvfits \
+      /uvfits/${obs_id}.uvfits --quiet
+
+      # Verify that the uvfits downloaded correctly
+      if [ ! -f "/uvfits/${obs_id}.uvfits" ]; then
+          >&2 echo "ERROR: downloading uvfits from S3 failed"
+          echo $obs_id >> /home/ubuntu/MWA/MJW-MWA/Obs_Lists/obs_fail.txt
+          echo "Job Failed"
+          exit 1
+      fi
+  fi
+  input_files="/uvfits/${obs_id}.uvfits"
+else
+  # Check if the gpubox files exist locally; if not, download them from s3
+  if [ ! -z $(ls /gpubox/${obs_id}_vis/*.fits) ]; then
+
+      # Check that the box files exist on S3
+      gpubox_exists=$(aws s3 ls ${input_s3_loc}/${obs_id}_vis/*.fits)
+      if [ -z "$gpubox_exists" ]; then
+          >&2 echo "ERROR: gpubox files not found on s3"
+          echo $obs_id >> /home/ubuntu/obs_fail_${JOB_ID}.${SGE_TASK_ID}.txt
+          echo "Job Failed"
+          exit 1
+      fi
+
+      # Check that the metafits file exists on s3
+      metafits_exists=$(aws s3 ls ${input_s3_loc}/${obs_id}_vis/*.metafits)
+      if [ -z "$metafits_exists" ]; then
+          >&2 echo "ERROR: metafits file not found on s3"
+          echo $obs_id >> /home/ubuntu/obs_fail_${JOB_ID}.${SGE_TASK_ID}.txt
+          echo "Job Failed"
+          exit 1
+      fi
+
+      # Download box files and metafits from S3
+      sudo aws s3 cp ${input_s3_loc}/${obs_id}_vis/*gpubox* \
+      /gpubox/ --quiet
+      sudo aws s3 cp ${input_s3_loc}/${obs_id}_vis/${obs_id}.metafits \
+      /gpubox/${obsid}.metafits --quiet
+
+      # Verify that the box files downloaded correctly
+      if [ -z $(ls /gpubox/${obs_id}*gpubox*) ]; then
+          >&2 echo "ERROR: downloading box files from S3 failed"
+          echo $obs_id >> /home/ubuntu/obs_fail_${JOB_ID}.${SGE_TASK_ID}.txt
+          echo "Job Failed"
+          exit 1
+      fi
+
+      # Verify that the metafits file downloaded correctly.
+      if [ -f ls /gpubox/${obsid}.metafits ]; then
+          >&2 echo "ERROR: downloading metafits file from S3 failed"
+          echo $obs_id >> /home/ubuntu/obs_fail_${JOB_ID}.${SGE_TASK_ID}.txt
+          echo "Job Failed"
+          exit 1
+      fi
+
+  fi
+  input_files=$(ls /gpubox/${obsid}*)
 fi
 
 # Run python catalog script
-python $script ${obs_id} /uvfits/${obs_id}.uvfits $outdir $script_args
+python MWA_EoR_High_uvfits_write.py -o ${obs_id} -u ${input_files} -d $outdir -f
 
 # Move SSINS outputs to S3
 i=1  #initialize counter
@@ -87,8 +138,11 @@ while [ $? -ne 0 ] && [ $i -lt 10 ]; do
     --recursive --exclude "*" --include "*${obs_id}*" --quiet
 done
 
-# Remove uvfits and metafits from the instance
-sudo rm /uvfits/${obs_id}.uvfits
+# Remove vis files and metafits from the instance
+if [ $input_type == "uvfits" ]; then
+  sudo rm /uvfits/${obs_id}.uvfits
+else
+  sudo rm /gpubox/${obsid}*
 
 # Copy gridengine stdout to S3
 aws s3 cp ~/grid_out/SSINS_job_aws.sh.o${JOB_ID}.${SGE_TASK_ID} \
