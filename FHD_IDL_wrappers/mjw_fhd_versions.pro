@@ -82,6 +82,23 @@ pro mjw_fhd_versions
     restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
     end
 
+    'kernel_window_control_run_zenith_navg1': begin
+    kernel_window=1
+    calibrate_visibilities=0
+    return_cal_visibilities=0
+    calibration_visibilities_subtract=0
+    model_visibilities=1
+    save_visibilities=1
+    unflag_all=1
+    debug_dim=1
+    beam_mask_threshold=1e3
+    beam_clip_floor=1
+    nfreq_avg=1
+    ps_kspan=200.
+    interpolate_kernel=1
+    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    end
+
     'kernel_window_rfi_sim_1x_run': begin
     kernel_window=1
     calibrate_visibilities=0
