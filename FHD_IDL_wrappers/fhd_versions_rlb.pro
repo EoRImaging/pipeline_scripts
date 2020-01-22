@@ -4117,6 +4117,411 @@ pro fhd_versions_rlb
       n_pol = 4
     end
     
+    'rlb_diffuse_model_baseline_cut_Nov2019': begin
+      recalculate_all = 1
+      uvfits_version = 5
+      uvfits_subversion = 1
+      calibrate_visibilities = 0
+      diffuse_calibrate = 0
+      diffuse_model = '/home/ubuntu/nearest_short_baselines_ring_ordering_Aug2019.sav'
+      model_visibilities = 1
+      model_catalog_file_path = 0
+      return_cal_visibilities = 0
+      smooth_width = 32
+      filter_background = 1
+      pad_uv_image = 1
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      debug_region_grow = 0
+      n_pol = 4
+      max_baseline = 50  ; use only baselines shorter than 50 wavelength
+      hpx_radius = 15
+      write_healpix_fits = 1
+    end
+    
+    'rlb_diffuse_model_weighted_Dec2019': begin
+      recalculate_all = 1
+      uvfits_version = 5
+      uvfits_subversion = 1
+      calibrate_visibilities = 0
+      diffuse_calibrate = 0
+      diffuse_model = '/home/ubuntu/nearest_short_baselines_ring_ordering_Aug2019.sav'
+      model_visibilities = 1
+      model_catalog_file_path = 0
+      return_cal_visibilities = 0
+      smooth_width = 32
+      filter_background = 1
+      pad_uv_image = 1
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      debug_region_grow = 0
+      n_pol = 4
+      max_baseline = 50  ; use only baselines shorter than 50 wavelength
+      hpx_radius = 15
+      image_filter_fn = 'filter_uv_weighted'
+    end
+    
+    'rlb_diffuse_subtract_Dec2019': begin
+      recalculate_all = 1
+      uvfits_version = 4
+      uvfits_subversion = 1
+      max_sources = 200000
+      calibration_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
+      diffuse_calibrate = 0
+      diffuse_model = '/home/ubuntu/averaged_diffuse_normalized.sav'
+      model_catalog_file_path = 0
+      model_visibilities = 1
+      smooth_width = 32
+      filter_background = 1
+      return_cal_visibilities = 1
+      pad_uv_image = 1
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      debug_region_grow = 0
+      n_pol = 2
+    end
+    
+    'rlb_diffuse_norm_reference_Dec2019': begin
+      recalculate_all = 1
+      uvfits_version = 4
+      uvfits_subversion = 1
+      max_sources = 200000
+      calibration_catalog_file_path = 0
+      return_cal_visibilities = 0
+      cal_bp_transfer = 0  ; changed this for calibration transfer
+      transfer_calibration = '/home/ubuntu/'+string(obs_id)+'_cal.sav' ; copied from rlb_master_reference_Nov2019
+      transfer_weights = '/home/ubuntu/'+string(obs_id)+'_flags.sav' ; copied from rlb_master_reference_Nov2019
+      model_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
+      model_visibilities = 1
+      smooth_width = 32
+      filter_background = 1
+      pad_uv_image = 1
+      diffuse_calibrate = 0
+      diffuse_model = 0
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      debug_region_grow = 0
+      n_pol = 2
+      max_baseline = 50
+    end
+    
+    'rlb_diffuse_model_nside512_Dec2019': begin
+      recalculate_all = 1
+      uvfits_version = 5
+      uvfits_subversion = 1
+      calibrate_visibilities = 0
+      diffuse_calibrate = 0
+      diffuse_model = '/home/ubuntu/averaged_diffuse_nside512.sav'
+      model_visibilities = 1
+      model_catalog_file_path = 0
+      return_cal_visibilities = 0
+      smooth_width = 32
+      filter_background = 1
+      pad_uv_image = 1
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      debug_region_grow = 0
+      n_pol = 4
+      max_baseline = 50  ; use only baselines shorter than 50 wavelength
+      hpx_radius = 15
+      write_healpix_fits = 1
+    end
+    
+    'rlb_diffuse_model_normalized_Dec2019': begin
+      recalculate_all = 1
+      uvfits_version = 5
+      uvfits_subversion = 1
+      calibrate_visibilities = 0
+      diffuse_calibrate = 0
+      diffuse_model = '/home/ubuntu/averaged_diffuse_normalized.sav'
+      model_visibilities = 1
+      model_catalog_file_path = 0
+      return_cal_visibilities = 0
+      smooth_width = 32
+      filter_background = 1
+      pad_uv_image = 1
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      debug_region_grow = 0
+      n_pol = 4
+      max_baseline = 50  ; use only baselines shorter than 50 wavelength
+      hpx_radius = 15
+      write_healpix_fits = 1
+    end
+    
+    'rlb_diffuse_model_power_boosted_Dec2019': begin
+      recalculate_all = 1
+      uvfits_version = 5
+      uvfits_subversion = 1
+      calibrate_visibilities = 0
+      diffuse_calibrate = 0
+      diffuse_model = '/home/ubuntu/averaged_diffuse_power_boost.sav'
+      model_visibilities = 1
+      model_catalog_file_path = 0
+      return_cal_visibilities = 0
+      smooth_width = 32
+      filter_background = 1
+      pad_uv_image = 1
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      debug_region_grow = 0
+      n_pol = 4
+      max_baseline = 50  ; use only baselines shorter than 50 wavelength
+      hpx_radius = 15
+      write_healpix_fits = 1
+    end
+    
+    'rlb_subtract_diffuse_only_Dec2019': begin
+      recalculate_all = 1
+      uvfits_version = 4
+      uvfits_subversion = 1
+      max_sources = 200000
+      calibration_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
+      diffuse_calibrate = 0
+      diffuse_model = '/home/ubuntu/nearest_jy_per_sr_Aug2019.sav'
+      model_catalog_file_path = 0
+      model_visibilities = 1
+      smooth_width = 32
+      filter_background = 1
+      return_cal_visibilities = 0
+      pad_uv_image = 1
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      debug_region_grow = 0
+      n_pol = 2
+    end
+    
+    'rlb_kelcey_gleam_subtract': begin
+      recalculate_all = 1
+      uvfits_version = 5
+      uvfits_subversion = 1
+      max_sources = 200000
+      calibration_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
+      smooth_width = 32
+      filter_background = 1
+      return_cal_visibilities = 1
+      pad_uv_image = 1
+      diffuse_calibrate = 0
+      diffuse_model = 0
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      debug_region_grow = 0
+      n_pol = 2
+      cal_bp_transfer = 0
+    end
+    
+    'rlb_kelcey_source_subtract': begin
+      recalculate_all = 0
+      uvfits_version = 5
+      uvfits_subversion = 1
+      max_sources = 200000
+      calibration_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
+      smooth_width = 32
+      filter_background = 1
+      model_catalog_file_path = '/home/ubuntu/GLEAM_plus_75219.sav'
+      model_visibilities = 1
+      return_cal_visibilities = 0
+      pad_uv_image = 1
+      diffuse_calibrate = 0
+      diffuse_model = 0
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      debug_region_grow = 0
+      n_pol = 2
+      cal_bp_transfer = 0
+    end
+    
+    'rlb_diffuse_model_weighted_Dec2019_2': begin
+      recalculate_all = 1
+      uvfits_version = 5
+      uvfits_subversion = 1
+      calibrate_visibilities = 0
+      diffuse_calibrate = 0
+      diffuse_model = '/home/ubuntu/nearest_short_baselines_ring_ordering_Aug2019.sav'
+      model_visibilities = 1
+      model_catalog_file_path = 0
+      return_cal_visibilities = 0
+      smooth_width = 32
+      filter_background = 1
+      pad_uv_image = 1
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      debug_region_grow = 0
+      n_pol = 4
+      max_baseline = 50  ; use only baselines shorter than 50 wavelength
+      hpx_radius = 15
+      image_filter_fn = 'filter_uv_weighted'
+    end
+    
+    'rlb_diffuse_model_correct_diffuse_normalization_branch_Dec2019': begin
+      recalculate_all = 1
+      uvfits_version = 5
+      uvfits_subversion = 1
+      calibrate_visibilities = 0
+      diffuse_calibrate = 0
+      diffuse_model = '/home/ubuntu/averaged_diffuse_nside512.sav'
+      model_visibilities = 1
+      model_catalog_file_path = 0
+      return_cal_visibilities = 0
+      smooth_width = 32
+      filter_background = 1
+      pad_uv_image = 1
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      debug_region_grow = 0
+      n_pol = 4
+      max_baseline = 50  ; use only baselines shorter than 50 wavelength
+      hpx_radius = 15
+      write_healpix_fits = 1
+      image_filter_fn = 'filter_uv_weighted'
+    end
+    
+    'rlb_diffuse_model_correct_diffuse_normalization_branch_Jan2019': begin
+      recalculate_all = 1
+      uvfits_version = 5
+      uvfits_subversion = 1
+      calibrate_visibilities = 0
+      diffuse_calibrate = 0
+      diffuse_model = '/home/ubuntu/nearest_Jan2020norm_Aug2019.sav'
+      model_visibilities = 1
+      model_catalog_file_path = 0
+      return_cal_visibilities = 0
+      smooth_width = 32
+      filter_background = 1
+      pad_uv_image = 1
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      debug_region_grow = 0
+      n_pol = 4
+      max_baseline = 50  ; use only baselines shorter than 50 wavelength
+      hpx_radius = 15
+      write_healpix_fits = 1
+      image_filter_fn = 'filter_uv_weighted'
+    end
+    
+    'rlb_diffuse_model_limit_dimension_Jan2019': begin
+      recalculate_all = 1
+      uvfits_version = 5
+      uvfits_subversion = 1
+      calibrate_visibilities = 0
+      diffuse_calibrate = 0
+      diffuse_model = '/home/ubuntu/nearest_Jan2020norm_Aug2019.sav'
+      model_visibilities = 1
+      model_catalog_file_path = 0
+      return_cal_visibilities = 0
+      smooth_width = 32
+      filter_background = 1
+      pad_uv_image = 1
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      debug_region_grow = 0
+      n_pol = 4
+      max_baseline = 50  ; use only baselines shorter than 50 wavelength
+      dimension = 208 ; limit the UV plane to regions that contain data
+      hpx_radius = 15
+      write_healpix_fits = 1
+      image_filter_fn = 'filter_uv_weighted'
+    end
+    
+    'rlb_diffuse_model_roundtrip_Jan2019': begin
+      recalculate_all = 1
+      uvfits_version = 5
+      uvfits_subversion = 1
+      calibrate_visibilities = 0
+      diffuse_calibrate = 0
+      diffuse_model = '/home/ubuntu/single_obs_stokes_maps.sav'
+      model_visibilities = 1
+      model_catalog_file_path = 0
+      return_cal_visibilities = 0
+      smooth_width = 32
+      filter_background = 1
+      pad_uv_image = 1
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      debug_region_grow = 0
+      n_pol = 4
+      max_baseline = 50  ; use only baselines shorter than 50 wavelength
+      dimension = 208 ; limit the UV plane to regions that contain data
+      hpx_radius = 15
+      write_healpix_fits = 1
+      image_filter_fn = 'filter_uv_weighted'
+    end
+    
+    'rlb_diffuse_baseline_cut_optimal_weighting_Jan2020': begin
+      recalculate_all = 1
+      uvfits_version = 5
+      uvfits_subversion = 1
+      max_sources = 200000
+      return_cal_visibilities = 0  ; changed this for calibration transfer
+      catalog_file_path = 0
+      diffuse_calibrate = 0
+      diffuse_model = 0
+      model_visibilities = 1
+      model_catalog_file_path = '/home/ubuntu/pol_leakage_corrected_catalogs_Jan2020/'+string(obs_id)+'__decon_catalog_pol_leakage_corrected.sav'
+      cal_bp_transfer = 0  ; changed this for calibration transfer
+      transfer_calibration = '/home/ubuntu/calibration_transferred/'+string(obs_id)+'_cal.sav'
+      transfer_weights = '/home/ubuntu/calibration_transferred/'+string(obs_id)+'_flags.sav'
+      rephase_weights = 0
+      restrict_hpx_inds = 0
+      hpx_radius = 15
+      subtract_sidelobe_catalog = filepath('GLEAM_v2_plus_rlb2019',root=rootdir('FHD'),subdir='catalog_data')
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      write_healpix_fits = 1
+      max_baseline = 50  ; use only baselines shorter than 50 wavelength
+      debug_region_grow = 0
+      n_pol = 4
+      dimension = 208 ; limit the UV plane to regions that contain data
+      image_filter_fn = 'filter_uv_weighted'
+      time_cut = -4 ;flag an extra 4 seconds from the end of each obs
+    end
+    
+    'rlb_diffuse_baseline_cut_optimal_weighting_no_pol_leakage_correction_Jan2020': begin
+      recalculate_all = 1
+      uvfits_version = 5
+      uvfits_subversion = 1
+      max_sources = 200000
+      return_cal_visibilities = 0  ; changed this for calibration transfer
+      catalog_file_path = 0
+      diffuse_calibrate = 0
+      diffuse_model = 0
+      model_visibilities = 1
+      model_catalog_file_path = '/home/ubuntu/deconvolved_catalogs_Jan2020/'+string(obs_id)+'_decon_catalog.sav'
+      cal_bp_transfer = 0  ; changed this for calibration transfer
+      transfer_calibration = '/home/ubuntu/calibration_transferred/'+string(obs_id)+'_cal.sav'
+      transfer_weights = '/home/ubuntu/calibration_transferred/'+string(obs_id)+'_flags.sav'
+      rephase_weights = 0
+      restrict_hpx_inds = 0
+      hpx_radius = 15
+      subtract_sidelobe_catalog = filepath('GLEAM_v2_plus_rlb2019',root=rootdir('FHD'),subdir='catalog_data')
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      write_healpix_fits = 1
+      max_baseline = 50  ; use only baselines shorter than 50 wavelength
+      debug_region_grow = 0
+      n_pol = 4
+      dimension = 208 ; limit the UV plane to regions that contain data
+      image_filter_fn = 'filter_uv_weighted'
+      time_cut = -4 ;flag an extra 4 seconds from the end of each obs
+    end
+    
   endcase
 
   if ~keyword_set(vis_file_list) then begin

@@ -32,7 +32,7 @@ unset version
 #######Gathering the input arguments and applying defaults if necessary
 
 #Parse flags for inputs
-while getopts ":f:s:e:o:b:v:n:r:u:p:m:i:j:" option
+while getopts ":f:s:e:o:b:v:n:r:u:p:m:i:j:k:" option
 do
    case $option in
     f) obs_file_name="$OPTARG";; #text file of observation id's
@@ -49,10 +49,12 @@ do
     r) run_ps=$OPTARG;; #Run eppsilon PS code (on individual obs)
     i) input_vis=$OPTARG;; #Optional input visibilities for in situ sim
     j) input_eor=$OPTARG;; #Optional input eor sim for in situ sim
+    k) extra_vis=$OPTARG;; #Optional additional visibilities for in situ sim (e.g. RFI visibilities)
     \?) echo "Unknown option: Accepted flags are -f (obs_file_name), -s (starting_obs), -e (ending obs), -o (output directory), "
         echo "-b (output bucket on S3), -v (version input for FHD),  -n (number of slots to use), "
         echo "-u (versions script), -p (path to uvfits files on S3), -m (path to metafits files on S3)"
         echo "-r (option to run eppsilon on each obs), -i (visibilities for in situ sim), -j (EoR sim)."
+        echo "-k (extra visibilities to add to simulation visibilities)"
         exit 1;;
     :) echo "Missing option argument for input flag"
        exit 1;;
@@ -200,5 +202,5 @@ done
 
 for obs_id in "${good_obs_list[@]}"
 do
-   qsub -V -b y -cwd -v nslots=${nslots},outdir=${outdir},version=${version},s3_path=${s3_path},obs_id=$obs_id,versions_script=$versions_script,uvfits_s3_loc=$uvfits_s3_loc,metafits_s3_loc=$metafits_s3_loc,run_ps=${run_ps},input_vis=${input_vis},input_eor=$input_eor -e ${logdir} -o ${logdir} -pe smp ${nslots} -sync y fhd_job_aws.sh &
+   qsub -V -b y -cwd -v nslots=${nslots},outdir=${outdir},version=${version},s3_path=${s3_path},obs_id=$obs_id,versions_script=$versions_script,uvfits_s3_loc=$uvfits_s3_loc,metafits_s3_loc=$metafits_s3_loc,run_ps=${run_ps},input_vis=${input_vis},input_eor=$input_eor,extra_vis=$extra_vis -e ${logdir} -o ${logdir} -pe smp ${nslots} -sync y fhd_job_aws.sh &
 done

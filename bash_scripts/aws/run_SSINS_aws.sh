@@ -7,9 +7,8 @@ do
     o) outdir=$OPTARG;;
     b) s3_path=$OPTARG;;
     n) nslots=$OPTARG;;
-    p) uvfits_s3_loc=$OPTARG;;
-    q) script=$OPTARG;;
-    r) script_args=$OPTARG;;
+    p) input_s3_loc=$OPTARG;;
+    t) input_type=$OPTARG;;
     \?) echo "Unknown option: Accepted flags are -f (obs_file_name), -o (output directory), "
         echo "-b (output bucket on S3),  -n (number of slots to use), "
         echo "-p (path to uvfits files on S3), -q (python script to execute),"
@@ -40,16 +39,26 @@ else
     echo Using output directory: $outdir
 fi
 
-if [ -z ${uvfits_s3_loc} ]; then
-    uvfits_s3_loc=s3://mwapublic/uvfits/4.1
+if [ -z ${input_type} ]; then
+  input_type=uvfits
+elif [ ${input_type} != "uvfits" && ${input_type} != "gpubox" ]; then
+  echo "${input_type} is not a valid input type. Valid options are 'uvfits' or 'gpubox'"
+  exit 1
+
+if [ -z ${input_s3_loc} ]; then
+  if [ ${input_type} == "uvfits"]; then
+    input_s3_loc=s3://mwapublic/uvfits/4.1
+  else
+    input_s3_loc=s3://mwapublic/gpubox
+  fi
 else
     #strip the last / if present in uvfits filepath
-    uvfits_s3_loc=${uvfits_s3_loc%/}
+    input_s3_loc=${input_s3_loc%/}
 fi
 
 if [ -z ${s3_path} ]
 then
-    s3_path=s3://mw-mwa-ultra-faint-rfi
+    s3_path=s3://mwa-data/rfi_ps_simulations
     echo Using default S3 location: $s3_path
 else
     #strip the last / if present in output directory filepath
@@ -70,4 +79,4 @@ echo Output located at ${outdir}
 
 N_obs=$(wc -l < $obs_file_name)
 
-qsub -V -b y -cwd -v obs_file_name=${obs_file_name},nslots=${nslots},outdir=${outdir},s3_path=${s3_path},uvfits_s3_loc=$uvfits_s3_loc,script=$script,script_args=$script_args -e ${logdir} -o ${logdir} -pe smp ${nslots} -sync y -t 1:${N_obs} SSINS_job_aws.sh &
+qsub -V -b y -cwd -v obs_file_name=${obs_file_name},nslots=${nslots},outdir=${outdir},s3_path=${s3_path},input_s3_loc=${input_s3_loc},input_Type=${input_type} -e ${logdir} -o ${logdir} -pe smp ${nslots} -sync y -t 1:${N_obs} SSINS_job_aws.sh &

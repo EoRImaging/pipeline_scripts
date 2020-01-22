@@ -65,6 +65,361 @@ pro mjw_fhd_versions
     restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
     end
 
+    'kernel_window_control_run_zenith': begin
+    kernel_window=1
+    calibrate_visibilities=0
+    return_cal_visibilities=0
+    calibration_visibilities_subtract=0
+    model_visibilities=1
+    save_visibilities=1
+    unflag_all=1
+    debug_dim=1
+    beam_mask_threshold=1e3
+    beam_clip_floor=1
+    nfreq_avg=384
+    ps_kspan=200.
+    interpolate_kernel=1
+    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    end
+
+    'kernel_window_control_run_zenith_navg1': begin
+    kernel_window=1
+    calibrate_visibilities=0
+    return_cal_visibilities=0
+    calibration_visibilities_subtract=0
+    model_visibilities=1
+    save_visibilities=1
+    unflag_all=1
+    debug_dim=1
+    beam_mask_threshold=1e3
+    beam_clip_floor=1
+    nfreq_avg=1
+    ps_kspan=200.
+    interpolate_kernel=1
+    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    end
+
+    'kernel_window_rfi_sim_1x_run': begin
+    kernel_window=1
+    calibrate_visibilities=0
+    return_cal_visibilities=0
+    calibration_visibilities_subtract=0
+    model_visibilities=1
+    save_visibilities=1
+    unflag_all=1
+    debug_dim=1
+    beam_mask_threshold=1e3
+    beam_clip_floor=1
+    nfreq_avg=384
+    ps_kspan=200.
+    interpolate_kernel=1
+    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    extra_vis_filepath='/uvfits/extra_vis/1061312640_nsamplemax_RFI_plaw_1x.uvfits'
+    in_situ_sim_input='/uvfits/input_vis/vis_data'
+    end
+
+    'kernel_window_rfi_sim_run': begin
+    kernel_window=1
+    calibrate_visibilities=0
+    return_cal_visibilities=0
+    calibration_visibilities_subtract=0
+    model_visibilities=1
+    save_visibilities=1
+    unflag_all=1
+    debug_dim=1
+    beam_mask_threshold=1e3
+    beam_clip_floor=1
+    nfreq_avg=384
+    ps_kspan=200.
+    interpolate_kernel=1
+    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    extra_vis_filepath='/uvfits/extra_vis/1061312640_nsamplemax_RFI_plaw_10x.uvfits'
+    in_situ_sim_input='/uvfits/input_vis/vis_data'
+    end
+
+    'kernel_window_rfi_sim_100x_run': begin
+    kernel_window=1
+    calibrate_visibilities=0
+    return_cal_visibilities=0
+    calibration_visibilities_subtract=0
+    model_visibilities=1
+    save_visibilities=1
+    unflag_all=1
+    debug_dim=1
+    beam_mask_threshold=1e3
+    beam_clip_floor=1
+    nfreq_avg=384
+    ps_kspan=200.
+    interpolate_kernel=1
+    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    extra_vis_filepath='/uvfits/extra_vis/1061312640_nsamplemax_RFI_plaw_100x.uvfits'
+    in_situ_sim_input='/uvfits/input_vis/vis_data'
+    end
+
+    'kernel_window_rfi_sim_1000x_run': begin
+    kernel_window=1
+    calibrate_visibilities=0
+    return_cal_visibilities=0
+    calibration_visibilities_subtract=0
+    model_visibilities=1
+    save_visibilities=1
+    unflag_all=1
+    debug_dim=1
+    beam_mask_threshold=1e3
+    beam_clip_floor=1
+    nfreq_avg=384
+    ps_kspan=200.
+    interpolate_kernel=1
+    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    extra_vis_filepath='/uvfits/extra_vis/1061312640_nsamplemax_RFI_plaw_1000x.uvfits'
+    in_situ_sim_input='/uvfits/input_vis/vis_data'
+    end
+
+    'kernel_window_rfi_sim_single_source_run': begin
+    kernel_window=1
+    calibrate_visibilities=0
+    return_cal_visibilities=0
+    calibration_visibilities_subtract=0
+    model_visibilities=1
+    save_visibilities=1
+    unflag_all=1
+    debug_dim=1
+    beam_mask_threshold=1e3
+    beam_clip_floor=1
+    nfreq_avg=384
+    ps_kspan=200.
+    interpolate_kernel=1
+    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    extra_vis_filepath='/uvfits/extra_vis/1061315448_NB_RFI_nsamplemax.uvfits'
+    in_situ_sim_input='/uvfits/input_vis/vis_data'
+    eor_vis_filepath='/uvfits/input_eor/vis_data'
+    remove_sim_flags=1
+    end
+
+    'kernel_window_rfi_sim_single_source_run_no_bubbles': begin
+    kernel_window=1
+    calibrate_visibilities=0
+    return_cal_visibilities=0
+    calibration_visibilities_subtract=0
+    model_visibilities=1
+    save_visibilities=1
+    unflag_all=1
+    debug_dim=1
+    beam_mask_threshold=1e3
+    beam_clip_floor=1
+    nfreq_avg=384
+    ps_kspan=200.
+    interpolate_kernel=1
+    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    extra_vis_filepath='/uvfits/extra_vis/1061315448_NB_RFI_nsamplemax.uvfits'
+    in_situ_sim_input='/uvfits/input_vis/vis_data'
+    remove_sim_flags=1
+    end
+
+    'kernel_window_rfi_sim_single_source_run_no_bubbles_MB_100x': begin
+    kernel_window=1
+    calibrate_visibilities=0
+    return_cal_visibilities=0
+    calibration_visibilities_subtract=0
+    model_visibilities=1
+    save_visibilities=1
+    unflag_all=1
+    debug_dim=1
+    beam_mask_threshold=1e3
+    beam_clip_floor=1
+    nfreq_avg=384
+    ps_kspan=200.
+    interpolate_kernel=1
+    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    extra_vis_filepath='/uvfits/extra_vis/1061315448_NB_midband_100x_RFI_nsamplemax.uvfits'
+    in_situ_sim_input='/uvfits/input_vis/vis_data'
+    remove_sim_flags=1
+    end
+
+    'kernel_window_rfi_sim_single_source_run_no_bubbles_MB': begin
+    kernel_window=1
+    calibrate_visibilities=0
+    return_cal_visibilities=0
+    calibration_visibilities_subtract=0
+    model_visibilities=1
+    save_visibilities=1
+    unflag_all=1
+    debug_dim=1
+    beam_mask_threshold=1e3
+    beam_clip_floor=1
+    nfreq_avg=384
+    ps_kspan=200.
+    interpolate_kernel=1
+    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    extra_vis_filepath='/uvfits/extra_vis/1061315448_NB_midband_RFI_nsamplemax.uvfits'
+    in_situ_sim_input='/uvfits/input_vis/vis_data'
+    remove_sim_flags=1
+    end
+
+    'kernel_window_rfi_sim_single_source_run_no_bubbles_MBZ7': begin
+    kernel_window=1
+    calibrate_visibilities=0
+    return_cal_visibilities=0
+    calibration_visibilities_subtract=0
+    model_visibilities=1
+    save_visibilities=1
+    unflag_all=1
+    debug_dim=1
+    beam_mask_threshold=1e3
+    beam_clip_floor=1
+    nfreq_avg=384
+    ps_kspan=200.
+    interpolate_kernel=1
+    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    extra_vis_filepath='/uvfits/extra_vis/1061315448_NB_RFI_MBZ7_nsamplemax.uvfits'
+    in_situ_sim_input='/uvfits/input_vis/vis_data'
+    remove_sim_flags=1
+    end
+
+    'kernel_window_rfi_sim_single_source_run_no_bubbles_MBZ7_mJy': begin
+    kernel_window=1
+    calibrate_visibilities=0
+    return_cal_visibilities=0
+    calibration_visibilities_subtract=0
+    model_visibilities=1
+    save_visibilities=1
+    unflag_all=1
+    debug_dim=1
+    beam_mask_threshold=1e3
+    beam_clip_floor=1
+    nfreq_avg=384
+    ps_kspan=200.
+    interpolate_kernel=1
+    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    extra_vis_filepath='/uvfits/extra_vis/1061315448_NB_RFI_MBZ7_mJy_nsamplemax.uvfits'
+    in_situ_sim_input='/uvfits/input_vis/vis_data'
+    remove_sim_flags=1
+    end
+
+    'kernel_window_rfi_sim_single_source_run_no_bubbles_MB_single_model': begin
+    kernel_window=1
+    calibrate_visibilities=0
+    return_cal_visibilities=0
+    calibration_visibilities_subtract=0
+    model_visibilities=1
+    save_visibilities=1
+    unflag_all=1
+    debug_dim=1
+    beam_mask_threshold=1e3
+    beam_clip_floor=1
+    nfreq_avg=384
+    ps_kspan=200.
+    interpolate_kernel=1
+    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    extra_vis_filepath='/uvfits/extra_vis/1061315448_NB_midband_RFI_nsamplemax.uvfits'
+    in_situ_sim_input='/uvfits/input_vis/vis_data'
+    remove_sim_flags=1
+    model_catalog_file_path = filepath('test_RFI_source_1061315448_zenith.sav',root=rootdir('FHD'),subdir='catalog_data')
+    end
+
+    'kernel_window_rfi_sim_single_source_run_no_bubbles_DTV_single_model': begin
+    kernel_window=1
+    calibrate_visibilities=0
+    return_cal_visibilities=0
+    calibration_visibilities_subtract=0
+    model_visibilities=1
+    save_visibilities=1
+    unflag_all=1
+    debug_dim=1
+    beam_mask_threshold=1e3
+    beam_clip_floor=1
+    nfreq_avg=384
+    ps_kspan=200.
+    interpolate_kernel=1
+    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    extra_vis_filepath='/uvfits/extra_vis/1061315448_DTV_RFI_nsamplemax.uvfits'
+    in_situ_sim_input='/uvfits/input_vis/vis_data'
+    remove_sim_flags=1
+    model_catalog_file_path = filepath('test_RFI_source_1061315448_zenith.sav',root=rootdir('FHD'),subdir='catalog_data')
+    end
+
+    'kernel_window_rfi_sim_single_source_run_no_bubbles_DTV6_single_model': begin
+    kernel_window=1
+    calibrate_visibilities=0
+    return_cal_visibilities=0
+    calibration_visibilities_subtract=0
+    model_visibilities=1
+    save_visibilities=1
+    unflag_all=1
+    debug_dim=1
+    beam_mask_threshold=1e3
+    beam_clip_floor=1
+    nfreq_avg=384
+    ps_kspan=200.
+    interpolate_kernel=1
+    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    extra_vis_filepath='/uvfits/extra_vis/1061315448_DTV6_RFI_nsamplemax.uvfits'
+    in_situ_sim_input='/uvfits/input_vis/vis_data'
+    remove_sim_flags=1
+    model_catalog_file_path = filepath('test_RFI_source_1061315448_zenith.sav',root=rootdir('FHD'),subdir='catalog_data')
+    end
+
+    'kernel_window_rfi_sim_single_source_run_no_bubbles_Double_DTV_single_model': begin
+    kernel_window=1
+    calibrate_visibilities=0
+    return_cal_visibilities=0
+    calibration_visibilities_subtract=0
+    model_visibilities=1
+    save_visibilities=1
+    unflag_all=1
+    debug_dim=1
+    beam_mask_threshold=1e3
+    beam_clip_floor=1
+    nfreq_avg=384
+    ps_kspan=200.
+    interpolate_kernel=1
+    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    extra_vis_filepath='/uvfits/extra_vis/1061315448_Double_DTV_RFI_nsamplemax.uvfits'
+    in_situ_sim_input='/uvfits/input_vis/vis_data'
+    remove_sim_flags=1
+    model_catalog_file_path = filepath('test_RFI_source_1061315448_zenith.sav',root=rootdir('FHD'),subdir='catalog_data')
+    end
+
+    'kernel_window_rfi_sim_single_source_run_no_bubbles_Double_DTV_single_model_mJy': begin
+    kernel_window=1
+    calibrate_visibilities=0
+    return_cal_visibilities=0
+    calibration_visibilities_subtract=0
+    model_visibilities=1
+    save_visibilities=1
+    unflag_all=1
+    debug_dim=1
+    beam_mask_threshold=1e3
+    beam_clip_floor=1
+    nfreq_avg=384
+    ps_kspan=200.
+    interpolate_kernel=1
+    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    extra_vis_filepath='/uvfits/extra_vis/1061315448_Double_DTV_mJy_RFI_nsamplemax.uvfits'
+    in_situ_sim_input='/uvfits/input_vis/vis_data'
+    remove_sim_flags=1
+    model_catalog_file_path = filepath('test_RFI_source_1061315448_zenith.sav',root=rootdir('FHD'),subdir='catalog_data')
+    end
+
+    'kernel_window_rfi_sim_1000s_run': begin
+    kernel_window=1
+    calibrate_visibilities=0
+    return_cal_visibilities=0
+    calibration_visibilities_subtract=0
+    model_visibilities=1
+    save_visibilities=1
+    unflag_all=1
+    debug_dim=1
+    beam_mask_threshold=1e3
+    beam_clip_floor=1
+    nfreq_avg=384
+    ps_kspan=200.
+    interpolate_kernel=1
+    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    extra_vis_filepath='/uvfits/extra_vis/1061312640_nsamplemax_RFI_plaw_1000s.uvfits'
+    in_situ_sim_input='/uvfits/input_vis/vis_data'
+    end
+
     'kernel_window_rfi_run': begin
     kernel_window=1
     calibrate_visibilities=0
@@ -82,6 +437,25 @@ pro mjw_fhd_versions
     ;restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
     snapshot_healpix_export = 0
     model_catalog_file_path = filepath('RFI_PLAW_Cat.sav',root=rootdir('FHD'),subdir='catalog_data')
+    end
+    
+    'kernel_window_rfi_run_single_source': begin
+    kernel_window=1
+    calibrate_visibilities=0
+    return_cal_visibilities=0
+    calibration_visibilities_subtract=0
+    model_visibilities=1
+    save_visibilities=1
+    unflag_all=1
+    debug_dim=1
+    beam_mask_threshold=1e3
+    beam_clip_floor=1
+    nfreq_avg=384
+    ps_kspan=200.
+    interpolate_kernel=1
+    ;restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    snapshot_healpix_export = 0
+    model_catalog_file_path = filepath('test_RFI_source_1061315448_zenith.sav',root=rootdir('FHD'),subdir='catalog_data')
     end
 
     'kernel_window_rfi_10x_run': begin
