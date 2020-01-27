@@ -43,6 +43,7 @@ if [ -z ${input_type} ]; then
 elif [ ${input_type} != "uvfits" && ${input_type} != "gpubox" ]; then
   echo "${input_type} is not a valid input type. Valid options are 'uvfits' or 'gpubox'"
   exit 1
+fi
 
 if [ -z ${input_s3_loc} ]; then
   if [ ${input_type} == "uvfits"]; then
@@ -78,4 +79,4 @@ echo Output located at ${outdir}
 
 N_obs=$(wc -l < $obs_file_name)
 
-qsub -V -b y -cwd -v obs_file_name=${obs_file_name},nslots=${nslots},outdir=${outdir},s3_path=${s3_path},input_s3_loc=${input_s3_loc},input_Type=${input_type} -e ${logdir} -o ${logdir} -pe smp ${nslots} -sync y -t 1:${N_obs} SSINS_job_aws.sh &
+qsub -V -b y -cwd -v obs_file_name=${obs_file_name},nslots=${nslots},outdir=${outdir},s3_path=${s3_path},input_s3_loc=${input_s3_loc},input_type=${input_type} -e ${logdir} -o ${logdir} -pe smp ${nslots} -sync y -t 1:${N_obs} SSINS_job_aws.sh &
