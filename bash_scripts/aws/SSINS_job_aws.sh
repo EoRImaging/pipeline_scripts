@@ -125,7 +125,7 @@ else
 fi
 
 # Run python catalog script
-python MWA_EoR_High_uvfits_write.py -o ${obs_id} -u ${input_files} -d $outdir -f
+python ~/MWA/SSINS/Scripts/MWA_EoR_High_uvfits_write.py -o ${obs_id} -u ${input_files} -d $outdir -f
 
 # Move SSINS outputs to S3
 i=1  #initialize counter
