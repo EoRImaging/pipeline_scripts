@@ -31,7 +31,6 @@ echo Using output directory: $outdir
 s3_path=${s3_path%/}
 echo Using output S3 location: $s3_path
 
-input_s3_loc=${uvfits_s3_loc%/}
 echo Using input_s3_loc: $input_s3_loc
 
 #create output directory with full permissions
@@ -45,6 +44,7 @@ fi
 if [ -d /${input_type} ]; then
     sudo chmod -R 777 /${input_type}
 else
+    echo Making directory: /${input_type}
     sudo mkdir -m 777 /${input_type}
 fi
 
@@ -78,10 +78,10 @@ if [ $input_type == "uvfits" ]; then
   input_files="/uvfits/${obs_id}.uvfits"
 else
   # Check if the gpubox files exist locally; if not, download them from s3
-  if [ ! -z $(ls /gpubox/${obs_id}_vis/*.fits) ]; then
+  if [ -n "$(find /gpubox -name '*gpubox*' | head -1)" ]; then
 
       # Check that the box files exist on S3
-      gpubox_exists=$(aws s3 ls ${input_s3_loc}/${obs_id}_vis/*.fits)
+      gpubox_exists=$(aws s3 ls ${input_s3_loc}/${obs_id}_vis/ --recursive | grep /*_gpubox*)
       if [ -z "$gpubox_exists" ]; then
           >&2 echo "ERROR: gpubox files not found on s3"
           echo $obs_id >> /home/ubuntu/obs_fail_${JOB_ID}.${SGE_TASK_ID}.txt
@@ -90,7 +90,7 @@ else
       fi
 
       # Check that the metafits file exists on s3
-      metafits_exists=$(aws s3 ls ${input_s3_loc}/${obs_id}_vis/*.metafits)
+      metafits_exists=$(aws s3 ls ${input_s3_loc}/${obs_id}_vis/${obs_id}.metafits)
       if [ -z "$metafits_exists" ]; then
           >&2 echo "ERROR: metafits file not found on s3"
           echo $obs_id >> /home/ubuntu/obs_fail_${JOB_ID}.${SGE_TASK_ID}.txt
@@ -99,8 +99,7 @@ else
       fi
 
       # Download box files and metafits from S3
-      sudo aws s3 cp ${input_s3_loc}/${obs_id}_vis/*gpubox* \
-      /gpubox/ --quiet
+      sudo aws s3 cp ${input_s3_loc}/${obs_id}_vis/ /gpubox/ --quiet --exclude "*" --include "*gpubox*" --recursive
       sudo aws s3 cp ${input_s3_loc}/${obs_id}_vis/${obs_id}.metafits \
       /gpubox/${obsid}.metafits --quiet
 
