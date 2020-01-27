@@ -142,6 +142,7 @@ if [ $input_type == "uvfits" ]; then
   sudo rm /uvfits/${obs_id}.uvfits
 else
   sudo rm /gpubox/${obsid}*
+fi
 
 # Copy gridengine stdout to S3
 aws s3 cp ~/grid_out/SSINS_job_aws.sh.o${JOB_ID}.${SGE_TASK_ID} \
