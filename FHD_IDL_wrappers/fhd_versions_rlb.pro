@@ -4532,7 +4532,7 @@ pro fhd_versions_rlb
       diffuse_calibrate = 0
       diffuse_model = 0
       model_visibilities = 1
-      model_catalog_file_path = '/home/ubuntu/deconvolved_catalogs_Jan2020/single_source_unpol.sav'
+      model_catalog_file_path = '/home/ubuntu/single_source_unpol.sav'
       cal_bp_transfer = 0  ; changed this for calibration transfer
       transfer_calibration = '/home/ubuntu/calibration_transferred/'+string(obs_id)+'_cal.sav'
       transfer_weights = '/home/ubuntu/calibration_transferred/'+string(obs_id)+'_flags.sav'
@@ -4562,7 +4562,7 @@ pro fhd_versions_rlb
       diffuse_calibrate = 0
       diffuse_model = 0
       model_visibilities = 1
-      model_catalog_file_path = '/home/ubuntu/deconvolved_catalogs_Jan2020/single_source_pol.sav'
+      model_catalog_file_path = '/home/ubuntu/single_source_pol.sav'
       cal_bp_transfer = 0  ; changed this for calibration transfer
       transfer_calibration = '/home/ubuntu/calibration_transferred/'+string(obs_id)+'_cal.sav'
       transfer_weights = '/home/ubuntu/calibration_transferred/'+string(obs_id)+'_flags.sav'
