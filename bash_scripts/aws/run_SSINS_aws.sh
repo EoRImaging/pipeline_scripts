@@ -28,7 +28,7 @@ if [ -z ${obs_file_name} ]; then
 fi
 
 #Set default output directory if one is not supplied and update user
-if [ -z ${outdir} ]
+if [ -z ${outdir} ];
 then
     outdir=/SSINS_output
     echo Using default output directory: $outdir
@@ -40,7 +40,7 @@ fi
 
 if [ -z ${input_type} ]; then
   input_type=uvfits
-elif [ ${input_type} != "uvfits" && ${input_type} != "gpubox" ]; then
+elif [[ ${input_type} != "uvfits" && ${input_type} != "gpubox" ]]; then
   echo "${input_type} is not a valid input type. Valid options are 'uvfits' or 'gpubox'"
   exit 1
 fi
