@@ -77,6 +77,9 @@ aws s3 cp ${s3_path}/fhd_${version}/ ${outdir}/fhd_${version}/ --recursive \
 # Run backup script in the background
 fhd_on_aws_backup.sh $outdir $s3_path $version $JOB_ID $myip &
 
+# Run RAM use recording script in the background
+record_ram_use_aws.sh $outdir $version $JOB_ID $myip &
+
 if [ "$run_fhd" -eq 1 ]; then  # Start FHD
 
     #create uvfits download location with full permissions
