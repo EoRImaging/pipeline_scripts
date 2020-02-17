@@ -123,6 +123,18 @@ else
     echo Using S3 bucket: $s3_path
 fi
 
+if [ ! -z ${cal_transfer} ]; then
+    # strip the last / if present in cal transfer filepath
+    cal_transfer=${cal_transfer%/}
+    echo Transferring calibration from $cal_transfer
+fi
+
+if [ ! -z ${model_uv_transfer} ]; then
+    # strip the last / if present in cal transfer filepath
+    model_uv_transfer=${model_uv_transfer%/}
+    echo Transferring calibration from $model_uv_transfer
+fi
+
 logdir=~/grid_out
 
 if [ -z ${version} ]; then
