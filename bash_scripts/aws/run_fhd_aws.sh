@@ -107,7 +107,7 @@ else
 fi
 
 if [ -z ${metafits_s3_loc} ]; then
-    metafits_s3_loc=s3://mwatest/metafits/4.1
+    metafits_s3_loc=s3://mwapublic/metafits/4.1
 else
     #strip the last / if present in metafits filepath
     metafits_s3_loc=${metafits_s3_loc%/}
