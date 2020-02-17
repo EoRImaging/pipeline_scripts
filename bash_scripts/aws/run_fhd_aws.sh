@@ -32,7 +32,7 @@ unset version
 #######Gathering the input arguments and applying defaults if necessary
 
 #Parse flags for inputs
-while getopts ":f:s:e:o:b:v:n:r:u:p:m:i:j:k:" option
+while getopts ":f:s:e:o:b:v:n:r:u:p:m:i:j:k:c:t:" option
 do
    case $option in
     f) obs_file_name="$OPTARG";; #text file of observation id's
@@ -50,11 +50,14 @@ do
     i) input_vis=$OPTARG;; #Optional input visibilities for in situ sim
     j) input_eor=$OPTARG;; #Optional input eor sim for in situ sim
     k) extra_vis=$OPTARG;; #Optional additional visibilities for in situ sim (e.g. RFI visibilities)
+    c) cal_transfer=$OPTARG;; #Option to transfer calibration solutions from another run
+    t) model_uv_transfer=$OPTARG;; #Option to transfer model_uv_arr.sav from a calibration pre-run
     \?) echo "Unknown option: Accepted flags are -f (obs_file_name), -s (starting_obs), -e (ending obs), -o (output directory), "
         echo "-b (output bucket on S3), -v (version input for FHD),  -n (number of slots to use), "
         echo "-u (versions script), -p (path to uvfits files on S3), -m (path to metafits files on S3)"
         echo "-r (option to run eppsilon on each obs), -i (visibilities for in situ sim), -j (EoR sim)."
-        echo "-k (extra visibilities to add to simulation visibilities)"
+        echo "-k (extra visibilities to add to simulation visibilities), -c (calibration save files to transfer),"
+        echo "-t (model_uv_arr.sav files to transfer from precalibration run)"
         exit 1;;
     :) echo "Missing option argument for input flag"
        exit 1;;
