@@ -21,7 +21,7 @@ pro mjw_fhd_versions
   case version of
 
     'Barry_2019_image_step': begin
-    model_uv_transfer='/fred/oz048/MWA/CODE/FHD/fhd_nb_calstop_fullbeam_GLEAMtenth_missing/cal_prerun/' + obs_id + '_model_uv_arr.sav'
+    model_uv_transfer='/uvfits/transfer/' + obs_id + '_model_uv_arr.sav'
     kernel_window=1
     debug_dim=1
     beam_mask_threshold=1e3
@@ -34,7 +34,7 @@ pro mjw_fhd_versions
     interpolate_kernel=1
     cal_time_average=0
     model_visibilities=1
-    transfer_calibration = '/fred/oz048/MWA/CODE/FHD/fhd_nb_calstop_fullbeam_GLEAMtenth_missing/calibration/' + obs_id + '_cal.sav'
+    transfer_calibration = '/uvfits/transfer/' + obs_id + '_cal.sav'
     diffuse_calibrate=0
     diffuse_model=0
     digital_gain_jump_polyfit=1
