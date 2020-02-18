@@ -17,6 +17,7 @@ PRO eor_wrapper_defaults,extra
   FoV=0
   min_baseline=1.
   min_cal_baseline=50.
+  pad_uv_image=1.
   ring_radius=10.*pad_uv_image
   nfreq_avg=16
   no_rephase=1
