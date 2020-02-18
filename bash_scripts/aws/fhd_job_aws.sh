@@ -206,7 +206,9 @@ if [ "$run_fhd" -eq 1 ]; then  # Start FHD
     if [ ! -z ${cal_transfer} ]; then
         # Check that the cal_transfer file exists on s3
         cal_transfer_s3_path="${cal_transfer}/calibration/${obs_id}_cal.sav"
+        echo "Searching for ${cal_transfer_s3_path}"
         cal_transfer_exists=$(aws s3 ls ${cal_transfer_s3_path})
+        echo $cal_transfer_exists
         if [ -z "$cal_transfer_exists" ]; then
             >&2 echo "ERROR: cal_transfer file not found on s3"
             echo "Job Failed"
@@ -232,9 +234,11 @@ if [ "$run_fhd" -eq 1 ]; then  # Start FHD
     if [ ! -z ${model_uv_transfer} ]; then
         # Check that the model_uv_transfer file exists on s3
         model_uv_transfer_s3_path="${model_uv_transfer}/cal_prerun/${obs_id}_model_uv_arr.sav"
+        echo Searching for $model_uv_transfer_s3_path
         model_uv_transfer_exists=$(aws s3 ls ${model_uv_transfer_s3_path})
-        if [ -z "$model_transfer_exists" ]; then
-            >&2 echo "ERROR: model_transfer file not found on s3"
+        echo $model_uv_transfer_exists
+        if [ -z "$model_uv_transfer_exists" ]; then
+            >&2 echo "ERROR: model_uv_transfer file not found on s3"
             echo "Job Failed"
             exit 1
         fi
