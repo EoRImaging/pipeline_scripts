@@ -2684,7 +2684,7 @@ pro fhd_versions_rlb
       diffuse_calibrate = 0
       diffuse_model = 0
       model_catalog_file_path = 0
-      model_visibilities = 1
+      model_visibilities = 0
       smooth_width = 32
       filter_background = 1
       return_cal_visibilities = 1 ;Add GLEAM to diffuse for subtraction
