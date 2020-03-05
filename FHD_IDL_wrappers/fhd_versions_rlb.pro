@@ -2750,7 +2750,7 @@ pro fhd_versions_rlb
       write_healpix_fits = 1
       max_baseline = 50  ; use only baselines shorter than 50 wavelength
       debug_region_grow = 0
-      n_pol = 4
+      n_pol = 2
       dimension = 208 ; limit the UV plane to regions that contain data
       image_filter_fn = 'filter_uv_weighted'
       time_cut = -4 ;flag an extra 4 seconds from the end of each obs
@@ -2779,7 +2779,7 @@ pro fhd_versions_rlb
       write_healpix_fits = 1
       max_baseline = 50  ; use only baselines shorter than 50 wavelength
       debug_region_grow = 0
-      n_pol = 4
+      n_pol = 2
       dimension = 208 ; limit the UV plane to regions that contain data
       image_filter_fn = 'filter_uv_weighted'
       time_cut = -4 ;flag an extra 4 seconds from the end of each obs
