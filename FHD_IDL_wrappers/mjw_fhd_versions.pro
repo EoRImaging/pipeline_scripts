@@ -53,7 +53,7 @@ pro mjw_fhd_versions
     time_cut=-2
     snapshot_recalculate=1
     interpolate_kernel=1
-    nfreq_avg=1
+    beam_nfreq_avg=1
     recalculate_all=1
     mapfn_recalculate=0
     calibration_flux_threshold=0.1
