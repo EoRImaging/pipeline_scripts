@@ -30,13 +30,13 @@ do
         d) FHDdir="$OPTARG";;			#file path to fhd directory with cubes
         f) integrate_list="$OPTARG";;		#txt file of obs ids or subcubes or a single obsid
         n) nslots=$OPTARG;;             	#Number of slots for grid engine
-	p) ps_only=$OPTARG;;			#Flag for skipping integration to make PS only
+	      p) ps_only=$OPTARG;;			#Flag for skipping integration to make PS only
         h) hold=$OPTARG;;                       #Hold for a job to finish before running. Useful when running immediately after firstpass
-	i) image_filter=$OPTARG;;               #Apply an image window filter during eppsilon
-	q) ps_plots_only=$OPTARG;;		#Submit only a PS_plots job with no individual cube DFTs
+	      i) image_filter=$OPTARG;;               #Apply an image window filter during eppsilon
+        q) ps_plots_only=$OPTARG;;		#Submit only a PS_plots job with no individual cube DFTs
         \?) echo "Unknown option: Accepted flags are -d (file path to fhd directory with cubes), -f (obs list or subcube path or single obsid), "
-	    echo "-n (number of slots), -p (make ps only), -q (submit PS_plots only)"
-	    echo "-h (hold int/ps script on a running job id), and -i (apply a window filter during ps),"
+	          echo "-n (number of slots), -p (make ps only), -q (submit PS_plots only)"
+	          echo "-h (hold int/ps script on a running job id), and -i (apply a window filter during ps),"
             exit 1;;
         :) echo "Missing option argument for input flag"
            exit 1;;
@@ -106,7 +106,7 @@ if [[ -n ${image_filter} ]]; then
         "Hamming") image_letters="ham_" ;;
         "Nutall") image_letters="ntl_" ;;
         "Tukey") image_letters="tk_" ;;
-	"None") image_letters="" ;;
+	      "None") image_letters="" ;;
         *) image_filter="Blackman-Harris"; image_letters="bh_" ;;
     esac
 fi
