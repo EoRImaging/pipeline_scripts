@@ -182,38 +182,38 @@ if [ "$ps_only" -ne "1" ]; then
 
         # launch separate chunks
         for chunk in $(seq 1 $nchunk); do
-	    chunk_obs_list=/Healpix/${version}_int_chunk${chunk}.txt
+	          chunk_obs_list=/Healpix/${version}_int_chunk${chunk}.txt
             readarray chunk_obs_array < $chunk_obs_list
-	    chunk_obs_array=$( IFS=$':'; echo "${chunk_obs_array[*]}" ) #qsub can't take arrays
+	          chunk_obs_array=$( IFS=$':'; echo "${chunk_obs_array[*]}" ) #qsub can't take arrays
 
             for evenodd in even odd; do
-		for pol in XX YY; do
-	    	    message=$(qsub ${hold_str} -V -b y -v file_path_cubes=$FHDdir,obs_list_array="$chunk_obs_array",obs_list_path=$chunk_obs_list,version=$version,chunk=$chunk,nslots=$nslots,legacy=$legacy,evenodd=$evenodd,pol=$pol -e $errfile -o $outfile -N int_c_${version} -pe smp $nslots -sync y integration_job_aws.sh)
-	    	    message=($message)
-		done
-	    done
-	    echo Combined_obs_${version}_int_chunk${chunk} >> $sub_cubes_list # trick it into finding our sub cubes
+		            for pol in XX YY; do
+	    	            message=$(qsub ${hold_str} -V -b y -v file_path_cubes=$FHDdir,obs_list_array="$chunk_obs_array",obs_list_path=$chunk_obs_list,version=$version,chunk=$chunk,nslots=$nslots,legacy=$legacy,evenodd=$evenodd,pol=$pol -e $errfile -o $outfile -N int_c_${version} -pe smp $nslots -sync y integration_job_aws.sh)
+	    	            message=($message)
+		            done
+	          done
+	          echo Combined_obs_${version}_int_chunk${chunk} >> $sub_cubes_list # trick it into finding our sub cubes
         done
 
         idlist_int_chunks=(`qstat | grep "int_c_" | cut -b -7`)
-	idlist_int_chunks=$( IFS=$','; echo "${idlist_int_chunks[*]}" )
-	hold_str="-hold_jid ${idlist_int_chunks}"
+	      idlist_int_chunks=$( IFS=$','; echo "${idlist_int_chunks[*]}" )
+	      hold_str="-hold_jid ${idlist_int_chunks}"
 
         # master integrator
         chunk=0
         readarray chunk_obs_array < $sub_cubes_list
-	chunk_obs_array=$( IFS=$':'; echo "${chunk_obs_array[*]}" ) #qsub can't take arrays
+	      chunk_obs_array=$( IFS=$':'; echo "${chunk_obs_array[*]}" ) #qsub can't take arrays
 
         for evenodd in even odd; do
-	    for pol in XX YY; do
-	    	message=$(qsub ${hold_str} -V -b y -v file_path_cubes=$FHDdir,obs_list_array="$chunk_obs_array",obs_list_path=$sub_cubes_list,version=$version,chunk=$chunk,nslots=$nslots,legacy=$legacy,evenodd=$evenodd,pol=$pol -e $errfile -o $outfile -N int_m_${version} -pe smp $nslots -sync y integration_job_aws.sh)
-        	message=($message)
-	    done
-	done
+	         for pol in XX YY; do
+	    	       message=$(qsub ${hold_str} -V -b y -v file_path_cubes=$FHDdir,obs_list_array="$chunk_obs_array",obs_list_path=$sub_cubes_list,version=$version,chunk=$chunk,nslots=$nslots,legacy=$legacy,evenodd=$evenodd,pol=$pol -e $errfile -o $outfile -N int_m_${version} -pe smp $nslots -sync y integration_job_aws.sh)
+        	     message=($message)
+	         done
+	      done
 
         idlist_int_master=(`qstat | grep "int_m_" | cut -b -7`)
-	idlist_int_master=$( IFS=$','; echo "${idlist_int_master[*]}" )
-	hold_str="-hold_jid ${idlist_int_master}"
+	      idlist_int_master=$( IFS=$','; echo "${idlist_int_master[*]}" )
+	      hold_str="-hold_jid ${idlist_int_master}"
 
 
     else
@@ -223,14 +223,14 @@ if [ "$ps_only" -ne "1" ]; then
         chunk=0
         chunk_obs_list=/Healpix/${version}_int_chunk${chunk}.txt
         readarray chunk_obs_array < $chunk_obs_list
-	chunk_obs_array=$( IFS=$':'; echo "${chunk_obs_array[*]}" ) #qsub can't take arrays
+	      chunk_obs_array=$( IFS=$':'; echo "${chunk_obs_array[*]}" ) #qsub can't take arrays
 
         for evenodd in even odd; do
-	    for pol in XX YY; do
-        	message=$(qsub ${hold_str} -V -b y -v file_path_cubes=$FHDdir,obs_list_array="$chunk_obs_array",obs_list_path=$chunk_obs_list,version=$version,chunk=$chunk,nslots=$nslots,legacy=$legacy,evenodd=$evenodd,pol=$pol -e $errfile -o $outfile -N int_${version} -pe smp $nslots -sync y integration_job_aws.sh)
-       		message=($message)
-	    done
-	done
+	         for pol in XX YY; do
+        	    message=$(qsub ${hold_str} -V -b y -v file_path_cubes=$FHDdir,obs_list_array="$chunk_obs_array",obs_list_path=$chunk_obs_list,version=$version,chunk=$chunk,nslots=$nslots,legacy=$legacy,evenodd=$evenodd,pol=$pol -e $errfile -o $outfile -N int_${version} -pe smp $nslots -sync y integration_job_aws.sh)
+       		    message=($message)
+	         done
+	      done
 
         idlist_int=(`qstat | grep "int_" | cut -b -7`)
         hold_str="-hold_jid ${idlist_int}"
