@@ -1,7 +1,7 @@
 PRO eor_wrapper_defaults,extra
   ; Set the default settings for all EOR observations.
   ; This file can be copied and modified for other types of observations, under a new name.
-  ; The defaults set in this file will be overridden 
+  ; The defaults set in this file will be overridden
 
   calibrate_visibilities=1
   recalculate_all=0
@@ -19,7 +19,7 @@ PRO eor_wrapper_defaults,extra
   min_cal_baseline=50.
   pad_uv_image=1.
   ring_radius=10.*pad_uv_image
-  nfreq_avg=16
+  beam_nfreq_avg=16
   no_rephase=1
   restrict_hpx_inds=1
   kbinsize=0.5
@@ -28,12 +28,12 @@ PRO eor_wrapper_defaults,extra
   no_calibration_frequency_flagging=1
   allow_sidelobe_cal_sources=1
   allow_sidelobe_model_sources=1
- 
-  ;beam 
+
+  ;beam
   beam_offset_time=56 ; make this a default. But it won't compound with setting it directly in a version so I think it's ok.
   beam_clip_floor=1
-  interpolate_kernel=1  
-  
+  interpolate_kernel=1
+
   ;Calibration keywords
   cable_bandpass_fit=1
   cal_bp_transfer=1
@@ -42,11 +42,11 @@ PRO eor_wrapper_defaults,extra
   cal_phase_degree_fit=1
   cal_reflection_hyperresolve=1
   cal_reflection_mode_theory=150
-  
+
   ;catalog keywords
   calibration_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
   model_catalog_file_path = calibration_catalog_file_path
-  
+
   ;These defaults should match those in FHD itself, so setting them here is redundant
   split_ps_export=1
   combine_healpix=0
