@@ -6,7 +6,7 @@
 #Grid Engine runs best on bash scripts.
 
 #inputs needed: file_path_cubes, obs_list_path, obs_list_array, version, nslots
-#inputs optional: cube_type, pol, evenodd, image_filter_name, image_letters
+#inputs optional: cube_type, pol, evenodd
 
 echo JOBID ${JOB_ID}
 echo VERSION ${version}
@@ -20,18 +20,10 @@ input_file=/
 #***Create a string of arguements to pass into mit_ps_job given the input
 #   into this script
 if [[ -z ${cube_type} ]] && [[ -z ${pol} ]] && [[ -z ${evenodd} ]]; then
-    if [[ -z ${image_filter_name} ]]; then
 	arg_string="${input_file} ${version}"
-    else
-	arg_string="${input_file} ${version} ${image_filter_name}"
-    fi
 else
     if [[ ! -z ${cube_type} ]] && [[ ! -z ${pol} ]] && [[ ! -z ${evenodd} ]]; then
-	if [[ -z ${image_filter_name} ]]; then
 	    arg_string="${input_file} ${version} ${cube_type} ${pol} ${evenodd}"
-	else
-	    arg_string="${input_file} ${version} ${cube_type} ${pol} ${evenodd} ${image_filter_name}"
-	fi
     else
         echo "Need to specify cube_type, pol, and evenodd altogether"
         exit 1
@@ -50,7 +42,7 @@ if [ -d /ps ]; then
     sudo chmod -R 777 /ps
     if [ -d /ps/data ]; then
         sudo chmod -R 777 /ps/data
-    else 
+    else
         sudo mkdir -m 777 /ps/data
     fi
     if [ -d /ps/data/uvf_cubes ]; then
@@ -71,7 +63,7 @@ unset exit_flag
 
 #####Check for data cubes if DFTing individually
 if [ ! -z ${cube_type} ]; then
-    cube_exists=$(aws s3 ls ${file_path_cubes}/ps/data/uvf_cubes/Combined_obs_${version}_${evenodd}_cube${pol^^}_${image_letters}${cube_type}_uvf.idlsave)
+    cube_exists=$(aws s3 ls ${file_path_cubes}/ps/data/uvf_cubes/Combined_obs_${version}_${evenodd}_cube${pol^^}_${cube_type}_uvf.idlsave)
     if [ ! -z "$cube_exists" ]; then
         echo Cube already exists. Exiting
         exit 1
@@ -95,7 +87,7 @@ if [ "$(ls /Healpix/Combined_obs_${version}_*.sav | wc -l)" -ne "4" ]; then
     done
 fi
 
-if [ ! -z ${exit_flag} ]; then exit 1;fi 
+if [ ! -z ${exit_flag} ]; then exit 1;fi
 ####
 
 ####Download Healpix cubes
@@ -110,7 +102,7 @@ if [ "$(ls /Healpix/Combined_obs_${version}_*.sav | wc -l)" -ne "4" ]; then
         for pol_i in XX YY; do
             sudo aws s3 cp ${file_path_cubes}/Healpix/Combined_obs_${version}_${evenodd_i}_cube${pol_i^^}.sav \
              /Healpix/Combined_obs_${version}_${evenodd_i}_cube${pol_i^^}.sav --quiet
-	     
+
 	    # Verify that the cubes downloaded correctly
             if [ ! -f "/Healpix/Combined_obs_${version}_${evenodd_i}_cube${pol_i^^}.sav" ]; then
                 >&2 echo "ERROR: downloading cubes from S3 failed"
@@ -127,14 +119,14 @@ if [ ! -z ${cube_type} ]; then
     if [ ${cube_type} != "weights" ]; then
         ##Needs weights cube
 	# Check if it exists locally; if not, download it from S3
-        if [ ! -f "/ps/data/uvf_cubes/Combined_obs_${version}_${evenodd}_cube${pol^^}_${image_letters}weights_uvf.idlsave" ]; then
+        if [ ! -f "/ps/data/uvf_cubes/Combined_obs_${version}_${evenodd}_cube${pol^^}_weights_uvf.idlsave" ]; then
 
             # Download Healpix from S3
-            sudo aws s3 cp ${file_path_cubes}/ps/data/uvf_cubes/Combined_obs_${version}_${evenodd}_cube${pol^^}_${image_letters}weights_uvf.idlsave \
-            /ps/data/uvf_cubes/Combined_obs_${version}_${evenodd}_cube${pol^^}_${image_letters}weights_uvf.idlsave --quiet
+            sudo aws s3 cp ${file_path_cubes}/ps/data/uvf_cubes/Combined_obs_${version}_${evenodd}_cube${pol^^}_weights_uvf.idlsave \
+            /ps/data/uvf_cubes/Combined_obs_${version}_${evenodd}_cube${pol^^}_weights_uvf.idlsave --quiet
 
             # Verify that the cubes downloaded correctly
-            if [ ! -f "/ps/data/uvf_cubes/Combined_obs_${version}_${evenodd}_cube${pol^^}_${image_letters}weights_uvf.idlsave" ]; then
+            if [ ! -f "/ps/data/uvf_cubes/Combined_obs_${version}_${evenodd}_cube${pol^^}_weights_uvf.idlsave" ]; then
                 >&2 echo "ERROR: downloading weights cube from S3 failed"
                 echo "Job Failed"
                 exit 1

@@ -24,7 +24,7 @@
 ######################################################################################
 
 #Parse flags for inputs
-while getopts ":d:f:n:p:h:i:q:" option
+while getopts ":d:f:n:p:h:q:" option
 do
    case $option in
         d) FHDdir="$OPTARG";;			#file path to fhd directory with cubes
@@ -32,7 +32,6 @@ do
         n) nslots=$OPTARG;;             	#Number of slots for grid engine
 	      p) ps_only=$OPTARG;;			#Flag for skipping integration to make PS only
         h) hold=$OPTARG;;                       #Hold for a job to finish before running. Useful when running immediately after firstpass
-	      i) image_filter=$OPTARG;;               #Apply an image window filter during eppsilon
         q) ps_plots_only=$OPTARG;;		#Submit only a PS_plots job with no individual cube DFTs
         \?) echo "Unknown option: Accepted flags are -d (file path to fhd directory with cubes), -f (obs list or subcube path or single obsid), "
 	          echo "-n (number of slots), -p (make ps only), -q (submit PS_plots only)"
@@ -94,22 +93,6 @@ if [ -z ${ps_only} ]; then ps_only=0; fi
 
 # create hold string
 if [ -z ${hold} ]; then hold_str=""; else hold_str="-hold_jid ${hold}"; fi
-
-# image filter
-if [[ -n ${image_filter} ]]; then
-    case $image_filter in
-        "Blackman-Harris") image_letters="bh_" ;;
-        "Blackman-Harris^2") image_letters="bh2_" ;;
-        "Blackman-Nutall") image_letters="bn_" ;;
-        "Blackman") image_letters="blm_" ;;
-        "Hann") image_letters="han_" ;;
-        "Hamming") image_letters="ham_" ;;
-        "Nutall") image_letters="ntl_" ;;
-        "Tukey") image_letters="tk_" ;;
-	      "None") image_letters="" ;;
-        *) image_filter="Blackman-Harris"; image_letters="bh_" ;;
-    esac
-fi
 
 PSpath='~/MWA/eppsilon/'
 
@@ -289,7 +272,7 @@ if [ -z ${ps_plots_only} ]; then
 
                 cube_type_letter=${cube_type:0:1}
 
-                message=$(qsub ${hold_str_temp} -V -b y -cwd -v file_path_cubes=$FHDdir,obs_list_path=$integrate_list,obs_list_array="$integrate_array",version=$version,nslots=$nslots,cube_type=$cube_type,pol=$pol,evenodd=$evenodd,image_filter_name=$image_filter,image_letters=$image_letters -e ${errfile} -o ${outfile} -N ${cube_type_letter}_${pol}_${evenodd} -pe smp $nslots -sync y eppsilon_job_aws.sh)
+                message=$(qsub ${hold_str_temp} -V -b y -cwd -v file_path_cubes=$FHDdir,obs_list_path=$integrate_list,obs_list_array="$integrate_array",version=$version,nslots=$nslots,cube_type=$cube_type,pol=$pol,evenodd=$evenodd -e ${errfile} -o ${outfile} -N ${cube_type_letter}_${pol}_${evenodd} -pe smp $nslots -sync y eppsilon_job_aws.sh)
                 message=($message)
 
                 if [ ! -z "$pids" ]; then pids="$!"; else pids=($pids "$!"); fi
@@ -307,4 +290,4 @@ if [ -z ${ps_plots_only} ]; then
 fi
 
 #final plots
-qsub -hold_jid $id_list -V -v file_path_cubes=$FHDdir,obs_list_path=$integrate_list,obs_list_array="$integrate_array",version=$version,nslots=$nslots,image_filter_name=$image_filter,image_letters=$image_letters -e ${errfile} -o ${outfile} -N PS_plots -pe smp $nslots -sync y eppsilon_job_aws.sh &
+qsub -hold_jid $id_list -V -v file_path_cubes=$FHDdir,obs_list_path=$integrate_list,obs_list_array="$integrate_array",version=$version,nslots=$nslots -e ${errfile} -o ${outfile} -N PS_plots -pe smp $nslots -sync y eppsilon_job_aws.sh &
