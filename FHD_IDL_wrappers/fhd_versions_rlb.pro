@@ -149,7 +149,7 @@ pro fhd_versions_rlb
       remove_sim_flags = 1 ;turn off flagging for simulation
       sim_over_calibrate = 1 ;calibrate each fine frequency independently
       unflag_all = 1
-      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+      beam_nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
       cal_time_average = 0 ;don't average over time before calibrating
     end
@@ -185,7 +185,7 @@ pro fhd_versions_rlb
       remove_sim_flags = 1 ;turn off flagging for simulation
       sim_over_calibrate = 1 ;calibrate each fine frequency independently
       unflag_all = 1
-      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+      beam_nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
       cal_time_average = 0 ;don't average over time before calibrating
     end
@@ -215,7 +215,7 @@ pro fhd_versions_rlb
       model_visibilities = 1
       unflag_all = 1
       return_cal_visibilities = 0
-      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+      beam_nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
     end
 
@@ -244,7 +244,7 @@ pro fhd_versions_rlb
       model_visibilities = 1
       unflag_all = 1
       return_cal_visibilities = 0
-      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+      beam_nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
     end
 
@@ -278,7 +278,7 @@ pro fhd_versions_rlb
       remove_sim_flags = 1 ;turn off flagging for simulation
       sim_over_calibrate = 1 ;calibrate each fine frequency independently
       unflag_all = 1
-      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+      beam_nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
       cal_time_average = 0 ;don't average over time before calibrating
     end
@@ -313,7 +313,7 @@ pro fhd_versions_rlb
       remove_sim_flags = 1 ;turn off flagging for simulation
       sim_over_calibrate = 1 ;calibrate each fine frequency independently
       unflag_all = 1
-      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+      beam_nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
       cal_time_average = 0 ;don't average over time before calibrating
     end
@@ -342,7 +342,7 @@ pro fhd_versions_rlb
       calibrate_visibilities = 0 ;turn off calibration
       model_visibilities = filepath('GLEAM_plus_rlb2017.sav',root=rootdir('FHD'),subdir='catalog_data')
       unflag_all = 1
-      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+      beam_nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
     end
 
@@ -371,7 +371,7 @@ pro fhd_versions_rlb
       calibrate_visibilities = 0 ;turn off calibration
       model_visibilities = filepath('GLEAM_plus_rlb2017.sav',root=rootdir('FHD'),subdir='catalog_data')
       unflag_all = 1
-      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+      beam_nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
     end
 
@@ -400,7 +400,7 @@ pro fhd_versions_rlb
       model_visibilities = 1
       unflag_all = 1
       return_cal_visibilities = 0
-      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+      beam_nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
     end
 
@@ -429,7 +429,7 @@ pro fhd_versions_rlb
       model_visibilities = 1
       unflag_all = 1
       return_cal_visibilities = 0
-      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+      beam_nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
       ;vis_file_list = '/Users/rubybyrne/array_simulation/'+string(obs_id)+'.uvfits'
     end
@@ -465,7 +465,7 @@ pro fhd_versions_rlb
       remove_sim_flags = 1 ;turn off flagging for simulation
       sim_over_calibrate = 1 ;calibrate each fine frequency independently
       unflag_all = 1
-      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+      beam_nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
       cal_time_average = 0 ;don't average over time before calibrating
       ;vis_file_list = '/Users/rubybyrne/array_simulation/'+string(obs_id)+'.uvfits'
@@ -496,7 +496,7 @@ pro fhd_versions_rlb
       model_visibilities = 1
       unflag_all = 1
       return_cal_visibilities = 0
-      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+      beam_nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
       ;vis_file_list = '/Users/rubybyrne/array_simulation/'+string(obs_id)+'.uvfits'
     end
@@ -532,7 +532,7 @@ pro fhd_versions_rlb
       remove_sim_flags = 1 ;turn off flagging for simulation
       sim_over_calibrate = 1 ;calibrate each fine frequency independently
       unflag_all = 1
-      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+      beam_nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
       cal_time_average = 0 ;don't average over time before calibrating
       ;vis_file_list = '/Users/rubybyrne/array_simulation/'+string(obs_id)+'.uvfits'
@@ -592,7 +592,7 @@ pro fhd_versions_rlb
       model_visibilities = 1
       unflag_all = 1
       return_cal_visibilities = 0
-      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+      beam_nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
     end
 
@@ -627,7 +627,7 @@ pro fhd_versions_rlb
       remove_sim_flags = 1 ;turn off flagging for simulation
       sim_over_calibrate = 1 ;calibrate each fine frequency independently
       unflag_all = 1
-      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+      beam_nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
       cal_time_average = 0 ;don't average over time before calibrating
     end
@@ -664,7 +664,7 @@ pro fhd_versions_rlb
       remove_sim_flags = 1 ;turn off flagging for simulation
       sim_over_calibrate = 1 ;calibrate each fine frequency independently
       unflag_all = 1
-      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+      beam_nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
       cal_time_average = 0 ;don't average over time before calibrating
     end
@@ -701,7 +701,7 @@ pro fhd_versions_rlb
       remove_sim_flags = 1 ;turn off flagging for simulation
       sim_over_calibrate = 1 ;calibrate each fine frequency independently
       unflag_all = 1
-      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+      beam_nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
       cal_time_average = 0 ;don't average over time before calibrating
     end
@@ -738,7 +738,7 @@ pro fhd_versions_rlb
       remove_sim_flags = 1 ;turn off flagging for simulation
       sim_over_calibrate = 1 ;calibrate each fine frequency independently
       unflag_all = 1
-      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+      beam_nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
       cal_time_average = 0 ;don't average over time before calibrating
     end
@@ -775,7 +775,7 @@ pro fhd_versions_rlb
       remove_sim_flags = 1 ;turn off flagging for simulation
       sim_over_calibrate = 1 ;calibrate each fine frequency independently
       unflag_all = 1
-      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+      beam_nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
       cal_time_average = 0 ;don't average over time before calibrating
     end
@@ -812,7 +812,7 @@ pro fhd_versions_rlb
       remove_sim_flags = 1 ;turn off flagging for simulation
       sim_over_calibrate = 1 ;calibrate each fine frequency independently
       unflag_all = 1
-      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+      beam_nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
       cal_time_average = 0 ;don't average over time before calibrating
       restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave' ; triple the window size
@@ -852,7 +852,7 @@ pro fhd_versions_rlb
       remove_sim_flags = 1 ;turn off flagging for simulation
       sim_over_calibrate = 1 ;calibrate each fine frequency independently
       unflag_all = 1
-      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+      beam_nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
       cal_time_average = 0 ;don't average over time before calibrating
       restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave' ; triple the window size
@@ -891,7 +891,7 @@ pro fhd_versions_rlb
       remove_sim_flags = 1 ;turn off flagging for simulation
       sim_over_calibrate = 1 ;calibrate each fine frequency independently
       unflag_all = 1
-      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+      beam_nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
       cal_time_average = 0 ;don't average over time before calibrating
       restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave' ; triple the window size
@@ -931,7 +931,7 @@ pro fhd_versions_rlb
       remove_sim_flags = 1 ;turn off flagging for simulation
       sim_over_calibrate = 1 ;calibrate each fine frequency independently
       unflag_all = 1
-      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+      beam_nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
       cal_time_average = 0 ;don't average over time before calibrating
       restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave' ; triple the window size
@@ -969,7 +969,7 @@ pro fhd_versions_rlb
       remove_sim_flags = 1 ;turn off flagging for simulation
       sim_over_calibrate = 1 ;calibrate each fine frequency independently
       unflag_all = 1
-      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+      beam_nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
       cal_time_average = 0 ;don't average over time before calibrating
       restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave' ; triple the window size
@@ -1002,7 +1002,7 @@ pro fhd_versions_rlb
       model_visibilities = 1
       unflag_all = 1
       return_cal_visibilities = 0
-      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+      beam_nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
     end
 
@@ -1037,7 +1037,7 @@ pro fhd_versions_rlb
       remove_sim_flags = 1 ;turn off flagging for simulation
       sim_over_calibrate = 1 ;calibrate each fine frequency independently
       unflag_all = 1
-      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+      beam_nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
       cal_time_average = 0 ;don't average over time before calibrating
     end
@@ -1073,7 +1073,7 @@ pro fhd_versions_rlb
       remove_sim_flags = 1 ;turn off flagging for simulation
       sim_over_calibrate = 1 ;calibrate each fine frequency independently
       unflag_all = 1
-      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+      beam_nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
       cal_time_average = 0 ;don't average over time before calibrating
     end
@@ -1109,7 +1109,7 @@ pro fhd_versions_rlb
       remove_sim_flags = 1 ;turn off flagging for simulation
       sim_over_calibrate = 1 ;calibrate each fine frequency independently
       unflag_all = 1
-      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+      beam_nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
       cal_time_average = 0 ;don't average over time before calibrating
     end
@@ -1146,7 +1146,7 @@ pro fhd_versions_rlb
       remove_sim_flags = 1 ;turn off flagging for simulation
       sim_over_calibrate = 1 ;calibrate each fine frequency independently
       unflag_all = 1
-      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+      beam_nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
       cal_time_average = 0 ;don't average over time before calibrating
     end
@@ -1182,7 +1182,7 @@ pro fhd_versions_rlb
       remove_sim_flags = 1 ;turn off flagging for simulation
       sim_over_calibrate = 1 ;calibrate each fine frequency independently
       unflag_all = 1
-      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+      beam_nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 0 ;try turning this off
       cal_time_average = 0 ;don't average over time before calibrating
     end
@@ -1218,7 +1218,7 @@ pro fhd_versions_rlb
       remove_sim_flags = 1 ;turn off flagging for simulation
       sim_over_calibrate = 1 ;calibrate each fine frequency independently
       unflag_all = 1
-      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+      beam_nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 0
       cal_time_average = 0 ;don't average over time before calibrating
     end
@@ -1253,7 +1253,7 @@ pro fhd_versions_rlb
       remove_sim_flags = 1 ;turn off flagging for simulation
       sim_over_calibrate = 1 ;calibrate each fine frequency independently
       unflag_all = 1
-      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+      beam_nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 0
       cal_time_average = 0 ;don't average over time before calibrating
     end
@@ -1288,7 +1288,7 @@ pro fhd_versions_rlb
       remove_sim_flags = 1 ;turn off flagging for simulation
       sim_over_calibrate = 1 ;calibrate each fine frequency independently
       unflag_all = 1
-      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+      beam_nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 0
       cal_time_average = 0 ;don't average over time before calibrating
     end
@@ -1323,7 +1323,7 @@ pro fhd_versions_rlb
       remove_sim_flags = 1 ;turn off flagging for simulation
       sim_over_calibrate = 1 ;calibrate each fine frequency independently
       unflag_all = 1
-      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+      beam_nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 0
       cal_time_average = 0 ;don't average over time before calibrating
     end
@@ -1353,7 +1353,7 @@ pro fhd_versions_rlb
       model_visibilities = 1
       unflag_all = 1
       return_cal_visibilities = 0
-      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+      beam_nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
     end
 
@@ -1387,7 +1387,7 @@ pro fhd_versions_rlb
       remove_sim_flags = 1 ;turn off flagging for simulation
       sim_over_calibrate = 1 ;calibrate each fine frequency independently
       unflag_all = 1
-      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+      beam_nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 0
       cal_time_average = 0 ;don't average over time before calibrating
     end
@@ -1422,7 +1422,7 @@ pro fhd_versions_rlb
       remove_sim_flags = 1 ;turn off flagging for simulation
       sim_over_calibrate = 1 ;calibrate each fine frequency independently
       unflag_all = 1
-      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+      beam_nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 0
       cal_time_average = 0 ;don't average over time before calibrating
     end
@@ -1457,7 +1457,7 @@ pro fhd_versions_rlb
       remove_sim_flags = 1 ;turn off flagging for simulation
       sim_over_calibrate = 1 ;calibrate each fine frequency independently
       unflag_all = 1
-      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+      beam_nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 0
       cal_time_average = 0 ;don't average over time before calibrating
     end
@@ -1487,7 +1487,7 @@ pro fhd_versions_rlb
       model_visibilities = 1
       unflag_all = 1
       return_cal_visibilities = 0
-      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+      beam_nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 1 ; delay filter the model visibilities to get rid of the cyclic beam errors
     end
 
@@ -1521,7 +1521,7 @@ pro fhd_versions_rlb
       remove_sim_flags = 1 ;turn off flagging for simulation
       sim_over_calibrate = 1 ;calibrate each fine frequency independently
       unflag_all = 1
-      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+      beam_nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 0
       cal_time_average = 0 ;don't average over time before calibrating
     end
@@ -1556,7 +1556,7 @@ pro fhd_versions_rlb
       remove_sim_flags = 1 ;turn off flagging for simulation
       sim_over_calibrate = 1 ;calibrate each fine frequency independently
       unflag_all = 1
-      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+      beam_nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 0
       cal_time_average = 0 ;don't average over time before calibrating
     end
@@ -1591,7 +1591,7 @@ pro fhd_versions_rlb
       remove_sim_flags = 1 ;turn off flagging for simulation
       sim_over_calibrate = 1 ;calibrate each fine frequency independently
       unflag_all = 1
-      nfreq_avg = 384 ; speed things up by using one beam for all frequencies
+      beam_nfreq_avg = 384 ; speed things up by using one beam for all frequencies
       model_delay_filter = 0
       cal_time_average = 0 ;don't average over time before calibrating
     end
@@ -1789,7 +1789,7 @@ pro fhd_versions_rlb
       unflag_all = 1  ; unflag for simulation
       stokes_low = -5
       stokes_high = 5
-      nfreq_avg = 384 ; use one beam for all frequencies
+      beam_nfreq_avg = 384 ; use one beam for all frequencies
       remove_sim_flags = 1 ;turn off flagging
       unflag_all = 1 ;turn off flagging
     end
@@ -1820,7 +1820,7 @@ pro fhd_versions_rlb
       unflag_all = 1  ; unflag for simulation
       stokes_low = -5
       stokes_high = 5
-      nfreq_avg = 384 ; use one beam for all frequencies
+      beam_nfreq_avg = 384 ; use one beam for all frequencies
       remove_sim_flags = 1 ;turn off flagging
       unflag_all = 1 ;turn off flagging
     end
@@ -1851,7 +1851,7 @@ pro fhd_versions_rlb
       unflag_all = 1  ; unflag for simulation
       stokes_low = -5
       stokes_high = 5
-      nfreq_avg = 384 ; use one beam for all frequencies
+      beam_nfreq_avg = 384 ; use one beam for all frequencies
       remove_sim_flags = 1 ;turn off flagging
       unflag_all = 1 ;turn off flagging
     end
@@ -1882,7 +1882,7 @@ pro fhd_versions_rlb
       unflag_all = 1  ; unflag for simulation
       stokes_low = -5
       stokes_high = 5
-      nfreq_avg = 384 ; use one beam for all frequencies
+      beam_nfreq_avg = 384 ; use one beam for all frequencies
       remove_sim_flags = 1 ;turn off flagging
       unflag_all = 1 ;turn off flagging
       kbinsize = .75 ;go to a coarser UV resolution
@@ -1914,7 +1914,7 @@ pro fhd_versions_rlb
       unflag_all = 1  ; unflag for simulation
       stokes_low = -5
       stokes_high = 5
-      nfreq_avg = 384 ; use one beam for all frequencies
+      beam_nfreq_avg = 384 ; use one beam for all frequencies
       remove_sim_flags = 1 ;turn off flagging
       unflag_all = 1 ;turn off flagging
       kbinsize = 1. ;go to a coarser UV resolution
@@ -1946,7 +1946,7 @@ pro fhd_versions_rlb
       unflag_all = 1  ; unflag for simulation
       stokes_low = -5
       stokes_high = 5
-      nfreq_avg = 384 ; use one beam for all frequencies
+      beam_nfreq_avg = 384 ; use one beam for all frequencies
       image_filter_fn = 'filter_uv_natural'
     end
 
@@ -1976,7 +1976,7 @@ pro fhd_versions_rlb
       unflag_all = 1  ; unflag for simulation
       stokes_low = -5
       stokes_high = 5
-      nfreq_avg = 384 ; use one beam for all frequencies
+      beam_nfreq_avg = 384 ; use one beam for all frequencies
       image_filter_fn = 'filter_uv_natural'
       beam_clip_floor = 0
     end
@@ -2007,7 +2007,7 @@ pro fhd_versions_rlb
       unflag_all = 1  ; unflag for simulation
       stokes_low = -5
       stokes_high = 5
-      nfreq_avg = 384 ; use one beam for all frequencies
+      beam_nfreq_avg = 384 ; use one beam for all frequencies
       beam_clip_floor = 0
     end
 
@@ -2040,7 +2040,7 @@ pro fhd_versions_rlb
       ; try using only one frequency
       freq_start = 167.5-.08
       freq_end = 167.5+.08
-      nfreq_avg = 384
+      beam_nfreq_avg = 384
     end
 
     'rlb_single_source_test_natural_weighting_flipped_beam_norm_Oct2019': begin
@@ -2069,7 +2069,7 @@ pro fhd_versions_rlb
       unflag_all = 1  ; unflag for simulation
       stokes_low = -5
       stokes_high = 5
-      nfreq_avg = 384 ; use one beam for all frequencies
+      beam_nfreq_avg = 384 ; use one beam for all frequencies
       image_filter_fn = 'filter_uv_natural'
     end
 
@@ -2099,7 +2099,7 @@ pro fhd_versions_rlb
       unflag_all = 1  ; unflag for simulation
       stokes_low = -5
       stokes_high = 5
-      nfreq_avg = 384 ; use one beam for all frequencies
+      beam_nfreq_avg = 384 ; use one beam for all frequencies
       image_filter_fn = 'filter_uv_uniform'
     end
 
@@ -2129,7 +2129,7 @@ pro fhd_versions_rlb
       unflag_all = 1  ; unflag for simulation
       stokes_low = -5
       stokes_high = 5
-      nfreq_avg = 384 ; use one beam for all frequencies
+      beam_nfreq_avg = 384 ; use one beam for all frequencies
       image_filter_fn = 'filter_uv_uniform'
     end
 
@@ -2159,7 +2159,7 @@ pro fhd_versions_rlb
       unflag_all = 1  ; unflag for simulation
       stokes_low = -5
       stokes_high = 5
-      nfreq_avg = 384 ; use one beam for all frequencies
+      beam_nfreq_avg = 384 ; use one beam for all frequencies
       image_filter_fn = 'filter_uv_natural'
     end
 
@@ -2189,7 +2189,7 @@ pro fhd_versions_rlb
       unflag_all = 1  ; unflag for simulation
       stokes_low = -5
       stokes_high = 5
-      nfreq_avg = 384 ; use one beam for all frequencies
+      beam_nfreq_avg = 384 ; use one beam for all frequencies
     end
 
     'rlb_single_source_ptcent_flipped_beam_branch_Oct2019': begin
@@ -2218,7 +2218,7 @@ pro fhd_versions_rlb
       unflag_all = 1  ; unflag for simulation
       stokes_low = -5
       stokes_high = 5
-      nfreq_avg = 384 ; use one beam for all frequencies
+      beam_nfreq_avg = 384 ; use one beam for all frequencies
     end
 
     'rlb_single_source_zenith_flipped_beam_branch_Oct2019': begin
@@ -2247,7 +2247,7 @@ pro fhd_versions_rlb
       unflag_all = 1  ; unflag for simulation
       stokes_low = -5
       stokes_high = 5
-      nfreq_avg = 384 ; use one beam for all frequencies
+      beam_nfreq_avg = 384 ; use one beam for all frequencies
     end
 
     'rlb_master_reference_Oct2019': begin
@@ -2345,7 +2345,7 @@ pro fhd_versions_rlb
       unflag_all = 1  ; unflag for simulation
       stokes_low = -5
       stokes_high = 5
-      nfreq_avg = 384 ; use one beam for all frequencies
+      beam_nfreq_avg = 384 ; use one beam for all frequencies
       image_filter_fn = 'filter_uv_natural'
     end
 
@@ -2374,7 +2374,7 @@ pro fhd_versions_rlb
       n_pol = 4
       stokes_low = -5
       stokes_high = 5
-      nfreq_avg = 384 ; use one beam for all frequencies
+      beam_nfreq_avg = 384 ; use one beam for all frequencies
       image_filter_fn = 'filter_uv_natural'
       ; use just one frequency:
       unflag_all = 0
