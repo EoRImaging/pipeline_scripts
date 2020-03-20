@@ -63,7 +63,8 @@ unset exit_flag
 
 #####Check for data cubes if DFTing individually
 if [ ! -z ${cube_type} ]; then
-    cube_exists=$(aws s3 ls ${file_path_cubes}/ps/data/uvf_cubes/Combined_obs_${version}_${evenodd}_cube${pol^^}_${cube_type}_uvf.idlsave)
+    cube_path_s3="${file_path_cubes}/ps/data/uvf_cubes/Combined_obs_${version}_${evenodd}_cube${pol^^}_${cube_type}_uvf.idlsave"
+    cube_exists=$(aws s3 ls $cube_path_s3)
     if [ ! -z "$cube_exists" ]; then
         echo Cube already exists. Exiting
         exit 1
@@ -119,11 +120,14 @@ if [ ! -z ${cube_type} ]; then
     if [ ${cube_type} != "weights" ]; then
         ##Needs weights cube
 	# Check if it exists locally; if not, download it from S3
-        if [ ! -f "/ps/data/uvf_cubes/Combined_obs_${version}_${evenodd}_cube${pol^^}_weights_uvf.idlsave" ]; then
+        local_weights_path="/ps/data/uvf_cubes/Combined_obs_${version}_${evenodd}_cube${pol^^}_weights_uvf.idlsave"
+        if [ ! -f "$local_weights_path" ]; then
 
             # Download Healpix from S3
-            sudo aws s3 cp ${file_path_cubes}/ps/data/uvf_cubes/Combined_obs_${version}_${evenodd}_cube${pol^^}_weights_uvf.idlsave \
-            /ps/data/uvf_cubes/Combined_obs_${version}_${evenodd}_cube${pol^^}_weights_uvf.idlsave --quiet
+            weights_path_s3="${file_path_cubes}/ps/data/uvf_cubes/Combined_obs_${version}_${evenodd}_cube${pol^^}_weights_uvf.idlsave"
+            echo "weights_path_s3:${weights_path_s3}"
+            sudo aws s3 cp $weights_path_s3 \
+            $local_weights_path --quiet
 
             # Verify that the cubes downloaded correctly
             if [ ! -f "/ps/data/uvf_cubes/Combined_obs_${version}_${evenodd}_cube${pol^^}_weights_uvf.idlsave" ]; then
