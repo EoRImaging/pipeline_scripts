@@ -63,7 +63,8 @@ unset exit_flag
 
 #####Check for data cubes if DFTing individually
 if [ ! -z ${cube_type} ]; then
-    cube_path_s3="${file_path_cubes}/ps/data/uvf_cubes/Combined_obs_${version}_${evenodd}_cube${pol^^}_${cube_type}_uvf.idlsave"
+    cube_path_s3="${file_path_cubes}/ps/data/uvf_cubes/Combined_obs_${version}_${evenodd}_cube${pol^^}_noimgclip_${cube_type}_uvf.idlsave"
+    echo "Checking for ${cube_path_s3}"
     cube_exists=$(aws s3 ls $cube_path_s3)
     if [ ! -z "$cube_exists" ]; then
         echo Cube already exists. Exiting
@@ -120,17 +121,17 @@ if [ ! -z ${cube_type} ]; then
     if [ ${cube_type} != "weights" ]; then
         ##Needs weights cube
 	# Check if it exists locally; if not, download it from S3
-        local_weights_path="/ps/data/uvf_cubes/Combined_obs_${version}_${evenodd}_cube${pol^^}_weights_uvf.idlsave"
+        local_weights_path="/ps/data/uvf_cubes/Combined_obs_${version}_${evenodd}_cube${pol^^}_noimgclip_weights_uvf.idlsave"
         if [ ! -f "$local_weights_path" ]; then
 
             # Download Healpix from S3
-            weights_path_s3="${file_path_cubes}/ps/data/uvf_cubes/Combined_obs_${version}_${evenodd}_cube${pol^^}_weights_uvf.idlsave"
+            weights_path_s3="${file_path_cubes}/ps/data/uvf_cubes/Combined_obs_${version}_${evenodd}_cube${pol^^}_noimgclip_weights_uvf.idlsave"
             echo "weights_path_s3:${weights_path_s3}"
             sudo aws s3 cp $weights_path_s3 \
             $local_weights_path --quiet
 
             # Verify that the cubes downloaded correctly
-            if [ ! -f "/ps/data/uvf_cubes/Combined_obs_${version}_${evenodd}_cube${pol^^}_weights_uvf.idlsave" ]; then
+            if [ ! -f "$local_weights_path" ]; then
                 >&2 echo "ERROR: downloading weights cube from S3 failed"
                 echo "Job Failed"
                 exit 1
@@ -143,7 +144,7 @@ fi
 ####Get uvf_cubes folder if not DFTing separate cubes
 if [ -z ${cube_type} ]; then
     sudo aws s3 cp ${file_path_cubes}/ps/data/uvf_cubes/ /ps/data/uvf_cubes --recursive --quiet \
-     --exclude "*" --include "Combined_obs_${version}*" --force-glacier-transfer
+     --exclude "*" --include "Combined_obs_${version}*"
 fi
 ####
 
