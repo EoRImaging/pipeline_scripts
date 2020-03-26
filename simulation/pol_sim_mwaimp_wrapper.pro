@@ -103,7 +103,7 @@ n_pol = 4
 image_filter_fn='filter_uv_uniform' ; not sure if this makes sense for simulations
 dimension=1024
 if n_elements(fov) eq 0 then fov=80.
-nfreq_avg=16.
+beam_nfreq_avg=16.
 
 psf_resolution=16.
 kbinsize=0.5
@@ -178,7 +178,7 @@ array_simulator, vis_arr, vis_weights, obs, status_str, psf, params, jones, $
     dimension=dimension, $
     fov=fov, $
     image_filter_fn=image_filter_fn, $
-    nfreq_avg=nfreq_avg, $
+    beam_nfreq_avg=beam_nfreq_avg, $
     no_rephase=no_rephase, $
     obsra=obsra,$
     no_save=no_save,$

@@ -108,7 +108,7 @@ vis_baseline_hist=1    ; Testing this out
 ;dimension=1024
 dimension=2048
 if n_elements(fov) eq 0 then fov=0.   ; Smaller for HERA, maybe 10 to 15. (80 originally) -- overrides kbinsize
-nfreq_avg=200    ; Fine frequencies per coarse channel. Set to 1 for HERA.
+beam_nfreq_avg=200    ; Fine frequencies per coarse channel. Set to 1 for HERA.
 
 psf_resolution=100.   ;   Ask Ian -- does this set subgrid resolution, and is interpolation on? (interpolate instead of subgrid)
 kbinsize=0.5
@@ -149,7 +149,7 @@ array_simulator, vis_arr, flag_arr, obs, status_str, psf, params, jones, $
     dimension=dimension, $
     fov=fov, $
     image_filter_fn=image_filter_fn, $
-    nfreq_avg=nfreq_avg, $
+    beam_nfreq_avg=beam_nfreq_avg, $
     no_rephase=no_rephase, $
     obsra=obsra,$
     no_save=no_save,$
