@@ -2824,7 +2824,7 @@ pro fhd_versions_rlb
       diffuse_calibrate = 0
       diffuse_model = 0
       model_visibilities = 1
-      model_catalog_file_path = '/home/ubuntu/pol_leakage_corrected_catalogs_Mar2020/'+string(obs_id)+'_decon_catalog_pol_leakage_corrected.sav'
+      model_catalog_file_path = '/home/ubuntu/pol_leakage_corrected_catalogs_use_I_image_Mar2020/'+string(obs_id)+'_decon_catalog_pol_leakage_corrected.sav'
       cal_bp_transfer = 0  ; changed this for calibration transfer
       transfer_calibration = '/home/ubuntu/calibration_transferred/'+string(obs_id)+'_cal.sav'
       transfer_weights = '/home/ubuntu/calibration_transferred/'+string(obs_id)+'_flags.sav'
