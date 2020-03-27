@@ -25,7 +25,7 @@ pro mjw_fhd_versions
     kernel_window=1
     debug_dim=1
     beam_mask_threshold=1e3
-    nfreq_avg=1
+    beam_nfreq_avg=1
     interpolate_kernel=1
     restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
     return_cal_visibilities=0
