@@ -171,7 +171,7 @@ if [ "$ps_only" -ne "1" ]; then
 
             for evenodd in even odd; do
 		            for pol in XX YY; do
-	    	            message=$(qsub ${hold_str} -V -b y -v file_path_cubes=$FHDdir,obs_list_array="$chunk_obs_array",obs_list_path=$chunk_obs_list,version=$version,chunk=$chunk,nslots=$nslots,legacy=$legacy,evenodd=$evenodd,pol=$pol -e $errfile -o $outfile -N int_c_${version} -pe smp $nslots -sync y integration_job_aws.sh)
+	    	            message=$(qsub ${hold_str} -V -b y -v file_path_cubes=$FHDdir,obs_list_array="$chunk_obs_array",obs_list_path=$chunk_obs_list,version=$version,chunk=$chunk,nslots=$nslots,legacy=$legacy,evenodd=$evenodd,pol=$pol -e $errfile -o $outfile -N int_c_${version} -pe smp $nslots integration_job_aws.sh)
 	    	            message=($message)
 		            done
 	          done
@@ -189,7 +189,7 @@ if [ "$ps_only" -ne "1" ]; then
 
         for evenodd in even odd; do
 	         for pol in XX YY; do
-	    	       message=$(qsub ${hold_str} -V -b y -v file_path_cubes=$FHDdir,obs_list_array="$chunk_obs_array",obs_list_path=$sub_cubes_list,version=$version,chunk=$chunk,nslots=$nslots,legacy=$legacy,evenodd=$evenodd,pol=$pol -e $errfile -o $outfile -N int_m_${version} -pe smp $nslots -sync y integration_job_aws.sh)
+	    	       message=$(qsub ${hold_str} -V -b y -v file_path_cubes=$FHDdir,obs_list_array="$chunk_obs_array",obs_list_path=$sub_cubes_list,version=$version,chunk=$chunk,nslots=$nslots,legacy=$legacy,evenodd=$evenodd,pol=$pol -e $errfile -o $outfile -N int_m_${version} -pe smp $nslots integration_job_aws.sh)
         	     message=($message)
 	         done
 	      done
@@ -210,8 +210,7 @@ if [ "$ps_only" -ne "1" ]; then
 
         for evenodd in even odd; do
 	         for pol in XX YY; do
-        	    message=$(qsub ${hold_str} -V -b y -v file_path_cubes=$FHDdir,obs_list_array="$chunk_obs_array",obs_list_path=$chunk_obs_list,version=$version,chunk=$chunk,nslots=$nslots,legacy=$legacy,evenodd=$evenodd,pol=$pol -e $errfile -o $outfile -N int_${version} -pe smp $nslots -sync y integration_job_aws.sh)
-       		    message=($message)
+        	    qsub ${hold_str} -V -b y -v file_path_cubes=$FHDdir,obs_list_array="$chunk_obs_array",obs_list_path=$chunk_obs_list,version=$version,chunk=$chunk,nslots=$nslots,legacy=$legacy,evenodd=$evenodd,pol=$pol -e $errfile -o $outfile -N int_${version} -pe smp $nslots integration_job_aws.sh
 	         done
 	      done
 
@@ -272,7 +271,7 @@ if [ -z ${ps_plots_only} ]; then
 
                 cube_type_letter=${cube_type:0:1}
 
-                message=$(qsub ${hold_str_temp} -V -b y -cwd -v file_path_cubes=$FHDdir,obs_list_path=$integrate_list,obs_list_array="$integrate_array",version=$version,nslots=$nslots,cube_type=$cube_type,pol=$pol,evenodd=$evenodd -e ${errfile} -o ${outfile} -N ${cube_type_letter}_${pol}_${evenodd} -pe smp $nslots -sync y eppsilon_job_aws.sh)
+                message=$(qsub ${hold_str_temp} -V -b y -cwd -v file_path_cubes=$FHDdir,obs_list_path=$integrate_list,obs_list_array="$integrate_array",version=$version,nslots=$nslots,cube_type=$cube_type,pol=$pol,evenodd=$evenodd -e ${errfile} -o ${outfile} -N ${cube_type_letter}_${pol}_${evenodd} -pe smp $nslots eppsilon_job_aws.sh)
                 message=($message)
 
                 if [ ! -z "$pids" ]; then pids="$!"; else pids=($pids "$!"); fi
@@ -290,4 +289,4 @@ if [ -z ${ps_plots_only} ]; then
 fi
 
 #final plots
-qsub -hold_jid $id_list -V -v file_path_cubes=$FHDdir,obs_list_path=$integrate_list,obs_list_array="$integrate_array",version=$version,nslots=$nslots -e ${errfile} -o ${outfile} -N PS_plots -pe smp $nslots -sync y eppsilon_job_aws.sh &
+qsub -hold_jid $id_list -V -v file_path_cubes=$FHDdir,obs_list_path=$integrate_list,obs_list_array="$integrate_array",version=$version,nslots=$nslots -e ${errfile} -o ${outfile} -N PS_plots -pe smp $nslots $(which eppsilon_job_aws.sh) &
