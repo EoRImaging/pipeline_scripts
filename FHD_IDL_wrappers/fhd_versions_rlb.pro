@@ -1704,6 +1704,7 @@ pro fhd_versions_rlb
       debug_region_grow = 0
       n_pol = 4
       time_cut = -4 ;flag an extra 4 seconds from the end of each obs
+      save_uvf = 1 ;added for UV coverage test
     end
 
     'rlb_diffuse_survey_baseline_cut_Aug2019': begin
