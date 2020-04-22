@@ -30,7 +30,7 @@ do
         d) FHDdir="$OPTARG";;			#file path to fhd directory with cubes
         f) integrate_list="$OPTARG";;		#txt file of obs ids or subcubes or a single obsid
         n) nslots=$OPTARG;;             	#Number of slots for grid engine
-	      p) ps_only=$OPTARG;;			#Flag for skipping integration to make PS only
+        p) ps_only=$OPTARG;;			#Flag for skipping integration to make PS only
         h) hold=$OPTARG;;                       #Hold for a job to finish before running. Useful when running immediately after firstpass
         q) ps_plots_only=$OPTARG;;		#Submit only a PS_plots job with no individual cube DFTs
         \?) echo "Unknown option: Accepted flags are -d (file path to fhd directory with cubes), -f (obs list or subcube path or single obsid), "
