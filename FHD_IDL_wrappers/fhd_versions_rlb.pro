@@ -2908,6 +2908,29 @@ pro fhd_versions_rlb
       freq_start = 181.15501 ;beginning of the 12th coarse band
       freq_end = 182.43501 ;end of the 12th coarse band
     end
+    
+    'rlb_diffuse_selfcal_coarse_band_12_Apr2020': begin
+      calibration_catalog_file_path = '/home/ubuntu/deconvolved_catalogs_Aug2019/'+string(obs_id)+'_decon_catalog.sav'
+      max_cal_iter = 1000L ;increase max calibration iterations to ensure convergence
+      return_cal_visibilities = 1
+      diffuse_calibrate = 0
+      diffuse_model = 0
+      cal_bp_transfer = 0
+      rephase_weights = 0
+      restrict_hpx_inds = 0
+      hpx_radius = 15
+      subtract_sidelobe_catalog = filepath('GLEAM_v2_plus_rlb2019',root=rootdir('FHD'),subdir='catalog_data')
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      write_healpix_fits = 1
+      debug_region_grow = 0
+      n_pol = 4
+      image_filter_fn = 'filter_uv_uniform'
+      time_cut = -4 ;flag an extra 4 seconds from the end of each obs
+      freq_start = 181.15501 ;beginning of the 12th coarse band
+      freq_end = 182.43501 ;end of the 12th coarse band
+    end
 
   endcase
 
