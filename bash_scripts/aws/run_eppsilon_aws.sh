@@ -76,7 +76,7 @@ then
 
     if [ -z ${ps_only} ]
     then
-        echo "ps_only flag must be set if integrate list is a single observation id. Set -o 1 if desired function"
+        echo "ps_only flag must be set if integrate list is a single observation id. Set -p 1 if desired function"
         exit 1
     fi
     version=$integrate_list  #Currently assuming that the integrate list is a single obsid
