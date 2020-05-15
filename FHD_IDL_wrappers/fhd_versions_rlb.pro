@@ -47,7 +47,7 @@ pro fhd_versions_rlb
     'rlb_GLEAM_cal_decon_Nov2016': begin
       uvfits_version = 5
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       calibration_catalog_file_path = filepath('GLEAMIDR4_181_consistent.sav',root=rootdir('FHD'),subdir='catalog_data')
       gain_factor = 0.1
       deconvolve = 1
@@ -73,7 +73,7 @@ pro fhd_versions_rlb
     'rlb_GLEAM_cal_decon_4pol_Apr2017': begin
       uvfits_version = 5
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       calibration_catalog_file_path = filepath('GLEAMIDR4_181_consistent.sav',root=rootdir('FHD'),subdir='catalog_data')
       gain_factor = 0.1
       deconvolve = 1
@@ -126,7 +126,7 @@ pro fhd_versions_rlb
       recalculate_all = 1
       uvfits_version = 4
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       max_calibration_sources = 4000
       calibration_catalog_file_path = filepath('GLEAM_plus_rlb2017.sav',root=rootdir('FHD'),subdir='catalog_data')
       smooth_width = 32
@@ -162,7 +162,7 @@ pro fhd_versions_rlb
       recalculate_all = 1
       uvfits_version = 5
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       max_calibration_sources = 4000
       calibration_catalog_file_path = filepath('GLEAM_plus_rlb2017.sav',root=rootdir('FHD'),subdir='catalog_data')
       smooth_width = 32
@@ -198,7 +198,7 @@ pro fhd_versions_rlb
       recalculate_all = 1
       uvfits_version = 4
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       model_catalog_file_path = filepath('GLEAM_plus_rlb2017.sav',root=rootdir('FHD'),subdir='catalog_data')
       smooth_width = 32
       filter_background = 1
@@ -227,7 +227,7 @@ pro fhd_versions_rlb
       recalculate_all = 1
       uvfits_version = 5
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       model_catalog_file_path = filepath('GLEAM_plus_rlb2017.sav',root=rootdir('FHD'),subdir='catalog_data')
       smooth_width = 32
       filter_background = 1
@@ -256,7 +256,7 @@ pro fhd_versions_rlb
       recalculate_all = 1
       uvfits_version = 4
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       max_calibration_sources = 4000
       calibration_catalog_file_path = filepath('GLEAM_plus_rlb2017.sav',root=rootdir('FHD'),subdir='catalog_data')
       smooth_width = 32
@@ -291,7 +291,7 @@ pro fhd_versions_rlb
       recalculate_all = 1
       uvfits_version = 5
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       max_calibration_sources = 4000
       calibration_catalog_file_path = filepath('GLEAM_plus_rlb2017.sav',root=rootdir('FHD'),subdir='catalog_data')
       smooth_width = 32
@@ -326,7 +326,7 @@ pro fhd_versions_rlb
       recalculate_all = 1
       uvfits_version = 4
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       max_model_sources = 4000 ;does this apply to the model? check this keyword
       smooth_width = 32
       filter_background = 1
@@ -354,7 +354,7 @@ pro fhd_versions_rlb
       recalculate_all = 1
       uvfits_version = 5
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       max_model_sources = 4000
       smooth_width = 32
       filter_background = 1
@@ -383,7 +383,7 @@ pro fhd_versions_rlb
       recalculate_all = 1
       uvfits_version = 4
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       model_catalog_file_path = filepath('GLEAM_plus_rlb2017.sav',root=rootdir('FHD'),subdir='catalog_data')
       smooth_width = 32
       filter_background = 1
@@ -412,7 +412,7 @@ pro fhd_versions_rlb
       recalculate_all = 1
       uvfits_version = 5
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       model_catalog_file_path = filepath('GLEAM_plus_rlb2017.sav',root=rootdir('FHD'),subdir='catalog_data')
       smooth_width = 32
       filter_background = 1
@@ -442,7 +442,7 @@ pro fhd_versions_rlb
       recalculate_all = 1
       uvfits_version = 5
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       max_calibration_sources = 4000
       calibration_catalog_file_path = filepath('GLEAM_plus_rlb2017.sav',root=rootdir('FHD'),subdir='catalog_data')
       smooth_width = 32
@@ -479,7 +479,7 @@ pro fhd_versions_rlb
       recalculate_all = 1
       uvfits_version = 5
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       model_catalog_file_path = filepath('GLEAM_plus_rlb2017.sav',root=rootdir('FHD'),subdir='catalog_data')
       smooth_width = 32
       filter_background = 1
@@ -509,7 +509,7 @@ pro fhd_versions_rlb
       recalculate_all = 1
       uvfits_version = 5
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       max_calibration_sources = 4000
       calibration_catalog_file_path = filepath('GLEAM_plus_rlb2017.sav',root=rootdir('FHD'),subdir='catalog_data')
       smooth_width = 32
@@ -546,7 +546,7 @@ pro fhd_versions_rlb
       recalculate_all = 1
       uvfits_version = 5
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       gain_factor = 0.1
       filter_background = 1
       return_cal_visibilities = 0  ; changed this for calibration transfer
@@ -575,7 +575,7 @@ pro fhd_versions_rlb
       recalculate_all = 0
       uvfits_version = 4
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       model_catalog_file_path = filepath('GLEAM_plus_rlb2017.sav',root=rootdir('FHD'),subdir='catalog_data')
       smooth_width = 32
       filter_background = 1
@@ -604,7 +604,7 @@ pro fhd_versions_rlb
       recalculate_all = 0
       uvfits_version = 4
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       max_calibration_sources = 4000
       calibration_catalog_file_path = filepath('GLEAM_plus_rlb2017.sav',root=rootdir('FHD'),subdir='catalog_data')
       smooth_width = 32
@@ -640,7 +640,7 @@ pro fhd_versions_rlb
       recalculate_all = 1
       uvfits_version = 4
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       max_model_sources = 4000
       model_catalog_file_path = filepath('GLEAM_plus_rlb2017.sav',root=rootdir('FHD'),subdir='catalog_data')
       model_visibilities = 1
@@ -677,7 +677,7 @@ pro fhd_versions_rlb
       recalculate_all = 1
       uvfits_version = 4
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       max_model_sources = 4000
       model_catalog_file_path = filepath('GLEAM_plus_rlb2017.sav',root=rootdir('FHD'),subdir='catalog_data')
       model_visibilities = 1
@@ -714,7 +714,7 @@ pro fhd_versions_rlb
       recalculate_all = 1
       uvfits_version = 4
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       max_model_sources = 4000
       model_catalog_file_path = filepath('GLEAM_plus_rlb2017.sav',root=rootdir('FHD'),subdir='catalog_data')
       model_visibilities = 1
@@ -751,7 +751,7 @@ pro fhd_versions_rlb
       recalculate_all = 1
       uvfits_version = 4
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       max_model_sources = 4000
       model_catalog_file_path = filepath('GLEAM_plus_rlb2017.sav',root=rootdir('FHD'),subdir='catalog_data')
       model_visibilities = 1
@@ -788,7 +788,7 @@ pro fhd_versions_rlb
       recalculate_all = 1
       uvfits_version = 4
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       max_model_sources = 4000
       model_catalog_file_path = filepath('GLEAM_plus_rlb2017.sav',root=rootdir('FHD'),subdir='catalog_data')
       model_visibilities = 1
@@ -828,7 +828,7 @@ pro fhd_versions_rlb
       recalculate_all = 0
       uvfits_version = 4
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       max_model_sources = 4000
       model_catalog_file_path = filepath('GLEAM_plus_rlb2017.sav',root=rootdir('FHD'),subdir='catalog_data')
       model_visibilities = 1
@@ -867,7 +867,7 @@ pro fhd_versions_rlb
       recalculate_all = 1
       uvfits_version = 4
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       max_model_sources = 4000
       model_catalog_file_path = filepath('GLEAM_plus_rlb2017.sav',root=rootdir('FHD'),subdir='catalog_data')
       model_visibilities = 1
@@ -907,7 +907,7 @@ pro fhd_versions_rlb
       recalculate_all = 0
       uvfits_version = 4
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       max_model_sources = 4000
       model_catalog_file_path = filepath('GLEAM_plus_rlb2017.sav',root=rootdir('FHD'),subdir='catalog_data')
       model_visibilities = 1
@@ -946,7 +946,7 @@ pro fhd_versions_rlb
       recalculate_all = 1
       uvfits_version = 4
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       max_calibration_sources = 4000
       calibration_catalog_file_path = filepath('GLEAM_plus_rlb2017.sav',root=rootdir('FHD'),subdir='catalog_data')
       smooth_width = 32
@@ -985,7 +985,7 @@ pro fhd_versions_rlb
       recalculate_all = 0
       uvfits_version = 4
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       model_catalog_file_path = '/home/ubuntu/single_source.sav'
       smooth_width = 32
       filter_background = 1
@@ -1014,7 +1014,7 @@ pro fhd_versions_rlb
       recalculate_all = 0
       uvfits_version = 4
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       max_calibration_sources = 6000
       calibration_catalog_file_path = filepath('GLEAM_plus_rlb2017.sav',root=rootdir('FHD'),subdir='catalog_data')
       smooth_width = 32
@@ -1050,7 +1050,7 @@ pro fhd_versions_rlb
       recalculate_all = 0
       uvfits_version = 4
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       max_calibration_sources = 1000
       calibration_catalog_file_path = filepath('GLEAM_plus_rlb2017.sav',root=rootdir('FHD'),subdir='catalog_data')
       smooth_width = 32
@@ -1086,7 +1086,7 @@ pro fhd_versions_rlb
       recalculate_all = 0
       uvfits_version = 4
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       max_calibration_sources = 50000
       calibration_catalog_file_path = filepath('GLEAM_plus_rlb2017.sav',root=rootdir('FHD'),subdir='catalog_data')
       smooth_width = 32
@@ -1122,7 +1122,7 @@ pro fhd_versions_rlb
       recalculate_all = 1
       uvfits_version = 4
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       max_model_sources = 4000
       model_catalog_file_path = filepath('GLEAM_plus_rlb2017.sav',root=rootdir('FHD'),subdir='catalog_data')
       model_visibilities = 1
@@ -1159,7 +1159,7 @@ pro fhd_versions_rlb
       recalculate_all = 0
       uvfits_version = 4
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       max_calibration_sources = 4000
       calibration_catalog_file_path = filepath('GLEAM_plus_rlb2017.sav',root=rootdir('FHD'),subdir='catalog_data')
       smooth_width = 32
@@ -1195,7 +1195,7 @@ pro fhd_versions_rlb
       recalculate_all = 0
       uvfits_version = 4
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       max_calibration_sources = 50000
       calibration_catalog_file_path = filepath('GLEAM_plus_rlb2017.sav',root=rootdir('FHD'),subdir='catalog_data')
       smooth_width = 32
@@ -1231,7 +1231,7 @@ pro fhd_versions_rlb
       recalculate_all = 0
       uvfits_version = 4
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       max_calibration_sources = 50000
       calibration_catalog_file_path = '/home/ubuntu/test_catalogs/test_catalog_20k_sources.sav'
       smooth_width = 32
@@ -1266,7 +1266,7 @@ pro fhd_versions_rlb
       recalculate_all = 0
       uvfits_version = 4
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       max_calibration_sources = 50000
       calibration_catalog_file_path = '/home/ubuntu/test_catalogs/test_catalog_20k_sources_negative.sav'
       smooth_width = 32
@@ -1301,7 +1301,7 @@ pro fhd_versions_rlb
       recalculate_all = 0
       uvfits_version = 4
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       max_calibration_sources = 50000
       calibration_catalog_file_path = '/home/ubuntu/test_catalogs/test_catalog_4k_sources.sav'
       smooth_width = 32
@@ -1336,7 +1336,7 @@ pro fhd_versions_rlb
       recalculate_all = 0
       uvfits_version = 4
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       model_catalog_file_path = '/home/ubuntu/test_catalogs/test_catalog_2k_sources.sav'
       smooth_width = 32
       filter_background = 1
@@ -1365,7 +1365,7 @@ pro fhd_versions_rlb
       recalculate_all = 0
       uvfits_version = 4
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       max_calibration_sources = 50000
       calibration_catalog_file_path = '/home/ubuntu/test_catalogs/test_catalog_2p5k_sources.sav'
       smooth_width = 32
@@ -1400,7 +1400,7 @@ pro fhd_versions_rlb
       recalculate_all = 0
       uvfits_version = 4
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       max_calibration_sources = 50000
       calibration_catalog_file_path = '/home/ubuntu/test_catalogs/test_catalog_2p5k_neg_sources.sav'
       smooth_width = 32
@@ -1435,7 +1435,7 @@ pro fhd_versions_rlb
       recalculate_all = 0
       uvfits_version = 4
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       max_calibration_sources = 50000
       calibration_catalog_file_path = '/home/ubuntu/test_catalogs/test_catalog_1p5k_sources.sav'
       smooth_width = 32
@@ -1470,7 +1470,7 @@ pro fhd_versions_rlb
       recalculate_all = 0
       uvfits_version = 4
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       model_catalog_file_path = '/home/ubuntu/test_catalogs/GLEAM_three_quarters.sav'
       smooth_width = 32
       filter_background = 1
@@ -1499,7 +1499,7 @@ pro fhd_versions_rlb
       recalculate_all = 0
       uvfits_version = 4
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       max_calibration_sources = 50000
       calibration_catalog_file_path = '/home/ubuntu/test_catalogs/GLEAM_half.sav'
       smooth_width = 32
@@ -1534,7 +1534,7 @@ pro fhd_versions_rlb
       recalculate_all = 0
       uvfits_version = 4
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       max_calibration_sources = 50000
       calibration_catalog_file_path = filepath('GLEAM_plus_rlb2017.sav',root=rootdir('FHD'),subdir='catalog_data')
       smooth_width = 32
@@ -1569,7 +1569,7 @@ pro fhd_versions_rlb
       recalculate_all = 0
       uvfits_version = 4
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       max_calibration_sources = 50000
       calibration_catalog_file_path = '/home/ubuntu/test_catalogs/GLEAM_negative.sav'
       smooth_width = 32
@@ -1604,7 +1604,7 @@ pro fhd_versions_rlb
       recalculate_all = 1
       uvfits_version = 5
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       calibration_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
       smooth_width = 32
       filter_background = 1
@@ -1624,7 +1624,7 @@ pro fhd_versions_rlb
       recalculate_all = 0
       uvfits_version = 5
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       calibration_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019',root=rootdir('FHD'),subdir='catalog_data')
       max_cal_iter = 1000L ;increase max calibration iterations to ensure convergence
       gain_factor = 0.1
@@ -1656,7 +1656,7 @@ pro fhd_versions_rlb
       recalculate_all = 0
       uvfits_version = 5
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       filter_background = 1
       return_cal_visibilities = 0  ; changed this for calibration transfer
       catalog_file_path = 0
@@ -1685,7 +1685,7 @@ pro fhd_versions_rlb
       recalculate_all = 0
       uvfits_version = 5
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       calibration_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019',root=rootdir('FHD'),subdir='catalog_data')
       max_cal_iter = 1000L ;increase max calibration iterations to ensure convergence
       gain_factor = 0.1
@@ -1715,7 +1715,7 @@ pro fhd_versions_rlb
       recalculate_all = 0
       uvfits_version = 5
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       filter_background = 1
       return_cal_visibilities = 0  ; changed this for calibration transfer
       catalog_file_path = 0
@@ -1744,7 +1744,7 @@ pro fhd_versions_rlb
       recalculate_all = 1
       uvfits_version = 5
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       filter_background = 1
       return_cal_visibilities = 0
       catalog_file_path = 0
@@ -1772,7 +1772,7 @@ pro fhd_versions_rlb
       recalculate_all = 1
       uvfits_version = 5
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       filter_background = 1
       return_cal_visibilities = 0
       catalog_file_path = 0
@@ -1803,7 +1803,7 @@ pro fhd_versions_rlb
       recalculate_all = 1
       uvfits_version = 5
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       filter_background = 1
       return_cal_visibilities = 0
       catalog_file_path = 0
@@ -1834,7 +1834,7 @@ pro fhd_versions_rlb
       recalculate_all = 1
       uvfits_version = 5
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       filter_background = 1
       return_cal_visibilities = 0
       catalog_file_path = 0
@@ -1865,7 +1865,7 @@ pro fhd_versions_rlb
       recalculate_all = 1
       uvfits_version = 5
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       filter_background = 1
       return_cal_visibilities = 0
       catalog_file_path = 0
@@ -1897,7 +1897,7 @@ pro fhd_versions_rlb
       recalculate_all = 1
       uvfits_version = 5
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       filter_background = 1
       return_cal_visibilities = 0
       catalog_file_path = 0
@@ -1929,7 +1929,7 @@ pro fhd_versions_rlb
       recalculate_all = 1
       uvfits_version = 5
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       filter_background = 1
       return_cal_visibilities = 0
       catalog_file_path = 0
@@ -1959,7 +1959,7 @@ pro fhd_versions_rlb
       recalculate_all = 1
       uvfits_version = 5
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       filter_background = 1
       return_cal_visibilities = 0
       catalog_file_path = 0
@@ -1990,7 +1990,7 @@ pro fhd_versions_rlb
       recalculate_all = 1
       uvfits_version = 5
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       filter_background = 1
       return_cal_visibilities = 0
       catalog_file_path = 0
@@ -2020,7 +2020,7 @@ pro fhd_versions_rlb
       recalculate_all = 1
       uvfits_version = 5
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       filter_background = 1
       return_cal_visibilities = 0
       catalog_file_path = 0
@@ -2052,7 +2052,7 @@ pro fhd_versions_rlb
       recalculate_all = 1
       uvfits_version = 5
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       filter_background = 1
       return_cal_visibilities = 0
       catalog_file_path = 0
@@ -2082,7 +2082,7 @@ pro fhd_versions_rlb
       recalculate_all = 1
       uvfits_version = 5
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       filter_background = 1
       return_cal_visibilities = 0
       catalog_file_path = 0
@@ -2112,7 +2112,7 @@ pro fhd_versions_rlb
       recalculate_all = 1
       uvfits_version = 5
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       filter_background = 1
       return_cal_visibilities = 0
       catalog_file_path = 0
@@ -2142,7 +2142,7 @@ pro fhd_versions_rlb
       recalculate_all = 1
       uvfits_version = 5
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       filter_background = 1
       return_cal_visibilities = 0
       catalog_file_path = 0
@@ -2172,7 +2172,7 @@ pro fhd_versions_rlb
       recalculate_all = 1
       uvfits_version = 5
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       filter_background = 1
       return_cal_visibilities = 0
       catalog_file_path = 0
@@ -2201,7 +2201,7 @@ pro fhd_versions_rlb
       recalculate_all = 1
       uvfits_version = 5
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       filter_background = 1
       return_cal_visibilities = 0
       catalog_file_path = 0
@@ -2230,7 +2230,7 @@ pro fhd_versions_rlb
       recalculate_all = 1
       uvfits_version = 5
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       filter_background = 1
       return_cal_visibilities = 0
       catalog_file_path = 0
@@ -2259,7 +2259,7 @@ pro fhd_versions_rlb
       recalculate_all = 1
       uvfits_version = 5
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       calibration_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
       smooth_width = 32
       filter_background = 1
@@ -2278,7 +2278,7 @@ pro fhd_versions_rlb
       recalculate_all = 1
       uvfits_version = 5
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       calibration_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
       smooth_width = 32
       filter_background = 1
@@ -2297,7 +2297,7 @@ pro fhd_versions_rlb
       recalculate_all = 0
       uvfits_version = 5
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       calibration_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019',root=rootdir('FHD'),subdir='catalog_data')
       max_cal_iter = 1000L ;increase max calibration iterations to ensure convergence
       gain_factor = 0.1
@@ -2328,7 +2328,7 @@ pro fhd_versions_rlb
       recalculate_all = 1
       uvfits_version = 5
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       filter_background = 1
       return_cal_visibilities = 0
       catalog_file_path = 0
@@ -2358,7 +2358,7 @@ pro fhd_versions_rlb
       recalculate_all = 1
       uvfits_version = 5
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       filter_background = 1
       return_cal_visibilities = 0
       catalog_file_path = 0
@@ -2391,7 +2391,7 @@ pro fhd_versions_rlb
       recalculate_all = 1
       uvfits_version = 5
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       calibration_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
       diffuse_calibrate = 0
       diffuse_model = '/home/ubuntu/nearest_short_baselines_Aug2019.sav'
@@ -2478,7 +2478,7 @@ pro fhd_versions_rlb
       recalculate_all = 1
       uvfits_version = 4
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       calibration_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
       diffuse_calibrate = 0
       diffuse_model = '/home/ubuntu/averaged_diffuse_normalized.sav'
@@ -2499,7 +2499,7 @@ pro fhd_versions_rlb
       recalculate_all = 1
       uvfits_version = 4
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       calibration_catalog_file_path = 0
       return_cal_visibilities = 0
       cal_bp_transfer = 0  ; changed this for calibration transfer
@@ -2524,7 +2524,7 @@ pro fhd_versions_rlb
       recalculate_all = 1
       uvfits_version = 5
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       calibration_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
       smooth_width = 32
       filter_background = 1
@@ -2544,7 +2544,7 @@ pro fhd_versions_rlb
       recalculate_all = 0
       uvfits_version = 5
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       calibration_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
       smooth_width = 32
       filter_background = 1
@@ -2566,7 +2566,7 @@ pro fhd_versions_rlb
       recalculate_all = 1
       uvfits_version = 5
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       return_cal_visibilities = 0  ; changed this for calibration transfer
       catalog_file_path = 0
       diffuse_calibrate = 0
@@ -2596,7 +2596,7 @@ pro fhd_versions_rlb
       recalculate_all = 1
       uvfits_version = 4
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       calibration_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
       diffuse_calibrate = 0
       diffuse_model = '/home/ubuntu/averaged_diffuse_Feb2020.sav'
@@ -2617,7 +2617,7 @@ pro fhd_versions_rlb
       recalculate_all = 1
       uvfits_version = 4
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       calibration_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
       diffuse_calibrate = 0
       diffuse_model = '/home/ubuntu/averaged_diffuse_Feb2020.sav'
@@ -2638,7 +2638,7 @@ pro fhd_versions_rlb
       recalculate_all = 0
       uvfits_version = 4
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       calibration_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
       smooth_width = 32
       filter_background = 1
@@ -2661,7 +2661,7 @@ pro fhd_versions_rlb
       recalculate_all = 0
       uvfits_version = 4
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       calibration_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
       smooth_width = 32
       filter_background = 1
@@ -2684,7 +2684,7 @@ pro fhd_versions_rlb
       recalculate_all = 1
       uvfits_version = 4
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       calibration_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
       diffuse_calibrate = 0
       diffuse_model = 0
@@ -2705,7 +2705,7 @@ pro fhd_versions_rlb
       recalculate_all = 1
       uvfits_version = 5
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       return_cal_visibilities = 0  ; changed this for calibration transfer
       catalog_file_path = 0
       diffuse_calibrate = 0
@@ -2735,7 +2735,7 @@ pro fhd_versions_rlb
       recalculate_all = 1
       uvfits_version = 5
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       return_cal_visibilities = 0  ; changed this for calibration transfer
       catalog_file_path = 0
       diffuse_calibrate = 0
@@ -2765,7 +2765,7 @@ pro fhd_versions_rlb
       recalculate_all = 1
       uvfits_version = 5
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       return_cal_visibilities = 0  ; changed this for calibration transfer
       catalog_file_path = 0
       diffuse_calibrate = 0
@@ -2794,7 +2794,7 @@ pro fhd_versions_rlb
       recalculate_all = 1
       uvfits_version = 5
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       return_cal_visibilities = 0  ; changed this for calibration transfer
       catalog_file_path = 0
       diffuse_calibrate = 0
@@ -2823,7 +2823,7 @@ pro fhd_versions_rlb
       recalculate_all = 1
       uvfits_version = 5
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       return_cal_visibilities = 0  ; changed this for calibration transfer
       catalog_file_path = 0
       diffuse_calibrate = 0
@@ -2854,7 +2854,7 @@ pro fhd_versions_rlb
       snapshot_healpix_export = 0 ;don't produce eppsilon inputs
       uvfits_version = 5
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       return_cal_visibilities = 0  ; changed this for calibration transfer
       catalog_file_path = 0
       diffuse_calibrate = 0
@@ -2887,7 +2887,7 @@ pro fhd_versions_rlb
       snapshot_healpix_export = 0 ;don't produce eppsilon inputs
       uvfits_version = 5
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       return_cal_visibilities = 0  ; changed this for calibration transfer
       catalog_file_path = 0
       diffuse_calibrate = 0
@@ -2941,7 +2941,7 @@ pro fhd_versions_rlb
       snapshot_healpix_export = 0 ;don't produce eppsilon inputs
       uvfits_version = 5
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       return_cal_visibilities = 0  ; changed this for calibration transfer
       catalog_file_path = 0
       diffuse_calibrate = 0
@@ -2974,7 +2974,7 @@ pro fhd_versions_rlb
       snapshot_healpix_export = 0 ;don't produce eppsilon inputs
       uvfits_version = 5
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       return_cal_visibilities = 0  ; changed this for calibration transfer
       catalog_file_path = 0
       diffuse_calibrate = 0
@@ -3007,7 +3007,7 @@ pro fhd_versions_rlb
       snapshot_healpix_export = 0 ;don't produce eppsilon inputs
       uvfits_version = 5
       uvfits_subversion = 1
-      max_sources = 200000
+      max_deconvolution_components = 200000
       return_cal_visibilities = 0  ; changed this for calibration transfer
       catalog_file_path = 0
       diffuse_calibrate = 0

@@ -10,5 +10,6 @@ pro fhd_depreciation_test, saved_run_bp=saved_run_bp, cal_cable_reflection_corre
   if keyword_set(perf_calibrate) then message, 'perf_calibrate is no longer a keyword. Please use sim_perf_calibrate.'
   if keyword_set(calibration_bandpass_iterate) then message, 'calibration_bandpass_iterate is no longer a keyword. Code has been removed.'
   if keyword_set(nfreq_avg) then message, 'nfreq_avg is no longer a keyword. Please use beam_nfreq_avg.'
+  if keyword_set(max_sources) then message, 'max_sources is no longer a keyword. Please use max_deconvolution_components.'
   
 end
