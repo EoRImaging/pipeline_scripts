@@ -13,7 +13,7 @@ PRO eor_wrapper_defaults,extra
   uvfits_version=5
   uvfits_subversion=1
   dimension=2048
-  max_sources=20000
+  max_deconvolution_components=20000
   FoV=0
   min_baseline=1.
   min_cal_baseline=50.
