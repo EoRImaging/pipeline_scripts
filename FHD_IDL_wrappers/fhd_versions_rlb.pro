@@ -15,7 +15,7 @@ pro fhd_versions_rlb
   
   if strmatch(version, 'rlb_diffuse_baseline_cut_coarse_band_*_Apr2020') then begin
     use_band = (strsplit(version, '_', /extract))[-2]
-  endif
+  endif else use_band = ''
 
   case version of
 
