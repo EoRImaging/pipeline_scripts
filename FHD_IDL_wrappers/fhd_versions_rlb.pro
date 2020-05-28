@@ -3063,7 +3063,7 @@ pro fhd_versions_rlb
       image_filter_fn = 'filter_uv_weighted'
       time_cut = -4 ;flag an extra 4 seconds from the end of each obs
       unflag_all = 1 ;unflag for simulation
-      n_pol = 4
+      n_pol = 2 ;flags file does not support 4 pol
     end
     
     'rlb_diffuse_roundtrip_test_May2020': begin
@@ -3094,7 +3094,7 @@ pro fhd_versions_rlb
       image_filter_fn = 'filter_uv_weighted'
       time_cut = -4 ;flag an extra 4 seconds from the end of each obs
       unflag_all = 1 ;unflag for simulation
-      n_pol = 4
+      n_pol = 2 ;flags file does not support 4 pol
     end
     
     'rlb_model_diffuse_no_rm_correction_May2020': begin
@@ -3125,7 +3125,7 @@ pro fhd_versions_rlb
       image_filter_fn = 'filter_uv_weighted'
       time_cut = -4 ;flag an extra 4 seconds from the end of each obs
       unflag_all = 1 ;unflag for simulation
-      n_pol = 4
+      n_pol = 2 ;flags file does not support 4 pol
     end
 
   endcase
