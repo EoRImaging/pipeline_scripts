@@ -3162,6 +3162,26 @@ pro fhd_versions_rlb
       unflag_all = 1 ;unflag for simulation
       n_pol = 2 ;flags file does not support 4 pol
     end
+    
+    'rlb_subtract_GLEAM_and_diffuse_Jun2020': begin
+      recalculate_all = 1
+      uvfits_version = 4
+      uvfits_subversion = 1
+      calibration_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
+      diffuse_calibrate = 0
+      diffuse_model = '/home/ubuntu/averaged_diffuse_May2020.sav'
+      model_catalog_file_path = 0
+      model_visibilities = 1
+      smooth_width = 32
+      filter_background = 1
+      return_cal_visibilities = 1 ;Add GLEAM to diffuse for subtraction
+      pad_uv_image = 1
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      debug_region_grow = 0
+      n_pol = 2
+    end
 
   endcase
 
