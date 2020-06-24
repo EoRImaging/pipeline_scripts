@@ -6,7 +6,7 @@
 
 #inputs needed: file_path_cubes, nobs, version, ncores
 
-echo "Job ID: " $SLURM_ARRAY_JOB_ID
+echo "Job ID: " $SLURM_JOBID
 
 #***Get the obsid file paths
 nobs=0

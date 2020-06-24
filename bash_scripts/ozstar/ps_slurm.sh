@@ -23,7 +23,7 @@
 ######################################################################################
 
 #Parse flags for inputs
-while getopts ":d:f:p:w:n:m:o:l:h:t:" option
+while getopts ":d:f:p:w:n:m:o:i:l:h:t:" option
 do
    case $option in
         d) FHDdir="$OPTARG";;			#file path to fhd directory with cubes
@@ -33,12 +33,13 @@ do
         n) ncores=$OPTARG;;             	#Number of slots for grid engine
         m) mem=$OPTARG;;                	#Memory per core for grid engine
 	o) ps_only=$OPTARG;;			#Flag for skipping integration to make PS only
+        i) int_only=$OPTARG;;                   #Flag for skipping PS to make integration only
         l) legacy=$OPTARG;;                     #Use legacy directory structure. hacky solution to a silly problem.
         h) hold=$OPTARG;;                       #Hold for a job to finish before running. Useful when running immediately after firstpass
 	t) tukey_filter=$OPTARG;;               #Apply a Tukey image window filter during eppsilon
         \?) echo "Unknown option: Accepted flags are -d (file path to fhd directory with cubes), -f (obs list or subcube path or single obsid), "
 	    echo "-p (priority for grid engine), -w (wallclock time), -n (number of slots), -m (memory allocation), "
-	    echo "-o (make ps only without integration), and -l (legacy flag for old file structure),"
+	    echo "-o (make ps only without integration), -i (make integration only without PS), and -l (legacy flag for old file structure),"
 	    echo "-h (hold int/ps script on a running job id), and -t (apply a tukey window filter during ps),"
             exit 1;;
         :) echo "Missing option argument for input flag"
@@ -93,17 +94,28 @@ fi
 #Default priority if not set.
 if [ -z ${priority} ]; then priority=0; fi
 
-#Set typical wallclock_time for standard PS with obs ids if not set.
+#Set typical wallclock_time for standard PS weights cubes
 if [ -z ${wallclock_time} ]; then wallclock_time=10:00:00; fi
+
+#Set typical wallclock time for dirty,model,residual cubes
+IFS=':' #delimeter
+read -ra hms <<< "$wallclock_time" #split wallclock time
+hms[0]=$(($hms / 2)) #divide just the hours (first dim) in half to get estimate
+IFS=' ' #reset delimeter
+wallclock_time_half=$(printf ":%s" "${hms[@]}") #concatonate string
+wallclock_time_half="${wallclock_time_half:1}"
 
 #Set typical slots needed for standard PS with obs ids if not set.
 if [ -z ${ncores} ]; then ncores=1; fi
 
 #Set typical memory needed for standard PS with obs ids if not set.
-if [ -z ${mem} ]; then mem=25G; fi
+if [ -z ${mem} ]; then mem=15G; fi
 
 #Set default to do integration
 if [ -z ${ps_only} ]; then ps_only=0; fi
+
+#Set default to do integration
+if [ -z ${int_only} ]; then int_only=0; fi
 
 #Set default to use current file structure
 if [ -z ${legacy} ]; then legacy=0; fi
@@ -151,7 +163,10 @@ do
               if [[ "$pol_files" -eq 4 ]]; then
                   n_pol=4; else 
                       echo Non-standard amount of cubes per obs $line
-                      exit_flag=1
+		      if  [ -z ${hold} ]; then 
+                           exit_flag=1; else
+                                n_pol=2
+                      fi
               fi
       fi 
       else
@@ -273,6 +288,12 @@ else
     echo "Running only ps code" # Just PS if flag has been set
 fi
 
+if [ "$int_only" -eq "1" ]; then
+    echo "Running only int code" 
+    exit 1
+fi
+
+
 outfile=${FHDdir}/ps/logs/${version}_ps_out
 errfile=${FHDdir}/ps/logs/${version}_ps_err
 
@@ -295,18 +316,19 @@ cube_type_list=( weights dirty model res )
 
 pipe_path='../pipeline_scripts/bash_scripts/ozstar/'
 hold_str_cubes=$hold_str
-
+echo $hold_str_cubes
 for pol in ${pol_list[@]}; do
     for evenodd in ${evenodd_list[@]}; do
         evenodd_initial="$(echo $evenodd | head -c 1)"
         for cube_type in ${cube_type_list[@]}; do
 	    if [ "$cube_type" == "weights" ]; then hold_str_cubes=$hold_str; fi
-            message=$(sbatch ${hold_str_cubes} --mem=$mem -t ${wallclock_time} -n ${ncores} --export=file_path_cubes=$FHDdir,obs_list_path=$integrate_list,version=$version,ncores=$ncores,cube_type=$cube_type,pol=$pol,evenodd=$evenodd,image_filter_name=$tukey_filter -e ${errfile}_${pol}_${evenodd}_${cube_type}.log -o ${outfile}_${pol}_${evenodd}_${cube_type}.log -J PS_${pol}${evenodd_initial}_${cube_type} ${PSpath}${pipe_path}PS_list_slurm_job.sh)
+            if [ "$cube_type" != "weights" ]; then wallclock_time_use=$wallclock_time_half; else wallclock_time_use=$wallclock_time; fi
+            message=$(sbatch ${hold_str_cubes} --mem=$mem -t ${wallclock_time_use} -n ${ncores} --export=file_path_cubes=$FHDdir,obs_list_path=$integrate_list,version=$version,ncores=$ncores,cube_type=$cube_type,pol=$pol,evenodd=$evenodd,image_filter_name=$tukey_filter -e ${errfile}_${pol}_${evenodd}_${cube_type}.log -o ${outfile}_${pol}_${evenodd}_${cube_type}.log -J PS_${pol}${evenodd_initial}_${cube_type} ${PSpath}${pipe_path}PS_list_slurm_job.sh)
             message=($message)
             if [ "$cube_type" == "weights" ]; then hold_str_cubes="--dependency=afterok:${message[3]}"; fi
                 if [ "$cube_type" == "weights" ]; then
                     if [ "$evenodd" == "even" ]; then
-                        if [ "$pol" == "XX" ]; then
+                        if [ "$pol" == "xx" ]; then
                             id_list=${message[3]}
                             else id_list=${id_list}:${message[3]}
                         fi
@@ -320,4 +342,4 @@ done
 
 #final plots
 if [[ -n ${tukey_filter} ]]; then plot_walltime=1:00:00; else plot_walltime=00:20:00; fi
-sbatch --dependency=afterok:$id_list --mem=$mem -t ${wallclock_time} -n ${ncores} --export=file_path_cubes=$FHDdir,obs_list_path=$integrate_list,version=$version,ncores=$ncores,image_filter_name=$tukey_filter -e ${errfile}_plots.log -o ${outfile}_plots.log -J PS_plots ${PSpath}${pipe_path}PS_list_slurm_job.sh
+sbatch --dependency=afterok:$id_list --mem=$mem -t ${plot_walltime} -n ${ncores} --export=file_path_cubes=$FHDdir,obs_list_path=$integrate_list,version=$version,ncores=$ncores,image_filter_name=$tukey_filter -e ${errfile}_plots.log -o ${outfile}_plots.log -J PS_plots ${PSpath}${pipe_path}PS_list_slurm_job.sh

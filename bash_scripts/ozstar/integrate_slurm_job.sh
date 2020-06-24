@@ -8,7 +8,7 @@
 #inputs needed: file_path_cubes, obs_list_path, version, chunk, ncores
 # chunk is the chunk number when the list was broken up. 0 for "master" or only chunk
 
-#echo JOBID ${JOB_ID}
+echo $SLURM_JOBID
 
 if [ "$legacy" -ne "1" ]; then
     #Create a name for the obs txt file based off of inputs

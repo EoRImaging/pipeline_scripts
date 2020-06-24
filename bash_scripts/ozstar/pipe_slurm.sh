@@ -41,7 +41,7 @@ unset resubmit_index
 
 #Parse flags for inputs
 #while getopts ":f:s:e:o:v:p:w:n:m:t:" option
-while getopts ":f:s:e:o:v:w:n:m:t:" option
+while getopts ":f:s:e:o:v:w:n:m:h:t:" option
 do
    case $option in
 	f) obs_file_name="$OPTARG";;	#text file of observation id's
@@ -53,6 +53,7 @@ do
 	w) wallclock_time=$OPTARG;;	#Time for execution in slurm
 	n) ncores=$OPTARG;;		#Number of cores for slurm
 	m) mem=$OPTARG;;		#Memory per node for slurm
+        h) hold=$OPTARG;;  
 	t) thresh=$OPTARG;;		#Wedge threshold to use to determine whether or not to run
 	\?) echo "Unknown option: Accepted flags are -f (obs_file_name), -s (starting_obs), -e (ending obs), -o (output directory), "
 	    echo "-v (version input for FHD), -w (wallclock timein slurm), -n (number of cores to use),"
@@ -132,6 +133,8 @@ fi
 if [ -z ${mem} ]; then
     mem=40G
 fi
+# create hold string
+if [ -z ${hold} ]; then hold_str=""; else hold_str="--dependency=afterok:${hold}"; fi
 if [ -z ${thresh} ]; then
     # if thresh is not set, set it to -1 which will cause it to not check for a window power
     thresh=-1
@@ -204,7 +207,7 @@ done
 #Find the number of obsids to run in array
 nobs=${#good_obs_list[@]}
 
-message=$(sbatch --mem=$mem -t ${wallclock_time} -n ${ncores} --array=0-$(($nobs - 1)) --export=ncores=$ncores,outdir=$outdir,version=$version,thresh=$thresh -o ${outdir}/fhd_${version}/grid_out/firstpass-%A_%a.out -e ${outdir}/fhd_${version}/grid_out/firstpass-%A_%a.err ${FHDpath}../pipeline_scripts/bash_scripts/ozstar/eor_firstpass_slurm_job.sh ${good_obs_list[@]})
+message=$(sbatch ${hold_str} --mem=$mem -t ${wallclock_time} -n ${ncores} --array=0-$(($nobs - 1)) --export=ncores=$ncores,outdir=$outdir,version=$version,thresh=$thresh -o ${outdir}/fhd_${version}/grid_out/firstpass-%A_%a.out -e ${outdir}/fhd_${version}/grid_out/firstpass-%A_%a.err ${FHDpath}../pipeline_scripts/bash_scripts/ozstar/eor_firstpass_slurm_job.sh ${good_obs_list[@]})
 
 #echo $message
 
