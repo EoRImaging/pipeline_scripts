@@ -20,6 +20,40 @@ pro mjw_fhd_versions
 
   case version of
 
+    'kernel_window_control_run_leave_flags_write_uvf': begin
+    kernel_window=1
+    calibrate_visibilities=0
+    return_cal_visibilities=0
+    calibration_visibilities_subtract=0
+    model_visibilities=1
+    save_visibilities=1
+    debug_dim=1
+    beam_mask_threshold=1e3
+    beam_clip_floor=1
+    beam_nfreq_avg=384
+    ps_kspan=200.
+    interpolate_kernel=1
+    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    save_uvf=1
+    end
+
+
+    'kernel_window_control_run_leave_flags': begin
+    kernel_window=1
+    calibrate_visibilities=0
+    return_cal_visibilities=0
+    calibration_visibilities_subtract=0
+    model_visibilities=1
+    save_visibilities=1
+    debug_dim=1
+    beam_mask_threshold=1e3
+    beam_clip_floor=1
+    beam_nfreq_avg=384
+    ps_kspan=200.
+    interpolate_kernel=1
+    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    end
+
     'Barry_2019_image_step_coarse_beam': begin
     model_uv_transfer='/uvfits/transfer/' + obs_id + '_model_uv_arr.sav'
     kernel_window=1
@@ -240,7 +274,7 @@ pro mjw_fhd_versions
     debug_dim=1
     beam_mask_threshold=1e3
     beam_clip_floor=1
-    nfreq_avg=384
+    beam_nfreq_avg=384
     ps_kspan=200.
     interpolate_kernel=1
     restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
@@ -257,7 +291,7 @@ pro mjw_fhd_versions
     debug_dim=1
     beam_mask_threshold=1e3
     beam_clip_floor=1
-    nfreq_avg=384
+    beam_nfreq_avg=384
     ps_kspan=200.
     interpolate_kernel=1
     restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
