@@ -1,6 +1,6 @@
 #!/bin/bash
 
-while getopts ":f:o:b:n:p:q:r:" option
+while getopts ":f:o:b:n:p:t:" option
 do
   case $option in
     f) obs_file_name="$OPTARG";;
@@ -11,8 +11,7 @@ do
     t) input_type=$OPTARG;;
     \?) echo "Unknown option: Accepted flags are -f (obs_file_name), -o (output directory), "
         echo "-b (output bucket on S3),  -n (number of slots to use), "
-        echo "-p (path to uvfits files on S3), -q (python script to execute),"
-        echo "-r (options for python script)."
+        echo "-p (path to input files on S3), -t (type of input file)"
         exit 1;;
     :) echo "Missing option argument for input flag"
        exit 1;;
@@ -29,7 +28,7 @@ if [ -z ${obs_file_name} ]; then
 fi
 
 #Set default output directory if one is not supplied and update user
-if [ -z ${outdir} ]
+if [ -z ${outdir} ];
 then
     outdir=/SSINS_output
     echo Using default output directory: $outdir
@@ -41,9 +40,10 @@ fi
 
 if [ -z ${input_type} ]; then
   input_type=uvfits
-elif [ ${input_type} != "uvfits" && ${input_type} != "gpubox" ]; then
+elif [[ ${input_type} != "uvfits" && ${input_type} != "gpubox" ]]; then
   echo "${input_type} is not a valid input type. Valid options are 'uvfits' or 'gpubox'"
   exit 1
+fi
 
 if [ -z ${input_s3_loc} ]; then
   if [ ${input_type} == "uvfits"]; then
@@ -79,4 +79,4 @@ echo Output located at ${outdir}
 
 N_obs=$(wc -l < $obs_file_name)
 
-qsub -V -b y -cwd -v obs_file_name=${obs_file_name},nslots=${nslots},outdir=${outdir},s3_path=${s3_path},input_s3_loc=${input_s3_loc},input_Type=${input_type} -e ${logdir} -o ${logdir} -pe smp ${nslots} -sync y -t 1:${N_obs} SSINS_job_aws.sh &
+qsub -V -b y -cwd -v obs_file_name=${obs_file_name},nslots=${nslots},outdir=${outdir},s3_path=${s3_path},input_s3_loc=${input_s3_loc},input_type=${input_type} -e ${logdir} -o ${logdir} -pe smp ${nslots} -sync y -t 1:${N_obs} SSINS_job_aws.sh &

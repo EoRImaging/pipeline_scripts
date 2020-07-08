@@ -77,6 +77,9 @@ aws s3 cp ${s3_path}/fhd_${version}/ ${outdir}/fhd_${version}/ --recursive \
 # Run backup script in the background
 fhd_on_aws_backup.sh $outdir $s3_path $version $JOB_ID $myip &
 
+# Run RAM use recording script in the background
+record_ram_use_aws.sh $obs_id $outdir $version $JOB_ID $myip &
+
 if [ "$run_fhd" -eq 1 ]; then  # Start FHD
 
     #create uvfits download location with full permissions
@@ -200,6 +203,62 @@ if [ "$run_fhd" -eq 1 ]; then  # Start FHD
             exit 1
         fi
         echo Extra visibilities from ${extra_vis} copied to /uvfits/extra_vis/
+    fi
+
+    #Get calibration transfer files
+    if [ ! -z ${cal_transfer} ]; then
+        # Check that the cal_transfer file exists on s3
+        cal_transfer_s3_path="${cal_transfer}/calibration/${obs_id}_cal.sav"
+        echo "Searching for ${cal_transfer_s3_path}"
+        cal_transfer_exists=$(aws s3 ls ${cal_transfer_s3_path})
+        echo $cal_transfer_exists
+        if [ -z "$cal_transfer_exists" ]; then
+            >&2 echo "ERROR: cal_transfer file not found on s3"
+            echo "Job Failed"
+            exit 1
+        fi
+        transfer_dir="/uvfits/transfer"
+        if [ -d "$transfer_dir" ]; then
+            sudo chmod -R 777 $transfer_dir
+        else
+            sudo mkdir -m 777 $transfer_dir
+        fi
+        #Download the cal_transfer file
+        sudo aws s3 cp $cal_transfer_s3_path $transfer_dir/ --quiet
+        #Check the download
+        if [ ! -f ${transfer_dir}/${obs_id}_cal.sav ]; then
+        >&2 echo "ERROR: cal_transfer file not found on filesystem"
+            echo "Job Failed"
+            exit 1
+        fi
+    fi
+
+    #Get model_uv transfer files
+    if [ ! -z ${model_uv_transfer} ]; then
+        # Check that the model_uv_transfer file exists on s3
+        model_uv_transfer_s3_path="${model_uv_transfer}/cal_prerun/${obs_id}_model_uv_arr.sav"
+        echo Searching for $model_uv_transfer_s3_path
+        model_uv_transfer_exists=$(aws s3 ls ${model_uv_transfer_s3_path})
+        echo $model_uv_transfer_exists
+        if [ -z "$model_uv_transfer_exists" ]; then
+            >&2 echo "ERROR: model_uv_transfer file not found on s3"
+            echo "Job Failed"
+            exit 1
+        fi
+        transfer_dir="/uvfits/transfer"
+        if [ -d "$transfer_dir" ]; then
+            sudo chmod -R 777 $transfer_dir
+        else
+            sudo mkdir -m 777 $transfer_dir
+        fi
+        #Download the model_uv_transfer file
+        sudo aws s3 cp $model_uv_transfer_s3_path $transfer_dir/ --quiet
+        #Check the download
+        if [ ! -f ${transfer_dir}/${obs_id}_model_uv_arr.sav ]; then
+        >&2 echo "ERROR: model_uv_transfer file not found on filesystem"
+            echo "Job Failed"
+            exit 1
+        fi
     fi
 
     # Run FHD

@@ -15,14 +15,10 @@ while true; do
         >&2 echo "Spot instance termination. Shutting down."
 
         # Copy gridengine stdout to S3
-        aws s3 cp ~/grid_out/fhd_job_aws.sh.o${JOB_ID} \
-        ${s3_path}/fhd_${version}/grid_out/\
-        fhd_job_aws.sh.o${JOB_ID}_${myip}.txt --quiet
+        aws s3 cp ~/grid_out/fhd_job_aws.sh.o${JOB_ID} ${s3_path}/fhd_${version}/grid_out/fhd_job_aws.sh.o${JOB_ID}_${myip}.txt --quiet
 
         # Copy gridengine stderr to S3
-        aws s3 cp ~/grid_out/fhd_job_aws.sh.e${JOB_ID} \
-        ${s3_path}/fhd_${version}/grid_out/\
-        fhd_job_aws.sh.e${JOB_ID}_${myip}.txt --quiet
+        aws s3 cp ~/grid_out/fhd_job_aws.sh.e${JOB_ID} ${s3_path}/fhd_${version}/grid_out/fhd_job_aws.sh.e${JOB_ID}_${myip}.txt --quiet
 
         # Copy FHD outputs to S3
         j=1  #initialize counter
@@ -33,8 +29,7 @@ while true; do
             let "j += 1"  #increment counter
             >&2 echo "Moving FHD outputs to S3 failed. Retrying (attempt $j)."
             aws s3 sync ${outdir}/fhd_${version}/ \
-            ${s3_path}/fhd_${version}/ --exclude "*" --include "*${obs_id}*" \
-            --quiet
+            ${s3_path}/fhd_${version}/ --exclude "*" --include "*${obs_id}*"
         done
 
         exit 0

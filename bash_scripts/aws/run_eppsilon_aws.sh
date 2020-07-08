@@ -24,19 +24,18 @@
 ######################################################################################
 
 #Parse flags for inputs
-while getopts ":d:f:n:p:h:i:q:" option
+while getopts ":d:f:n:p:h:q:" option
 do
    case $option in
         d) FHDdir="$OPTARG";;			#file path to fhd directory with cubes
         f) integrate_list="$OPTARG";;		#txt file of obs ids or subcubes or a single obsid
         n) nslots=$OPTARG;;             	#Number of slots for grid engine
-	p) ps_only=$OPTARG;;			#Flag for skipping integration to make PS only
+        p) ps_only=$OPTARG;;			#Flag for skipping integration to make PS only
         h) hold=$OPTARG;;                       #Hold for a job to finish before running. Useful when running immediately after firstpass
-	i) image_filter=$OPTARG;;               #Apply an image window filter during eppsilon
-	q) ps_plots_only=$OPTARG;;		#Submit only a PS_plots job with no individual cube DFTs
+        q) ps_plots_only=$OPTARG;;		#Submit only a PS_plots job with no individual cube DFTs
         \?) echo "Unknown option: Accepted flags are -d (file path to fhd directory with cubes), -f (obs list or subcube path or single obsid), "
-	    echo "-n (number of slots), -p (make ps only), -q (submit PS_plots only)"
-	    echo "-h (hold int/ps script on a running job id), and -i (apply a window filter during ps),"
+	          echo "-n (number of slots), -p (make ps only), -q (submit PS_plots only)"
+	          echo "-h (hold int/ps script on a running job id), and -i (apply a window filter during ps),"
             exit 1;;
         :) echo "Missing option argument for input flag"
            exit 1;;
@@ -77,7 +76,7 @@ then
 
     if [ -z ${ps_only} ]
     then
-        echo "ps_only flag must be set if integrate list is a single observation id. Set -o 1 if desired function"
+        echo "ps_only flag must be set if integrate list is a single observation id. Set -p 1 if desired function"
         exit 1
     fi
     version=$integrate_list  #Currently assuming that the integrate list is a single obsid
@@ -94,22 +93,6 @@ if [ -z ${ps_only} ]; then ps_only=0; fi
 
 # create hold string
 if [ -z ${hold} ]; then hold_str=""; else hold_str="-hold_jid ${hold}"; fi
-
-# image filter
-if [[ -n ${image_filter} ]]; then
-    case $image_filter in
-        "Blackman-Harris") image_letters="bh_" ;;
-        "Blackman-Harris^2") image_letters="bh2_" ;;
-        "Blackman-Nutall") image_letters="bn_" ;;
-        "Blackman") image_letters="blm_" ;;
-        "Hann") image_letters="han_" ;;
-        "Hamming") image_letters="ham_" ;;
-        "Nutall") image_letters="ntl_" ;;
-        "Tukey") image_letters="tk_" ;;
-	"None") image_letters="" ;;
-        *) image_filter="Blackman-Harris"; image_letters="bh_" ;;
-    esac
-fi
 
 PSpath='~/MWA/eppsilon/'
 
@@ -182,38 +165,38 @@ if [ "$ps_only" -ne "1" ]; then
 
         # launch separate chunks
         for chunk in $(seq 1 $nchunk); do
-	    chunk_obs_list=/Healpix/${version}_int_chunk${chunk}.txt
+	          chunk_obs_list=/Healpix/${version}_int_chunk${chunk}.txt
             readarray chunk_obs_array < $chunk_obs_list
-	    chunk_obs_array=$( IFS=$':'; echo "${chunk_obs_array[*]}" ) #qsub can't take arrays
+	          chunk_obs_array=$( IFS=$':'; echo "${chunk_obs_array[*]}" ) #qsub can't take arrays
 
             for evenodd in even odd; do
-		for pol in XX YY; do
-	    	    message=$(qsub ${hold_str} -V -b y -v file_path_cubes=$FHDdir,obs_list_array="$chunk_obs_array",obs_list_path=$chunk_obs_list,version=$version,chunk=$chunk,nslots=$nslots,legacy=$legacy,evenodd=$evenodd,pol=$pol -e $errfile -o $outfile -N int_c_${version} -pe smp $nslots -sync y integration_job_aws.sh)
-	    	    message=($message)
-		done
-	    done
-	    echo Combined_obs_${version}_int_chunk${chunk} >> $sub_cubes_list # trick it into finding our sub cubes
+		            for pol in XX YY; do
+	    	            message=$(qsub ${hold_str} -V -b y -v file_path_cubes=$FHDdir,obs_list_array="$chunk_obs_array",obs_list_path=$chunk_obs_list,version=$version,chunk=$chunk,nslots=$nslots,legacy=$legacy,evenodd=$evenodd,pol=$pol -e $errfile -o $outfile -N int_c_${version} -pe smp $nslots integration_job_aws.sh)
+	    	            message=($message)
+		            done
+	          done
+	          echo Combined_obs_${version}_int_chunk${chunk} >> $sub_cubes_list # trick it into finding our sub cubes
         done
 
         idlist_int_chunks=(`qstat | grep "int_c_" | cut -b -7`)
-	idlist_int_chunks=$( IFS=$','; echo "${idlist_int_chunks[*]}" )
-	hold_str="-hold_jid ${idlist_int_chunks}"
+	      idlist_int_chunks=$( IFS=$','; echo "${idlist_int_chunks[*]}" )
+	      hold_str="-hold_jid ${idlist_int_chunks}"
 
         # master integrator
         chunk=0
         readarray chunk_obs_array < $sub_cubes_list
-	chunk_obs_array=$( IFS=$':'; echo "${chunk_obs_array[*]}" ) #qsub can't take arrays
+	      chunk_obs_array=$( IFS=$':'; echo "${chunk_obs_array[*]}" ) #qsub can't take arrays
 
         for evenodd in even odd; do
-	    for pol in XX YY; do
-	    	message=$(qsub ${hold_str} -V -b y -v file_path_cubes=$FHDdir,obs_list_array="$chunk_obs_array",obs_list_path=$sub_cubes_list,version=$version,chunk=$chunk,nslots=$nslots,legacy=$legacy,evenodd=$evenodd,pol=$pol -e $errfile -o $outfile -N int_m_${version} -pe smp $nslots -sync y integration_job_aws.sh)
-        	message=($message)
-	    done
-	done
+	         for pol in XX YY; do
+	    	       message=$(qsub ${hold_str} -V -b y -v file_path_cubes=$FHDdir,obs_list_array="$chunk_obs_array",obs_list_path=$sub_cubes_list,version=$version,chunk=$chunk,nslots=$nslots,legacy=$legacy,evenodd=$evenodd,pol=$pol -e $errfile -o $outfile -N int_m_${version} -pe smp $nslots integration_job_aws.sh)
+        	     message=($message)
+	         done
+	      done
 
         idlist_int_master=(`qstat | grep "int_m_" | cut -b -7`)
-	idlist_int_master=$( IFS=$','; echo "${idlist_int_master[*]}" )
-	hold_str="-hold_jid ${idlist_int_master}"
+	      idlist_int_master=$( IFS=$','; echo "${idlist_int_master[*]}" )
+	      hold_str="-hold_jid ${idlist_int_master}"
 
 
     else
@@ -223,14 +206,13 @@ if [ "$ps_only" -ne "1" ]; then
         chunk=0
         chunk_obs_list=/Healpix/${version}_int_chunk${chunk}.txt
         readarray chunk_obs_array < $chunk_obs_list
-	chunk_obs_array=$( IFS=$':'; echo "${chunk_obs_array[*]}" ) #qsub can't take arrays
+	      chunk_obs_array=$( IFS=$':'; echo "${chunk_obs_array[*]}" ) #qsub can't take arrays
 
         for evenodd in even odd; do
-	    for pol in XX YY; do
-        	message=$(qsub ${hold_str} -V -b y -v file_path_cubes=$FHDdir,obs_list_array="$chunk_obs_array",obs_list_path=$chunk_obs_list,version=$version,chunk=$chunk,nslots=$nslots,legacy=$legacy,evenodd=$evenodd,pol=$pol -e $errfile -o $outfile -N int_${version} -pe smp $nslots -sync y integration_job_aws.sh)
-       		message=($message)
-	    done
-	done
+	         for pol in XX YY; do
+        	    qsub ${hold_str} -V -b y -v file_path_cubes=$FHDdir,obs_list_array="$chunk_obs_array",obs_list_path=$chunk_obs_list,version=$version,chunk=$chunk,nslots=$nslots,legacy=$legacy,evenodd=$evenodd,pol=$pol -e $errfile -o $outfile -N int_${version} -pe smp $nslots integration_job_aws.sh
+	         done
+	      done
 
         idlist_int=(`qstat | grep "int_" | cut -b -7`)
         hold_str="-hold_jid ${idlist_int}"
@@ -289,7 +271,7 @@ if [ -z ${ps_plots_only} ]; then
 
                 cube_type_letter=${cube_type:0:1}
 
-                message=$(qsub ${hold_str_temp} -V -b y -cwd -v file_path_cubes=$FHDdir,obs_list_path=$integrate_list,obs_list_array="$integrate_array",version=$version,nslots=$nslots,cube_type=$cube_type,pol=$pol,evenodd=$evenodd,image_filter_name=$image_filter,image_letters=$image_letters -e ${errfile} -o ${outfile} -N ${cube_type_letter}_${pol}_${evenodd} -pe smp $nslots -sync y eppsilon_job_aws.sh)
+                message=$(qsub ${hold_str_temp} -V -b y -cwd -v file_path_cubes=$FHDdir,obs_list_path=$integrate_list,obs_list_array="$integrate_array",version=$version,nslots=$nslots,cube_type=$cube_type,pol=$pol,evenodd=$evenodd -e ${errfile} -o ${outfile} -N ${cube_type_letter}_${pol}_${evenodd} -pe smp $nslots eppsilon_job_aws.sh)
                 message=($message)
 
                 if [ ! -z "$pids" ]; then pids="$!"; else pids=($pids "$!"); fi
@@ -307,4 +289,4 @@ if [ -z ${ps_plots_only} ]; then
 fi
 
 #final plots
-qsub -hold_jid $id_list -V -v file_path_cubes=$FHDdir,obs_list_path=$integrate_list,obs_list_array="$integrate_array",version=$version,nslots=$nslots,image_filter_name=$image_filter,image_letters=$image_letters -e ${errfile} -o ${outfile} -N PS_plots -pe smp $nslots -sync y eppsilon_job_aws.sh &
+qsub -hold_jid $id_list -V -v file_path_cubes=$FHDdir,obs_list_path=$integrate_list,obs_list_array="$integrate_array",version=$version,nslots=$nslots -e ${errfile} -o ${outfile} -N PS_plots -pe smp $nslots $(which eppsilon_job_aws.sh) &

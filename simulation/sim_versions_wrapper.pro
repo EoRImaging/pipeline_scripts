@@ -3,7 +3,7 @@ PRO sim_versions_wrapper, version=version, sources_file_name=sources_file_name, 
 
 except=!except
 !except=0
-heap_gc 
+heap_gc
 
 
 ; parse command line args
@@ -74,7 +74,7 @@ restore_last=1   ;    Use saved beam model
 beam_offset_time=0   ; How far into the file to calculate the beam model? (seconds)
 
 ;grid_interpolate=1   ; This doesn't see to do anything..
-unflag_all=1       ; Don't flag any visibilities 
+unflag_all=1       ; Don't flag any visibilities
 
 n_pol = 2
 image_filter_fn='filter_uv_uniform' ; not sure if this makes sense for simulations
@@ -82,10 +82,10 @@ vis_baseline_hist=1
 ;dimension=1024
 dimension=2048
 if n_elements(fov) eq 0 then fov=0.   ; Smaller for HERA, maybe 10 to 15. (80 originally) -- overrides kbinsize
-nfreq_avg=10    ; Fine frequencies per coarse channel.
+beam_nfreq_avg=10    ; Fine frequencies per coarse channel.
 
 max_sources=10000
-psf_resolution=100. 
+psf_resolution=100.
 kbinsize=0.5
 ;kbinsize=0.25
 ;recalculate_all=0 ; If there is no data being used for context, FHD should calculate everything from scratch.
@@ -113,7 +113,7 @@ if n_elements(version) eq 0 then begin ;version provides a name for the output s
 endif
 
 ;;** Setting up the source_array structure that contains the sources to be used in the simulation
-;if n_elements(sources_file_name) eq 0 then begin 
+;if n_elements(sources_file_name) eq 0 then begin
 ;    print, 'Please supply the name of an input file with sources to simulate.'
 ;    return
 ;endif else print, 'Using sources: ' + sources_file_name
@@ -125,14 +125,14 @@ case version of
 ;;pointsource ==> GLEAM_EGC_catalog
 ;bubble_fname ==> /users/alanman/data/alanman/BubbleCube/TiledHpxCubes/light_cone_surfaces.hdf5
 ;diffuse_model=filepath('gsm_150MHz.sav',root=rootdir('FHD'),subdir='catalog_data')
-;nfreq_avg = 203
+;beam_nfreq_avg = 203
 ;eor_sim
 ;flat_sigma
 ;set_sidelobe_keywords=0
     'hera19_uncomp_short_diffuse_k025': begin
 	dimension=1024
 	instrument='hera'
-	nfreq_avg=1024
+	beam_nfreq_avg=1024
 	include_catalog_sources=0
 	snapshot_healpix_export=0
 	kbinsize=0.25
@@ -142,7 +142,7 @@ case version of
     'hera19_comp_diff-eor0': begin
 	dimension=1024
 	instrument='hera'
-	nfreq_avg=1024
+	beam_nfreq_avg=1024
 	include_catalog_sources=0
 	snapshot_healpix_export=0
 	diffuse_model=filepath('EoR0_diffuse_model.sav',root=rootdir('FHD'),subdir='catalog_data')
@@ -152,7 +152,7 @@ case version of
     'calsky_heracomp_gaussian' : begin
 	dimension=1024
 	instrument='hera'
-	nfreq_avg=203
+	beam_nfreq_avg=203
 	include_catalog_sources=0
 	snapshot_healpix_export=0
 	bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/gaussian_cube.hdf5"
@@ -161,7 +161,7 @@ case version of
     'calsky_mwa_gaussian' : begin
         dimension=1024
         instrument='mwa'
-        nfreq_avg=384
+        beam_nfreq_avg=384
         include_catalog_sources=0
         snapshot_healpix_export=1
         select_radius_multiplier=1.5
@@ -171,7 +171,7 @@ case version of
     'mwa128_hdf5_point' : begin
 	dimension=1024
 	instrument='mwa'
-	nfreq_avg=384
+	beam_nfreq_avg=384
 	include_catalog_sources=0
 	snapshot_healpix_export=1
 	bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/mwa_points.hdf5"
@@ -180,7 +180,7 @@ case version of
     'mwa_bubble_gauss_bigdim' : begin
     	dimension=2048
     	instrument='mwa'
-    	nfreq_avg=384
+    	beam_nfreq_avg=384
     	include_catalog_sources=0
     	snapshot_healpix_export=1
         select_radius_multiplier=1.5
@@ -190,31 +190,31 @@ case version of
     'mwa_bubble_gauss_map-replace_var4' : begin
     	dimension=1024
     	instrument='mwa'
-    	nfreq_avg=384
+    	beam_nfreq_avg=384
     	include_catalog_sources=0
     	snapshot_healpix_export=1
         select_radius_multiplier=1.0
         orthomap_var = 4.0
-        ;; For this --- temporarily replacing the input map with a gaussian orthoslant of mean 0 var 1 
+        ;; For this --- temporarily replacing the input map with a gaussian orthoslant of mean 0 var 1
 ;    	bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/mwa_gaussian_flat.hdf5"
     end
 
     'mwa_bubble_gauss_map-replace_var2' : begin
     	dimension=1024
     	instrument='mwa'
-    	nfreq_avg=384
+    	beam_nfreq_avg=384
     	include_catalog_sources=0
     	snapshot_healpix_export=1
         select_radius_multiplier=1.0
         orthomap_var = 2.0
-        ;; For this --- temporarily replacing the input map with a gaussian orthoslant of mean 0 var 1 
+        ;; For this --- temporarily replacing the input map with a gaussian orthoslant of mean 0 var 1
 ;    	bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/mwa_gaussian_flat.hdf5"
     end
 
     'mwa_bubble_gauss_wideselect' : begin
     	dimension=1024
     	instrument='mwa'
-    	nfreq_avg=384
+    	beam_nfreq_avg=384
     	include_catalog_sources=0
     	snapshot_healpix_export=1
         select_radius_multiplier=7.0
@@ -224,7 +224,7 @@ case version of
     'mwa_bubble_gauss_d128' : begin
     	dimension=128
     	instrument='mwa'
-    	nfreq_avg=384
+    	beam_nfreq_avg=384
     	include_catalog_sources=0
     	snapshot_healpix_export=1
         select_radius_multiplier=1.5
@@ -234,7 +234,7 @@ case version of
     'mwa_bubble_gauss_d256' : begin
     	dimension=256
     	instrument='mwa'
-    	nfreq_avg=384
+    	beam_nfreq_avg=384
     	include_catalog_sources=0
     	snapshot_healpix_export=1
         select_radius_multiplier=1.5
@@ -244,7 +244,7 @@ case version of
     'mwa_bubble_gauss_d512' : begin
     	dimension=512
     	instrument='mwa'
-    	nfreq_avg=384
+    	beam_nfreq_avg=384
     	include_catalog_sources=0
     	snapshot_healpix_export=1
         select_radius_multiplier=1.5
@@ -254,7 +254,7 @@ case version of
     'mwa_bubble_gauss_asJy' : begin
     	dimension=1024
     	instrument='mwa'
-    	nfreq_avg=384
+    	beam_nfreq_avg=384
     	include_catalog_sources=0
     	snapshot_healpix_export=1
         select_radius_multiplier=1.5
@@ -265,7 +265,7 @@ case version of
     'mwa_bubble_gauss_binned_complex-fix' : begin
     	dimension=1024
     	instrument='mwa'
-    	nfreq_avg=384
+    	beam_nfreq_avg=384
     	include_catalog_sources=0
     	snapshot_healpix_export=1
         select_radius_multiplier=1.5
@@ -275,7 +275,7 @@ case version of
     'mwa_bubble_gauss_bryna-scale' : begin
     	dimension=1024
     	instrument='mwa'
-    	nfreq_avg=384
+    	beam_nfreq_avg=384
     	include_catalog_sources=0
     	snapshot_healpix_export=1
         select_radius_multiplier=1.5
@@ -286,7 +286,7 @@ case version of
     'mwa_bubble_gauss_quarter-interp-wide' : begin
     	dimension=2048
     	instrument='mwa'
-    	nfreq_avg=384
+    	beam_nfreq_avg=384
     	include_catalog_sources=0
     	snapshot_healpix_export=1
         select_radius_multiplier=1.5
@@ -297,7 +297,7 @@ case version of
     'mwa_bubble_gauss_ltaper' : begin
     	dimension=1024
     	instrument='mwa'
-    	nfreq_avg=384
+    	beam_nfreq_avg=384
     	include_catalog_sources=0
     	snapshot_healpix_export=1
         select_radius_multiplier=1.5
@@ -308,7 +308,7 @@ case version of
     'mwa_bubble_gauss' : begin
     	dimension=1024
     	instrument='mwa'
-    	nfreq_avg=384
+    	beam_nfreq_avg=384
     	include_catalog_sources=0
     	snapshot_healpix_export=1
         select_radius_multiplier=1.5
@@ -318,7 +318,7 @@ case version of
     'hera_bubble_calsky-patchy':begin
         dimension=1024
         instrument='hera'
-        nfreq_avg=105 ; Using 10MHz uncomp files
+        beam_nfreq_avg=105 ; Using 10MHz uncomp files
         include_catalog_sources=0
         select_radius_multiplier=1.5
         snapshot_healpix_export=0   ; Save on time
@@ -328,7 +328,7 @@ case version of
     'hera_bubble_calsky-neutral':begin
         dimension=1024
         instrument='hera'
-        nfreq_avg=105 ; Using 10MHz uncomp files
+        beam_nfreq_avg=105 ; Using 10MHz uncomp files
         include_catalog_sources=0
         select_radius_multiplier=1.5
         snapshot_healpix_export=0   ; Save on time
@@ -339,7 +339,7 @@ case version of
     'hera_bubble_gauss' : begin
     	dimension=1024
     	instrument='hera'
-    	nfreq_avg=105    ; Using the 10MHz files
+    	beam_nfreq_avg=105    ; Using the 10MHz files
     	include_catalog_sources=0
     	snapshot_healpix_export=0
         select_radius_multiplier=1.5
@@ -349,7 +349,7 @@ case version of
     'mwa_calsky_dens_bubble' : begin
     	dimension=1024
     	instrument='mwa'
-    	nfreq_avg=384
+    	beam_nfreq_avg=384
         rephase_weights=0        ; Assume phase center is the pointing center.
         select_radius_multiplier=1.5     ; Extra width for healpix selection, on top of primary beam width.
     	include_catalog_sources=0
@@ -360,7 +360,7 @@ case version of
     'mwa_calsky_neutral_512_bubble' : begin
     	dimension=1024
     	instrument='mwa'
-    	nfreq_avg=384
+    	beam_nfreq_avg=384
         rephase_weights=0        ; Assume phase center is the pointing center.
         select_radius_multiplier=1.5     ; Extra width for healpix selection, on top of primary beam width.
     	include_catalog_sources=0
@@ -371,7 +371,7 @@ case version of
     'mwa_cora_bubble' : begin
     	dimension=1024
     	instrument='mwa'
-    	nfreq_avg=384
+    	beam_nfreq_avg=384
         rephase_weights=0        ; Assume phase center is the pointing center.
         select_radius_multiplier=1.5     ; Extra width for healpix selection, on top of primary beam width.
     	include_catalog_sources=0
@@ -382,7 +382,7 @@ case version of
     'mwa_lin_bubble' : begin
     	dimension=1024
     	instrument='mwa'
-    	nfreq_avg=384
+    	beam_nfreq_avg=384
         rephase_weights=0        ; Assume phase center is the pointing center.
         select_radius_multiplier=1.5     ; Extra width for healpix selection, on top of primary beam width.
     	include_catalog_sources=0
@@ -393,7 +393,7 @@ case version of
     'mwa_lin_bubble_hires' : begin
     	dimension=1024
     	instrument='mwa'
-    	nfreq_avg=384
+    	beam_nfreq_avg=384
         rephase_weights=0        ; Assume phase center is the pointing center.
         select_radius_multiplier=1.5     ; Extra width for healpix selection, on top of primary beam width.
     	include_catalog_sources=0
@@ -404,7 +404,7 @@ case version of
     'mwa_lin_bubble_ctile-gauss' : begin
     	dimension=1024
     	instrument='mwa'
-    	nfreq_avg=384
+    	beam_nfreq_avg=384
         rephase_weights=0        ; Assume phase center is the pointing center.
         select_radius_multiplier=1.5     ; Extra width for healpix selection, on top of primary beam width.
     	include_catalog_sources=0
@@ -415,7 +415,7 @@ case version of
     'mwa_lin_bubble_ctile-gauss_hires' : begin
     	dimension=1024
     	instrument='mwa'
-    	nfreq_avg=384
+    	beam_nfreq_avg=384
         rephase_weights=0        ; Assume phase center is the pointing center.
         select_radius_multiplier=1.5     ; Extra width for healpix selection, on top of primary beam width.
     	include_catalog_sources=0
@@ -426,7 +426,7 @@ case version of
     'hera_uncomp_10MHz_bubble': begin
         dimension=1024
         instrument='hera'
-        nfreq_avg = 105   ; The input files only have 102 channels.
+        beam_nfreq_avg = 105   ; The input files only have 102 channels.
         include_catalog_sources=0
         snapshot_healpix_export=0
 	    bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/hera_uncomp_10MHz_lin_light_cone_surfaces.hdf5"
@@ -435,7 +435,7 @@ case version of
     'hera19_comp_short_bubble' : begin
 	dimension=1024
 	instrument='hera'
-	nfreq_avg=203
+	beam_nfreq_avg=203
 	include_catalog_sources=0
 	snapshot_healpix_export=0
 	bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/paper_comp_lin_light_cone_surfaces.hdf5"
@@ -444,7 +444,7 @@ case version of
     'hera19_comp_short_eor' : begin
 	dimension=1024
 	instrument='hera'
-	nfreq_avg=203
+	beam_nfreq_avg=203
 	include_catalog_sources=0
 	snapshot_healpix_export=0
     eor_sim=1
@@ -454,7 +454,7 @@ case version of
 	dimension=1024
 	instrument='mwa'
 ;	beam_model_version=3
-	nfreq_avg=1024
+	beam_nfreq_avg=1024
 	include_catalog_sources=0
 	snapshot_healpix_export=0
 	diffuse_model=filepath('gsm_150MHz.sav',root=rootdir('FHD'),subdir='catalog_data')
@@ -465,7 +465,7 @@ case version of
 	dimension=1024
 	instrument='hera'
 	beam_model_version=3
-	nfreq_avg=1024
+	beam_nfreq_avg=1024
 	include_catalog_sources=0
 	snapshot_healpix_export=0
 	psf_resolution=10
@@ -475,7 +475,7 @@ case version of
     'hera19_comp_short_diffuse' : begin
 	dimension=1024
 	instrument='hera'
-	nfreq_avg=203
+	beam_nfreq_avg=203
 	include_catalog_sources=0
 	snapshot_healpix_export=0
 	diffuse_model=filepath('gsm_150MHz.sav',root=rootdir('FHD'),subdir='catalog_data')
@@ -485,7 +485,7 @@ case version of
     'hera19_uncomp_short_diffuse' : begin
 	dimension=1024
 	instrument='hera'
-	nfreq_avg=1024
+	beam_nfreq_avg=1024
 	include_catalog_sources=0
 	snapshot_healpix_export=0
 	diffuse_model=filepath('gsm_150MHz.sav',root=rootdir('FHD'),subdir='catalog_data')
@@ -494,7 +494,7 @@ case version of
     'hera19_comp_short_point' : begin
 	dimension=1024
 	instrument='hera'
-	nfreq_avg=203
+	beam_nfreq_avg=203
 	snapshot_healpix_export=0
 	max_model_sources=10000
     end
@@ -502,7 +502,7 @@ case version of
     'hera19_uncomp_short_point' : begin
 	dimension=1024
 	instrument='hera'
-	nfreq_avg=1024
+	beam_nfreq_avg=1024
 	snapshot_healpix_export=0
 	max_model_sources=10000
     end
@@ -511,7 +511,7 @@ case version of
     'hera19_comp_short_eor' : begin
 	dimension=1024
 	instrument='hera'
-	nfreq_avg=203
+	beam_nfreq_avg=203
 	snapshot_healpix_export=0
 	include_catalog_sources=0
 	eor_sim=1
@@ -520,7 +520,7 @@ case version of
     'mwa128_eor_flat' : begin
         dimension=1024
         instrument='mwa'
-        nfreq_avg=384
+        beam_nfreq_avg=384
         snapshot_healpix_export=1
         include_catalog_sources=0
         eor_sim=1
@@ -530,7 +530,7 @@ case version of
     'mwa128_eor' : begin
         dimension=1024
         instrument='mwa'
-        nfreq_avg=384
+        beam_nfreq_avg=384
         snapshot_healpix_export=1
         include_catalog_sources=0
         eor_sim=1
@@ -542,7 +542,7 @@ case version of
 ;	sources_file_name='GLEAM_EGC_catalog'
 ;	max_model_sources=7000
 ;	dft_threshold=0
-;	nfreq_avg=16
+;	beam_nfreq_avg=16
 ;   end
 ;
 ;   'sim_mwa_fornax_herabeams': begin
@@ -551,7 +551,7 @@ case version of
 ;	sources_file_name='GLEAM_EGC_catalog'
 ;	max_model_sources=7000
 ;	dft_threshold=0
-;	nfreq_avg=16
+;	beam_nfreq_avg=16
 ;   end
 ;
 ;
@@ -561,7 +561,7 @@ case version of
 ;	sources_file_name='GLEAM_EGC_catalog'
 ;	max_model_sources=7000
 ;	dft_threshold=0
-;	nfreq_avg=16
+;	beam_nfreq_avg=16
 ;   end
 ;
 ;
@@ -571,7 +571,7 @@ case version of
 ;	sources_file_name='GLEAM_EGC_catalog'
 ;	max_model_sources=0
 ;	dft_threshold=0
-;	nfreq_avg=16
+;	beam_nfreq_avg=16
 ;	include_catalog_sources=0
 ;	eor_sim=1
 ;   end
@@ -583,7 +583,7 @@ case version of
 ;	sources_file_name='GLEAM_EGC_catalog'
 ;	max_model_sources=0
 ;	dft_threshold=0
-;	nfreq_avg=16
+;	beam_nfreq_avg=16
 ;	include_catalog_sources=0
 ;	eor_sim=1
 ;   end
@@ -594,7 +594,7 @@ case version of
 ;	sources_file_name='GLEAM_EGC_catalog'
 ;	max_model_sources=0
 ;	dft_threshold=0
-;	nfreq_avg=16
+;	beam_nfreq_avg=16
 ;	include_catalog_sources=0
 ;	eor_sim=1
 ;   end
@@ -609,14 +609,14 @@ case version of
 	instrument='hera'
 	dft_threshold=1
 	dimension=512
-	nfreq_avg=1024
+	beam_nfreq_avg=1024
    end
 
    'sim_mwa_goldensubset': begin
 	; For comparison with a firstpass run.
         max_model_sources=1000
 	instrument='mwa'
-	nfreq_avg=384
+	beam_nfreq_avg=384
 	ps_nfreq_avg=1
 	dimension=1024
         dft_threshold=0
@@ -632,7 +632,7 @@ case version of
 	instrument='hera'
 	dft_threshold=1
 	dimension=512
-	nfreq_avg=1024
+	beam_nfreq_avg=1024
    end
 
 endcase
@@ -711,10 +711,10 @@ if make_regular_bls eq 1 THEN BEGIN
 	endif
 	sim_uu = reform(sim_uu, n_per_time, 1, n_time/2)
 	sim_vv = reform(sim_vv, n_per_time, 1, n_time/2)
-	
+
 	sim_baseline_uu = reform([[sim_uu], [sim_uu]], n_per_time*n_time)
 	sim_baseline_vv = reform([[sim_vv], [sim_vv]], n_per_time*n_time)
-	
+
 	sim_baseline_time = [intarr(n_per_time), intarr(n_per_time)+1]
 	if n_time gt 2 then for i=1, n_time/2-1 do sim_baseline_time = [sim_baseline_time, intarr(n_per_time)+2*i, intarr(n_per_time)+2*i+1]
 endif
@@ -728,7 +728,7 @@ catalog_file_path=sources_file_path
 extra=var_bundle()
 
 array_simulator, vis_arr, flag_arr, obs, status_str, psf, params, jones, _Extra=extra
-    
+
 heap_gc
 
 !except=except
