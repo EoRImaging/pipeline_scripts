@@ -20,6 +20,25 @@ pro mjw_fhd_versions
 
   case version of
 
+
+    'kernel_window_control_run_leave_flags_write_uvf_single_source': begin
+    kernel_window=1
+    calibrate_visibilities=0
+    return_cal_visibilities=0
+    calibration_visibilities_subtract=0
+    model_visibilities=1
+    save_visibilities=1
+    debug_dim=1
+    beam_mask_threshold=1e3
+    beam_clip_floor=1
+    beam_nfreq_avg=384
+    ps_kspan=200.
+    interpolate_kernel=1
+    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    save_uvf=1
+    model_catalog_filepath=filepath('test_source_1Jy_RA_350_dec_-26.8.sav',root=rootdir('FHD'),subdir='catalog_data/simulation')
+    end
+
     'kernel_window_control_run_leave_flags_write_uvf': begin
     kernel_window=1
     calibrate_visibilities=0
