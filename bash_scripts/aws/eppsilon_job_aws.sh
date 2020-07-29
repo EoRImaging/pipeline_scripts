@@ -61,9 +61,15 @@ printf "%s\n" "${obs_list_array[@]}" > $obs_list_path
 
 unset exit_flag
 
+if [ $single_obs -eq 1 ]; then
+	echo Working on a single obsid. Version is now ${version}.
+else
+	version="Combined_obs_${version}"
+	echo Working on combined obsids. Version is now ${version}.
+
 #####Check for data cubes if DFTing individually
 if [ ! -z ${cube_type} ]; then
-    cube_path_s3="${file_path_cubes}/ps/data/uvf_cubes/Combined_obs_${version}_${evenodd}_cube${pol^^}_noimgclip_${cube_type}_uvf.idlsave"
+    cube_path_s3="${file_path_cubes}/ps/data/uvf_cubes/${version}_${evenodd}_cube${pol^^}_noimgclip_${cube_type}_uvf.idlsave"
     echo "Checking for ${cube_path_s3}"
     cube_exists=$(aws s3 ls $cube_path_s3)
     if [ ! -z "$cube_exists" ]; then
@@ -76,13 +82,13 @@ fi
 # Check if the Healpix cubes exist locally; if not, check S3
 ###TEMP solution until eppsilon can take individual cubes
 #if [ ! -f "/Healpix/Combined_obs_${version}_${evenodd}_cube${pol^^}.sav" ]; then
-if [ "$(ls /Healpix/Combined_obs_${version}_*.sav | wc -l)" -ne "4" ]; then
+if [ "$(ls /Healpix/${version}_*.sav | wc -l)" -ne "4" ]; then
     for evenodd_i in even odd; do
         for pol_i in XX YY; do
             # Check that the Healpix file exists on S3
-            healpix_exists=$(aws s3 ls ${file_path_cubes}/Healpix/Combined_obs_${version}_${evenodd_i}_cube${pol_i^^}.sav)
+            healpix_exists=$(aws s3 ls ${file_path_cubes}/Healpix/${version}_${evenodd_i}_cube${pol_i^^}.sav)
             if [ -z "$healpix_exists" ]; then
-                >&2 echo "ERROR: HEALPix file not found Combined_obs_${version}_${evenodd}_cube${pol^^}.sav"
+                >&2 echo "ERROR: HEALPix file not found ${version}_${evenodd}_cube${pol^^}.sav"
                 exit_flag=1
             fi
 	done
@@ -95,18 +101,18 @@ if [ ! -z ${exit_flag} ]; then exit 1;fi
 ####Download Healpix cubes
 # Check if the Healpix exists locally; if not, download it from S3
 #if [ ! -f "/Healpix/Combined_obs_${version}_${evenodd}_cube${pol^^}.sav" ]; then
-if [ "$(ls /Healpix/Combined_obs_${version}_*.sav | wc -l)" -ne "4" ]; then
+if [ "$(ls /Healpix/${version}_*.sav | wc -l)" -ne "4" ]; then
 
     # Download Healpix from S3
     #sudo aws s3 cp ${file_path_cubes}/Healpix/Combined_obs_${version}_${evenodd}_cube${pol^^}.sav \
     #/Healpix/Combined_obs_${version}_${evenodd}_cube${pol^^}.sav --quiet
     for evenodd_i in even odd; do
         for pol_i in XX YY; do
-            sudo aws s3 cp ${file_path_cubes}/Healpix/Combined_obs_${version}_${evenodd_i}_cube${pol_i^^}.sav \
-             /Healpix/Combined_obs_${version}_${evenodd_i}_cube${pol_i^^}.sav --quiet
+            sudo aws s3 cp ${file_path_cubes}/Healpix/${version}_${evenodd_i}_cube${pol_i^^}.sav \
+             /Healpix/${version}_${evenodd_i}_cube${pol_i^^}.sav --quiet
 
 	    # Verify that the cubes downloaded correctly
-            if [ ! -f "/Healpix/Combined_obs_${version}_${evenodd_i}_cube${pol_i^^}.sav" ]; then
+            if [ ! -f "/Healpix/${version}_${evenodd_i}_cube${pol_i^^}.sav" ]; then
                 >&2 echo "ERROR: downloading cubes from S3 failed"
                 echo "Job Failed"
                 exit 1
@@ -121,11 +127,11 @@ if [ ! -z ${cube_type} ]; then
     if [ ${cube_type} != "weights" ]; then
         ##Needs weights cube
 	# Check if it exists locally; if not, download it from S3
-        local_weights_path="/ps/data/uvf_cubes/Combined_obs_${version}_${evenodd}_cube${pol^^}_noimgclip_weights_uvf.idlsave"
+        local_weights_path="/ps/data/uvf_cubes/${version}_${evenodd}_cube${pol^^}_noimgclip_weights_uvf.idlsave"
         if [ ! -f "$local_weights_path" ]; then
 
             # Download Healpix from S3
-            weights_path_s3="${file_path_cubes}/ps/data/uvf_cubes/Combined_obs_${version}_${evenodd}_cube${pol^^}_noimgclip_weights_uvf.idlsave"
+            weights_path_s3="${file_path_cubes}/ps/data/uvf_cubes/${version}_${evenodd}_cube${pol^^}_noimgclip_weights_uvf.idlsave"
             echo "weights_path_s3:${weights_path_s3}"
             sudo aws s3 cp $weights_path_s3 \
             $local_weights_path --quiet
@@ -144,7 +150,7 @@ fi
 ####Get uvf_cubes folder if not DFTing separate cubes
 if [ -z ${cube_type} ]; then
     sudo aws s3 cp ${file_path_cubes}/ps/data/uvf_cubes/ /ps/data/uvf_cubes --recursive --quiet \
-     --exclude "*" --include "Combined_obs_${version}*"
+     --exclude "*" --include "${version}*"
 fi
 ####
 
