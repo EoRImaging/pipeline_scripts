@@ -33,9 +33,10 @@ do
         p) ps_only=$OPTARG;;			#Flag for skipping integration to make PS only
         h) hold=$OPTARG;;                       #Hold for a job to finish before running. Useful when running immediately after firstpass
         q) ps_plots_only=$OPTARG;;		#Submit only a PS_plots job with no individual cube DFTs
+        s) single_obs=$OPTARG;; # Working on a single obsid that has never seen integration.
         \?) echo "Unknown option: Accepted flags are -d (file path to fhd directory with cubes), -f (obs list or subcube path or single obsid), "
 	          echo "-n (number of slots), -p (make ps only), -q (submit PS_plots only)"
-	          echo "-h (hold int/ps script on a running job id), and -i (apply a window filter during ps),"
+	          echo "-h (hold int/ps script on a running job id), and -s (single obsid)"
             exit 1;;
         :) echo "Missing option argument for input flag"
            exit 1;;
@@ -271,7 +272,7 @@ if [ -z ${ps_plots_only} ]; then
 
                 cube_type_letter=${cube_type:0:1}
 
-                message=$(qsub ${hold_str_temp} -V -b y -cwd -v file_path_cubes=$FHDdir,obs_list_path=$integrate_list,obs_list_array="$integrate_array",version=$version,nslots=$nslots,cube_type=$cube_type,pol=$pol,evenodd=$evenodd -e ${errfile} -o ${outfile} -N ${cube_type_letter}_${pol}_${evenodd} -pe smp $nslots eppsilon_job_aws.sh)
+                message=$(qsub ${hold_str_temp} -V -b y -cwd -v file_path_cubes=$FHDdir,obs_list_path=$integrate_list,obs_list_array="$integrate_array",version=$version,nslots=$nslots,cube_type=$cube_type,pol=$pol,evenodd=$evenodd,single_obs=$single_obs -e ${errfile} -o ${outfile} -N ${cube_type_letter}_${pol}_${evenodd} -pe smp $nslots eppsilon_job_aws.sh)
                 message=($message)
 
                 if [ ! -z "$pids" ]; then pids="$!"; else pids=($pids "$!"); fi
