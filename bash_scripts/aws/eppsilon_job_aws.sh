@@ -66,7 +66,7 @@ if [ $single_obs -eq 1 ]; then
 else
 	version="Combined_obs_${version}"
 	echo Working on combined obsids. Version is now ${version}.
-
+fi 
 #####Check for data cubes if DFTing individually
 if [ ! -z ${cube_type} ]; then
     cube_path_s3="${file_path_cubes}/ps/data/uvf_cubes/${version}_${evenodd}_cube${pol^^}_noimgclip_${cube_type}_uvf.idlsave"
