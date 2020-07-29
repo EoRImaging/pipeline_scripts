@@ -290,4 +290,4 @@ if [ -z ${ps_plots_only} ]; then
 fi
 
 #final plots
-qsub -hold_jid $id_list -V -v file_path_cubes=$FHDdir,obs_list_path=$integrate_list,obs_list_array="$integrate_array",version=$version,nslots=$nslots -e ${errfile} -o ${outfile} -N PS_plots -pe smp $nslots $(which eppsilon_job_aws.sh) &
+qsub -hold_jid $id_list -V -v file_path_cubes=$FHDdir,obs_list_path=$integrate_list,obs_list_array="$integrate_array",version=$version,nslots=$nslots,single_obs=$single_obs -e ${errfile} -o ${outfile} -N PS_plots -pe smp $nslots $(which eppsilon_job_aws.sh) &
