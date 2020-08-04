@@ -3310,6 +3310,22 @@ pro fhd_versions_rlb
       unflag_all = 1 ;unflag for simulation
       n_pol = 2 ;flags file does not support 4 pol
     end
+    
+    'rlb_GLEAM_calibration_reference_Aug2020': begin
+      recalculate_all = 0
+      model_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
+      subtract_sidelobe_catalog = filepath('GLEAM_plus_rlb2017.sav',root=rootdir('FHD'),subdir='catalog_data')
+      model_visibilities = 1
+      pad_uv_image = 1
+      diffuse_calibrate = 0
+      diffuse_model = 0
+      return_sidelobe_catalog = 1
+      ring_radius = 0
+      debug_region_grow = 0
+      n_pol = 4
+      cal_bp_transfer = 0
+      save_uvf = 1
+    end
 
   endcase
 
