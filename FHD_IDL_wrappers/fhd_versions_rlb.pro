@@ -3312,10 +3312,9 @@ pro fhd_versions_rlb
     end
     
     'rlb_GLEAM_calibration_reference_Aug2020': begin
-      recalculate_all = 0
-      model_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
+      recalculate_all = 1
+      calibration_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
       subtract_sidelobe_catalog = filepath('GLEAM_plus_rlb2017.sav',root=rootdir('FHD'),subdir='catalog_data')
-      model_visibilities = 1
       pad_uv_image = 1
       diffuse_calibrate = 0
       diffuse_model = 0
