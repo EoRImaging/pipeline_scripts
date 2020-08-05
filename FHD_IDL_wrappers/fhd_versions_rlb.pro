@@ -3312,7 +3312,7 @@ pro fhd_versions_rlb
     end
     
     'rlb_GLEAM_calibration_reference_Aug2020': begin
-      recalculate_all = 1
+      recalculate_all = 0
       calibration_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
       subtract_sidelobe_catalog = filepath('GLEAM_plus_rlb2017.sav',root=rootdir('FHD'),subdir='catalog_data')
       pad_uv_image = 1
