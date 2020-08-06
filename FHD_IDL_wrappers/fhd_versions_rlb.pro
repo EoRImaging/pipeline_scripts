@@ -3360,6 +3360,7 @@ pro fhd_versions_rlb
       diffuse_calibrate = 0
       model_visibilities = 1
       model_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
+      subtract_sidelobe_catalog = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
       diffuse_model = '/home/ubuntu/average_map_1131454296_rm_undone_IQU.sav'
       cal_bp_transfer = 0  ; changed this for calibration transfer
       transfer_calibration = '/home/ubuntu/calibration_transferred/'+string(obs_id)+'_cal.sav'
@@ -3383,6 +3384,7 @@ pro fhd_versions_rlb
       diffuse_calibrate = 0
       model_visibilities = 1
       model_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
+      subtract_sidelobe_catalog = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
       diffuse_model = '/home/ubuntu/average_map_I.sav'
       cal_bp_transfer = 0  ; changed this for calibration transfer
       transfer_calibration = '/home/ubuntu/calibration_transferred/'+string(obs_id)+'_cal.sav'
