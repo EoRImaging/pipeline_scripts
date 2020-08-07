@@ -3329,7 +3329,7 @@ pro fhd_versions_rlb
     end
     
     'rlb_model_diffuse_Aug2020': begin
-      recalculate_all = 1
+      recalculate_all = 0
       return_cal_visibilities = 0  ; changed this for calibration transfer
       catalog_file_path = 0
       diffuse_calibrate = 0
@@ -3340,7 +3340,7 @@ pro fhd_versions_rlb
       transfer_calibration = '/home/ubuntu/calibration_transferred/'+string(obs_id)+'_cal.sav'
       transfer_weights = '/home/ubuntu/calibration_transferred/'+string(obs_id)+'_flags.sav'
       rephase_weights = 0
-      restrict_hpx_inds = 0
+      restrict_hpx_inds = 'EoR0_high_healpix_inds.idlsave'
       hpx_radius = 15
       subtract_sidelobe_catalog = 0
       dft_threshold = 0
@@ -3356,7 +3356,7 @@ pro fhd_versions_rlb
     end
     
     'rlb_subtract_diffuse_and_GLEAM_Aug2020': begin
-      recalculate_all = 1
+      recalculate_all = 0
       return_cal_visibilities = 0  ; changed this for calibration transfer
       catalog_file_path = 0
       diffuse_calibrate = 0
@@ -3368,7 +3368,7 @@ pro fhd_versions_rlb
       transfer_calibration = '/home/ubuntu/calibration_transferred/'+string(obs_id)+'_cal.sav'
       transfer_weights = '/home/ubuntu/calibration_transferred/'+string(obs_id)+'_flags.sav'
       rephase_weights = 0
-      restrict_hpx_inds = 0
+      restrict_hpx_inds = 'EoR0_high_healpix_inds.idlsave'
       hpx_radius = 15
       subtract_sidelobe_catalog = 0
       dft_threshold = 0
@@ -3380,7 +3380,7 @@ pro fhd_versions_rlb
     end
     
     'rlb_subtract_StokesI_diffuse_and_GLEAM_Aug2020': begin
-      recalculate_all = 1
+      recalculate_all = 0
       return_cal_visibilities = 0  ; changed this for calibration transfer
       catalog_file_path = 0
       diffuse_calibrate = 0
@@ -3392,7 +3392,7 @@ pro fhd_versions_rlb
       transfer_calibration = '/home/ubuntu/calibration_transferred/'+string(obs_id)+'_cal.sav'
       transfer_weights = '/home/ubuntu/calibration_transferred/'+string(obs_id)+'_flags.sav'
       rephase_weights = 0
-      restrict_hpx_inds = 0
+      restrict_hpx_inds = 'EoR0_high_healpix_inds.idlsave'
       hpx_radius = 15
       subtract_sidelobe_catalog = 0
       dft_threshold = 0
