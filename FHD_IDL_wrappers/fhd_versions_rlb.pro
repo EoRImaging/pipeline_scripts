@@ -3325,7 +3325,7 @@ pro fhd_versions_rlb
       n_pol = 4
       cal_bp_transfer = 0
       save_uvf = 1
-      restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+      restrict_hpx_inds='EoR0_high_healpix_inds.idlsave'
     end
     
     'rlb_model_diffuse_Aug2020': begin
