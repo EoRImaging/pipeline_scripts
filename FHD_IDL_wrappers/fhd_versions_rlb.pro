@@ -3460,7 +3460,7 @@ pro fhd_versions_rlb
       diffuse_calibrate = 0
       model_visibilities = 1
       model_catalog_file_path = 0
-      diffuse_model = '/home/ubuntu/diffuse_roundtrip_test_Aug2020.sav'
+      diffuse_model = '/home/ubuntu/roundtrip_diffuse_map_Aug2020.sav'
       cal_bp_transfer = 0  ; changed this for calibration transfer
       transfer_calibration = '/home/ubuntu/calibration_transferred/'+string(obs_id)+'_cal.sav'
       transfer_weights = '/home/ubuntu/calibration_transferred/'+string(obs_id)+'_flags.sav'
@@ -3471,9 +3471,7 @@ pro fhd_versions_rlb
       dft_threshold = 0
       ring_radius = 0
       write_healpix_fits = 1
-      max_baseline = 50  ; use only baselines shorter than 50 wavelength
       debug_region_grow = 0
-      dimension = 208 ; limit the UV plane to regions that contain data
       image_filter_fn = 'filter_uv_weighted'
       unflag_all = 1 ;unflag for simulation
       n_pol = 4 
