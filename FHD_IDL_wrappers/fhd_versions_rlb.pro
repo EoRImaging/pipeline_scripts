@@ -3473,6 +3473,7 @@ pro fhd_versions_rlb
       write_healpix_fits = 1
       debug_region_grow = 0
       image_filter_fn = 'filter_uv_weighted'
+      in_situ_sim_input = '/uvfits/input_vis'
       unflag_all = 1 ;unflag for simulation
       n_pol = 4 
       save_uvf = 1
