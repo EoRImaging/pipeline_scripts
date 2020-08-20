@@ -18,6 +18,7 @@ pro van_vleck_corr_versions
   cal_mode_fit=[90,150,230,320,400,524]
   model_delay_filter=1
   cal_time_average=0
+  max_cal_iter=1000L
 
   eor_wrapper_defaults,extra
   fhd_depreciation_test, _Extra=extra
