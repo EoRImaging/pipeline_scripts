@@ -14,7 +14,8 @@ pro van_vleck_corr_versions
   ; Any keywords set on the command line or in the top-level wrapper will supercede these defaults
   cable_bandpass_fit=0
   digital_gain_jump_polyfit=1
-  cal_reflection_mode_theory=[90,150,230,320,400,524]
+  cal_reflection_mode_theory=1
+  cal_mode_fit=[90,150,230,320,400,524]
   model_delay_filter=1
   cal_time_average=0
 
