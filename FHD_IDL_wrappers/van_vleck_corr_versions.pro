@@ -1,10 +1,10 @@
 pro van_vleck_corr_versions
 
   ; Keywords
-  obs_id = '1061315448_vv_cable_phase_gains_cb'
-  output_directory = '/Volumes/Data1/fhd_eppsilon_test_data/'
+  obs_id = '1061315448_vv_cable_phase_gains_cb_80kHz'
+  output_directory = '/data3/users/bryna/fhd_outs/'
   version = 'van_vleck_corr_initial'
-  vis_file_list = '/Volumes/Data1/mwa_uvfits/' + string(obs_id) +'.uvfits'
+  vis_file_list = '/data3/users/bryna/van_vleck_corrected/' + string(obs_id) +'.uvfits'
 
   ; Directory setup
   fhd_file_list=fhd_path_setup(vis_file_list,version=version,output_directory=output_directory)
