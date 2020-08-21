@@ -32,7 +32,7 @@ unset version
 #######Gathering the input arguments and applying defaults if necessary
 
 #Parse flags for inputs
-while getopts ":f:s:e:o:b:v:n:r:u:p:m:i:j:k:c:t:a:" option
+while getopts ":f:s:e:o:b:v:n:r:d:u:p:m:i:j:k:c:t:a:" option
 do
    case $option in
     f) obs_file_name="$OPTARG";; #text file of observation id's
@@ -57,7 +57,7 @@ do
     \?) echo "Unknown option: Accepted flags are -f (obs_file_name), -s (starting_obs), -e (ending obs), -o (output directory), "
         echo "-b (output bucket on S3), -v (version input for FHD),  -n (number of slots to use), "
         echo "-u (versions script), -p (path to uvfits files on S3), -m (path to metafits files on S3), "
-        echo "-r (option to run eppsilon on each obs), -d (option to use UVF  input for eppsilon run), "
+        echo "-r (option to run eppsilon on each obs), -d (option to use UVF input for eppsilon run), "
         echo "-i (visibilities for in situ sim), -j (EoR sim), "
         echo "-k (extra visibilities to add to simulation visibilities), -c (calibration save files to transfer), "
         echo "-t (model_uv_arr.sav files to transfer from precalibration run), -a (indicate that obsids are not integers)"
