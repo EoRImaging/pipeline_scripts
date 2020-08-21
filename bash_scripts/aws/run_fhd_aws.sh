@@ -47,7 +47,7 @@ do
     p) uvfits_s3_loc=$OPTARG;; #Path to uvfits files on S3
     m) metafits_s3_loc=$OPTARG;; #Path to metafits files on S3
     r) run_ps=$OPTARG;; #Run eppsilon PS code (on individual obs)
-    c) ps_uvf_input=$OPTARG;; #Use UVF input for PS (only used if run_ps=1)
+    d) ps_uvf_input=$OPTARG;; #Use UVF input for PS (only used if run_ps=1)
     i) input_vis=$OPTARG;; #Optional input visibilities for in situ sim
     j) input_eor=$OPTARG;; #Optional input eor sim for in situ sim
     k) extra_vis=$OPTARG;; #Optional additional visibilities for in situ sim (e.g. RFI visibilities)
@@ -56,10 +56,11 @@ do
     a) non_integer_obs=$OPTARG;; #Specify that obsids are not integers - cannot sort.
     \?) echo "Unknown option: Accepted flags are -f (obs_file_name), -s (starting_obs), -e (ending obs), -o (output directory), "
         echo "-b (output bucket on S3), -v (version input for FHD),  -n (number of slots to use), "
-        echo "-u (versions script), -p (path to uvfits files on S3), -m (path to metafits files on S3)"
-        echo "-r (option to run eppsilon on each obs), -i (visibilities for in situ sim), -j (EoR sim)."
-        echo "-k (extra visibilities to add to simulation visibilities), -c (calibration save files to transfer),"
-        echo "-t (model_uv_arr.sav files to transfer from precalibration run)"
+        echo "-u (versions script), -p (path to uvfits files on S3), -m (path to metafits files on S3), "
+        echo "-r (option to run eppsilon on each obs), -d (option to use UVF  input for eppsilon run), "
+        echo "-i (visibilities for in situ sim), -j (EoR sim), "
+        echo "-k (extra visibilities to add to simulation visibilities), -c (calibration save files to transfer), "
+        echo "-t (model_uv_arr.sav files to transfer from precalibration run), -a (indicate that obsids are not integers)"
         exit 1;;
     :) echo "Missing option argument for input flag"
        exit 1;;
