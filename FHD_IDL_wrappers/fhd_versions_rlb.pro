@@ -24,6 +24,10 @@ pro fhd_versions_rlb
   if strmatch(version, 'rlb_model_eor0_diffuse_map_*_Jun2020') then begin
     map_ind = (strsplit(version, '_', /extract))[-3]
   endif else map_ind = ''
+  
+  if strmatch(version, 'rlb_subtract_rotated_diffuse_and_GLEAM_angle_*_Aug2020') then begin
+    rot_angle = (strsplit(version, '_', /extract))[-2]
+  endif else rot_angle = ''
 
   case version of
 
@@ -3529,6 +3533,30 @@ pro fhd_versions_rlb
       image_filter_fn = 'filter_uv_weighted'
       in_situ_sim_input = '/uvfits/input_vis/vis_data'
       unflag_all = 1 ;unflag for simulation
+      n_pol = 4 
+      save_uvf = 1
+    end
+    
+    'rlb_subtract_rotated_diffuse_and_GLEAM_angle_'+rot_angle+'_Aug2020': begin
+      recalculate_all = 0
+      return_cal_visibilities = 0  ; changed this for calibration transfer
+      catalog_file_path = 0
+      diffuse_calibrate = 0
+      model_visibilities = 1
+      model_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
+      subtract_sidelobe_catalog = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
+      diffuse_model = '/home/ubuntu/average_map_rot_angle_'+rot_angle+'.sav'
+      cal_bp_transfer = 0  ; changed this for calibration transfer
+      transfer_calibration = '/home/ubuntu/calibration_transferred/'+string(obs_id)+'_cal.sav'
+      transfer_weights = '/home/ubuntu/calibration_transferred/'+string(obs_id)+'_flags.sav'
+      rephase_weights = 0
+      restrict_hpx_inds = 'EoR0_high_healpix_inds.idlsave'
+      hpx_radius = 15
+      subtract_sidelobe_catalog = 0
+      dft_threshold = 0
+      ring_radius = 0
+      write_healpix_fits = 1
+      debug_region_grow = 0
       n_pol = 4 
       save_uvf = 1
     end
