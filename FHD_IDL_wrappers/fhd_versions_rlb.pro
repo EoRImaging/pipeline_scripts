@@ -3560,6 +3560,30 @@ pro fhd_versions_rlb
       n_pol = 4 
       save_uvf = 1
     end
+    
+    'rlb_diffuse_roundtrip_test_no_bl_cut_Aug2020_2': begin
+      recalculate_all = 0
+      beam_recalculate = 1
+      return_cal_visibilities = 0  ; changed this for calibration transfer
+      catalog_file_path = 0
+      diffuse_calibrate = 0
+      calibrate_visibilities = 0
+      model_visibilities = 1
+      model_catalog_file_path = 0
+      diffuse_model = '/home/ubuntu/roundtrip_diffuse_map_Aug2020_2.sav'
+      rephase_weights = 0
+      hpx_radius = 15
+      subtract_sidelobe_catalog = 0
+      dft_threshold = 0
+      ring_radius = 0
+      write_healpix_fits = 1
+      debug_region_grow = 0
+      image_filter_fn = 'filter_uv_weighted'
+      in_situ_sim_input = '/uvfits/input_vis/vis_data'
+      unflag_all = 1 ;unflag for simulation
+      n_pol = 4 
+      save_uvf = 1
+    end
 
   endcase
 
