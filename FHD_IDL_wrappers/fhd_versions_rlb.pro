@@ -3538,7 +3538,8 @@ pro fhd_versions_rlb
     end
     
     'rlb_subtract_rotated_diffuse_and_GLEAM_angle_'+rot_angle+'_Aug2020': begin
-      beam_recalcualte = 1
+      recalculate_all = 0
+      beam_recalculate = 0
       return_cal_visibilities = 0  ; changed this for calibration transfer
       catalog_file_path = 0
       diffuse_calibrate = 0
