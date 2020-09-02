@@ -3,7 +3,7 @@ pro van_vleck_corr_versions
   ; Keywords
   obs_id = '1061315448_vv_cable_phase_gains_cb_80kHz'
   output_directory = '/data3/users/bryna/fhd_outs/'
-  version = 'van_vleck_corr_initial'
+  version = 'van_vleck_corr_ver2'
   vis_file_list = '/data3/users/bryna/van_vleck_corrected/' + string(obs_id) +'.uvfits'
 
   ; Directory setup
@@ -12,14 +12,18 @@ pro van_vleck_corr_versions
 
   ; Set global defaults and bundle all the variables into a structure.
   ; Any keywords set on the command line or in the top-level wrapper will supercede these defaults
+  ; do not apply bandpass or cable dependent bandpass:
   cable_bandpass_fit=0
+  bandpass_calibrate=0
 
   ;; take out all cal fitting for now to try to get further.
   ; digital_gain_jump_polyfit=1
   ; cal_reflection_mode_theory=1
   ; cal_mode_fit=[90,150,230,320,400,524]
-  cable_bandpass_fit=0
   calibration_polyfit=0
+
+  ; ; try this for per-frequency calibration
+  ; sim_over_calibrate=1 ; not in dictionary?
 
   model_delay_filter=1
   cal_time_average=0
