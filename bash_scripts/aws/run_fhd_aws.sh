@@ -240,5 +240,5 @@ fi
 
 for obs_id in "${good_obs_list[@]}"
 do
-    qsub -V -b y -cwd -v nslots=${nslots},outdir=${outdir},version=${version},s3_path=${s3_path},obs_id=${obs_id},versions_script=${versions_script},uvfits_s3_loc=${uvfits_s3_loc},metafits_s3_loc=${metafits_s3_loc},run_ps=${run_ps},ps_uvf_input=${ps_uvf_input},input_vis=${input_vis},input_eor=${input_eor},extra_vis=${extra_vis},cal_transfer=${cal_transfer},model_uv_transfer=${model_uv_transfer} -e ${logdir} -o ${logdir} -pe smp ${nslots} -sync y fhd_job_aws.sh &
+    sbatch -n ${nslots} --export=nslots=${nslots},outdir=${outdir},version=${version},s3_path=${s3_path},obs_id=${obs_id},versions_script=${versions_script},uvfits_s3_loc=${uvfits_s3_loc},metafits_s3_loc=${metafits_s3_loc},run_ps=${run_ps},ps_uvf_input=${ps_uvf_input},input_vis=${input_vis},input_eor=${input_eor},extra_vis=${extra_vis},cal_transfer=${cal_transfer},model_uv_transfer=${model_uv_transfer} -e ${logdir} -o ${logdir} fhd_job_aws.sh &
 done
