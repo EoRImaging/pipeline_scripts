@@ -205,6 +205,31 @@ pro mjw_fhd_versions
     beam_clip_floor=1
     end
 
+    'Barry_2019_image_step_psf_dim': begin
+    model_uv_transfer='/uvfits/transfer/' + obs_id + '_model_uv_arr.sav'
+    kernel_window=1
+    debug_dim=1
+    beam_mask_threshold=1e3
+    beam_nfreq_avg=1
+    interpolate_kernel=1
+    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    return_cal_visibilities=0
+    FoV=0
+    time_cut=-2
+    interpolate_kernel=1
+    cal_time_average=0
+    model_visibilities=1
+    transfer_calibration = '/uvfits/transfer/' + obs_id + '_cal.sav'
+    diffuse_calibrate=0
+    diffuse_model=0
+    digital_gain_jump_polyfit=1
+    ps_kspan=200.
+    calibration_auto_fit=1
+    cal_bp_transfer=0
+    beam_clip_floor=1
+    psf_dim=22
+    end
+
     'Barry_2019_image_step_old_nfreq_avg': begin
     model_uv_transfer='/uvfits/transfer/' + obs_id + '_model_uv_arr.sav'
     kernel_window=1
