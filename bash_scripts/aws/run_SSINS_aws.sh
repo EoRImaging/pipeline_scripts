@@ -1,6 +1,6 @@
 #!/bin/bash
 
-while getopts ":f:o:b:n:p:t:" option
+while getopts ":f:o:b:n:p:t:c:" option
 do
   case $option in
     f) obs_file_name="$OPTARG";;
@@ -9,9 +9,10 @@ do
     n) nslots=$OPTARG;;
     p) input_s3_loc=$OPTARG;;
     t) input_type=$OPTARG;;
+    c) correct=$OPTARG;;
     \?) echo "Unknown option: Accepted flags are -f (obs_file_name), -o (output directory), "
         echo "-b (output bucket on S3),  -n (number of slots to use), "
-        echo "-p (path to input files on S3), -t (type of input file)"
+        echo "-p (path to input files on S3), -t (type of input file), -c (whether to correct digital things)"
         exit 1;;
     :) echo "Missing option argument for input flag"
        exit 1;;
@@ -66,6 +67,12 @@ else
     echo Using S3 bucket: $s3_path
 fi
 
+if [ -z $correct ]; then
+  correct=0
+else
+  correct=1
+fi
+
 logdir=~/grid_out
 
 #Set typical slots needed for standard FHD firstpass if not set.
@@ -79,4 +86,4 @@ echo Output located at ${outdir}
 
 N_obs=$(wc -l < $obs_file_name)
 
-qsub -V -b y -cwd -v obs_file_name=${obs_file_name},nslots=${nslots},outdir=${outdir},s3_path=${s3_path},input_s3_loc=${input_s3_loc},input_type=${input_type} -e ${logdir} -o ${logdir} -pe smp ${nslots} -sync y -t 1:${N_obs} SSINS_job_aws.sh &
+qsub -V -b y -cwd -v obs_file_name=${obs_file_name},nslots=${nslots},outdir=${outdir},s3_path=${s3_path},input_s3_loc=${input_s3_loc},input_type=${input_type},correct=${correct} -e ${logdir} -o ${logdir} -pe smp ${nslots} -sync y -t 1:${N_obs} SSINS_job_aws.sh &
