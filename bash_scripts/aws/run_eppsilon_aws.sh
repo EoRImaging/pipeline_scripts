@@ -255,6 +255,8 @@ hold_str_int=$hold_str
 unset id_list
 unset pids
 
+echo "hold_str_int is $hold_str_int"
+
 if [ -z ${ps_plots_only} ]; then
 
     for pol in "${pol_arr[@]}"
@@ -271,7 +273,7 @@ if [ -z ${ps_plots_only} ]; then
                 fi
 
                 cube_type_letter=${cube_type:0:1}
-
+                echo "hold_str_temp for ${cube_type_letter}_${pol}_${evenodd}is ${hold_str_temp}"
                 message=$(qsub ${hold_str_temp} -V -b y -cwd -v file_path_cubes=$FHDdir,obs_list_path=$integrate_list,obs_list_array="$integrate_array",version=$version,nslots=$nslots,cube_type=$cube_type,pol=$pol,evenodd=$evenodd,single_obs=$single_obs -e ${errfile} -o ${outfile} -N ${cube_type_letter}_${pol}_${evenodd} -pe smp $nslots eppsilon_job_aws.sh)
                 message=($message)
 
@@ -289,5 +291,6 @@ if [ -z ${ps_plots_only} ]; then
 
 fi
 
+echo "id_list for PS_plots is $id_list"
 #final plots
 qsub -hold_jid $id_list -V -v file_path_cubes=$FHDdir,obs_list_path=$integrate_list,obs_list_array="$integrate_array",version=$version,nslots=$nslots,single_obs=$single_obs -e ${errfile} -o ${outfile} -N PS_plots -pe smp $nslots $(which eppsilon_job_aws.sh) &
