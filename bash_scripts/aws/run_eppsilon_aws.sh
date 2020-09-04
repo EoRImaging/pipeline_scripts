@@ -214,8 +214,8 @@ if [ "$ps_only" -ne "1" ]; then
         	    qsub ${hold_str} -V -b y -v file_path_cubes=$FHDdir,obs_list_array="$chunk_obs_array",obs_list_path=$chunk_obs_list,version=$version,chunk=$chunk,nslots=$nslots,legacy=$legacy,evenodd=$evenodd,pol=$pol -e $errfile -o $outfile -N int_${version} -pe smp $nslots integration_job_aws.sh
 	         done
 	      done
-
-        idlist_int=(`qstat | grep "int_" | cut -b -7`)
+        # Grab the last int job instead of the first one
+        idlist_int=(`qstat | grep "int_" | cut -b -7 | tail -n 1`)
         hold_str="-hold_jid ${idlist_int}"
 
     fi
@@ -278,7 +278,8 @@ if [ -z ${ps_plots_only} ]; then
                 message=($message)
 
                 if [ ! -z "$pids" ]; then pids="$!"; else pids=($pids "$!"); fi
-                job_id=(`qstat | grep "${cube_type_letter}_${pol}_${evenodd}" | cut -b -7`)
+                # If there are multiple w_xx_even etc. jobs in the queue, grab the latest one
+                job_id=(`qstat | grep "${cube_type_letter}_${pol}_${evenodd}" | cut -b -7 | tail -n 1`) 
                 if [ -z "$id_list" ]; then id_list=${job_id};else id_list=${id_list},${job_id};fi
 
                 if [ $cube_type = "weights" ]
