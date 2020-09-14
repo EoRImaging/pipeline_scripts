@@ -22,25 +22,49 @@
 # NOTE: print statements must be turned off in idl_startup file (e.g. healpix check)
 ######################################################################################
 
+
+
+Help()
+{
+   # Display Help
+   echo "Script to submit eppsilon integration and image dft + power spectrum analysis into the OzStar queue"
+   echo "All binary options require a 1 to be passed to be activated, i.e. -o 1"
+   echo
+   echo "Syntax: nohup ./ps_slurm.sh [-d -f -p -w -n -m -s -o -i -l -H] >> ~/log.txt &"
+   echo "options:"
+   echo "-d (file path to fhd directory which contains a Healpix directory with cubes, required),"
+   echo "-f (text file with observation list or subcube path or single obsid, required), "
+   echo "-p (number of instrumental polarizations (2 for XX,YY, 4 for XX,YY,XY,YX), default:2), "
+   echo "-w (wallclock time, default:10:00:00), "
+   echo "-n (number of slots, default:1), "
+   echo "-m (memory allocation, default:15G), "
+   echo "-o (skip integration and run image dft with power spectrum analysis, optional), " 
+   echo "-i (run integration only and skip image dft with power spectrum analysis, optional),"
+   echo "-s (skip integration and image dft and only run with power spectrum analysis, optional),"
+   echo "-H (hold int/ps script on a running job id, optional)"
+   echo
+}
+
+
 #Parse flags for inputs
-while getopts ":d:f:p:w:n:m:o:i:l:h:t:" option
+while getopts ":d:f:p:w:n:m:s:o:i:l:H:h" option
 do
    case $option in
         d) FHDdir="$OPTARG";;			#file path to fhd directory with cubes
         f) integrate_list="$OPTARG";;		#txt file of obs ids or subcubes or a single obsid
-        p) priority=$OPTARG;;           	#priority level for grid engine qsub
+        p) n_pol=$OPTARG;;           	#number of polarizations to process
         w) wallclock_time=$OPTARG;;     	#Time for execution in grid engine
         n) ncores=$OPTARG;;             	#Number of slots for grid engine
         m) mem=$OPTARG;;                	#Memory per core for grid engine
+        s) wrapper_only=$OPTARG;;               #Flag for skipping integration and DFT's to the ps_wrapper step
 	o) ps_only=$OPTARG;;			#Flag for skipping integration to make PS only
         i) int_only=$OPTARG;;                   #Flag for skipping PS to make integration only
         l) legacy=$OPTARG;;                     #Use legacy directory structure. hacky solution to a silly problem.
-        h) hold=$OPTARG;;                       #Hold for a job to finish before running. Useful when running immediately after firstpass
-	t) tukey_filter=$OPTARG;;               #Apply a Tukey image window filter during eppsilon
-        \?) echo "Unknown option: Accepted flags are -d (file path to fhd directory with cubes), -f (obs list or subcube path or single obsid), "
-	    echo "-p (priority for grid engine), -w (wallclock time), -n (number of slots), -m (memory allocation), "
-	    echo "-o (make ps only without integration), -i (make integration only without PS), and -l (legacy flag for old file structure),"
-	    echo "-h (hold int/ps script on a running job id), and -t (apply a tukey window filter during ps),"
+        H) hold=$OPTARG;;                       #Hold for a job to finish before running. Useful when running immediately after firstpass
+        h) Help
+           exit 1;;
+        \?) echo "Unknown option. Please review accepted flags."
+            Help
             exit 1;;
         :) echo "Missing option argument for input flag"
            exit 1;;
@@ -92,7 +116,7 @@ else
 fi
 
 #Default priority if not set.
-if [ -z ${priority} ]; then priority=0; fi
+if [ -z ${n_pol} ]; then n_pol=2; fi
 
 #Set typical wallclock_time for standard PS weights cubes
 if [ -z ${wallclock_time} ]; then wallclock_time=10:00:00; fi
@@ -117,14 +141,14 @@ if [ -z ${ps_only} ]; then ps_only=0; fi
 #Set default to do integration
 if [ -z ${int_only} ]; then int_only=0; fi
 
+#Set default to do integration
+if [ -z ${wrapper_only} ]; then wrapper_only=0; fi
+
 #Set default to use current file structure
 if [ -z ${legacy} ]; then legacy=0; fi
 
 # create hold string
 if [ -z ${hold} ]; then hold_str=""; else hold_str="--dependency=afterok:${hold}"; fi
-
-# create hold string
-if [[ -n ${tukey_filter} ]]; then tukey_filter="Blackman-Harris"; fi
 
 ### NOTE this only works if idlstartup doesn't have any print statements (e.g. healpix check)
 PSpath=$(idl -e 'print,rootdir("eppsilon")')
@@ -146,7 +170,7 @@ rm -f ${FHDdir}/Healpix/${version}_int_chunk*.txt # remove any old chunk files l
 exit_flag=0
 
 #Check that cubes or integrated cubes are present, print and error if they are not
-if [ "$ps_only" -ne "1" ]; then 	#only if we're integrating
+if [ "$ps_only" -ne "1" ] && [ "$wrapper_only" -ne "1" ]; then 	#only if we're integrating
 while read line
 do
    if [ "$first_line_len" == 10 ]; then
@@ -232,7 +256,7 @@ if [[ "$n_pol" -eq 2 ]]; then pol_list=( XX YY );fi
 if [[ "$n_pol" -eq 4 ]]; then pol_list=( XX YY XY YX );fi
 
 unset idlist
-if [ "$ps_only" -ne "1" ]; then   
+if [ "$ps_only" -ne "1" ] && [ "$wrapper_only" -ne "1" ]; then   
     if [ "$nchunk" -gt "1" ]; then
 
         # set up files for master integration
@@ -315,6 +339,8 @@ evenodd_list=( even odd )
 cube_type_list=( weights dirty model res )
 
 pipe_path='../pipeline_scripts/bash_scripts/ozstar/'
+
+if [ "$wrapper_only" -ne "1" ]; then
 hold_str_cubes=$hold_str
 echo $hold_str_cubes
 for pol in ${pol_list[@]}; do
@@ -323,7 +349,7 @@ for pol in ${pol_list[@]}; do
         for cube_type in ${cube_type_list[@]}; do
 	    if [ "$cube_type" == "weights" ]; then hold_str_cubes=$hold_str; fi
             if [ "$cube_type" != "weights" ]; then wallclock_time_use=$wallclock_time_half; else wallclock_time_use=$wallclock_time; fi
-            message=$(sbatch ${hold_str_cubes} --mem=$mem -t ${wallclock_time_use} -n ${ncores} --export=file_path_cubes=$FHDdir,obs_list_path=$integrate_list,version=$version,ncores=$ncores,cube_type=$cube_type,pol=$pol,evenodd=$evenodd,image_filter_name=$tukey_filter -e ${errfile}_${pol}_${evenodd}_${cube_type}.log -o ${outfile}_${pol}_${evenodd}_${cube_type}.log -J PS_${pol}${evenodd_initial}_${cube_type} ${PSpath}${pipe_path}PS_list_slurm_job.sh)
+            message=$(sbatch ${hold_str_cubes} --mem=$mem -t ${wallclock_time_use} -n ${ncores} --export=file_path_cubes=$FHDdir,obs_list_path=$integrate_list,version=$version,ncores=$ncores,cube_type=$cube_type,pol=$pol,evenodd=$evenodd -e ${errfile}_${pol}_${evenodd}_${cube_type}.log -o ${outfile}_${pol}_${evenodd}_${cube_type}.log -J PS_${pol}${evenodd_initial}_${cube_type} ${PSpath}${pipe_path}PS_list_slurm_job.sh)
             message=($message)
             if [ "$cube_type" == "weights" ]; then hold_str_cubes="--dependency=afterok:${message[3]}"; fi
                 if [ "$cube_type" == "weights" ]; then
@@ -339,7 +365,12 @@ for pol in ${pol_list[@]}; do
         done
     done
 done
+hold_str="--dependency=afterok:$id_list"
+else
+    hold_str=""
+fi
 
 #final plots
-if [[ -n ${tukey_filter} ]]; then plot_walltime=1:00:00; else plot_walltime=00:20:00; fi
-sbatch --dependency=afterok:$id_list --mem=$mem -t ${plot_walltime} -n ${ncores} --export=file_path_cubes=$FHDdir,obs_list_path=$integrate_list,version=$version,ncores=$ncores,image_filter_name=$tukey_filter -e ${errfile}_plots.log -o ${outfile}_plots.log -J PS_plots ${PSpath}${pipe_path}PS_list_slurm_job.sh
+plot_walltime=00:30:00
+if [[ -n ${wrapper_only} ]]; then plot_walltime=$wallclock_time; fi
+sbatch $hold_str --mem=$mem -t ${plot_walltime} -n ${ncores} --export=file_path_cubes=$FHDdir,obs_list_path=$integrate_list,version=$version,ncores=$ncores -e ${errfile}_plots.log -o ${outfile}_plots.log -J PS_plots ${PSpath}${pipe_path}PS_list_slurm_job.sh

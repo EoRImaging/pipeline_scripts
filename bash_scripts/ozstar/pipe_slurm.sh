@@ -28,20 +28,31 @@
 #
 ####################################################
 
-#Clear input parameters
-unset obs_file_name
-unset starting_obs
-unset ending_obs
-unset outdir
-unset version
-unset resubmit_list
-unset resubmit_index
+Help()
+{  
+   # Display Help
+   echo "Script to submit FHD jobs into the OzStar queue"
+   echo
+   echo "Syntax: nohup ./pipe_slurm.sh [-f -s -e -o -v -w -n -m -H] >> ~/log.txt &"
+   echo "options:"
+   echo "-f (text file of observation id's, required)," 
+   echo "-s (starting observation, optional),"
+   echo "-e (ending observation, optional),"
+   echo "-o (output directory, default:/fred/oz048/MWA/CODE/FHD),"
+   echo "-v (version input for FHD, required, i.e. foo creates output folder named fhd_foo),"
+   echo "-w (wallclock time, default:10:00:00),"
+   echo "-n (number of cores, default:1),"
+   echo "-m (memory allocation, default:40G)." 
+   echo "-H (hold run till specified jobid is finished, optional)." 
+   echo
+}
+
 
 #######Gathering the input arguments and applying defaults if necessary
 
 #Parse flags for inputs
 #while getopts ":f:s:e:o:v:p:w:n:m:t:" option
-while getopts ":f:s:e:o:v:w:n:m:h:t:" option
+while getopts ":f:s:e:o:v:w:n:m:H:t:h" option
 do
    case $option in
 	f) obs_file_name="$OPTARG";;	#text file of observation id's
@@ -53,11 +64,12 @@ do
 	w) wallclock_time=$OPTARG;;	#Time for execution in slurm
 	n) ncores=$OPTARG;;		#Number of cores for slurm
 	m) mem=$OPTARG;;		#Memory per node for slurm
-        h) hold=$OPTARG;;  
+        H) hold=$OPTARG;;  
 	t) thresh=$OPTARG;;		#Wedge threshold to use to determine whether or not to run
-	\?) echo "Unknown option: Accepted flags are -f (obs_file_name), -s (starting_obs), -e (ending obs), -o (output directory), "
-	    echo "-v (version input for FHD), -w (wallclock timein slurm), -n (number of cores to use),"
-	    echo "and -m (memory per core for slurm)." 
+        h) Help
+           exit 1;;
+	\?) echo "Unknown option. Please review accepted flags"
+            Help
 	    exit 1;;
 	:) echo "Missing option argument for input flag"
 	   exit 1;;
@@ -95,7 +107,7 @@ fi
 #Set default output directory if one is not supplied and update user
 if [ -z ${outdir} ]
 then
-    outdir=$MWA_dir/CODE/FHD
+    outdir=/fred/oz048/MWA/CODE/FHD
     echo Using default output directory: $outdir
 else
     #strip the last / if present in output directory filepath
@@ -113,7 +125,7 @@ if grep -q \'${version}\' ${FHDpath}../pipeline_scripts/FHD_IDL_wrappers/nb_eor_
 then
     echo Using version $version
 else
-    echo Version \'${version}\' was not found in ${FHDpath}../pipeline_scripts/FHD_IDL_wrappers/firstpass_versions_wrapper.pro
+    echo Version \'${version}\' was not found in ${FHDpath}../pipeline_scripts/FHD_IDL_wrappers/nb_eor_firstpass_versions_wrapper.pro
     exit 1
 fi
 
@@ -127,7 +139,7 @@ if [ -z ${wallclock_time} ]; then
 fi
 #Set typical nodes needed for standard FHD firstpass if not set.
 if [ -z ${ncores} ]; then
-    ncores=10
+    ncores=1
 fi
 #Set typical memory needed for standard FHD firstpass if not set.
 if [ -z ${mem} ]; then

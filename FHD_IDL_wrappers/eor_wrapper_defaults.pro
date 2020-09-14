@@ -33,11 +33,10 @@ PRO eor_wrapper_defaults,extra
   beam_offset_time=56 ; make this a default. But it won't compound with setting it directly in a version so I think it's ok.
   beam_clip_floor=1
   interpolate_kernel=1
-  beam_recalculate=1
 
   ;Calibration keywords
   cable_bandpass_fit=1
-  cal_bp_transfer=1
+  cal_bp_transfer=0
   calibration_polyfit=1
   cal_amp_degree_fit=2
   cal_phase_degree_fit=1

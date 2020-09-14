@@ -20,6 +20,59 @@ pro mjw_fhd_versions
 
   case version of
 
+
+    'kernel_window_control_run_leave_flags_write_uvf_single_source': begin
+    kernel_window=1
+    calibrate_visibilities=0
+    return_cal_visibilities=0
+    calibration_visibilities_subtract=0
+    model_visibilities=1
+    save_visibilities=1
+    debug_dim=1
+    beam_mask_threshold=1e3
+    beam_clip_floor=1
+    beam_nfreq_avg=384
+    ps_kspan=200.
+    interpolate_kernel=1
+    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    save_uvf=1
+    model_catalog_filepath=filepath('test_source_1Jy_RA_350_dec_-26.8.sav',root=rootdir('FHD'),subdir='catalog_data/simulation')
+    end
+
+    'kernel_window_control_run_leave_flags_write_uvf': begin
+    kernel_window=1
+    calibrate_visibilities=0
+    return_cal_visibilities=0
+    calibration_visibilities_subtract=0
+    model_visibilities=1
+    save_visibilities=1
+    debug_dim=1
+    beam_mask_threshold=1e3
+    beam_clip_floor=1
+    beam_nfreq_avg=384
+    ps_kspan=200.
+    interpolate_kernel=1
+    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    save_uvf=1
+    end
+
+
+    'kernel_window_control_run_leave_flags': begin
+    kernel_window=1
+    calibrate_visibilities=0
+    return_cal_visibilities=0
+    calibration_visibilities_subtract=0
+    model_visibilities=1
+    save_visibilities=1
+    debug_dim=1
+    beam_mask_threshold=1e3
+    beam_clip_floor=1
+    beam_nfreq_avg=384
+    ps_kspan=200.
+    interpolate_kernel=1
+    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    end
+
     'Barry_2019_image_step_coarse_beam': begin
     model_uv_transfer='/uvfits/transfer/' + obs_id + '_model_uv_arr.sav'
     kernel_window=1
@@ -71,6 +124,62 @@ pro mjw_fhd_versions
     cal_stop=1
     cal_bp_transfer=0
     end
+
+    'Barry_2019_calibration_step_unflag_all': begin
+    calibration_catalog_file_path=filepath('GLEAM_EGC_v2_181MHz.sav',root=rootdir('FHD'),subdir='catalog_data')
+    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    beam_clip_floor=1
+    model_delay_filter=1
+    FoV=0
+    time_cut=-2
+    snapshot_recalculate=1
+    interpolate_kernel=1
+    beam_nfreq_avg=1
+    recalculate_all=1
+    mapfn_recalculate=0
+    calibration_flux_threshold=0.1
+    cal_time_average=0
+    calibration_subtract_sidelobe_catalog=filepath('GLEAM_EGC_v2_181MHz.sav',root=rootdir('FHD'),subdir='catalog_data')
+    model_subtract_sidelobe_catalog=filepath('GLEAM_EGC_v2_181MHz.sav',root=rootdir('FHD'),subdir='catalog_data')
+    subtract_sidelobe_catalog=filepath('GLEAM_EGC_v2_181MHz.sav',root=rootdir('FHD'),subdir='catalog_data')
+    ALLOW_SIDELOBE_MODEL_SOURCES =1
+    ALLOW_SIDELOBE_CAL_SOURCES =1
+    diffuse_calibrate=0
+    diffuse_model=0
+    digital_gain_jump_polyfit=1
+    ps_kspan=200.
+    calibration_auto_fit=1
+    cal_stop=1
+    cal_bp_transfer=0
+    unflag_all=1
+    end
+
+    'Barry_2019_image_step_unflag_all': begin
+    model_uv_transfer='/uvfits/transfer/' + obs_id + '_model_uv_arr.sav'
+    kernel_window=1
+    debug_dim=1
+    beam_mask_threshold=1e3
+    beam_nfreq_avg=1
+    interpolate_kernel=1
+    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    return_cal_visibilities=0
+    FoV=0
+    time_cut=-2
+    interpolate_kernel=1
+    cal_time_average=0
+    model_visibilities=1
+    transfer_calibration = '/uvfits/transfer/' + obs_id + '_cal.sav'
+    diffuse_calibrate=0
+    diffuse_model=0
+    digital_gain_jump_polyfit=1
+    ps_kspan=200.
+    calibration_auto_fit=1
+    cal_bp_transfer=0
+    beam_clip_floor=1
+    unflag_all=1
+    end
+
+
 
     'Barry_2019_image_step': begin
     model_uv_transfer='/uvfits/transfer/' + obs_id + '_model_uv_arr.sav'
@@ -240,7 +349,7 @@ pro mjw_fhd_versions
     debug_dim=1
     beam_mask_threshold=1e3
     beam_clip_floor=1
-    nfreq_avg=384
+    beam_nfreq_avg=384
     ps_kspan=200.
     interpolate_kernel=1
     restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
@@ -257,7 +366,7 @@ pro mjw_fhd_versions
     debug_dim=1
     beam_mask_threshold=1e3
     beam_clip_floor=1
-    nfreq_avg=384
+    beam_nfreq_avg=384
     ps_kspan=200.
     interpolate_kernel=1
     restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'

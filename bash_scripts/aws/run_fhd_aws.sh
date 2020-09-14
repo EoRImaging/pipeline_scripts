@@ -32,7 +32,7 @@ unset version
 #######Gathering the input arguments and applying defaults if necessary
 
 #Parse flags for inputs
-while getopts ":f:s:e:o:b:v:n:r:u:p:m:i:j:k:c:t:a:" option
+while getopts ":f:s:e:o:b:v:n:r:d:u:p:m:i:j:k:c:t:a:" option
 do
    case $option in
     f) obs_file_name="$OPTARG";; #text file of observation id's
@@ -47,6 +47,7 @@ do
     p) uvfits_s3_loc=$OPTARG;; #Path to uvfits files on S3
     m) metafits_s3_loc=$OPTARG;; #Path to metafits files on S3
     r) run_ps=$OPTARG;; #Run eppsilon PS code (on individual obs)
+    d) ps_uvf_input=$OPTARG;; #Use UVF input for PS (only used if run_ps=1)
     i) input_vis=$OPTARG;; #Optional input visibilities for in situ sim
     j) input_eor=$OPTARG;; #Optional input eor sim for in situ sim
     k) extra_vis=$OPTARG;; #Optional additional visibilities for in situ sim (e.g. RFI visibilities)
@@ -55,10 +56,11 @@ do
     a) non_integer_obs=$OPTARG;; #Specify that obsids are not integers - cannot sort.
     \?) echo "Unknown option: Accepted flags are -f (obs_file_name), -s (starting_obs), -e (ending obs), -o (output directory), "
         echo "-b (output bucket on S3), -v (version input for FHD),  -n (number of slots to use), "
-        echo "-u (versions script), -p (path to uvfits files on S3), -m (path to metafits files on S3)"
-        echo "-r (option to run eppsilon on each obs), -i (visibilities for in situ sim), -j (EoR sim)."
-        echo "-k (extra visibilities to add to simulation visibilities), -c (calibration save files to transfer),"
-        echo "-t (model_uv_arr.sav files to transfer from precalibration run)"
+        echo "-u (versions script), -p (path to uvfits files on S3), -m (path to metafits files on S3), "
+        echo "-r (option to run eppsilon on each obs), -d (option to use UVF input for eppsilon run), "
+        echo "-i (visibilities for in situ sim), -j (EoR sim), "
+        echo "-k (extra visibilities to add to simulation visibilities), -c (calibration save files to transfer), "
+        echo "-t (model_uv_arr.sav files to transfer from precalibration run), -a (indicate that obsids are not integers)"
         exit 1;;
     :) echo "Missing option argument for input flag"
        exit 1;;
@@ -156,6 +158,10 @@ if [ -z ${run_ps} ]; then
     run_ps=0
 fi
 
+if [ -z ${ps_uvf_input} ]; then
+    ps_uvf_input=0
+fi
+
 #Make directory if it doesn't already exist
 sudo mkdir -p -m 777 ${outdir}/fhd_${version}/grid_out
 echo Output located at ${outdir}/fhd_${version}
@@ -234,5 +240,5 @@ fi
 
 for obs_id in "${good_obs_list[@]}"
 do
-    qsub -V -b y -cwd -v nslots=${nslots},outdir=${outdir},version=${version},s3_path=${s3_path},obs_id=${obs_id},versions_script=${versions_script},uvfits_s3_loc=${uvfits_s3_loc},metafits_s3_loc=${metafits_s3_loc},run_ps=${run_ps},input_vis=${input_vis},input_eor=${input_eor},extra_vis=${extra_vis},cal_transfer=${cal_transfer},model_uv_transfer=${model_uv_transfer} -e ${logdir} -o ${logdir} -pe smp ${nslots} -sync y fhd_job_aws.sh &
+    qsub -V -b y -cwd -v nslots=${nslots},outdir=${outdir},version=${version},s3_path=${s3_path},obs_id=${obs_id},versions_script=${versions_script},uvfits_s3_loc=${uvfits_s3_loc},metafits_s3_loc=${metafits_s3_loc},run_ps=${run_ps},ps_uvf_input=${ps_uvf_input},input_vis=${input_vis},input_eor=${input_eor},extra_vis=${extra_vis},cal_transfer=${cal_transfer},model_uv_transfer=${model_uv_transfer} -e ${logdir} -o ${logdir} -pe smp ${nslots} -sync y fhd_job_aws.sh &
 done
