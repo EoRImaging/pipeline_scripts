@@ -35,6 +35,7 @@ pro ak_versions
       recalculate_all = 1
       cal_bp_transfer = 0
       vis_file_list = '/home/lmberkhout/data/MWA/data/golden_day/1061315688.uvfits'
+      end
    endcase
 
   ; Directory setup
