@@ -1,9 +1,9 @@
 pro van_vleck_corr_versions
 
   ; Keywords
-  obs_id = '1061315448_vv_cable_phase_gains_cb_80kHz_2s_2sflagged'
+  obs_id = '1061315448_vv_cable_phase_gains_cb_flagged_80kHz_2s'
   output_directory = '/data3/users/bryna/fhd_outs/'
-  version = 'van_vleck_corr_ver3_2sflagged'
+  version = 'van_vleck_corr_ver3_freqflagged'
   vis_file_list = '/data3/users/bryna/van_vleck_corrected/' + string(obs_id) +'.uvfits'
 
   ; Directory setup
