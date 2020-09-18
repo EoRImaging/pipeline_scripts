@@ -275,7 +275,7 @@ pro lmb_zenith
       save_imagecube=1
       ;ps_kspan=200.
       interpolate_kernel=1
-      restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+      ;restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
       extra_vis_filepath='/home/lmberkhout/data/MWA/data/golden_day/1061311664.uvfits'
       vis_file_list='/home/lmberkhout/data/MWA/data/golden_day/1061315688.uvfits'
       in_situ_sim_input='/home/lmberkhout/data/MWA/data/golden_day/fhd_control_interp/vis_data'
