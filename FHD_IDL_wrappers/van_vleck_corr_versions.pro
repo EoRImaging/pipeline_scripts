@@ -4,11 +4,13 @@ pro van_vleck_corr_versions
   obs_id = '1061315448_vv_cable_phase_gains_cb_flagged_80kHz_2s'
   cal_type_version = 4
 
-  if obsid eq '1061315448_vv_cable_phase_gains_cb_flagged_80kHz_2s' then begin
+  if obs_id eq '1061315448_vv_cable_phase_gains_cb_flagged_80kHz_2s' then begin
     if cal_type_version gt 4 then begin
       extra_str = ''
-    else: 
+    endif else begin
       extra_str = '_freqflagged'
+    endelse
+  endif
 
   output_directory = '/data3/users/bryna/fhd_outs/'
   version = 'van_vleck_corr_ver' + number_formatter(cal_type_version) + extra_str
@@ -22,7 +24,7 @@ pro van_vleck_corr_versions
   ; Any keywords set on the command line or in the top-level wrapper will supercede these defaults
 
   case cal_type_version of
-    6:
+    6: begin
       ; do not apply bandpass or cable dependent bandpass:
       cable_bandpass_fit=0
       bandpass_calibrate=0
@@ -33,7 +35,8 @@ pro van_vleck_corr_versions
       ; digital_gain_jump_polyfit=1
       cal_reflection_mode_theory=1
       cal_mode_fit=[90,150,230,320,400,524]
-    5:
+    end
+    5: begin
       ; do not apply bandpass or cable dependent bandpass:
       cable_bandpass_fit=0
       bandpass_calibrate=0
@@ -44,19 +47,22 @@ pro van_vleck_corr_versions
       cal_mode_fit=[90,150,230,320,400,524]
       cal_amp_degree_fit=8
       cal_phase_degree_fit=1
-    4:
+    end
+    4: begin
       ; use a per-cable bandpass (in eor_wrapper_defaults)
       ; fit out polynomials & cable reflections on all cables
       ; digital_gain_jump_polyfit=1
       cal_reflection_mode_theory=1
       cal_mode_fit=[90,150,230,320,400,524]
-    3:
+    end
+    3: begin
       ;; take out all cal fitting
       ; do not apply bandpass or cable dependent bandpass:
       cable_bandpass_fit=0
       bandpass_calibrate=0
 
       calibration_polyfit=0
+    end
   endcase
 
   model_delay_filter=1
