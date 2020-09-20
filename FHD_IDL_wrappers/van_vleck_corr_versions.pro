@@ -2,8 +2,16 @@ pro van_vleck_corr_versions
 
   ; Keywords
   obs_id = '1061315448_vv_cable_phase_gains_cb_flagged_80kHz_2s'
+  cal_type_version = 4
+
+  if obsid eq '1061315448_vv_cable_phase_gains_cb_flagged_80kHz_2s' then begin
+    if cal_type_version gt 4 then begin
+      extra_str = ''
+    else: 
+      extra_str = '_freqflagged'
+
   output_directory = '/data3/users/bryna/fhd_outs/'
-  version = 'van_vleck_corr_ver6'
+  version = 'van_vleck_corr_ver' + number_formatter(cal_type_version) + extra_str
   vis_file_list = '/data3/users/bryna/van_vleck_corrected/' + string(obs_id) +'.uvfits'
 
   ; Directory setup
@@ -13,16 +21,43 @@ pro van_vleck_corr_versions
   ; Set global defaults and bundle all the variables into a structure.
   ; Any keywords set on the command line or in the top-level wrapper will supercede these defaults
 
-  ; do not apply bandpass or cable dependent bandpass:
-  cable_bandpass_fit=0
-  bandpass_calibrate=0
+  case cal_type_version of
+    6:
+      ; do not apply bandpass or cable dependent bandpass:
+      cable_bandpass_fit=0
+      bandpass_calibrate=0
 
-  ; try using the auto calibration
-  calibration_auto_fit=1
+      ; try using the auto calibration
+      calibration_auto_fit=1
 
-  ; digital_gain_jump_polyfit=1
-  cal_reflection_mode_theory=1
-  cal_mode_fit=[90,150,230,320,400,524]
+      ; digital_gain_jump_polyfit=1
+      cal_reflection_mode_theory=1
+      cal_mode_fit=[90,150,230,320,400,524]
+    5:
+      ; do not apply bandpass or cable dependent bandpass:
+      cable_bandpass_fit=0
+      bandpass_calibrate=0
+
+      ;; Do high order polynomial fitting instead
+      ; digital_gain_jump_polyfit=1
+      cal_reflection_mode_theory=1
+      cal_mode_fit=[90,150,230,320,400,524]
+      cal_amp_degree_fit=8
+      cal_phase_degree_fit=1
+    4:
+      ; use a per-cable bandpass (in eor_wrapper_defaults)
+      ; fit out polynomials & cable reflections on all cables
+      ; digital_gain_jump_polyfit=1
+      cal_reflection_mode_theory=1
+      cal_mode_fit=[90,150,230,320,400,524]
+    3:
+      ;; take out all cal fitting
+      ; do not apply bandpass or cable dependent bandpass:
+      cable_bandpass_fit=0
+      bandpass_calibrate=0
+
+      calibration_polyfit=0
+  endcase
 
   model_delay_filter=1
   cal_time_average=0
