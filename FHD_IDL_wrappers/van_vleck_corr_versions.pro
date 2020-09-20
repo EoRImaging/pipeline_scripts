@@ -3,7 +3,7 @@ pro van_vleck_corr_versions
   ; Keywords
   obs_id = '1061315448_vv_cable_phase_gains_cb_flagged_80kHz_2s'
   output_directory = '/data3/users/bryna/fhd_outs/'
-  version = 'van_vleck_corr_ver5'
+  version = 'van_vleck_corr_ver6'
   vis_file_list = '/data3/users/bryna/van_vleck_corrected/' + string(obs_id) +'.uvfits'
 
   ; Directory setup
@@ -17,12 +17,12 @@ pro van_vleck_corr_versions
   cable_bandpass_fit=0
   bandpass_calibrate=0
 
-  ;; Do high order polynomial fitting instead
+  ; try using the auto calibration
+  calibration_auto_fit=1
+
   ; digital_gain_jump_polyfit=1
   cal_reflection_mode_theory=1
   cal_mode_fit=[90,150,230,320,400,524]
-  cal_amp_degree_fit=8
-  cal_phase_degree_fit=1
 
   model_delay_filter=1
   cal_time_average=0
