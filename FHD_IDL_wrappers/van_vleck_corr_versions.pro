@@ -1,16 +1,21 @@
 pro van_vleck_corr_versions
 
   ; Keywords
-  obs_id = '1061315448_vv_cable_phase_gains_cb_flagged_80kHz_2s'
-  cal_type_version = 4
+  obs_id = '1061315448_vv_cable_phase_gains_cb_40khzedgeflagged_80kHz_2s'
+  cal_type_version = 3
 
-  if obs_id eq '1061315448_vv_cable_phase_gains_cb_flagged_80kHz_2s' then begin
-    if cal_type_version gt 4 then begin
-      extra_str = ''
-    endif else begin
-      extra_str = '_freqflagged'
-    endelse
-  endif
+  case obs_id of
+    '1061315448_vv_cable_phase_gains_cb_flagged_80kHz_2s': begin
+      if cal_type_version gt 4 then begin
+        extra_str = ''
+      endif else begin
+        extra_str = '_freqflagged'
+      endelse
+    end
+    '1061315448_vv_cable_phase_gains_cb_40khzedgeflagged_80kHz_2s': begin
+      extra_str = '_40khzedgeflagged'
+    end
+  endcase
 
   output_directory = '/data3/users/bryna/fhd_outs/'
   version = 'van_vleck_corr_ver' + number_formatter(cal_type_version) + extra_str
