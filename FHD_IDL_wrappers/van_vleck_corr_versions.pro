@@ -1,7 +1,7 @@
 pro van_vleck_corr_versions
 
   ; Keywords
-  obs_id = '1061315448_vv_cable_phase_gains_cb_40khzedgeflagged_80kHz_2s'
+  obs_id = '1061315448_vv_cable_phase_gains_cb_flagged_80kHz_2s'
   cal_type_version = 3
 
   case obs_id of
@@ -29,6 +29,17 @@ pro van_vleck_corr_versions
   ; Any keywords set on the command line or in the top-level wrapper will supercede these defaults
 
   case cal_type_version of
+    7: begin
+      ;; take out all cal fitting
+      ; do not apply bandpass or cable dependent bandpass:
+      cable_bandpass_fit=0
+      bandpass_calibrate=0
+
+      calibration_polyfit=0
+
+      ; do not do automated coarse band edge flagging
+      channel_edge_flag_width=0
+    end
     6: begin
       ; do not apply bandpass or cable dependent bandpass:
       cable_bandpass_fit=0
