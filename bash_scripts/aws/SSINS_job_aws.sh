@@ -128,9 +128,9 @@ fi
 
 # Run python catalog script
 if [ $correct -eq 1 ]; then
-  python ~/MWA/SSINS/scripts/MWA_EoR_High_uvfits_write.py -o ${obs_id} -u ${input_files} -d $outdir -f -c
+  python ~/MWA/SSINS/scripts/MWA_EoR_High_uvfits_write.py -o ${obs_id} -u ${input_files} -d $outdir -t ${time_avg} -a ${freq_avg} -f -c
 else
-  python ~/MWA/SSINS/scripts/MWA_EoR_High_uvfits_write.py -o ${obs_id} -u ${input_files} -d $outdir -f
+  python ~/MWA/SSINS/scripts/MWA_EoR_High_uvfits_write.py -o ${obs_id} -u ${input_files} -d $outdir -t ${time_avg} -a ${freq_avg} -f
 fi
 
 # Move SSINS outputs to S3
