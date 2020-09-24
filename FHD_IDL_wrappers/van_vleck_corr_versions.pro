@@ -1,7 +1,7 @@
 pro van_vleck_corr_versions
 
   ; Keywords
-  obs_id = '1061315448_vv_cable_phase_gains_cb_flagged_80kHz_2s'
+  obs_id = '1061315448_vv_cable_phase_gains_cb_40khzedgeflagged_80kHz_2s'
   cal_type_version = 3
 
   case obs_id of
