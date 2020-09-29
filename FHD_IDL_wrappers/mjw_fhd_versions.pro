@@ -20,6 +20,70 @@ pro mjw_fhd_versions
 
   case version of
 
+    'kernel_window_rfi_sim_single_source_run_no_bubbles_Double_DTV_25_times_flagged_achromatic_GLEAM': begin
+    kernel_window=1
+    calibrate_visibilities=0
+    return_cal_visibilities=0
+    calibration_visibilities_subtract=0
+    model_visibilities=1
+    save_visibilities=1
+    unflag_all=0
+    channel_edge_flag_width=0
+    debug_dim=1
+    beam_mask_threshold=1e3
+    beam_clip_floor=1
+    beam_nfreq_avg=384
+    ps_kspan=200.
+    interpolate_kernel=1
+    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    extra_vis_filepath='/uvfits/extra_vis/1061315448_Double_DTV_RFI_nsamplemax_25_times_flagged_achromatic.uvfits'
+    in_situ_sim_input='/uvfits/input_vis/vis_data'
+    remove_sim_flags=1
+    use_extra_flags=1
+    end
+
+    'kernel_window_rfi_sim_single_source_run_no_bubbles_Double_DTV_25_times_flagged_GLEAM': begin
+    kernel_window=1
+    calibrate_visibilities=0
+    return_cal_visibilities=0
+    calibration_visibilities_subtract=0
+    model_visibilities=1
+    save_visibilities=1
+    unflag_all=0
+    channel_edge_flag_width=0
+    debug_dim=1
+    beam_mask_threshold=1e3
+    beam_clip_floor=1
+    beam_nfreq_avg=384
+    ps_kspan=200.
+    interpolate_kernel=1
+    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    extra_vis_filepath='/uvfits/extra_vis/1061315448_Double_DTV_RFI_nsamplemax_25_times_flagged.uvfits'
+    in_situ_sim_input='/uvfits/input_vis/vis_data'
+    remove_sim_flags=1
+    use_extra_flags=1
+    end
+
+
+    'kernel_window_rfi_sim_single_source_run_no_bubbles_Double_DTV_25_times_GLEAM': begin
+    kernel_window=1
+    calibrate_visibilities=0
+    return_cal_visibilities=0
+    calibration_visibilities_subtract=0
+    model_visibilities=1
+    save_visibilities=1
+    unflag_all=1
+    debug_dim=1
+    beam_mask_threshold=1e3
+    beam_clip_floor=1
+    beam_nfreq_avg=384
+    ps_kspan=200.
+    interpolate_kernel=1
+    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    extra_vis_filepath='/uvfits/extra_vis/1061315448_Double_DTV_RFI_nsamplemax_25_times.uvfits'
+    in_situ_sim_input='/uvfits/input_vis/vis_data'
+    remove_sim_flags=1
+    end
 
     'kernel_window_control_run_leave_flags_write_uvf_single_source': begin
     kernel_window=1
