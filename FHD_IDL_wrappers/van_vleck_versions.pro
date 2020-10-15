@@ -1,4 +1,12 @@
-pro van_vleck_versions, obs_id, output_directory, version, platform
+pro van_vleck_versions;, obs_id, output_directory, version, platform
+
+  ; parse command line args
+  compile_opt strictarr
+  args = Command_Line_Args(count=nargs)
+  obs_id = args[0]
+  output_directory = args[1]
+  version = args[2]
+  if nargs gt 3 then platform = args[3] else platform = '' ;indicates if running on AWS
 
     case version of
         "van_vleck_ver1": begin
