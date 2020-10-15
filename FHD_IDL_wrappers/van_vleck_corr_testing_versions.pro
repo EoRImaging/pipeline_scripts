@@ -1,4 +1,4 @@
-pro van_vleck_corr_versions
+pro van_vleck_corr_testing_versions
 
   ; Keywords
   obs_id = '1061315448_vv_cable_phase_gains_cb_40khzedgeflagged_80kHz_2s'
