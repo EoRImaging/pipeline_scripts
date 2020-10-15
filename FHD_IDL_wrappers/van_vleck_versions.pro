@@ -21,7 +21,7 @@ pro van_vleck_versions, obs_id, output_directory, version, platform
 
     if platform eq 'aws' then begin
         vis_file_list = '/uvfits/' + string(obs_id) + '.uvfits'
-    endif else begin
+    endif
 
     fhd_file_list=fhd_path_setup(vis_file_list,version=version,output_directory=output_directory)
     healpix_path=fhd_path_setup(output_dir=output_directory,subdir='Healpix',output_filename='Combined_obs',version=version)
