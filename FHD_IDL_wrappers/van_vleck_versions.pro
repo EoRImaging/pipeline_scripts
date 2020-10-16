@@ -9,7 +9,7 @@ pro van_vleck_versions;, obs_id, output_directory, version, platform
   if nargs gt 3 then platform = args[3] else platform = '' ;indicates if running on AWS
 
     case version of
-        "van_vleck_ver1": begin
+        "van_vleck_cal1": begin
             model_delay_filter=1
             cal_time_average=0
             max_cal_iter=1000L
@@ -24,6 +24,28 @@ pro van_vleck_versions;, obs_id, output_directory, version, platform
             ; fit for all the cable lengths
             cal_reflection_mode_theory=1
             cal_mode_fit=[90,150,230,320,400,524]
+
+            digital_gain_jump_polyfit=1
+            calibration_flux_threshold=0.1
+            cal_stop=1
+
+            ; want these for both runs
+            beam_nfreq_avg=1
+        end
+        "van_vleck_grid1": begin
+            beam_nfreq_avg=1
+            restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+            ps_kspan=200.
+            kernel_window=1 ;Modified gridding kernel, 1='Blackman-Harris^2'
+            calibrate_visibilities=0
+            return_cal_visibilities=0
+            model_visibilities=1
+            debug_dim=1 ;??? might not be needed?
+            beam_mask_threshold=1e3
+
+            ; need to modify these:
+            model_uv_transfer='/uvfits/transfer/' + obs_id + '_model_uv_arr.sav'
+            transfer_calibration = '/uvfits/transfer/' + obs_id + '_cal.sav'
         end
     endcase
 
