@@ -10,6 +10,8 @@ pro van_vleck_versions;, obs_id, output_directory, version, platform
 
     case version of
         "van_vleck_cal1": begin
+            beam_nfreq_avg=1
+
             model_delay_filter=1
             cal_time_average=0
             max_cal_iter=1000L
@@ -28,9 +30,6 @@ pro van_vleck_versions;, obs_id, output_directory, version, platform
             digital_gain_jump_polyfit=1
             calibration_flux_threshold=0.1
             cal_stop=1
-
-            ; want these for both runs
-            beam_nfreq_avg=1
         end
         "van_vleck_grid1": begin
             beam_nfreq_avg=1
@@ -40,10 +39,9 @@ pro van_vleck_versions;, obs_id, output_directory, version, platform
             calibrate_visibilities=0
             return_cal_visibilities=0
             model_visibilities=1
-            debug_dim=1 ;??? might not be needed?
             beam_mask_threshold=1e3
 
-            ; need to modify these:
+            ; these paths work because of the AWS wrapper that copies the files here
             model_uv_transfer='/uvfits/transfer/' + obs_id + '_model_uv_arr.sav'
             transfer_calibration = '/uvfits/transfer/' + obs_id + '_cal.sav'
         end
