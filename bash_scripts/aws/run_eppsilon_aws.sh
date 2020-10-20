@@ -179,7 +179,8 @@ if [ "$ps_only" -ne "1" ]; then
 	          echo Combined_obs_${version}_int_chunk${chunk} >> $sub_cubes_list # trick it into finding our sub cubes
         done
 
-        idlist_int_chunks=(`qstat | grep "int_c_" | cut -b -7`)
+        # Added pipe to tail, untested 10/20/2020
+        idlist_int_chunks=(`qstat | grep "int_c_" | cut -b -7 | tail -n 1`)
 	      idlist_int_chunks=$( IFS=$','; echo "${idlist_int_chunks[*]}" )
 	      hold_str="-hold_jid ${idlist_int_chunks}"
 
@@ -195,7 +196,8 @@ if [ "$ps_only" -ne "1" ]; then
 	         done
 	      done
 
-        idlist_int_master=(`qstat | grep "int_m_" | cut -b -7`)
+        # Added pipe to tail, untested 10/20/2020
+        idlist_int_master=(`qstat | grep "int_m_" | cut -b -7 | tail -n 1`)
 	      idlist_int_master=$( IFS=$','; echo "${idlist_int_master[*]}" )
 	      hold_str="-hold_jid ${idlist_int_master}"
 
@@ -279,7 +281,7 @@ if [ -z ${ps_plots_only} ]; then
 
                 if [ ! -z "$pids" ]; then pids="$!"; else pids=($pids "$!"); fi
                 # If there are multiple w_xx_even etc. jobs in the queue, grab the latest one
-                job_id=(`qstat | grep "${cube_type_letter}_${pol}_${evenodd}" | cut -b -7 | tail -n 1`) 
+                job_id=(`qstat | grep "${cube_type_letter}_${pol}_${evenodd}" | cut -b -7 | tail -n 1`)
                 if [ -z "$id_list" ]; then id_list=${job_id};else id_list=${id_list},${job_id};fi
 
                 if [ $cube_type = "weights" ]
