@@ -20,6 +20,6 @@ pro aws_ps_single_obs_job
   if refresh_ps eq 0 then undefine, refresh_ps
   if uvf_input eq 0 then undefine, uvf_input
 
-  ps_wrapper, outdir+'/fhd_'+fhd_version, obs_id, /png, /plot_kpar_power, refresh_ps=refresh_ps, uvf_input=uvf_input, wt_cutoffs=wt_cutoffs, freq_ch_range=[9, 126]
+  ps_wrapper, outdir+'/fhd_'+fhd_version, obs_id, /png, /plot_kpar_power, refresh_ps=refresh_ps, uvf_input=uvf_input, wt_cutoffs=wt_cutoffs
 
 end
