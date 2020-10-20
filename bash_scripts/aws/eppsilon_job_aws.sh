@@ -151,9 +151,19 @@ fi
 if [ -z ${cube_type} ]; then
     sudo aws s3 cp ${file_path_cubes}/ps/data/uvf_cubes/ /ps/data/uvf_cubes --recursive --quiet \
      --exclude "*" --include "${version}*"
+
+    # Verify that the cubes downloaded correctly
+    file_num=$(ls /ps/data/uvf_cubes/${version}* | wc -li)
+    echo "file_num is $file_num"
+    if [ $file_num -eq 0 ]; then
+      >&2 echo "ERROR: no uvf cubes present in uvf_cubes directory. Something is wrong."
+      echo "Job Failed"
+      exit 1
+    fi
 fi
 ####
 
+echo "arg_string is $arg_string"
 idl -IDL_DEVICE ps -IDL_CPU_TPOOL_NTHREADS $nslots -e aws_ps_job -args $arg_string || :
 
 if [ $? -eq 0 ]

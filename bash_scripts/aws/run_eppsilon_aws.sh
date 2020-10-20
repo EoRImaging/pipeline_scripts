@@ -179,7 +179,8 @@ if [ "$ps_only" -ne "1" ]; then
 	          echo Combined_obs_${version}_int_chunk${chunk} >> $sub_cubes_list # trick it into finding our sub cubes
         done
 
-        idlist_int_chunks=(`qstat | grep "int_c_" | cut -b -7`)
+        # Added pipe to tail, untested 10/20/2020
+        idlist_int_chunks=(`qstat | grep "int_c_" | cut -b -7 | tail -n 1`)
 	      idlist_int_chunks=$( IFS=$','; echo "${idlist_int_chunks[*]}" )
 	      hold_str="-hold_jid ${idlist_int_chunks}"
 
@@ -195,7 +196,8 @@ if [ "$ps_only" -ne "1" ]; then
 	         done
 	      done
 
-        idlist_int_master=(`qstat | grep "int_m_" | cut -b -7`)
+        # Added pipe to tail, untested 10/20/2020
+        idlist_int_master=(`qstat | grep "int_m_" | cut -b -7 | tail -n 1`)
 	      idlist_int_master=$( IFS=$','; echo "${idlist_int_master[*]}" )
 	      hold_str="-hold_jid ${idlist_int_master}"
 
@@ -214,8 +216,8 @@ if [ "$ps_only" -ne "1" ]; then
         	    qsub ${hold_str} -V -b y -v file_path_cubes=$FHDdir,obs_list_array="$chunk_obs_array",obs_list_path=$chunk_obs_list,version=$version,chunk=$chunk,nslots=$nslots,legacy=$legacy,evenodd=$evenodd,pol=$pol -e $errfile -o $outfile -N int_${version} -pe smp $nslots integration_job_aws.sh
 	         done
 	      done
-
-        idlist_int=(`qstat | grep "int_" | cut -b -7`)
+        # Grab the last int job instead of the first one
+        idlist_int=(`qstat | grep "int_" | cut -b -7 | tail -n 1`)
         hold_str="-hold_jid ${idlist_int}"
 
     fi
@@ -255,6 +257,8 @@ hold_str_int=$hold_str
 unset id_list
 unset pids
 
+echo "hold_str_int is $hold_str_int"
+
 if [ -z ${ps_plots_only} ]; then
 
     for pol in "${pol_arr[@]}"
@@ -271,12 +275,13 @@ if [ -z ${ps_plots_only} ]; then
                 fi
 
                 cube_type_letter=${cube_type:0:1}
-
+                echo "hold_str_temp for ${cube_type_letter}_${pol}_${evenodd}is ${hold_str_temp}"
                 message=$(qsub ${hold_str_temp} -V -b y -cwd -v file_path_cubes=$FHDdir,obs_list_path=$integrate_list,obs_list_array="$integrate_array",version=$version,nslots=$nslots,cube_type=$cube_type,pol=$pol,evenodd=$evenodd,single_obs=$single_obs -e ${errfile} -o ${outfile} -N ${cube_type_letter}_${pol}_${evenodd} -pe smp $nslots eppsilon_job_aws.sh)
                 message=($message)
 
                 if [ ! -z "$pids" ]; then pids="$!"; else pids=($pids "$!"); fi
-                job_id=(`qstat | grep "${cube_type_letter}_${pol}_${evenodd}" | cut -b -7`)
+                # If there are multiple w_xx_even etc. jobs in the queue, grab the latest one
+                job_id=(`qstat | grep "${cube_type_letter}_${pol}_${evenodd}" | cut -b -7 | tail -n 1`)
                 if [ -z "$id_list" ]; then id_list=${job_id};else id_list=${id_list},${job_id};fi
 
                 if [ $cube_type = "weights" ]
@@ -289,5 +294,6 @@ if [ -z ${ps_plots_only} ]; then
 
 fi
 
+echo "id_list for PS_plots is $id_list"
 #final plots
 qsub -hold_jid $id_list -V -v file_path_cubes=$FHDdir,obs_list_path=$integrate_list,obs_list_array="$integrate_array",version=$version,nslots=$nslots,single_obs=$single_obs -e ${errfile} -o ${outfile} -N PS_plots -pe smp $nslots $(which eppsilon_job_aws.sh) &

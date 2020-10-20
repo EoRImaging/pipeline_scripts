@@ -20,6 +20,91 @@ pro mjw_fhd_versions
 
   case version of
 
+    'kernel_window_rfi_sim_single_source_run_no_bubbles_Double_DTV_25_times_flagged_achromatic_GLEAM': begin
+    kernel_window=1
+    calibrate_visibilities=0
+    return_cal_visibilities=0
+    calibration_visibilities_subtract=0
+    model_visibilities=1
+    save_visibilities=1
+    unflag_all=0
+    channel_edge_flag_width=0
+    debug_dim=1
+    beam_mask_threshold=1e3
+    beam_clip_floor=1
+    beam_nfreq_avg=384
+    ps_kspan=200.
+    interpolate_kernel=1
+    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    extra_vis_filepath='/uvfits/extra_vis/1061315448_Double_DTV_RFI_nsamplemax_25_times_flagged_achromatic.uvfits'
+    in_situ_sim_input='/uvfits/input_vis/vis_data'
+    remove_sim_flags=1
+    use_extra_flags=1
+    end
+
+    'kernel_window_rfi_sim_single_source_run_no_bubbles_Double_DTV_25_times_flagged_GLEAM': begin
+    kernel_window=1
+    calibrate_visibilities=0
+    return_cal_visibilities=0
+    calibration_visibilities_subtract=0
+    model_visibilities=1
+    save_visibilities=1
+    unflag_all=0
+    channel_edge_flag_width=0
+    debug_dim=1
+    beam_mask_threshold=1e3
+    beam_clip_floor=1
+    beam_nfreq_avg=384
+    ps_kspan=200.
+    interpolate_kernel=1
+    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    extra_vis_filepath='/uvfits/extra_vis/1061315448_Double_DTV_RFI_nsamplemax_25_times_flagged.uvfits'
+    in_situ_sim_input='/uvfits/input_vis/vis_data'
+    remove_sim_flags=1
+    use_extra_flags=1
+    end
+
+
+    'kernel_window_rfi_sim_single_source_run_no_bubbles_Double_DTV_25_times_GLEAM': begin
+    kernel_window=1
+    calibrate_visibilities=0
+    return_cal_visibilities=0
+    calibration_visibilities_subtract=0
+    model_visibilities=1
+    save_visibilities=1
+    unflag_all=1
+    debug_dim=1
+    beam_mask_threshold=1e3
+    beam_clip_floor=1
+    beam_nfreq_avg=384
+    ps_kspan=200.
+    interpolate_kernel=1
+    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    extra_vis_filepath='/uvfits/extra_vis/1061315448_Double_DTV_RFI_nsamplemax_25_times.uvfits'
+    in_situ_sim_input='/uvfits/input_vis/vis_data'
+    remove_sim_flags=1
+    end
+
+    'kernel_window_rfi_sim_single_source_run_no_bubbles_Double_DTV_25_times_GLEAM_0.3': begin
+    kernel_window=1
+    calibrate_visibilities=0
+    return_cal_visibilities=0
+    calibration_visibilities_subtract=0
+    model_visibilities=1
+    save_visibilities=1
+    unflag_all=1
+    debug_dim=1
+    beam_mask_threshold=1e3
+    beam_clip_floor=1
+    beam_nfreq_avg=384
+    ps_kspan=200.
+    interpolate_kernel=1
+    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    extra_vis_filepath='/uvfits/extra_vis/1061315448_Double_DTV_RFI_nsamplemax_25_times.uvfits'
+    in_situ_sim_input='/uvfits/input_vis/vis_data'
+    remove_sim_flags=1
+    model_catalog_file_path=filepath('GLEAM_v2_plus_rlb2019_pos_0.3.sav', root=rootdir('FHD'),subdir='catalog_data')
+    end
 
     'kernel_window_control_run_leave_flags_write_uvf_single_source': begin
     kernel_window=1
@@ -36,7 +121,7 @@ pro mjw_fhd_versions
     interpolate_kernel=1
     restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
     save_uvf=1
-    model_catalog_filepath=filepath('test_source_1Jy_RA_350_dec_-26.8.sav',root=rootdir('FHD'),subdir='catalog_data/simulation')
+    model_catalog_file_path=filepath('test_source_1Jy_RA_350_dec_-26.8.sav',root=rootdir('FHD'),subdir='catalog_data/simulation')
     end
 
     'kernel_window_control_run_leave_flags_write_uvf': begin
@@ -73,6 +158,137 @@ pro mjw_fhd_versions
     restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
     end
 
+    'kernel_window_control_run_leave_flags_no_edge': begin
+    kernel_window=1
+    calibrate_visibilities=0
+    return_cal_visibilities=0
+    calibration_visibilities_subtract=0
+    model_visibilities=1
+    save_visibilities=1
+    debug_dim=1
+    beam_mask_threshold=1e3
+    beam_clip_floor=1
+    beam_nfreq_avg=384
+    channel_edge_flag_width=0
+    ps_kspan=200.
+    interpolate_kernel=1
+    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    end
+
+    'kernel_window_control_run_leave_flags_no_edge_0.3': begin
+    kernel_window=1
+    calibrate_visibilities=0
+    return_cal_visibilities=0
+    calibration_visibilities_subtract=0
+    model_visibilities=1
+    save_visibilities=1
+    debug_dim=1
+    beam_mask_threshold=1e3
+    beam_clip_floor=1
+    beam_nfreq_avg=384
+    channel_edge_flag_width=0
+    ps_kspan=200.
+    interpolate_kernel=1
+    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    model_catalog_file_path=filepath('GLEAM_v2_plus_rlb2019_pos_0.3.sav', root=rootdir('FHD'),subdir='catalog_data')
+    end
+    
+    'kernel_window_control_run_leave_flags_no_edge_0.5': begin
+    kernel_window=1
+    calibrate_visibilities=0
+    return_cal_visibilities=0
+    calibration_visibilities_subtract=0
+    model_visibilities=1
+    save_visibilities=1
+    debug_dim=1
+    beam_mask_threshold=1e3
+    beam_clip_floor=1
+    beam_nfreq_avg=384
+    channel_edge_flag_width=0
+    ps_kspan=200.
+    interpolate_kernel=1
+    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    model_catalog_file_path=filepath('GLEAM_v2_plus_rlb2019_pos_0.5.sav', root=rootdir('FHD'),subdir='catalog_data')
+    end
+
+    'kernel_window_control_run_leave_flags_no_edge_0.7': begin
+    kernel_window=1
+    calibrate_visibilities=0
+    return_cal_visibilities=0
+    calibration_visibilities_subtract=0
+    model_visibilities=1
+    save_visibilities=1
+    debug_dim=1
+    beam_mask_threshold=1e3
+    beam_clip_floor=1
+    beam_nfreq_avg=384
+    channel_edge_flag_width=0
+    ps_kspan=200.
+    interpolate_kernel=1
+    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    model_catalog_file_path=filepath('GLEAM_v2_plus_rlb2019_pos_0.7.sav', root=rootdir('FHD'),subdir='catalog_data')
+    end
+
+
+    'kernel_window_control_run_0.3': begin
+    kernel_window=1
+    calibrate_visibilities=0
+    return_cal_visibilities=0
+    calibration_visibilities_subtract=0
+    model_visibilities=1
+    save_visibilities=1
+    debug_dim=1
+    beam_mask_threshold=1e3
+    beam_clip_floor=1
+    beam_nfreq_avg=384
+    channel_edge_flag_width=0
+    ps_kspan=200.
+    unflag_all=1
+    interpolate_kernel=1
+    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    model_catalog_file_path=filepath('GLEAM_v2_plus_rlb2019_pos_0.3.sav', root=rootdir('FHD'),subdir='catalog_data')
+    end
+
+
+    'kernel_window_control_run_0.5': begin
+    kernel_window=1
+    calibrate_visibilities=0
+    return_cal_visibilities=0
+    calibration_visibilities_subtract=0
+    model_visibilities=1
+    save_visibilities=1
+    debug_dim=1
+    unflag_all=1
+    beam_mask_threshold=1e3
+    beam_clip_floor=1
+    beam_nfreq_avg=384
+    channel_edge_flag_width=0
+    ps_kspan=200.
+    interpolate_kernel=1
+    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    model_catalog_file_path=filepath('GLEAM_v2_plus_rlb2019_pos_0.5.sav', root=rootdir('FHD'),subdir='catalog_data')
+    end
+
+    'kernel_window_control_run_0.7': begin
+    kernel_window=1
+    calibrate_visibilities=0
+    return_cal_visibilities=0
+    calibration_visibilities_subtract=0
+    model_visibilities=1
+    save_visibilities=1
+    debug_dim=1
+    beam_mask_threshold=1e3
+    beam_clip_floor=1
+    beam_nfreq_avg=384
+    channel_edge_flag_width=0
+    ps_kspan=200.
+    unflag_all=1
+    interpolate_kernel=1
+    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    model_catalog_file_path=filepath('GLEAM_v2_plus_rlb2019_pos_0.7.sav', root=rootdir('FHD'),subdir='catalog_data')
+    end
+
+
     'Barry_2019_image_step_coarse_beam': begin
     model_uv_transfer='/uvfits/transfer/' + obs_id + '_model_uv_arr.sav'
     kernel_window=1
@@ -84,7 +300,6 @@ pro mjw_fhd_versions
     return_cal_visibilities=0
     FoV=0
     time_cut=-2
-    interpolate_kernel=1
     cal_time_average=0
     model_visibilities=1
     transfer_calibration = '/uvfits/transfer/' + obs_id + '_cal.sav'
@@ -203,6 +418,31 @@ pro mjw_fhd_versions
     calibration_auto_fit=1
     cal_bp_transfer=0
     beam_clip_floor=1
+    end
+
+    'Barry_2019_image_step_psf_dim': begin
+    model_uv_transfer='/uvfits/transfer/' + obs_id + '_model_uv_arr.sav'
+    kernel_window=1
+    debug_dim=1
+    beam_mask_threshold=1e3
+    beam_nfreq_avg=1
+    interpolate_kernel=1
+    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    return_cal_visibilities=0
+    FoV=0
+    time_cut=-2
+    interpolate_kernel=1
+    cal_time_average=0
+    model_visibilities=1
+    transfer_calibration = '/uvfits/transfer/' + obs_id + '_cal.sav'
+    diffuse_calibrate=0
+    diffuse_model=0
+    digital_gain_jump_polyfit=1
+    ps_kspan=200.
+    calibration_auto_fit=1
+    cal_bp_transfer=0
+    beam_clip_floor=1
+    psf_dim=22
     end
 
     'Barry_2019_image_step_old_nfreq_avg': begin
@@ -387,7 +627,7 @@ pro mjw_fhd_versions
     ps_kspan=200.
     interpolate_kernel=1
     restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
-    model_catalog_filepath=filepath('test_RFI_source_1061315448_zenith.sav',root=rootdir('FHD'),subdir='catalog_data')
+    model_catalog_file_path=filepath('test_RFI_source_1061315448_zenith.sav',root=rootdir('FHD'),subdir='catalog_data')
     end
     
     'kernel_window_control_run_plaw_zenith': begin
@@ -405,7 +645,7 @@ pro mjw_fhd_versions
       ps_kspan=200.
       interpolate_kernel=1
       restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
-      model_catalog_filepath=filepath('test_RFI_source_1061315448_zenith.sav',root=rootdir('FHD'),subdir='catalog_data/simulation')
+      model_catalog_file_path=filepath('test_RFI_source_1061315448_zenith.sav',root=rootdir('FHD'),subdir='catalog_data/simulation')
     end
 
     'kernel_window_control_run_zenith_navg1': begin
