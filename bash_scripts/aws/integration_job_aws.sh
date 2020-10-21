@@ -95,7 +95,7 @@ then
 
             # Download Healpix from S3
             sudo aws s3 cp ${file_path_cubes}/Healpix/${obs_id}_${evenodd}_cube${pol^^}.sav \
-            /Healpix/${obs_id}_${evenodd}_cube${pol^^}.sav --quiet
+            /Healpix/${obs_id}_${evenodd}_cube${pol^^}.sav
 
             # Verify that the cubes downloaded correctly
             if [ ! -f "/Healpix/${obs_id}_${evenodd}_cube${pol^^}.sav" ]; then
