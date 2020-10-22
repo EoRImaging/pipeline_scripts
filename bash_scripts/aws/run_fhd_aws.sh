@@ -162,6 +162,10 @@ if [ -z ${ps_uvf_input} ]; then
     ps_uvf_input=0
 fi
 
+if [ -z $non_integer_obs ]; then
+    non_integer_obs=0
+fi
+
 #Make directory if it doesn't already exist
 sudo mkdir -p -m 777 ${outdir}/fhd_${version}/grid_out
 echo Output located at ${outdir}/fhd_${version}
