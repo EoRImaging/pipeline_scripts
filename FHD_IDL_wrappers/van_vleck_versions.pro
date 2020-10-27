@@ -50,7 +50,7 @@ pro van_vleck_versions;, obs_id, output_directory, version, platform
     if platform eq 'aws' then begin
         vis_file_list = '/uvfits/' + string(obs_id) + '.uvfits'
     endif else begin
-        vis_file_list = '/data3/users/bryna/van_vleck_corrected' + string(obs_id) + '.uvfits'
+        vis_file_list = '/data3/users/bryna/van_vleck_corrected/' + string(obs_id) + '.uvfits'
     endelse
 
     fhd_file_list=fhd_path_setup(vis_file_list,version=version,output_directory=output_directory)
