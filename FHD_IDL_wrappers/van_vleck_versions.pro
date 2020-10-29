@@ -41,9 +41,15 @@ pro van_vleck_versions;, obs_id, output_directory, version, platform
             model_visibilities=1
             beam_mask_threshold=1e3
 
-            ; these paths work because of the AWS wrapper that copies the files here
-            model_uv_transfer='/uvfits/transfer/' + obs_id + '_model_uv_arr.sav'
-            transfer_calibration = '/uvfits/transfer/' + obs_id + '_cal.sav'
+            if platform eq 'aws' then begin
+                ; these paths work because of the AWS wrapper that copies the files here
+                model_uv_transfer='/uvfits/transfer/' + obs_id + '_model_uv_arr.sav'
+                transfer_calibration = '/uvfits/transfer/' + obs_id + '_cal.sav'
+            endif else begin
+                fhd_cal_folder = '/data3/users/bryna/fhd_outs/fhd_van_vleck_cal1/'
+                model_uv_transfer = fhd_cal_folder + 'cal_prerun/' + obs_id + '_model_uv_arr.sav'
+                transfer_calibration = fhd_cal_folder + '/calibration/' + obs_id + '_cal.sav'
+            endelse
         end
     endcase
 
