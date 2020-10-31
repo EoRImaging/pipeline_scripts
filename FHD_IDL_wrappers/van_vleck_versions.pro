@@ -25,7 +25,7 @@ pro van_vleck_versions;, obs_id, output_directory, version, platform
 
             ; fit for all the cable lengths
             cal_reflection_mode_theory=1
-            cal_mode_fit=[90,150,230,320,400,524]
+            cal_mode_fit=[90,150,230,320];,400,524]
 
             digital_gain_jump_polyfit=1
             calibration_flux_threshold=0.1
