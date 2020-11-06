@@ -68,8 +68,9 @@ pro van_vleck_versions;, obs_id, output_directory, version, platform
             cal_stop=1
 
             ; Use Ian's new speedup
-            use_calibration_adaptive_gain=1
+            use_adaptive_calibration_gain=1
             calibration_base_gain=0.5
+            phase_fit_iter=4
         end
         "van_vleck_grid1": begin
             beam_nfreq_avg=1
