@@ -3585,6 +3585,52 @@ pro fhd_versions_rlb
       n_pol = 4 
       save_uvf = 1
     end
+    
+    'rlb_GLEAM_calibration_reference_Nov2020': begin
+      recalculate_all = 0
+      calibration_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
+      subtract_sidelobe_catalog = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
+      pad_uv_image = 1
+      diffuse_calibrate = 0
+      diffuse_model = 0
+      return_sidelobe_catalog = 1
+      ring_radius = 0
+      debug_region_grow = 0
+      n_pol = 4
+      cal_bp_transfer = 0
+      restrict_hpx_inds='EoR0_high_healpix_inds.idlsave'
+    end
+    
+    'rlb_kelcey_catalog_calibration_Nov2020': begin
+      recalculate_all = 0
+      calibration_catalog_file_path = '/home/ubuntu/skyobj_EoR0_test.sav'
+      subtract_sidelobe_catalog = '/home/ubuntu/skyobj_EoR0_test.sav'
+      pad_uv_image = 1
+      diffuse_calibrate = 0
+      diffuse_model = 0
+      return_sidelobe_catalog = 1
+      ring_radius = 0
+      debug_region_grow = 0
+      n_pol = 4
+      cal_bp_transfer = 0
+      restrict_hpx_inds='EoR0_high_healpix_inds.idlsave'
+    end
+    
+    'rlb_kelcey_catalog_subtraction_Nov2020': begin
+      recalculate_all = 0
+      calibration_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
+      subtract_sidelobe_catalog = '/home/ubuntu/skyobj_EoR0_test.sav'
+      model_catalog_file_path = '/home/ubuntu/skyobj_EoR0_test.sav'
+      return_cal_visibilities = 0
+      pad_uv_image = 1
+      diffuse_calibrate = 0
+      diffuse_model = 0
+      ring_radius = 0
+      debug_region_grow = 0
+      n_pol = 4
+      cal_bp_transfer = 0
+      restrict_hpx_inds='EoR0_high_healpix_inds.idlsave'
+    end
 
   endcase
 
