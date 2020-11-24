@@ -3596,7 +3596,7 @@ pro fhd_versions_rlb
       return_sidelobe_catalog = 1
       ring_radius = 0
       debug_region_grow = 0
-      n_pol = 4
+      n_pol = 2
       cal_bp_transfer = 0
       restrict_hpx_inds='EoR0_high_healpix_inds.idlsave'
     end
@@ -3611,7 +3611,7 @@ pro fhd_versions_rlb
       return_sidelobe_catalog = 1
       ring_radius = 0
       debug_region_grow = 0
-      n_pol = 4
+      n_pol = 2
       cal_bp_transfer = 0
       restrict_hpx_inds='EoR0_high_healpix_inds.idlsave'
     end
@@ -3627,7 +3627,7 @@ pro fhd_versions_rlb
       diffuse_model = 0
       ring_radius = 0
       debug_region_grow = 0
-      n_pol = 4
+      n_pol = 2
       cal_bp_transfer = 0
       restrict_hpx_inds='EoR0_high_healpix_inds.idlsave'
     end
