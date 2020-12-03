@@ -107,6 +107,7 @@ pro mjw_fhd_versions
     end
 
     'kernel_window_control_run_leave_flags_write_uvf_single_source': begin
+    recalculate_all=1
     kernel_window=1
     calibrate_visibilities=0
     return_cal_visibilities=0
