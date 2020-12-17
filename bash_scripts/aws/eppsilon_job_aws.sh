@@ -56,6 +56,10 @@ else
     sudo mkdir -m 777 /ps/data/uvf_cubes
 fi
 
+if [ -z $single_obs ]; then
+    single_obs=0
+fi
+
 obs_list_array=($(echo $obs_list_array|sed 's/:/ /g'))
 printf "%s\n" "${obs_list_array[@]}" > $obs_list_path
 

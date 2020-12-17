@@ -1,0 +1,120 @@
+my first attempt -- not using modified gridding kernel:
+./bash_scripts/aws/run_fhd_aws.sh -f fhd_obsid_lists/van_vleck_golden_set.txt -v van_vleck_ver1 -b s3://mwa-data/van_vleck/fhd_runs/golden_set -n 16 -p s3://mwapublic/uvfits/pyuvdata/2013/2.1.2_SSINS_1.4.4/1.1/ -m s3://mwapublic/metafits/pyuvdata/2013/ -u van_vleck_versions -e 1061311784
+
+
+cal only run:
+just the first 2 obsids for testing
+./bash_scripts/aws/run_fhd_aws.sh -f fhd_obsid_lists/van_vleck_golden_set.txt -v van_vleck_cal1 -b s3://mwa-data/van_vleck/fhd_runs/golden_set -n 16 -p s3://mwapublic/uvfits/pyuvdata/2013/2.1.2_SSINS_1.4.4/1.1/ -m s3://mwapublic/metafits/pyuvdata/2013/ -u van_vleck_versions -e 1061311784
+
+all the rest
+./bash_scripts/aws/run_fhd_aws.sh -f fhd_obsid_lists/van_vleck_golden_set.txt -v van_vleck_cal1 -b s3://mwa-data/van_vleck/fhd_runs/golden_set -n 16 -p s3://mwapublic/uvfits/pyuvdata/2013/2.1.2_SSINS_1.4.4/1.1/ -m s3://mwapublic/metafits/pyuvdata/2013/ -u van_vleck_versions -s 1061311904
+
+just the broken obsid
+./bash_scripts/aws/run_fhd_aws.sh -f fhd_obsid_lists/van_vleck_golden_set.txt -v van_vleck_cal1 -b s3://mwa-data/van_vleck/fhd_runs/golden_set -n 16 -p s3://mwapublic/uvfits/pyuvdata/2013/2.1.2_SSINS_1.4.4/1.1/ -m s3://mwapublic/metafits/pyuvdata/2013/ -u van_vleck_versions -s 1061323008
+
+just the zenith set to test bug fix
+./bash_scripts/aws/run_fhd_aws.sh -f fhd_obsid_lists/van_vleck_golden_set.txt -v van_vleck_cal1 -b s3://mwa-data/van_vleck/fhd_runs/golden_set -n 16 -p s3://mwapublic/uvfits/pyuvdata/2013/2.1.2_SSINS_1.4.4/1.1/ -m s3://mwapublic/metafits/pyuvdata/2013/ -u van_vleck_versions -s 1061315448 -e 1061317152
+
+just the zenith set to test Ian's speedup
+./bash_scripts/aws/run_fhd_aws.sh -f fhd_obsid_lists/van_vleck_golden_set.txt -v van_vleck_cal3 -b s3://mwa-data/van_vleck/fhd_runs/golden_set -n 16 -p s3://mwapublic/uvfits/pyuvdata/2013/2.1.2_SSINS_1.4.4/1.1/ -m s3://mwapublic/metafits/pyuvdata/2013/ -u van_vleck_versions -s 1061315448 -e 1061317152
+
+just the zenith set to test Wenyang's cal + dft approx
+./bash_scripts/aws/run_fhd_aws.sh -f fhd_obsid_lists/van_vleck_golden_set.txt -v van_vleck_cal5 -b s3://mwa-data/van_vleck/fhd_runs/golden_set -n 16 -p s3://mwapublic/uvfits/pyuvdata/2013/2.1.2_SSINS_1.4.4/1.1/ -m s3://mwapublic/metafits/pyuvdata/2013/ -u van_vleck_versions -s 1061315448 -e 1061317152
+
+before zenith with Wenyang's cal
+./bash_scripts/aws/run_fhd_aws.sh -f fhd_obsid_lists/van_vleck_golden_set.txt -v van_vleck_cal5 -b s3://mwa-data/van_vleck/fhd_runs/golden_set -n 16 -p s3://mwapublic/uvfits/pyuvdata/2013/2.1.2_SSINS_1.4.4/1.1/ -m s3://mwapublic/metafits/pyuvdata/2013/ -u van_vleck_versions -e 1061315320
+
+after zenith with Wenyang's cal
+./bash_scripts/aws/run_fhd_aws.sh -f fhd_obsid_lists/van_vleck_golden_set.txt -v van_vleck_cal5 -b s3://mwa-data/van_vleck/fhd_runs/golden_set -n 16 -p s3://mwapublic/uvfits/pyuvdata/2013/2.1.2_SSINS_1.4.4/1.1/ -m s3://mwapublic/metafits/pyuvdata/2013/ -u van_vleck_versions -s 1061317272
+
+
+
+on enterprise in IDL session:
+just the broken obsid
+idl -e "van_vleck_versions" -args 1061323008 '/data3/users/bryna/fhd_outs/' 'van_vleck_cal1'
+
+zenith obsid for testing
+idl -e "van_vleck_versions" -args 1061316296 '/data3/users/bryna/fhd_outs/' 'van_vleck_cal1'
+idl -e "van_vleck_versions" -args 1061316296 '/data3/users/bryna/fhd_outs/' 'van_vleck_cal2'
+idl -e "van_vleck_versions" -args 1061316296 '/data3/users/bryna/fhd_outs/' 'van_vleck_cal3'
+
+
+gridding run
+just the first 2 obsids for testing
+./bash_scripts/aws/run_fhd_aws.sh -f fhd_obsid_lists/van_vleck_golden_set.txt -v van_vleck_grid1 -b s3://mwa-data/van_vleck/fhd_runs/golden_set -n 16 -p s3://mwapublic/uvfits/pyuvdata/2013/2.1.2_SSINS_1.4.4/1.1/ -m s3://mwapublic/metafits/pyuvdata/2013/ -u van_vleck_versions -c s3://mwa-data/van_vleck/fhd_runs/golden_set/fhd_van_vleck_cal1 -t s3://mwa-data/van_vleck/fhd_runs/golden_set/fhd_van_vleck_cal1 -e 1061311784
+
+all the rest
+./bash_scripts/aws/run_fhd_aws.sh -f fhd_obsid_lists/van_vleck_golden_set.txt -v van_vleck_grid1 -b s3://mwa-data/van_vleck/fhd_runs/golden_set -n 16 -p s3://mwapublic/uvfits/pyuvdata/2013/2.1.2_SSINS_1.4.4/1.1/ -m s3://mwapublic/metafits/pyuvdata/2013/ -u van_vleck_versions -c s3://mwa-data/van_vleck/fhd_runs/golden_set/fhd_van_vleck_cal1 -t s3://mwa-data/van_vleck/fhd_runs/golden_set/fhd_van_vleck_cal1 -s 1061311904
+
+just the broken obsid
+./bash_scripts/aws/run_fhd_aws.sh -f fhd_obsid_lists/van_vleck_golden_set.txt -v van_vleck_grid1 -b s3://mwa-data/van_vleck/fhd_runs/golden_set -n 16 -p s3://mwapublic/uvfits/pyuvdata/2013/2.1.2_SSINS_1.4.4/1.1/ -m s3://mwapublic/metafits/pyuvdata/2013/ -u van_vleck_versions -c s3://mwa-data/van_vleck/fhd_runs/golden_set/fhd_van_vleck_cal1 -t s3://mwa-data/van_vleck/fhd_runs/golden_set/fhd_van_vleck_cal1 -s 1061323008
+
+just the zenith set to test bug fix
+./bash_scripts/aws/run_fhd_aws.sh -f fhd_obsid_lists/van_vleck_golden_set.txt -v van_vleck_grid1 -b s3://mwa-data/van_vleck/fhd_runs/golden_set -n 16 -p s3://mwapublic/uvfits/pyuvdata/2013/2.1.2_SSINS_1.4.4/1.1/ -m s3://mwapublic/metafits/pyuvdata/2013/ -u van_vleck_versions -c s3://mwa-data/van_vleck/fhd_runs/golden_set/fhd_van_vleck_cal1 -t s3://mwa-data/van_vleck/fhd_runs/golden_set/fhd_van_vleck_cal1 -s 1061315448 -e 1061317152
+
+just the zenith set to test Ian's speedup
+./bash_scripts/aws/run_fhd_aws.sh -f fhd_obsid_lists/van_vleck_golden_set.txt -v van_vleck_grid3 -b s3://mwa-data/van_vleck/fhd_runs/golden_set -n 16 -p s3://mwapublic/uvfits/pyuvdata/2013/2.1.2_SSINS_1.4.4/1.1/ -m s3://mwapublic/metafits/pyuvdata/2013/ -u van_vleck_versions -c s3://mwa-data/van_vleck/fhd_runs/golden_set/fhd_van_vleck_cal3 -t s3://mwa-data/van_vleck/fhd_runs/golden_set/fhd_van_vleck_cal3 -s 1061315448 -e 1061317152
+
+just the zenith set to test Wenyang's cal + dft approx
+./bash_scripts/aws/run_fhd_aws.sh -f fhd_obsid_lists/van_vleck_golden_set.txt -v van_vleck_grid5 -b s3://mwa-data/van_vleck/fhd_runs/golden_set -n 16 -p s3://mwapublic/uvfits/pyuvdata/2013/2.1.2_SSINS_1.4.4/1.1/ -m s3://mwapublic/metafits/pyuvdata/2013/ -u van_vleck_versions -c s3://mwa-data/van_vleck/fhd_runs/golden_set/fhd_van_vleck_cal5 -t s3://mwa-data/van_vleck/fhd_runs/golden_set/fhd_van_vleck_cal5 -s 1061315448 -e 1061317152
+
+before zenith with Wenyang's cal
+./bash_scripts/aws/run_fhd_aws.sh -f fhd_obsid_lists/van_vleck_golden_set.txt -v van_vleck_grid5 -b s3://mwa-data/van_vleck/fhd_runs/golden_set -n 16 -p s3://mwapublic/uvfits/pyuvdata/2013/2.1.2_SSINS_1.4.4/1.1/ -m s3://mwapublic/metafits/pyuvdata/2013/ -u van_vleck_versions -c s3://mwa-data/van_vleck/fhd_runs/golden_set/fhd_van_vleck_cal5 -t s3://mwa-data/van_vleck/fhd_runs/golden_set/fhd_van_vleck_cal5 -e 1061315320
+
+after zenith with Wenyang's cal
+./bash_scripts/aws/run_fhd_aws.sh -f fhd_obsid_lists/van_vleck_golden_set.txt -v van_vleck_grid5 -b s3://mwa-data/van_vleck/fhd_runs/golden_set -n 16 -p s3://mwapublic/uvfits/pyuvdata/2013/2.1.2_SSINS_1.4.4/1.1/ -m s3://mwapublic/metafits/pyuvdata/2013/ -u van_vleck_versions -c s3://mwa-data/van_vleck/fhd_runs/golden_set/fhd_van_vleck_cal5 -t s3://mwa-data/van_vleck/fhd_runs/golden_set/fhd_van_vleck_cal5 -s 1061317272
+
+
+
+
+
+
+on enterprise in IDL session:
+just the broken obsid
+idl -e "van_vleck_versions" -args 1061323008 '/data3/users/bryna/fhd_outs/' 'van_vleck_grid1'
+
+zenith obsid for testing
+idl -e "van_vleck_versions" -args 1061316296 '/data3/users/bryna/fhd_outs/' 'van_vleck_grid1'
+idl -e "van_vleck_versions" -args 1061316296 '/data3/users/bryna/fhd_outs/' 'van_vleck_grid2'
+idl -e "van_vleck_versions" -args 1061316296 '/data3/users/bryna/fhd_outs/' 'van_vleck_grid3'
+
+
+integration:
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/golden_set/fhd_van_vleck_grid1 -f fhd_obsid_lists/van_vleck_golden_set_zenith.txt -n 4 
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/golden_set/fhd_van_vleck_grid1 -f fhd_obsid_lists/van_vleck_golden_set_minusone.txt -n 4 
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/golden_set/fhd_van_vleck_grid1 -f fhd_obsid_lists/van_vleck_golden_set_minustwo.txt -n 4 
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/golden_set/fhd_van_vleck_grid1 -f fhd_obsid_lists/van_vleck_golden_set_plusone.txt -n 4 
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/golden_set/fhd_van_vleck_grid1 -f fhd_obsid_lists/van_vleck_golden_set_plustwo.txt -n 4 
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/golden_set/fhd_van_vleck_grid1 -f fhd_obsid_lists/van_vleck_golden_set_plusthree.txt -n 4 
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/golden_set/fhd_van_vleck_grid1 -f fhd_obsid_lists/van_vleck_golden_set_5p.txt -n 4 
+
+
+just the zenith set to test Ian's speedup
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/golden_set/fhd_van_vleck_grid3 -f fhd_obsid_lists/van_vleck_golden_set_zenith.txt -n 4 
+
+
+
+just the zenith set to test Wenyang's cal + dft approx
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/golden_set/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_golden_set_zenith.txt -n 4
+
+All the rest with Wenyang's cal + dft approx
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/golden_set/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_golden_set_minusone.txt -n 4 
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/golden_set/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_golden_set_minustwo.txt -n 4 
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/golden_set/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_golden_set_plusone.txt -n 4 
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/golden_set/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_golden_set_plustwo.txt -n 4 
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/golden_set/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_golden_set_plusthree.txt -n 4 
+
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/golden_set/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_golden_set_5p.txt -n 4 
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/golden_set/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_golden_set_6p.txt -n 4 
