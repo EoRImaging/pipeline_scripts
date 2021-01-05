@@ -1,4 +1,3 @@
-Combined_obs_SSINS_cut_minusone_476
 Combined_obs_SSINS_cut_zenith_476
 Combined_obs_SSINS_cut_plusone_476
 Combined_obs_SSINS_cut_plustwo_476
