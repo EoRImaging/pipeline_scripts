@@ -3631,6 +3631,101 @@ pro fhd_versions_rlb
       cal_bp_transfer = 0
       restrict_hpx_inds='EoR0_high_healpix_inds.idlsave'
     end
+    
+    'rlb_standard_cal_Feb2021': begin
+      recalculate_all = 0
+      calibration_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
+      subtract_sidelobe_catalog = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
+      pad_uv_image = 1
+      diffuse_calibrate = 0
+      diffuse_model = 0
+      return_sidelobe_catalog = 1
+      ring_radius = 0
+      debug_region_grow = 0
+      n_pol = 2
+      cal_bp_transfer = 0
+      restrict_hpx_inds='EoR0_high_healpix_inds.idlsave'
+    end
+    
+    'rlb_perfreq_cal_Feb2021': begin
+      recalculate_all = 0
+      calibration_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
+      subtract_sidelobe_catalog = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
+      pad_uv_image = 1
+      diffuse_calibrate = 0
+      diffuse_model = 0
+      return_sidelobe_catalog = 1
+      ring_radius = 0
+      debug_region_grow = 0
+      n_pol = 2
+      cal_bp_transfer = 0
+      restrict_hpx_inds='EoR0_high_healpix_inds.idlsave'
+      sim_over_calibrate = 1 ;calibrate each fine frequency independently
+    end
+    
+    'rlb_all_baseline_cal_Feb2021': begin
+      recalculate_all = 0
+      calibration_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
+      subtract_sidelobe_catalog = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
+      pad_uv_image = 1
+      diffuse_calibrate = 0
+      diffuse_model = 0
+      return_sidelobe_catalog = 1
+      ring_radius = 0
+      debug_region_grow = 0
+      n_pol = 2
+      cal_bp_transfer = 0
+      restrict_hpx_inds='EoR0_high_healpix_inds.idlsave'
+      min_cal_baseline = 4
+    end
+
+    'rlb_perfreq_all_baseline_cal_Feb2021': begin
+      recalculate_all = 0
+      calibration_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
+      subtract_sidelobe_catalog = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
+      pad_uv_image = 1
+      diffuse_calibrate = 0
+      diffuse_model = 0
+      return_sidelobe_catalog = 1
+      ring_radius = 0
+      debug_region_grow = 0
+      n_pol = 2
+      cal_bp_transfer = 0
+      restrict_hpx_inds='EoR0_high_healpix_inds.idlsave'
+      sim_over_calibrate = 1 ;calibrate each fine frequency independently
+      min_cal_baseline = 4
+    end
+    
+    'rlb_all_baseline_cal_with_diffuse_Feb2021': begin
+      recalculate_all = 0
+      calibration_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
+      subtract_sidelobe_catalog = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
+      pad_uv_image = 1
+      diffuse_calibrate = '/home/ubuntu/average_map_I.sav'
+      return_sidelobe_catalog = 1
+      ring_radius = 0
+      debug_region_grow = 0
+      n_pol = 2
+      cal_bp_transfer = 0
+      restrict_hpx_inds='EoR0_high_healpix_inds.idlsave'
+      min_cal_baseline = 4
+    end
+
+    'rlb_perfreq_all_baseline_cal_with_diffuse_Feb2021': begin
+      recalculate_all = 0
+      calibration_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
+      subtract_sidelobe_catalog = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
+      pad_uv_image = 1
+      diffuse_calibrate = '/home/ubuntu/average_map_I.sav'
+      return_sidelobe_catalog = 1
+      ring_radius = 0
+      debug_region_grow = 0
+      n_pol = 2
+      cal_bp_transfer = 0
+      restrict_hpx_inds='EoR0_high_healpix_inds.idlsave'
+      sim_over_calibrate = 1 ;calibrate each fine frequency independently
+      min_cal_baseline = 4
+    end
 
   endcase
 
