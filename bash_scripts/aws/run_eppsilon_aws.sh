@@ -180,7 +180,7 @@ if [ "$ps_only" -ne "1" ]; then
         done
 
         # Added pipe to tail, untested 10/20/2020
-        idlist_int_chunks=(`qstat | grep "int_c_" | cut -b -7 | tail -n 1`)
+        idlist_int_chunks=(`qstat | grep "int_c_" | cut -b -7 | tail -n 4`)
 	      idlist_int_chunks=$( IFS=$','; echo "${idlist_int_chunks[*]}" )
 	      hold_str="-hold_jid ${idlist_int_chunks}"
 
@@ -197,7 +197,7 @@ if [ "$ps_only" -ne "1" ]; then
 	      done
 
         # Added pipe to tail, untested 10/20/2020
-        idlist_int_master=(`qstat | grep "int_m_" | cut -b -7 | tail -n 1`)
+        idlist_int_master=(`qstat | grep "int_m_" | cut -b -7 | tail -n 4`)
 	      idlist_int_master=$( IFS=$','; echo "${idlist_int_master[*]}" )
 	      hold_str="-hold_jid ${idlist_int_master}"
 
@@ -214,10 +214,11 @@ if [ "$ps_only" -ne "1" ]; then
         for evenodd in even odd; do
 	         for pol in XX YY; do
         	    qsub ${hold_str} -V -b y -v file_path_cubes=$FHDdir,obs_list_array="$chunk_obs_array",obs_list_path=$chunk_obs_list,version=$version,chunk=$chunk,nslots=$nslots,legacy=$legacy,evenodd=$evenodd,pol=$pol -e $errfile -o $outfile -N int_${version} -pe smp $nslots integration_job_aws.sh
-	         done
+	         # Grab the last int job instead of the first one
+                    jobid_int=(`qstat | grep "int_" | cut -b -7 | tail -n 1`)
+                    if [ -z ${idlist_int} ]; then idlist_int=${jobid_int}; else idlist_int=${idlist_int},${jobid_int}; fi
+                 done
 	      done
-        # Grab the last int job instead of the first one
-        idlist_int=(`qstat | grep "int_" | cut -b -7 | tail -n 1`)
         hold_str="-hold_jid ${idlist_int}"
 
     fi
@@ -275,7 +276,7 @@ if [ -z ${ps_plots_only} ]; then
                 fi
 
                 cube_type_letter=${cube_type:0:1}
-                echo "hold_str_temp for ${cube_type_letter}_${pol}_${evenodd}is ${hold_str_temp}"
+                echo "hold_str_temp for ${cube_type_letter}_${pol}_${evenodd} is ${hold_str_temp}"
                 message=$(qsub ${hold_str_temp} -V -b y -cwd -v file_path_cubes=$FHDdir,obs_list_path=$integrate_list,obs_list_array="$integrate_array",version=$version,nslots=$nslots,cube_type=$cube_type,pol=$pol,evenodd=$evenodd,single_obs=$single_obs -e ${errfile} -o ${outfile} -N ${cube_type_letter}_${pol}_${evenodd} -pe smp $nslots eppsilon_job_aws.sh)
                 message=($message)
 
