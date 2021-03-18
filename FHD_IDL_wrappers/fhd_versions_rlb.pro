@@ -3726,6 +3726,22 @@ pro fhd_versions_rlb
       sim_over_calibrate = 1 ;calibrate each fine frequency independently
       min_cal_baseline = 4
     end
+    
+    'rlb_perfreq_all_baseline_cal_with_polarized_diffuse_Mar2021': begin
+      recalculate_all = 0
+      calibration_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
+      subtract_sidelobe_catalog = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
+      pad_uv_image = 1
+      diffuse_calibrate = '/home/ubuntu/diffuse_maps_rm_corrected_Mar2021/diffuse_rm_corrected_'+STRING(obs_id)+'.sav'
+      return_sidelobe_catalog = 1
+      ring_radius = 0
+      debug_region_grow = 0
+      n_pol = 2
+      cal_bp_transfer = 0
+      restrict_hpx_inds='EoR0_high_healpix_inds.idlsave'
+      sim_over_calibrate = 1 ;calibrate each fine frequency independently
+      min_cal_baseline = 4
+    end
 
   endcase
 
