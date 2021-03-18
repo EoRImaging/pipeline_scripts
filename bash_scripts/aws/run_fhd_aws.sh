@@ -116,10 +116,11 @@ else
     metafits_s3_loc=${metafits_s3_loc%/}
 fi
 
+#Not optional. Check if writable by user.
 if [ -z ${s3_path} ]
 then
-    s3_path=s3://mwatest/diffuse_survey
-    echo Using default S3 location: $s3_path
+    echo Please provide a default s3 output location
+    exit 1
 else
     #strip the last / if present in output directory filepath
     s3_path=${s3_path%/}
