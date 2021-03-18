@@ -6,12 +6,13 @@ echo "JOB START TIME" `date +"%Y-%m-%d_%H:%M:%S"`
 myip="$(dig +short myip.opendns.com @resolver1.opendns.com)"
 echo PUBLIC IP ${myip}
 
-#sign into azure
+obs_id=$(cat ${obs_file_name} | sed -n ${SLURM_ARRAY_TASK_ID}p)
+echo "Processing $obs_id"
+
+# sign into azure
 az login --identity
 
-obs_id=$(cat ${obs_file_name} | sed -n ${SLURM_ARRAY_TASK_ID}p)
-
-#set defaults
+# set defaults
 if [ -z ${outdir} ]; then
     outdir=/SSINS_output/${obs_id}_SSINS
 fi
@@ -22,9 +23,7 @@ if [ -z ${input_az_loc} ]; then
     input_az_loc=https://mwadata.blob.core.windows.net/gpubox/2013
 fi
 
-echo "Processing $obs_id"
-
-#strip the last / if present in output directory filepath
+# strip the last / if present in output directory filepath
 outdir=${outdir%/}
 echo Using output directory: $outdir
 
@@ -33,14 +32,14 @@ echo Using output az location: $az_path
 
 echo Using input_az_loc: $input_az_loc
 
-#create output directory with full permissions
+# create output directory with full permissions
 if [ -d "$outdir" ]; then
     sudo chmod -R 777 $outdir
 else
     sudo mkdir -m 777 $outdir
 fi
 
-#create input download location with full permissions
+# create input download location with full permissions
 if [ -d ${input_type} ]; then
     sudo chmod -R 777 ${input_type}
 else
@@ -137,10 +136,10 @@ else
 fi
 
 # Move SSINS outputs to az
-# i=1  #initialize counter
+# i=1  # initialize counter
 az storage copy -s ${outdir} -d ${az_path} --include-pattern "*${obs_id}*" --recursive
 # while [ $? -ne 0 ] && [ $i -lt 10 ]; do
-    # let "i += 1"  #increment counter
+    # let "i += 1"  # increment counter
     # >&2 echo "Moving SSINS outputs to az failed. Retrying (attempt $i)."
     # aws s3 mv ${outdir}/ ${az_path}/ \
     # --recursive --exclude "*" --include "*${obs_id}*" --quiet
@@ -161,3 +160,5 @@ az storage copy -s ~/logs/SSINS_job_aws.sh.o${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_
 # Copy gridengine stderr to S3
 az storage copy -s ~/logs/SSINS_job_aws.sh.e${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID} \
 -d ${az_path}/logs/SSINS_job_aws.sh.e${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID}_${myip}.txt
+
+echo "JOB END TIME" `date +"%Y-%m-%d_%H:%M:%S"`
