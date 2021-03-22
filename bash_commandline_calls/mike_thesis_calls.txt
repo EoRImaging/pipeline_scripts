@@ -1,0 +1,3 @@
+
+current 2014 cal keywords 3/22
+bash run_fhd_aws.sh -f ~/2014_single_obs.txt -b s3://mwa-data/2014_GS_FHD_eppsilon/master_feb_25 -v Barry_2019_calibration_step_cal_speedup_auto_ratio_no_auto_fit_no_dg_jump -n 16 -u mjw_fhd_versions -p s3://mwapublic/uvfits/pyuvdata/2.0.1/SSINS/1.3.2 -m s3://mwapublic/metafits/pyuvdata/2.1.2/SSINS/1.3.2
