@@ -1,0 +1,828 @@
+
+cal runs
+
+long run zenith
+./bash_scripts/aws/run_fhd_aws.sh -f fhd_obsid_lists/van_vleck_beardsley_thesis_list_zenith_cut.txt -v van_vleck_cal5 -b s3://mwa-data/van_vleck/fhd_runs/2013_season -n 16 -p s3://mwapublic/uvfits/pyuvdata/ssins_vv_cbflags_2s_80khz/ -m s3://mwapublic/metafits/2013/ -u van_vleck_versions
+
+job ids:
+1337-1552
+
+re-run last obsid that was missed
+./bash_scripts/aws/run_fhd_aws.sh -f fhd_obsid_lists/van_vleck_beardsley_thesis_list_zenith_cut.txt -v van_vleck_cal5 -b s3://mwa-data/van_vleck/fhd_runs/2013_season -n 16 -p s3://mwapublic/uvfits/pyuvdata/ssins_vv_cbflags_2s_80khz/ -m s3://mwapublic/metafits/2013/ -u van_vleck_versions -s 1069761200 -e 1069761200
+
+job id:
+1
+
+long run minus one
+./bash_scripts/aws/run_fhd_aws.sh -f fhd_obsid_lists/van_vleck_beardsley_thesis_list_minusone_cut.txt -v van_vleck_cal5 -b s3://mwa-data/van_vleck/fhd_runs/2013_season -n 16 -p s3://mwapublic/uvfits/pyuvdata/ssins_vv_cbflags_2s_80khz/ -m s3://mwapublic/metafits/2013/ -u van_vleck_versions
+
+job ids:
+2-253
+
+re-run 1062347584 now that the uvfits file exists:
+./bash_scripts/aws/run_fhd_aws.sh -f fhd_obsid_lists/van_vleck_beardsley_thesis_list_minusone_cut.txt -v van_vleck_cal5 -b s3://mwa-data/van_vleck/fhd_runs/2013_season -n 16 -p s3://mwapublic/uvfits/pyuvdata/ssins_vv_cbflags_2s_80khz/ -m s3://mwapublic/metafits/2013/ -u van_vleck_versions -s 1062347584 -e 1062347584
+
+job id:
+4599
+
+
+long run minus two
+./bash_scripts/aws/run_fhd_aws.sh -f fhd_obsid_lists/van_vleck_beardsley_thesis_list_minustwo_cut.txt -v van_vleck_cal5 -b s3://mwa-data/van_vleck/fhd_runs/2013_season -n 16 -p s3://mwapublic/uvfits/pyuvdata/ssins_vv_cbflags_2s_80khz/ -m s3://mwapublic/metafits/2013/ -u van_vleck_versions
+
+job ids:
+254-494
+
+long run plus one
+./bash_scripts/aws/run_fhd_aws.sh -f fhd_obsid_lists/van_vleck_beardsley_thesis_list_plusone_cut.txt -v van_vleck_cal5 -b s3://mwa-data/van_vleck/fhd_runs/2013_season -n 16 -p s3://mwapublic/uvfits/pyuvdata/ssins_vv_cbflags_2s_80khz/ -m s3://mwapublic/metafits/2013/ -u van_vleck_versions
+
+job ids:
+1589-1722
+
+long run plus two
+./bash_scripts/aws/run_fhd_aws.sh -f fhd_obsid_lists/van_vleck_beardsley_thesis_list_plustwo_cut.txt -v van_vleck_cal5 -b s3://mwa-data/van_vleck/fhd_runs/2013_season -n 16 -p s3://mwapublic/uvfits/pyuvdata/ssins_vv_cbflags_2s_80khz/ -m s3://mwapublic/metafits/2013/ -u van_vleck_versions
+
+job ids:
+2163-2299
+
+
+-------------------------------------
+gridding runs
+
+long run zenith
+./bash_scripts/aws/run_fhd_aws.sh -f fhd_obsid_lists/van_vleck_beardsley_thesis_list_zenith_cut.txt -v van_vleck_grid5 -b s3://mwa-data/van_vleck/fhd_runs/2013_season -n 16 -p s3://mwapublic/uvfits/pyuvdata/ssins_vv_cbflags_2s_80khz/ -m s3://mwapublic/metafits/2013/ -u van_vleck_versions -c s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_cal5 -t s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_cal5
+
+job ids:
+712-928
+
+long run minus one
+./bash_scripts/aws/run_fhd_aws.sh -f fhd_obsid_lists/van_vleck_beardsley_thesis_list_minusone_cut.txt -v van_vleck_grid5 -b s3://mwa-data/van_vleck/fhd_runs/2013_season -n 16 -p s3://mwapublic/uvfits/pyuvdata/ssins_vv_cbflags_2s_80khz/ -m s3://mwapublic/metafits/2013/ -u van_vleck_versions -c s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_cal5 -t s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_cal5
+
+job ids:
+1337-1588
+
+re-run 1062347584 now that the uvfits file exists:
+./bash_scripts/aws/run_fhd_aws.sh -f fhd_obsid_lists/van_vleck_beardsley_thesis_list_minusone_cut.txt -v van_vleck_grid5 -b s3://mwa-data/van_vleck/fhd_runs/2013_season -n 16 -p s3://mwapublic/uvfits/pyuvdata/ssins_vv_cbflags_2s_80khz/ -m s3://mwapublic/metafits/2013/ -u van_vleck_versions -c s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_cal5 -t s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_cal5 -s 1062347584 -e 1062347584
+
+job id:
+4600
+
+long run plus one
+./bash_scripts/aws/run_fhd_aws.sh -f fhd_obsid_lists/van_vleck_beardsley_thesis_list_plusone_cut.txt -v van_vleck_grid5 -b s3://mwa-data/van_vleck/fhd_runs/2013_season -n 16 -p s3://mwapublic/uvfits/pyuvdata/ssins_vv_cbflags_2s_80khz/ -m s3://mwapublic/metafits/2013/ -u van_vleck_versions -c s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_cal5 -t s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_cal5
+
+job ids:
+2029-2162
+
+
+long run minus two
+./bash_scripts/aws/run_fhd_aws.sh -f fhd_obsid_lists/van_vleck_beardsley_thesis_list_minustwo_cut.txt -v van_vleck_grid5 -b s3://mwa-data/van_vleck/fhd_runs/2013_season -n 16 -p s3://mwapublic/uvfits/pyuvdata/ssins_vv_cbflags_2s_80khz/ -m s3://mwapublic/metafits/2013/ -u van_vleck_versions -c s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_cal5 -t s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_cal5
+
+job ids:
+2555-2795
+
+
+long run plus two
+./bash_scripts/aws/run_fhd_aws.sh -f fhd_obsid_lists/van_vleck_beardsley_thesis_list_plustwo_cut.txt -v van_vleck_grid5 -b s3://mwa-data/van_vleck/fhd_runs/2013_season -n 16 -p s3://mwapublic/uvfits/pyuvdata/ssins_vv_cbflags_2s_80khz/ -m s3://mwapublic/metafits/2013/ -u van_vleck_versions -c s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_cal5 -t s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_cal5
+
+job ids:
+3731-3867
+
+
+-------------------------------------
+integration:
+
+zenith days
+------
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_zenith_131.txt -n 4
+
+job ids:
+929-945
+
+job ids (after adding eppsilon to IDL path):
+980-996
+
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_zenith_165.txt -n 4
+
+job ids:
+946-962
+
+job ids (after adding eppsilon to IDL path):
+997-1013
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_zenith_234.txt -n 4
+
+job ids:
+1014-1030
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_zenith_251.txt -n 4
+
+job ids:
+1031-1047
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_zenith_277.txt -n 4
+
+job ids:
+1048-1064
+
+job ids (second time. looks like s3 download didn't work?):
+1303-1319
+
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_zenith_294.txt -n 4
+
+job ids:
+1065-1081
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_zenith_312.txt -n 4
+
+job ids:
+1082-1098
+
+re-run job ids:
+2949-2965
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_zenith_346.txt -n 4
+
+job ids:
+1099-1115
+
+re-run job ids:
+2966-2982
+
+re-runx2 job ids:
+3085-3101
+
+re-runx3 job ids:
+3272-3288
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_zenith_363.txt -n 4
+
+job ids:
+1116-1132
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_zenith_458.txt -n 4
+
+job ids:
+1133-1149
+
+job ids (second time. looks like s3 download didn't work?):
+1320-1336
+
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_zenith_476.txt -n 4
+
+job ids:
+1150-1166
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_zenith_493.txt -n 4
+
+job ids:
+1167-1183
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_zenith_527.txt -n 4
+
+job ids:
+1184-1200
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_zenith_544.txt -n 4
+
+job ids:
+1201-1217
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_zenith_656.txt -n 4
+
+job ids:
+1218-1234
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_zenith_674.txt -n 4
+
+job ids:
+1235-1251
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_zenith_708.txt -n 4
+
+job ids:
+1252-1268
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_zenith_880.txt -n 4
+
+job ids:
+1269-1285
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_zenith_975.txt -n 4
+
+job ids:
+1286-1302
+
+re-run job ids:
+3051-3067
+
+re-runx2 job ids:
+3102-3118
+
+
+minus one pointing days
+------
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_minusone_131.txt -n 4
+
+job ids:
+1723-1739
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_minusone_165.txt -n 4
+
+job ids:
+1740-1756
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_minusone_234.txt -n 4
+
+job ids:
+1757-1773
+
+re-run job ids:
+2983-2999
+
+still broken because one obsid missing, traced it back to a missing uvfits: 1062347584
+
+re-runx2 job ids now that the uvfits is available:
+4618-4634
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_minusone_251.txt -n 4
+
+job ids:
+1774-1790
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_minusone_277.txt -n 4
+
+job ids:
+1791-1807
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_minusone_294.txt -n 4
+
+job ids:
+1808-1824
+
+re-run job ids:
+3000-3016
+
+re-runx2 job ids:
+3119-3135
+
+re-runx3 job ids:
+3306-3322
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_minusone_312.txt -n 4
+
+job ids:
+1825-1841
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_minusone_346.txt -n 4
+
+job ids:
+1842-1858
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_minusone_363.txt -n 4
+
+job ids:
+1859-1875
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_minusone_458.txt -n 4
+
+job ids:
+1876-1892
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_minusone_476.txt -n 4
+
+job ids:
+1893-1909
+
+re-run job ids:
+3017-3033
+
+still broken because all 3(!) obsids missing, traced it back to missing uvfits:
+1064761640
+1064761768
+1064761888
+
+turns out all the tiles were pointing at zenith rather than at the -1 pointing direction.
+we'll remove this day/pointing from our lists.
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_minusone_493.txt -n 4
+
+job ids:
+1910-1926
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_minusone_527.txt -n 4
+
+job ids:
+1927-1943
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_minusone_544.txt -n 4
+
+job ids:
+1944-1960
+
+re-run job ids:
+3034-3050
+
+re-runx2 job ids:
+3136-3152
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_minusone_656.txt -n 4
+
+job ids:
+1961-1977
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_minusone_674.txt -n 4
+
+job ids:
+1978-1994
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_minusone_708.txt -n 4
+
+job ids:
+1995-2011
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_minusone_880.txt -n 4
+
+job ids:
+2012-2028
+
+
+plus one pointing days
+------
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_plusone_131.txt -n 4
+
+job ids:
+2300-2316
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_plusone_165.txt -n 4
+
+job ids:
+2317-2333
+
+re-run job ids:
+2830-2846
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_plusone_234.txt -n 4
+
+job ids:
+2334-2350
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_plusone_251.txt -n 4
+
+job ids:
+2847-2367
+
+re-run job ids:
+2830-2863
+
+re-runx2 job ids: (eppsilon error: weights cube is entirely zero. They're not.)
+3153-3169
+
+re-runx3 job ids:
+3323-3339
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_plusone_277.txt -n 4
+
+job ids:
+2368-2384
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_plusone_294.txt -n 4
+
+job ids:
+2385-2401
+
+re-run job ids:
+2796-2812
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_plusone_312.txt -n 4
+
+job ids:
+2864-2880
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_plusone_346.txt -n 4
+
+job ids:
+2402-2418
+
+re-run job ids:
+2881-2897
+
+re-runx2 job ids:
+2881-2897
+
+re-runx3 job ids:
+3170-3186
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_plusone_363.txt -n 4
+
+job ids:
+2419-2435
+
+re-run job ids:
+3068-3084
+
+re-runx2 job ids:
+3187-3203
+
+re-runx3 job ids:
+3289-3305
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_plusone_476.txt -n 4
+
+job ids:
+2436-2452
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_plusone_493.txt -n 4
+
+job ids:
+2453-2469
+
+re-run job ids:
+2898-2914
+
+re-runx2 job ids:
+3204-3220
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_plusone_544.txt -n 4
+
+job ids:
+2470-2486
+
+re-run job ids:
+2813-2829
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_plusone_656.txt -n 4
+
+job ids:
+2487-2503
+
+re-run job ids:
+2915-2931
+
+re-runx2 job ids:
+3238-3254
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_plusone_708.txt -n 4
+
+job ids:
+2504-2520
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_plusone_880.txt -n 4
+
+job ids:
+2521-2537
+
+re-run job ids:
+2932-2948
+
+re-runx2 job ids:
+3255-3271
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_plusone_975.txt -n 4
+
+job ids:
+2538-2554
+
+
+minus two pointing days
+------
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_minustwo_131.txt -n 4
+
+job ids:
+3340-3356 (one integration only got 1/12 files?  odd_xx is the bad one)
+
+re-run job ids: (no DFTs worked, weights errored on  "HEALPix file not found" but they're there)
+3629-3645
+
+re-runx2 job ids:
+3680-3696
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_minustwo_165.txt -n 4
+
+job ids:
+3357-3373
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_minustwo_234.txt -n 4
+
+job ids:
+3374-3390
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_minustwo_251.txt -n 4
+
+job ids:
+3391-3407
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_minustwo_294.txt -n 4
+
+job ids:
+3408-3424
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_minustwo_312.txt -n 4
+
+job ids:
+3425-3441
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_minustwo_346.txt -n 4
+
+job ids:
+3442-3458 (no DFTs worked, weights errored on  "HEALPix file not found" but they're there)
+
+re-run job ids:
+3612-3628
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_minustwo_363.txt -n 4
+
+job ids:
+3459-3475
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_minustwo_458.txt -n 4
+
+job ids:
+3476-3492
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_minustwo_493.txt -n 4
+
+job ids:
+3493-3509 (killed PS job because DFTs weren't done)
+
+re-run job ids:
+3697-3713
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_minustwo_527.txt -n 4
+
+job ids:
+3510-3526
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_minustwo_544.txt -n 4
+
+job ids:
+3527-3543
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_minustwo_656.txt -n 4
+
+job ids:
+3544-3560
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_minustwo_674.txt -n 4
+
+job ids:
+3561-3577
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_minustwo_708.txt -n 4
+
+job ids:
+3578-3594 (no DFTs worked, weights errored on  "HEALPix file not found" but they're there)
+
+re-run job ids:
+3646-3662
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_minustwo_880.txt -n 4
+
+job ids:
+3595-3611  (one integration only got 1/8 files? odd_xx is the bad one)
+
+re-run job ids:  (no DFTs worked, weights errored on  "HEALPix file not found" but they're there)
+3663-3679
+
+re-runx2 job ids:
+3714-3730
+
+
+plus two pointing days
+------
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_plustwo_131.txt -n 4
+
+job ids:
+3868-3884
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_plustwo_165.txt -n 4
+
+job ids:
+3885-3901
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_plustwo_234.txt -n 4
+
+job ids: (HEALPix cubes couldn't be found, are there now)
+3902-3918
+
+re-run job ids:
+4123-4139
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_plustwo_251.txt -n 4
+
+job ids:
+3919-3935
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_plustwo_277.txt -n 4
+
+job ids:
+3936-3952
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_plustwo_312.txt -n 4
+
+job ids:
+3953-3969
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_plustwo_346.txt -n 4
+
+job ids:
+3970-3986
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_plustwo_363.txt -n 4
+
+job ids:
+3987-4003
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_plustwo_476.txt -n 4
+
+job ids:
+4004-4020
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_plustwo_493.txt -n 4
+
+job ids:
+4021-4037
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_plustwo_544.txt -n 4
+
+job ids:
+4038-4054
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_plustwo_656.txt -n 4
+
+job ids:
+4055-4071
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_plustwo_708.txt -n 4
+
+job ids: (only the odd HEALPix cubes are present, evens only did 1/15, errors about rming things)
+4072-4088
+
+re-run job ids:  (HEALPix cubes couldn't be found, are there now)
+4140-4156
+
+re-runx2 job ids:
+4157-4173
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_plustwo_880.txt -n 4
+
+job ids:
+4089-4105
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_day_pointing/SSINS_cut_plustwo_975.txt -n 4
+
+job ids:
+4106-4122
+
+
+full pointings
+------
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_pointing/SSINS_cut_zenith.txt -n 4
+
+job ids:
+4174-4190
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_pointing/SSINS_cut_minusone.txt -n 4
+
+job ids:
+4191-4207
+
+errored because minusone_234 integration doesn't exist because of missing uvfits.
+
+re-run job ids now that the uvfits is available:
+4635-4651
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_pointing/SSINS_cut_plusone.txt -n 4
+
+job ids:
+4208-4224
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_pointing/SSINS_cut_minustwo.txt -n 4
+
+job ids:
+4225-4241
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_pointing/SSINS_cut_plustwo.txt -n 4
+
+job ids:
+4242-4258
+
+
+
+full days
+------
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_days/SSINS_cut_131.txt -n 4
+
+job ids:
+4259-4275
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_days/SSINS_cut_165.txt -n 4
+
+job ids:
+4276-4292
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_days/SSINS_cut_234.txt -n 4
+
+not run because minusone_234 integration doesn't exist because of missing uvfits.
+
+job ids:
+4652-4668
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_days/SSINS_cut_251.txt -n 4
+
+job ids:
+4293-4309
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_days/SSINS_cut_277.txt -n 4
+
+job ids:
+4310-4326
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_days/SSINS_cut_294.txt -n 4
+
+job ids:
+4327-4343
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_days/SSINS_cut_312.txt -n 4
+
+job ids:
+4344-4360
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_days/SSINS_cut_346.txt -n 4
+
+job ids:
+4361-4377
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_days/SSINS_cut_363.txt -n 4
+
+job ids:
+4378-4394
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_days/SSINS_cut_458.txt -n 4
+
+job ids: (weights cube is entirely zero. error)
+4395-4411
+
+re-run job ids:
+4565-4581
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_days/SSINS_cut_476.txt -n 4
+
+job ids:
+4412-4428
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_days/SSINS_cut_493.txt -n 4
+
+job ids: (even XX HEALPix cube is missing, only did 1/5, errors about rming things)
+4429-4445
+
+re-run job ids: (Error about missing HEALPix cubes, they're all there now)
+4582-4598
+
+re-runx2 job ids:
+4601-4617
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_days/SSINS_cut_527.txt -n 4
+
+job ids:
+4446-4462
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_days/SSINS_cut_544.txt -n 4
+
+job ids:
+4463-4479
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_days/SSINS_cut_656.txt -n 4
+
+job ids:
+4480-4496
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_days/SSINS_cut_674.txt -n 4
+
+job ids:
+4497-4513
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_days/SSINS_cut_708.txt -n 4
+
+job ids:
+4514-4530
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_days/SSINS_cut_880.txt -n 4
+
+job ids:
+4531-4547
+
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_days/SSINS_cut_975.txt -n 4
+
+job ids:
+4548-4564
+
+
+
+full season
+------
+./bash_scripts/aws/run_eppsilon_aws.sh -d s3://mwa-data/van_vleck/fhd_runs/2013_season/fhd_van_vleck_grid5 -f fhd_obsid_lists/van_vleck_2013_season.txt -n 4
+
+job ids:
+4174-4190
