@@ -13,7 +13,7 @@ unset version
 while getopts ":f:s:e:o:b:v:n:r:d:u:p:m:i:j:k:c:t:a:q:w:" option
 do
    case $option in
-    f) obs_file_name="$OPTARG";; # text file of observation id's
+    f) export obs_file_name="$OPTARG";; # text file of observation id's
     s) starting_obs=$OPTARG;; # starting observation in text file for choosing a range
     e) ending_obs=$OPTARG;; # ending observation in text file for choosing a range
     o) export outdir=$OPTARG;; # output directory for FHD
@@ -57,6 +57,16 @@ if [ -z ${obs_file_name} ]; then
    exit 1
 fi
 
+# Throw error if no az_path set
+if [ -z ${az_path} ]; then
+    echo "Need to specify an az storage url for outputs."
+    exit 1
+else
+    # strip the last / if present in output directory filepath
+    export az_path=${az_path%/}
+    echo Using azure container: $az_path
+fi
+
 # Update the user on which obsids will run given the inputs
 if [ -z ${starting_obs} ]
 then
@@ -75,7 +85,7 @@ fi
 # Set default output directory if one is not supplied and update user
 if [ -z ${outdir} ]
 then
-    export outdir=/FHD_output
+    export outdir=FHD_output
     echo Using default output directory: $outdir
 else
     # strip the last / if present in output directory filepath
@@ -97,15 +107,6 @@ else
     export metafits_az_loc=${metafits_az_loc%/}
 fi
 
-if [ -z ${az_path} ]
-then
-    export az_path=https://mwadata.blob.core.windows.net/fhd_outputs/2013
-    echo Using default azure location: $az_path
-else
-    # strip the last / if present in output directory filepath
-    export az_path=${az_path%/}
-    echo Using azure container: $az_path
-fi
 
 if [ ! -z ${cal_transfer} ]; then
     # strip the last / if present in cal transfer filepath
@@ -163,8 +164,8 @@ if [ -z ${temp_obs_file} ]; then
     echo "Using temp obs file ${temp_obs_file}"
 fi
 # Make directory if it doesn't already exist
-sudo mkdir -p -m 777 ${outdir}/fhd_${version}/logs
-echo Output located at ${outdir}/fhd_${version}
+# sudo mkdir -p -m 777 ${outdir}/fhd_${version}/logs
+# echo Output located at ${outdir}/fhd_${version}
 
 # If starting_obs or ending_obs is set, write out subset of obs_ids into temp_obs_file
 if [[ ! -z ${starting_obs} || ! -z ${ending_obs} ]]; then

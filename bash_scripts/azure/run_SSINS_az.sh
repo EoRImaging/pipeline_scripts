@@ -108,4 +108,4 @@ fi
 N_obs=$(wc -l < $obs_file_name)
 echo "processing ${N_obs} observations"
 
-sbatch -D /mnt/scratch -c ${nslots} -p ${partition} -e ${logdir}/SSINS_job_aws.sh.e%A.%a -o ${logdir}/SSINS_job_aws.sh.o%A.%a -a 1-${N_obs} SSINS_job_az.sh
+sbatch -D /mnt/scratch -c ${nslots} -p ${partition} -e ${logdir}/SSINS_job_az.sh.e%A.%a -o ${logdir}/SSINS_job_az.sh.o%A.%a -a 1-${N_obs} SSINS_job_az.sh

@@ -138,11 +138,10 @@ fi
 # Move SSINS outputs to az
 # i=1  # initialize counter
 az storage copy -s ${outdir} -d ${az_path} --include-pattern "*${obs_id}*" --recursive
-# while [ $? -ne 0 ] && [ $i -lt 10 ]; do
-    # let "i += 1"  # increment counter
-    # >&2 echo "Moving SSINS outputs to az failed. Retrying (attempt $i)."
-    # aws s3 mv ${outdir}/ ${az_path}/ \
-    # --recursive --exclude "*" --include "*${obs_id}*" --quiet
+while [ $? -ne 0 ] && [ $i -lt 10 ]; do
+    let "i += 1"  # increment counter
+    >&2 echo "Moving SSINS outputs to az failed. Retrying (attempt $i)."
+    az storage copy -s ${outdir} -d ${az_path} --include-pattern "*${obs_id}*" --recursive
 # done
 
 # Remove vis files and metafits from the instance
@@ -152,13 +151,13 @@ else
   sudo rm gpubox/${obs_id}_vis/${obs_id}*
 fi
 
-# Should check that logs directory exists under az_path and create if it does not
+# Should check that logs directory exists under az_path and create if it does not?
 # Copy gridengine stdout to S3
-az storage copy -s ~/logs/SSINS_job_aws.sh.o${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID} \
--d ${az_path}/logs/SSINS_job_aws.sh.o${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID}_${myip}.txt
+az storage copy -s ~/logs/SSINS_job_az.sh.o${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID} \
+-d ${az_path}/logs/SSINS_job_az.sh.o${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID}_${myip}.txt
 
 # Copy gridengine stderr to S3
-az storage copy -s ~/logs/SSINS_job_aws.sh.e${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID} \
--d ${az_path}/logs/SSINS_job_aws.sh.e${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID}_${myip}.txt
+az storage copy -s ~/logs/SSINS_job_az.sh.e${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID} \
+-d ${az_path}/logs/SSINS_job_az.sh.e${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID}_${myip}.txt
 
 echo "JOB END TIME" `date +"%Y-%m-%d_%H:%M:%S"`
