@@ -3759,7 +3759,7 @@ pro fhd_versions_rlb
       min_cal_baseline = 10
     end
     
-    'rlb_perfreq_min_baseline_10_with_polarized_diffuse_Mar2021': begin
+    'rlb_perfreq_min_baseline_10_with_unpolarized_diffuse_Mar2021': begin
       recalculate_all = 0
       calibration_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
       subtract_sidelobe_catalog = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
