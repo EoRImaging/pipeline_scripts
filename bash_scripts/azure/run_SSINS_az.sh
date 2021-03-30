@@ -1,6 +1,6 @@
 #!/bin/bash
 
-while getopts ":f:o:b:n:v:p:t:c:a:m:" option
+while getopts ":f:o:b:n:q:p:t:c:a:m:" option
 do
   case $option in
     f) export obs_file_name="$OPTARG";;
@@ -92,7 +92,7 @@ fi
 logdir=~/logs
 
 # Set number of CPUs per job. nslots per node is half the number of vCPUs per node.
-# That is, to access a node with 32 vCPUs, set nslots=16 (bug in slurm/azure?).
+# That is, to use a full 32 vCPU node, set nslots=16
 if [ -z ${nslots} ]; then
     nslots=16
 fi
