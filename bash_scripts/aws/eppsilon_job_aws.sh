@@ -14,8 +14,10 @@ echo "JOB START TIME" `date +"%Y-%m-%d_%H:%M:%S"`
 myip="$(dig +short myip.opendns.com @resolver1.opendns.com)"
 echo PUBLIC IP ${myip}
 
+#Get FHD version name
+FHDversion=$(basename ${file_path_cubes})
 
-input_file=/
+input_file=/${FHDversion}/
 
 #***Create a string of arguements to pass into mit_ps_job given the input
 #   into this script
@@ -32,28 +34,28 @@ fi
 #***
 
 #create Healpix download location with full permissions
-if [ -d /Healpix ]; then
-    sudo chmod -R 777 /Healpix
+if [ -d /${FHDversion}/Healpix ]; then
+    sudo chmod -R 777 /${FHDversion}/Healpix
 else
-    sudo mkdir -m 777 /Healpix
+    sudo mkdir -m 777 -p /${FHDversion}/Healpix
 fi
 #create PS download location with full permissions
-if [ -d /ps ]; then
-    sudo chmod -R 777 /ps
-    if [ -d /ps/data ]; then
-        sudo chmod -R 777 /ps/data
+if [ -d /${FHDversion}/ps ]; then
+    sudo chmod -R 777 /${FHDversion}/ps
+    if [ -d /${FHDversion}/ps/data ]; then
+        sudo chmod -R 777 /${FHDversion}/ps/data
     else
-        sudo mkdir -m 777 /ps/data
+        sudo mkdir -m 777 -p /${FHDversion}/ps/data
     fi
-    if [ -d /ps/data/uvf_cubes ]; then
-        sudo chmod -R 777 /ps/data/uvf_cubes
+    if [ -d /${FHDversion}/ps/data/uvf_cubes ]; then
+        sudo chmod -R 777 /${FHDversion}/ps/data/uvf_cubes
     else
-        sudo mkdir -m 777 /ps/data/uvf_cubes
+        sudo mkdir -m 777 -p /${FHDversion}/ps/data/uvf_cubes
     fi
 else
-    sudo mkdir -m 777 /ps
-    sudo mkdir -m 777 /ps/data
-    sudo mkdir -m 777 /ps/data/uvf_cubes
+    sudo mkdir -m 777 -p /${FHDversion}/ps
+    sudo mkdir -m 777 -p /${FHDversion}/ps/data
+    sudo mkdir -m 777 -p /${FHDversion}/ps/data/uvf_cubes
 fi
 
 if [ -z $single_obs ]; then
@@ -86,7 +88,7 @@ fi
 # Check if the Healpix cubes exist locally; if not, check S3
 ###TEMP solution until eppsilon can take individual cubes
 #if [ ! -f "/Healpix/Combined_obs_${version}_${evenodd}_cube${pol^^}.sav" ]; then
-if [ "$(ls /Healpix/${version}_*.sav | wc -l)" -ne "4" ]; then
+if [ "$(ls ${FHDversion}/Healpix/${version}_*.sav | wc -l)" -ne "4" ]; then
     for evenodd_i in even odd; do
         for pol_i in XX YY; do
             # Check that the Healpix file exists on S3
@@ -105,7 +107,7 @@ if [ ! -z ${exit_flag} ]; then exit 1;fi
 ####Download Healpix cubes
 # Check if the Healpix exists locally; if not, download it from S3
 #if [ ! -f "/Healpix/Combined_obs_${version}_${evenodd}_cube${pol^^}.sav" ]; then
-if [ "$(ls /Healpix/${version}_*.sav | wc -l)" -ne "4" ]; then
+if [ "$(ls /${FHDversion}/Healpix/${version}_*.sav | wc -l)" -ne "4" ]; then
 
     # Download Healpix from S3
     #sudo aws s3 cp ${file_path_cubes}/Healpix/Combined_obs_${version}_${evenodd}_cube${pol^^}.sav \
@@ -113,10 +115,10 @@ if [ "$(ls /Healpix/${version}_*.sav | wc -l)" -ne "4" ]; then
     for evenodd_i in even odd; do
         for pol_i in XX YY; do
             sudo aws s3 cp ${file_path_cubes}/Healpix/${version}_${evenodd_i}_cube${pol_i^^}.sav \
-             /Healpix/${version}_${evenodd_i}_cube${pol_i^^}.sav --quiet
+             /${FHDversion}/Healpix/${version}_${evenodd_i}_cube${pol_i^^}.sav --quiet
 
 	    # Verify that the cubes downloaded correctly
-            if [ ! -f "/Healpix/${version}_${evenodd_i}_cube${pol_i^^}.sav" ]; then
+            if [ ! -f "/${FHDversion}/Healpix/${version}_${evenodd_i}_cube${pol_i^^}.sav" ]; then
                 >&2 echo "ERROR: downloading cubes from S3 failed"
                 echo "Job Failed"
                 exit 1
@@ -131,7 +133,7 @@ if [ ! -z ${cube_type} ]; then
     if [ ${cube_type} != "weights" ]; then
         ##Needs weights cube
 	# Check if it exists locally; if not, download it from S3
-        local_weights_path="/ps/data/uvf_cubes/${version}_${evenodd}_cube${pol^^}_noimgclip_weights_uvf.idlsave"
+        local_weights_path="/${FHDversion}/ps/data/uvf_cubes/${version}_${evenodd}_cube${pol^^}_noimgclip_weights_uvf.idlsave"
         if [ ! -f "$local_weights_path" ]; then
 
             # Download Healpix from S3
@@ -153,11 +155,11 @@ fi
 
 ####Get uvf_cubes folder if not DFTing separate cubes
 if [ -z ${cube_type} ]; then
-    sudo aws s3 cp ${file_path_cubes}/ps/data/uvf_cubes/ /ps/data/uvf_cubes --recursive --quiet \
+    sudo aws s3 cp ${file_path_cubes}/ps/data/uvf_cubes/ /${FHDversion}/ps/data/uvf_cubes --recursive --quiet \
      --exclude "*" --include "${version}*"
 
     # Verify that the cubes downloaded correctly
-    file_num=$(ls /ps/data/uvf_cubes/${version}* | wc -li)
+    file_num=$(ls /${FHDversion}/ps/data/uvf_cubes/${version}* | wc -li)
     echo "file_num is $file_num"
     if [ $file_num -eq 0 ]; then
       >&2 echo "ERROR: no uvf cubes present in uvf_cubes directory. Something is wrong."
@@ -182,19 +184,19 @@ fi
 # Move eppsilon outputs to S3
 if [ -z ${cube_type} ]; then
     i=1  #initialize counter
-    aws s3 mv /ps/ ${file_path_cubes}/ps/ --recursive --quiet
+    aws s3 mv /${FHDversion}/ps/ ${file_path_cubes}/ps/ --recursive --quiet
     while [ $? -ne 0 ] && [ $i -lt 10 ]; do
         let "i += 1"  #increment counter
         >&2 echo "Moving FHD outputs to S3 failed. Retrying (attempt $i)."
-        aws s3 mv /ps/ ${file_path_cubes}/ps/ --recursive --quiet
+        aws s3 mv /${FHDversion}/ps/ ${file_path_cubes}/ps/ --recursive --quiet
     done
 else
     i=1  #initialize counter
-    aws s3 mv /ps/data/uvf_cubes/ ${file_path_cubes}/ps/data/uvf_cubes/ --recursive --quiet
+    aws s3 mv /${FHDversion}/ps/data/uvf_cubes/ ${file_path_cubes}/ps/data/uvf_cubes/ --recursive --quiet
     while [ $? -ne 0 ] && [ $i -lt 10 ]; do
         let "i += 1"  #increment counter
         >&2 echo "Moving FHD outputs to S3 failed. Retrying (attempt $i)."
-        aws s3 mv /ps/data/uvf_cubes/ ${file_path_cubes}/ps/data/uvf_cubes/ --recursive --quiet
+        aws s3 mv /${FHDversion}/ps/data/uvf_cubes/ ${file_path_cubes}/ps/data/uvf_cubes/ --recursive --quiet
     done
 fi
 
