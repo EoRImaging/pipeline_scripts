@@ -12,25 +12,21 @@ echo "Processing $obs_id"
 # sign into azure
 az login --identity
 
-# set defaults
-if [ -z ${outdir} ]; then
-    outdir=SSINS_output/${obs_id}_SSINS
-fi
-if [ -z ${az_path} ]; then
-    az_path=https://mwadata.blob.core.windows.net/ssins/2013
-fi
-if [ -z ${input_az_loc} ]; then
-    input_az_loc=https://mwadata.blob.core.windows.net/gpubox/2013
-fi
-
-# strip the last / if present in output directory filepath
-outdir=${outdir%/}
+# echo keywords
 echo Using output directory: $outdir
 
-az_path=${az_path%/}
 echo Using output az location: $az_path
 
 echo Using input_az_loc: $input_az_loc
+
+echo Using input_type: $input_type
+
+echo Using correct: $correct
+
+echo Using time_avg: $time_avg
+
+echo Using freq_avg: $freq_avg
+
 
 # create output directory with full permissions
 if [ -d "$outdir" ]; then
@@ -94,8 +90,9 @@ else
       fi
   fi
   input_files=$(ls gpubox/${obs_id}_vis/${obs_id}*fits)
-  echo $input_files
 fi
+
+echo "The input files for this run are: ${input_files}"
 
 # Run python catalog script
 if [ $correct -eq 1 ]; then

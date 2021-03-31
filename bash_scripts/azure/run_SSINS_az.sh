@@ -53,12 +53,15 @@ fi
 if [ -z ${input_az_loc} ]; then
   if [ ${input_type} == "uvfits" ]; then
     export input_az_loc=https://mwadata.blob.core.windows.net/uvfits/2013
+    echo Using default input_az_loc: $input_az_loc
   else
     export input_az_loc=https://mwadata.blob.core.windows.net/gpubox/2013
+    echo Using default input_az_loc: $input_az_loc
   fi
 else
     # strip the last / if present in uvfits filepath
     export input_az_loc=${input_az_loc%/}
+    echo Using input_az_loc: $input_az_loc
 fi
 
 if [ -z ${az_path} ]
@@ -73,16 +76,24 @@ fi
 
 if [ -z $correct ]; then
   export correct=0
+  echo Using default correct: $correct
 else
   export correct=1
+  echo Using correct: $correct
 fi
 
 if [ -z $freq_avg ]; then
   export freq_avg=0
+  echo Using default freq_avg: $freq_avg
+else
+  echo Using freq_avg: $freq_avg
 fi
 
 if [ -z $time_avg ]; then
   export time_avg=0
+  echo Using default time_avg: $time_avg
+else
+  echo Using time_avg: $time_avg
 fi
 
 # Make log directory if it doesn't already exist
