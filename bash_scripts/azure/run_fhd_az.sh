@@ -20,24 +20,24 @@ do
     b) export az_path=$OPTARG;; # output bucket on azure
     v) export version=$OPTARG;; # FHD folder name and case
 		# Example: nb_foo creates folder named fhd_nb_foo
-    n) export nslots=$OPTARG;; # Number of slots for grid engine
+    n) export nslots=$OPTARG;; # Number of slots for slurm
     u) export versions_script=$OPTARG;; # Versions script: default fhd_versions_rlb
     p) export uvfits_az_loc=$OPTARG;; # Path to uvfits files on azure
     m) export metafits_az_loc=$OPTARG;; # Path to metafits files on azure
-    r) export run_ps=$OPTARG;; # Run eppsilon PS code (on individual obs)
-    d) export ps_uvf_input=$OPTARG;; # Use UVF input for PS (only used if run_ps=1)
-    i) export input_vis=$OPTARG;; # Optional input visibilities for in situ sim
-    j) export input_eor=$OPTARG;; # Optional input eor sim for in situ sim
-    k) export extra_vis=$OPTARG;; # Optional additional visibilities for in situ sim (e.g. RFI visibilities)
-    c) export cal_transfer=$OPTARG;; # Option to transfer calibration solutions from another run
-    t) export model_uv_transfer=$OPTARG;; # Option to transfer model_uv_arr.sav from a calibration pre-run
-    a) non_integer_obs=$OPTARG;; # Specify that obsids are not integers - cannot sort.
-    q) partition=$OPTARG;; # Compute partition
-    w) export temp_obs_file=$OPTARG;; # Temporary obs_id file
+    r) export run_ps=$OPTARG;; # Flag to run eppsilon PS code (on individual obs)
+    d) export ps_uvf_input=$OPTARG;; # Flag to use UVF input for PS (only used if run_ps=1)
+    i) export input_vis=$OPTARG;; # Path to optional input visibilities for in situ sim
+    j) export input_eor=$OPTARG;; # Path to optional input eor sim for in situ sim
+    k) export extra_vis=$OPTARG;; # Path to optional additional visibilities for in situ sim (e.g. RFI visibilities)
+    c) export cal_transfer=$OPTARG;; # Path to transfer calibration solutions from another run
+    t) export model_uv_transfer=$OPTARG;; # Path to transfer model_uv_arr.sav from a calibration pre-run
+    a) non_integer_obs=$OPTARG;; # Flag to specify that obsids are not integers - cannot sort.
+    q) partition=$OPTARG;; # Compute node partition
+    w) export temp_obs_file=$OPTARG;; # Temporary obs_id file used if starting_obs or ending_obs is set
     \?) echo "Unknown option: Accepted flags are -f (obs_file_name), -s (starting_obs), -e (ending obs), -o (output directory), "
         echo "-b (output bucket on azure), -v (version input for FHD),  -n (number of slots to use), "
         echo "-u (versions script), -p (path to uvfits files on azure), -m (path to metafits files on azure), "
-        echo "-r (option to run eppsilon on each obs), -d (option to use UVF input for eppsilon run), "
+        echo "-r (flag to run eppsilon on each obs), -d (flag to use UVF input for eppsilon run), "
         echo "-i (visibilities for in situ sim), -j (EoR sim), "
         echo "-k (extra visibilities to add to simulation visibilities), -c (calibration save files to transfer), "
         echo "-t (model_uv_arr.sav files to transfer from precalibration run), -a (indicate that obsids are not integers), "
@@ -67,19 +67,20 @@ else
     echo Using azure container: $az_path
 fi
 
-# Update the user on which obsids will run given the inputs
-if [ -z ${starting_obs} ]
-then
-    echo Starting at observation at beginning of file $obs_file_name
+# Throw error if no version set
+if [ -z ${version} ]; then
+    echo Please specify a version, e.g, yourinitials_test
+    exit 1
 else
-    echo Starting on observation $starting_obs
+    echo Using version: $version
 fi
 
-if [ -z ${ending_obs} ]
-then
-    echo Ending at observation at end of file $obs_file_name
+# Set default versions script
+if [ -z ${versions_script} ]; then
+    export versions_script='fhd_versions_rlb'
+    echo Using default versions_script: $versions_script
 else
-    echo Ending on observation $ending_obs
+    echo Using versions_script: $versions_script
 fi
 
 # Set default output directory if one is not supplied and update user
@@ -95,18 +96,21 @@ fi
 
 if [ -z ${uvfits_az_loc} ]; then
     export uvfits_az_loc=https://mwadata.blob.core.windows.net/uvfits/2013
+    echo Using default uvfits_az_loc: $uvfits_az_loc
 else
     # strip the last / if present in uvfits filepath
     export uvfits_az_loc=${uvfits_az_loc%/}
+    echo Using uvfits_az_loc: $uvfits_az_loc
 fi
 
 if [ -z ${metafits_az_loc} ]; then
     export metafits_az_loc=https://mwadata.blob.core.windows.net/metafits/2013
+    echo Using default metafits_az_loc: $metafits_az_loc
 else
     # strip the last / if present in metafits filepath
     export metafits_az_loc=${metafits_az_loc%/}
+    echo Using metafits_az_loc: $metafits_az_loc
 fi
-
 
 if [ ! -z ${cal_transfer} ]; then
     # strip the last / if present in cal transfer filepath
@@ -115,63 +119,70 @@ if [ ! -z ${cal_transfer} ]; then
 fi
 
 if [ ! -z ${model_uv_transfer} ]; then
-    # strip the last / if present in cal transfer filepath
+    # strip the last / if present in model uv transfer filepath
     export model_uv_transfer=${model_uv_transfer%/}
-    echo Transferring calibration from $model_uv_transfer
+    echo Transferring model_uv from $model_uv_transfer
 fi
 
-# Make log directory if it doesn't already exist
-if [ ! -d ~/logs ]; then
-    sudo mkdir -m 777 ~/logs
-fi
-logdir=~/logs
-
-if [ -z ${version} ]; then
-   echo Please specify a version, e.g, yourinitials_test
-   exit 1
+if [ ! -z ${input_vis} ]; then
+    # strip the last / if present in input vis filepath
+    export input_vis=$input_vis%/}
+    echo Using input_vis: $input_vis
 fi
 
-if [ -z ${versions_script} ]; then
-    export versions_script='fhd_versions_rlb'
+if [ ! -z ${input_eor} ]; then
+    # strip the last / if present in input eor filepath
+    export input_eor=$input_eor%/}
+    echo Using input_eor: $input_eor
 fi
+
+if [ ! -z ${extra_vis} ]; then
+    # strip the last / if present in extra vis filepath
+    export extra_vis=$extra_vis%/}
+    echo Using extra_vis: $extra_vis
+fi
+
+if [ -z ${run_ps} ]; then
+    export run_ps=0
+else
+    export run_ps=1
+    echo Eppsilon power spectrum job will run after FHD
+fi
+
+if [ -z ${ps_uvf_input} ]; then
+    export ps_uvf_input=0
+elif [ $run_ps -eq 0 ]; then
+    echo Cannot use ps_uvf_input unless run_ps is set
+    exit 1
+else
+    export ps_uvf_input=1
+fi
+echo Using ps_uvf_input: $ps_uvf_input
 
 # Set typical slots needed for standard FHD firstpass if not set.
 if [ -z ${nslots} ]; then
     export nslots=10
 fi
 
-if [ -z ${run_ps} ]; then
-    export run_ps=0
-fi
-
-if [ -z ${ps_uvf_input} ]; then
-    export ps_uvf_input=0
-fi
-
-if [ -z $non_integer_obs ]; then
-    non_integer_obs=0
-fi
-
+# Set default partition
 if [ -z ${partition} ]; then
-    partition=hpc
+    partition=htc
 elif [[ ${partition} != "hpc" && ${partition} != "htc" ]]; then
   echo "${partition} is not a valid input type. Valid options are 'hpc' or 'htc'"
   exit 1
 fi
 
-if [ -z ${temp_obs_file} ]; then
-    export temp_obs_file=~/temp_obs_file.txt
-    echo "Using temp obs file ${temp_obs_file}"
-fi
-# Make directory if it doesn't already exist
-# sudo mkdir -p -m 777 ${outdir}/fhd_${version}/logs
-# echo Output located at ${outdir}/fhd_${version}
-
 # If starting_obs or ending_obs is set, write out subset of obs_ids into temp_obs_file
 if [[ ! -z ${starting_obs} || ! -z ${ending_obs} ]]; then
-    if [ $non_integer_obs -eq 1 ]; then
+    if [ ! -z $non_integer_obs ]; then
         echo "unable to process subset of obs_ids with non-integer obs"
         exit 1
+    fi
+    if [ -z ${temp_obs_file} ]; then
+        export temp_obs_file=~/temp_obs_file.txt
+        echo Using default temp_obs_file: $temp_obs_file
+    else
+        echo Using temp_obs_file: $temp_obs_file
     fi
     # Read the obs file and put into an array, skipping blank lines if they exist
     i=0
@@ -205,15 +216,19 @@ if [[ ! -z ${starting_obs} || ! -z ${ending_obs} ]]; then
     # If minimum not specified, start at minimum of obs_file
     if [ -z ${starting_obs} ]
     then
-       echo "Starting observation not specified: Starting at minimum of $obs_file_name"
-       starting_obs=$min
+        starting_obs=$min
+        echo "Starting observation not specified. Starting at minimum of $obs_file_name: $starting_obs"
+    else
+        echo Starting on observation: $starting_obs
     fi
 
     # If maximum not specified, end at maximum of obs_file
     if [ -z ${ending_obs} ]
     then
-       echo "Ending observation not specified: Ending at maximum of $obs_file_name"
-       ending_obs=$max
+        ending_obs=$max
+        echo "Ending observation not specified. Ending at maximum of $obs_file_name: $ending_obs"
+    else
+        echo Ending on observation: $ending_obs
     fi
 
     # Create a list of observations using the specified range
@@ -228,7 +243,16 @@ if [[ ! -z ${starting_obs} || ! -z ${ending_obs} ]]; then
     printf "%s\n" "${good_obs_list[@]}" > ${temp_obs_file}
     unset obs_file_name
     export obs_file_name=${temp_obs_file}
+else
+    echo Starting at observation at beginning of file $obs_file_name
+    echo Ending at observation at end of file $obs_file_name
 fi
+
+# Make log directory if it doesn't already exist
+if [ ! -d ~/logs ]; then
+    sudo mkdir -m 777 ~/logs
+fi
+logdir=~/logs
 
 N_obs=$(wc -l < $obs_file_name)
 echo "processing ${N_obs} observations"
