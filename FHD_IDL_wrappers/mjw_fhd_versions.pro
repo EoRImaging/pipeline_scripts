@@ -446,7 +446,7 @@ pro mjw_fhd_versions
     end
 
     'Barry_2019_image_step_no_jump_auto_ratio_no_auto_fit': begin
-    model_uv_transfer='/uvfits/transfer/' + obs_id + '_model_uv_arr.sav'
+    model_uv_transfer='uvfits/transfer/' + obs_id + '_model_uv_arr.sav'
     kernel_window=1
     debug_dim=1
     beam_mask_threshold=1e3
@@ -459,7 +459,7 @@ pro mjw_fhd_versions
     interpolate_kernel=1
     cal_time_average=0
     model_visibilities=1
-    transfer_calibration = '/uvfits/transfer/' + obs_id + '_cal.sav'
+    transfer_calibration = 'uvfits/transfer/' + obs_id + '_cal.sav'
     diffuse_calibrate=0
     diffuse_model=0
     digital_gain_jump_polyfit=0
@@ -1804,6 +1804,8 @@ pro mjw_fhd_versions
   if ~keyword_set(vis_file_list) then begin
     if platform eq 'aws' then begin
       vis_file_list = '/uvfits/' + STRING(obs_id) + '.uvfits'
+    endif else if platform eq 'azure' then begin
+      vis_file_list = 'uvfits/' + STRING(obs_id) + '.uvfits'
     endif else begin
       SPAWN, 'read_uvfits_loc.py -v ' + STRING(uvfits_version) + ' -s ' + $
         STRING(uvfits_subversion) + ' -o ' + STRING(obs_id), vis_file_list
