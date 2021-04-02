@@ -1,10 +1,10 @@
 #!/bin/bash
 
-#############################################################################
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 # Batch script for slurm job. Second level program for
 # running firstpass on azure machines. First level program is run_fhd_az.sh
 # Adapted from fhd_job_aws.sh
-#############################################################################
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 
 
 echo JOBID ${SLURM_ARRAY_JOB_ID}
@@ -29,18 +29,12 @@ echo Using uvfits_az_loc: $uvfits_az_loc
 echo Using metafits_az_loc: $metafits_az_loc
 echo Using run_ps: $run_ps
 
-#create output directory with full permissions
+# create output directory with full permissions
 if [ -d $outdir ]; then
     sudo chmod -R 777 $outdir
 else
     sudo mkdir -m 777 $outdir
 fi
-
-# Make directory if it doesn't already exist
-# if [ -d "${outdir}/fhd_${version}/logs" ]; then
-    # sudo mkdir -p -m 777 ${outdir}/fhd_${version}/logs
-    # echo Output located at ${outdir}/fhd_${version}
-# fi
 
 # Copy previous runs from az (allows FHD to not recalculate everything)
 # Currently az storage copy used with --include-pattern moves folder as well as files - March 2021
@@ -55,7 +49,7 @@ az storage copy -s ${az_path}/fhd_${version} -d ${outdir} \
 # Run RAM use recording script in the background
 # record_ram_use_az.sh $obs_id $outdir $version $SLURM_ARRAY_JOB_ID $myip &
 
-#create uvfits download location with full permissions
+# create uvfits download location with full permissions
 if [ -d "uvfits" ]; then
     sudo chmod -R 777 uvfits
 else
@@ -147,7 +141,7 @@ if [ ! -z ${extra_vis} ]; then
     echo Extra visibilities from ${extra_vis} copied to uvfits/extra_vis/
 fi
 
-#Get calibration transfer files
+# Get calibration transfer files
 if [ ! -z ${cal_transfer} ]; then
     # Check that the cal_transfer file exists on az
     cal_transfer_az_path="${cal_transfer}/calibration/${obs_id}_cal.sav"
@@ -157,9 +151,9 @@ if [ ! -z ${cal_transfer} ]; then
     else
         sudo mkdir -m 777 $transfer_dir
     fi
-    #Download the cal_transfer file
+    # Download the cal_transfer file
     az storage copy -s $cal_transfer_az_path -d $transfer_dir/${obs_id}_cal.sav
-    #Check the download
+    # Check the download
     if [ ! -f "${transfer_dir}/${obs_id}_cal.sav" ]; then
     >&2 echo "ERROR: cal_transfer file not found on filesystem"
         echo "Job Failed"
@@ -168,7 +162,7 @@ if [ ! -z ${cal_transfer} ]; then
     echo Calibration transferred from $cal_transfer
 fi
 
-#Get model_uv transfer files
+# Get model_uv transfer files
 if [ ! -z ${model_uv_transfer} ]; then
     model_uv_transfer_az_path="${model_uv_transfer}/cal_prerun/${obs_id}_model_uv_arr.sav"
 
@@ -178,9 +172,9 @@ if [ ! -z ${model_uv_transfer} ]; then
     else
         sudo mkdir -m 777 $transfer_dir
     fi
-    #Download the model_uv_transfer file
+    # Download the model_uv_transfer file
     az storage copy -s $model_uv_transfer_az_path -d $transfer_dir/${obs_id}_model_uv_arr.sav
-    #Check the download
+    # Check the download
     if [ ! -f "${transfer_dir}/${obs_id}_model_uv_arr.sav" ]; then
     >&2 echo "ERROR: model_uv_transfer file not found on filesystem"
         echo "Job Failed"
@@ -202,12 +196,12 @@ else
 fi
 
 # Copy FHD outputs to az
-i=1  #initialize counter
+i=1  # initialize counter
 # az storage copy -s ${outdir}/fhd_${version} -d ${az_path}/fhd_${version} --recursive --include-pattern "*${obs_id}*"
 # az storage copy currently moves source directory when calling --recursive and --include-pattern 3/2021
 az storage copy -s ${outdir}/fhd_${version} -d ${az_path} --recursive --include-pattern "*${obs_id}*"
 while [ $? -ne 0 ] && [ $i -lt 10 ]; do
-    let "i += 1"  #increment counter
+    let "i += 1"  # increment counter
     >&2 echo "Moving FHD outputs to az failed. Retrying (attempt $i)."
     # az storage copy -s ${outdir}/fhd_${version} -d ${az_path}/fhd_${version} --recursive --include-pattern "*${obs_id}*"
     az storage copy -s ${outdir}/fhd_${version} -d ${az_path} --recursive --include-pattern "*${obs_id}*"
@@ -254,11 +248,11 @@ if [ "$run_ps" -eq 1 ]; then
     fi
 
     # Move outputs to az
-    i=1  #initialize counter
+    i=1  # initialize counter
     az storage copy -s ${outdir}/fhd_${version}/ps -d ${az_path}/fhd_${version} \
     --recursive --include-pattern "*${obs_id}*"
     while [ $? -ne 0 ] && [ $i -lt 10 ]; do
-        let "i += 1"  #increment counter
+        let "i += 1"  # increment counter
         >&2 echo "Moving eppsilon outputs to az failed. Retrying (attempt $i)."
         az storage copy -s ${outdir}/fhd_${version}/ps -d ${az_path}/fhd_${version} \
         --recursive --include-pattern "*${obs_id}*"

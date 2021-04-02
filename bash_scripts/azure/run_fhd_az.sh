@@ -77,8 +77,8 @@ fi
 
 # Set default versions script
 if [ -z ${versions_script} ]; then
-    export versions_script='fhd_versions_rlb'
-    echo Using default versions_script: $versions_script
+    echo Need to specify a versions script.
+    exit 1
 else
     echo Using versions_script: $versions_script
 fi
@@ -161,7 +161,7 @@ echo Using ps_uvf_input: $ps_uvf_input
 
 # Set typical slots needed for standard FHD firstpass if not set.
 if [ -z ${nslots} ]; then
-    export nslots=10
+    export nslots=8
 fi
 
 # Set default partition
