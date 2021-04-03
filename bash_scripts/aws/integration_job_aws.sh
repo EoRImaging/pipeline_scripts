@@ -17,21 +17,27 @@ echo "JOB START TIME" `date +"%Y-%m-%d_%H:%M:%S"`
 myip="$(dig +short myip.opendns.com @resolver1.opendns.com)"
 echo PUBLIC IP ${myip}
 
+#Remove extraneous / on FHD directory if present
+if [[ ${file_path_cubes} == */ ]]; then file_path_cubes=${file_path_cubes%?}; fi
+
+#Get FHD version name
+FHDversion=$(basename ${file_path_cubes})
+
 #create Healpix download location with full permissions
-if [ -d /Healpix ]; then
-    sudo chmod -R 777 /Healpix
-    rm -f /Healpix/${version}_int_chunk*.txt # remove any old chunk files lying around
+if [ -d /${FHDversion}/Healpix ]; then
+    sudo chmod -R 777 /${FHDversion}/Healpix
+    rm -f /${FHDversion}/Healpix/${version}_int_chunk*.txt # remove any old chunk files lying around
 else
-    sudo mkdir -m 777 /Healpix
+    sudo mkdir -m 777 -p /${FHDversion}/Healpix
 fi
 
 #***If the integration has been split up into chunks, name the save file specifically off of that.
 if [ "$chunk" -gt "0" ]; then
     int_filename=Combined_obs_${version}_int_chunk${chunk}_${evenodd}_cube${pol^^}.sav
-    save_file_evenoddpol=/Healpix/${int_filename}
+    save_file_evenoddpol=/${FHDversion}/Healpix/${int_filename}
 else
     int_filename=Combined_obs_${version}_${evenodd}_cube${pol^^}.sav
-    save_file_evenoddpol=/Healpix/${int_filename}
+    save_file_evenoddpol=/${FHDversion}/Healpix/${int_filename}
 fi
 #***
 
@@ -46,9 +52,9 @@ if [ ! -f "${save_file_evenoddpol}" ]; then
         >&2 echo "HEALPix integration file found ${file_path_cubes}/Healpix/${int_filename}"
         
         sudo aws s3 cp ${file_path_cubes}/Healpix/${int_filename} \
-         /Healpix/${int_filename} --quiet
+         /${FHDversion}/Healpix/${int_filename} --quiet
 
-        if [ ! -f "/Healpix/${int_filename}" ]; then
+        if [ ! -f "/${FHDversion}/Healpix/${int_filename}" ]; then
             >&2 echo "ERROR: downloading HEALPix integration from S3 failed"
             echo "Job Failed"
             exit 1
@@ -56,7 +62,7 @@ if [ ! -f "${save_file_evenoddpol}" ]; then
         healpix_found=1
     fi
 else
-    >&2 echo "HEALPix integration file found in /HEALPix"
+    >&2 echo "HEALPix integration file found in /${FHDversion}/Healpix directory."
     healpix_found=1
 fi
 
@@ -73,7 +79,7 @@ then
     while read obs_id
     do
         # Check if the Healpix exists locally; if not, check S3
-        if [ ! -f "/Healpix/${obs_id}_${evenodd}_cube${pol^^}.sav" ]; then
+        if [ ! -f "/${FHDversion}/Healpix/${obs_id}_${evenodd}_cube${pol^^}.sav" ]; then
 
             # Check that the Healpix file exists on S3
             healpix_exists=$(aws s3 ls ${file_path_cubes}/Healpix/${obs_id}_${evenodd}_cube${pol^^}.sav)
@@ -91,14 +97,14 @@ then
     while read obs_id
     do
         # Check if the Healpix exists locally; if not, download it from S3
-        if [ ! -f "/Healpix/${obs_id}_${evenodd}_cube${pol^^}.sav" ]; then
+        if [ ! -f "/${FHDversion}/Healpix/${obs_id}_${evenodd}_cube${pol^^}.sav" ]; then
 
             # Download Healpix from S3
             sudo aws s3 cp ${file_path_cubes}/Healpix/${obs_id}_${evenodd}_cube${pol^^}.sav \
-            /Healpix/${obs_id}_${evenodd}_cube${pol^^}.sav
+            /${FHDversion}/Healpix/${obs_id}_${evenodd}_cube${pol^^}.sav
 
             # Verify that the cubes downloaded correctly
-            if [ ! -f "/Healpix/${obs_id}_${evenodd}_cube${pol^^}.sav" ]; then
+            if [ ! -f "/${FHDversion}/Healpix/${obs_id}_${evenodd}_cube${pol^^}.sav" ]; then
                 >&2 echo "ERROR: downloading cubes from S3 failed"
                 echo "Job Failed"
                 exit 1
@@ -112,7 +118,7 @@ then
     echo All cubes on instance
 
     #Create a name for the obs txt file based off of inputs
-    evenoddpol_file_paths=/Healpix/${version}_int_chunk${chunk}_${evenodd}${pol^^}_list.txt
+    evenoddpol_file_paths=/${FHDversion}/Healpix/${version}_int_chunk${chunk}_${evenodd}${pol^^}_list.txt
     #clear old file paths
     rm $evenoddpol_file_paths
 
@@ -120,7 +126,7 @@ then
     nobs=0
     while read line
     do
-        evenoddpol_file=/Healpix/${line}_${evenodd}_cube${pol^^}.sav
+        evenoddpol_file=/${FHDversion}/Healpix/${line}_${evenodd}_cube${pol^^}.sav
         echo $evenoddpol_file >> $evenoddpol_file_paths
         ((nobs++))
     done < "$obs_list_path"
@@ -142,12 +148,12 @@ then
     # Move integration outputs to S3
     i=1  #initialize counter
     aws s3 mv ${save_file_evenoddpol} \
-    ${file_path_cubes}${save_file_evenoddpol} --quiet
+    ${file_path_cubes}/Healpix/${int_filename} --quiet
     while [ $? -ne 0 ] && [ $i -lt 10 ]; do
         let "i += 1"  #increment counter
         >&2 echo "Moving FHD outputs to S3 failed. Retrying (attempt $i)."
         aws s3 mv ${save_file_evenoddpol} \
-        ${file_path_cubes}${save_file_evenoddpol} --quiet
+        ${file_path_cubes}/Healpix/${int_filename} --quiet
     done
 
     echo "JOB END TIME" `date +"%Y-%m-%d_%H:%M:%S"`
@@ -166,7 +172,7 @@ then
     # Remove obsid cubes from the instance
     while read obs_id
     do
-        sudo rm /Healpix/${obs_id}_${evenodd}_cube${pol^^}.sav
+        sudo rm /${FHDversion}/Healpix/${obs_id}_${evenodd}_cube${pol^^}.sav
     done < $obs_list_path
 
 fi

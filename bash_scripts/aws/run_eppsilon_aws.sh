@@ -56,6 +56,9 @@ fi
 #Remove extraneous / on FHD directory if present
 if [[ $FHDdir == */ ]]; then FHDdir=${FHDdir%?}; fi
 
+#Get FHD version name
+FHDversion=$(basename $FHDdir)
+
 aws s3 ls ${FHDdir}
 if [[ $? -ne 0 ]]; then
   echo "FHDdir does not exist"
@@ -110,11 +113,11 @@ fi
 first_line_len=$(echo ${#first_line})
 
 #create Healpix download location with full permissions
-if [ -d /Healpix ]; then
-    sudo chmod -R 777 /Healpix
-    rm -f /Healpix/${version}_int_chunk*.txt # remove any old chunk files lying around
+if [ -d /${FHDversion}/Healpix ]; then
+    sudo chmod -R 777 /${FHDversion}/Healpix
+    rm -f /${FHDversion}/Healpix/${version}_int_chunk*.txt # remove any old chunk files lying around
 else
-    sudo mkdir -m 777 /Healpix
+    sudo mkdir -m 777 -p /${FHDversion}/Healpix
 fi
 
 if [ "$first_line_len" == 10 ]; then
@@ -124,7 +127,7 @@ if [ "$first_line_len" == 10 ]; then
     while read line
     do
         ((chunk=obs/20+1))		#integer division results in chunks labeled 0 (first 100), 1 (second 100), etc
-        echo $line >> /Healpix/${version}_int_chunk${chunk}.txt	#put that obs id into the right txt file
+        echo $line >> /${FHDversion}/Healpix/${version}_int_chunk${chunk}.txt	#put that obs id into the right txt file
         ((obs++))			#increment obs for the next run through
     done < $integrate_list
     nchunk=$chunk 			#number of chunks we ended up with
@@ -136,7 +139,7 @@ else
         chunk=0
         while read line
         do
-            echo $line >> /Healpix/${version}_int_chunk${chunk}.txt        #put that obs id into the right txt file
+            echo $line >> /${FHDversion}/Healpix/${version}_int_chunk${chunk}.txt        #put that obs id into the right txt file
         done < $integrate_list
         nchunk=$chunk                       #number of chunks we ended up with
 
@@ -145,7 +148,7 @@ else
         chunk=0
         while read line
         do
-            echo $line >> /Healpix/${version}_int_chunk${chunk}.txt        #put that obs id into the right txt file
+            echo $line >> /${FHDversion}/Healpix/${version}_int_chunk${chunk}.txt        #put that obs id into the right txt file
         done < $integrate_list
         nchunk=$chunk                       #number of chunks we ended up with
 
@@ -161,12 +164,12 @@ if [ "$ps_only" -ne "1" ]; then
     if [ "$nchunk" -gt "1" ]; then
 
         # set up files for master integration
-        sub_cubes_list=/Healpix/${version}_sub_cubes.txt
+        sub_cubes_list=/${FHDversion}/Healpix/${version}_sub_cubes.txt
         rm $sub_cubes_list # remove any old lists
 
         # launch separate chunks
         for chunk in $(seq 1 $nchunk); do
-	          chunk_obs_list=/Healpix/${version}_int_chunk${chunk}.txt
+	          chunk_obs_list=/${FHDversion}/Healpix/${version}_int_chunk${chunk}.txt
             readarray chunk_obs_array < $chunk_obs_list
 	          chunk_obs_array=$( IFS=$':'; echo "${chunk_obs_array[*]}" ) #qsub can't take arrays
 
@@ -205,9 +208,9 @@ if [ "$ps_only" -ne "1" ]; then
     else
 
         # Just one integrator
-        mv /Healpix/${version}_int_chunk1.txt /Healpix/${version}_int_chunk0.txt
+        mv /${FHDversion}/Healpix/${version}_int_chunk1.txt /${FHDversion}/Healpix/${version}_int_chunk0.txt
         chunk=0
-        chunk_obs_list=/Healpix/${version}_int_chunk${chunk}.txt
+        chunk_obs_list=/${FHDversion}/Healpix/${version}_int_chunk${chunk}.txt
         readarray chunk_obs_array < $chunk_obs_list
 	      chunk_obs_array=$( IFS=$':'; echo "${chunk_obs_array[*]}" ) #qsub can't take arrays
 
@@ -227,11 +230,11 @@ else
 fi
 
 
-if [ ! -d /ps ]; then
-    sudo mkdir /ps
+if [ ! -d /${FHDversion}/ps ]; then
+    sudo mkdir -p /${FHDversion}/ps
 fi
-if [ ! -d /ps/logs ]; then
-    sudo mkdir /ps/logs
+if [ ! -d /${FHDversion}/ps/logs ]; then
+    sudo mkdir -p /${FHDversion}/ps/logs
 fi
 
 #outfile=/ps/logs/${version}_ps_out
