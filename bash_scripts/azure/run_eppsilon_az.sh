@@ -153,7 +153,7 @@ export n_cubes=${#cube_type_arr[@]}
 # Run eppsilon cube job
 if [ $cubes -eq 1 ]; then
     # create hold string
-    if [ -z ${hold_str} ]; then
+    if [ $int -eq 0 ]; then
         if [ -z ${hold_job_id} ]; then
             hold_str=""
         else 
@@ -177,7 +177,7 @@ fi
 # Run eppsilon power spectrum job
 if [ $ps -eq 1 ]; then
     # create hold string
-    if [ -z ${hold_str} ]; then
+    if [[ $int -eq 0 ]] && [[ $cubes -eq 0 ]]; then
         if [ -z ${hold_job_id} ]; then
             hold_str=""
         else 
