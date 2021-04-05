@@ -27,25 +27,26 @@ echo Using file_path_cubes: $file_path_cubes
 echo Using version: $version
 
 #create Healpix download location with full permissions
-if [ -d ${version}/Healpix ]; then
-    sudo chmod -R 777 ${version}/Healpix
+FHD_version=$(basename ${file_path_cubes})
+if [ -d ${FHD_version}/Healpix ]; then
+    sudo chmod -R 777 ${FHD_version}/Healpix
 else
-    sudo mkdir -m 777 ${version}
-    sudo mkdir -m 777 ${version}/Healpix
+    sudo mkdir -m 777 ${FHD_version}
+    sudo mkdir -m 777 ${FHD_version}/Healpix
 fi
 
 # set integrated cube file name
-save_file_evenoddpol=${version}/Healpix/Combined_obs_${version}_${evenodd}_cube${pol^^}.sav
+save_file_evenoddpol=Healpix/Combined_obs_${version}_${evenodd}_cube${pol^^}.sav
 
 # check if Healpix cubes exist locally; if not, try to download
 unset exit_flag
 for int_cube in $(cat $int_list_path); do
-    if [ ! -f "${version}/Healpix/${int_cube}_${evenodd}_cube${pol^^}.sav" ]; then
+    if [ ! -f "${FHD_version}/Healpix/${int_cube}_${evenodd}_cube${pol^^}.sav" ]; then
         az storage copy -s ${file_path_cubes}/Healpix/${int_cube}_${evenodd}_cube${pol^^}.sav \
-        -d ${version}/Healpix/${int_cube}_${evenodd}_cube${pol^^}.sav
+        -d ${FHD_version}/Healpix/${int_cube}_${evenodd}_cube${pol^^}.sav
     fi
     # check if cube downloaded
-    if [ ! -f "${version}/Healpix/${int_cube}_${evenodd}_cube${pol^^}.sav" ]; then
+    if [ ! -f "${FHD_version}/Healpix/${int_cube}_${evenodd}_cube${pol^^}.sav" ]; then
         >&2 echo "ERROR: HEALPix file not downloaded: ${int_cube}_${evenodd}_cube${pol^^}.sav"
         exit_flag=1
     else
@@ -60,16 +61,16 @@ fi
 echo All cubes on instance
 
 #Create a name for the downloaded cube file based off of inputs
-evenoddpol_file_paths=${version}/Healpix/${version}_${evenodd}${pol^^}_list.txt
+evenoddpol_file_paths=${FHD_version}/${version}_${evenodd}${pol^^}_list.txt
 
 # Fill the downloaded cube file with paths to cubes to integrate
 for int_cube in $(cat $int_list_path); do
-    cube_path=${version}/Healpix/${int_cube}_${evenodd}_cube${pol^^}.sav
+    cube_path=${FHD_version}/Healpix/${int_cube}_${evenodd}_cube${pol^^}.sav
     echo $cube_path >> $evenoddpol_file_paths
 done
 
 # Run the integration IDL script
-idl -IDL_DEVICE ps -IDL_CPU_TPOOL_NTHREADS $nslots -e integrate_healpix_cubes -args "$evenoddpol_file_paths" "$save_file_evenoddpol" || :
+idl -IDL_DEVICE ps -IDL_CPU_TPOOL_NTHREADS $nslots -e integrate_healpix_cubes -args "$evenoddpol_file_paths" "${FHD_version}/$save_file_evenoddpol" || :
 
 if [ $? -eq 0 ]
 then
@@ -82,11 +83,11 @@ fi
 
 # Move integration output file to az
 i=1  #initialize counter
-az storage copy -s ${save_file_evenoddpol} -d ${file_path_cubes}/${save_file_evenoddpol}
+az storage copy -s ${FHD_version}/${save_file_evenoddpol} -d ${file_path_cubes}/${save_file_evenoddpol}
 while [ $? -ne 0 ] && [ $i -lt 10 ]; do
     let "i += 1"  #increment counter
     >&2 echo "Moving FHD outputs to az failed. Retrying (attempt $i)."
-    az storage copy -s ${save_file_evenoddpol} -d ${file_path_cubes}/${save_file_evenoddpol}
+    az storage copy -s ${FHD_version}/${save_file_evenoddpol} -d ${file_path_cubes}/${save_file_evenoddpol}
 done
 
 echo "JOB END TIME" `date +"%Y-%m-%d_%H:%M:%S"`
@@ -101,7 +102,7 @@ az storage copy -s ~/logs/${version}_integration_job_az.sh.e${SLURM_ARRAY_JOB_ID
 
 # Remove integration cubes from the instance
 for int_cube in $(cat $int_list_path); do
-    sudo rm ${version}/Healpix/${int_cube}_${evenodd}_cube${pol^^}.sav
+    sudo rm ${FHD_version}/Healpix/${int_cube}_${evenodd}_cube${pol^^}.sav
 done
 
 exit $error_mode

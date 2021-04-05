@@ -37,9 +37,12 @@ echo Using file_path_cubes: $file_path_cubes
 echo Using version: $version
 echo Using single_obs: $single_obs
 
+# get unique directory
+FHD_version=$(basename ${file_path_cubes})
+
 # Create a string of arguements to pass into az_ps_job given the input
 #   into this script
-input_folder=/mnt/scratch/$version/
+input_folder=/mnt/scratch/$FHD_version/
 if [[ -z ${cube_type} ]] && [[ -z ${pol} ]] && [[ -z ${evenodd} ]]; then
     # create arg string for ps job
 	arg_string="${input_folder} ${version}"
@@ -54,30 +57,30 @@ else
 fi
 
 #create Healpix download location with full permissions
-if [ -d ${version}/Healpix ]; then
-    sudo chmod -R 777 ${version}/Healpix
+if [ -d ${FHD_version}/Healpix ]; then
+    sudo chmod -R 777 ${FHD_version}/Healpix
 else
-    sudo mkdir -m 777 ${version}
-    sudo mkdir -m 777 ${version}/Healpix
+    sudo mkdir -m 777 ${FHD_version}
+    sudo mkdir -m 777 ${FHD_version}/Healpix
 fi
 #create PS download location with full permissions
-if [ -d ${version}/ps ]; then
-    sudo chmod -R 777 ${version}/ps
-    if [ -d ${version}/ps/data ]; then
-        sudo chmod -R 777 ${version}/ps/data
+if [ -d ${FHD_version}/ps ]; then
+    sudo chmod -R 777 ${FHD_version}/ps
+    if [ -d ${FHD_version}/ps/data ]; then
+        sudo chmod -R 777 ${FHD_version}/ps/data
     else
-        sudo mkdir -m 777 ${version}/ps/data
+        sudo mkdir -m 777 ${FHD_version}/ps/data
     fi
     if [ -d ps/data/uvf_cubes ]; then
-        sudo chmod -R 777 ${version}/ps/data/uvf_cubes
+        sudo chmod -R 777 ${FHD_version}/ps/data/uvf_cubes
     else
-        sudo mkdir -m 777 ${version}/ps/data/uvf_cubes
+        sudo mkdir -m 777 ${FHD_version}/ps/data/uvf_cubes
     fi
 else
-    sudo mkdir -m 777 ${version}
-    sudo mkdir -m 777 ${version}/ps
-    sudo mkdir -m 777 ${version}/ps/data
-    sudo mkdir -m 777 ${version}/ps/data/uvf_cubes
+    sudo mkdir -m 777 ${FHD_version}
+    sudo mkdir -m 777 ${FHD_version}/ps
+    sudo mkdir -m 777 ${FHD_version}/ps/data
+    sudo mkdir -m 777 ${FHD_version}/ps/data/uvf_cubes
 fi
 
 if [ $single_obs -eq 1 ]; then
@@ -91,12 +94,12 @@ fi
 # If doing a cube job, look for integration cube locally.
 # If not found, download from azure
 if [ ! -z ${cube_type} ]; then
-    if [ ! -f "${version}/Healpix/${cube_prefix}_${evenodd}_cube${pol^^}.sav" ]; then
+    if [ ! -f "${FHD_version}/Healpix/${cube_prefix}_${evenodd}_cube${pol^^}.sav" ]; then
         az storage copy -s ${file_path_cubes}/Healpix/${cube_prefix}_${evenodd}_cube${pol^^}.sav \
-        -d ${version}/Healpix/${cube_prefix}_${evenodd}_cube${pol^^}.sav
+        -d ${FHD_version}/Healpix/${cube_prefix}_${evenodd}_cube${pol^^}.sav
     fi
     # Check that file downloaded
-    if [ ! -f "${version}/Healpix/${cube_prefix}_${evenodd}_cube${pol^^}.sav" ]; then
+    if [ ! -f "${FHD_version}/Healpix/${cube_prefix}_${evenodd}_cube${pol^^}.sav" ]; then
         >&2 echo "Integration cube ${cube_prefix}_${evenodd}_cube${pol^^}.sav not found"
         exit 1
     fi
@@ -105,14 +108,14 @@ if [ ! -z ${cube_type} ]; then
 else
     # should have n_cubes * n_pols * n_evenodd cubes
     n_epps_cubes = $((n_cubes*n_pol*2))
-    file_num=$(ls ${version}/ps/data/uvf_cubes/${cube_prefix}* | wc -li)
+    file_num=$(ls ${FHD_version}/ps/data/uvf_cubes/${cube_prefix}* | wc -li)
     echo "file_num is $file_num"
     if [ $file_num -ne $n_epps_cubes ]; then
         # Download from azure
-        az storage copy -s ${file_path_cubes}/ps/data/uvf_cubes -d ${version}/ps/data --recursive
+        az storage copy -s ${file_path_cubes}/ps/data/uvf_cubes -d ${FHD_version}/ps/data --recursive
     fi
     # Check download
-    file_num=$(ls ${version}/ps/data/uvf_cubes/${cube_prefix}* | wc -li)
+    file_num=$(ls ${FHD_version}/ps/data/uvf_cubes/${cube_prefix}* | wc -li)
     if [ $file_num -ne $n_epps_cubes ]; then
         >&2 echo "Unable to make power spectra. Missing uvf cubes."
         echo "Job Failed"
@@ -136,19 +139,19 @@ fi
 # Move eppsilon outputs to az
 if [ -z ${cube_type} ]; then
     i=1  #initialize counter
-    az storage copy -s ${version}/ps -d ${file_path_cubes} --recursive
+    az storage copy -s ${FHD_version}/ps -d ${file_path_cubes} --recursive
     while [ $? -ne 0 ] && [ $i -lt 10 ]; do
         let "i += 1"  #increment counter
         >&2 echo "Moving eppsilon outputs to az failed. Retrying (attempt $i)."
-        az storage copy -s ps -d ${file_path_cubes} --recursive
+        az storage copy -s ${FHD_version}/ps -d ${file_path_cubes} --recursive
     done
 else
     i=1  #initialize counter
-    az storage copy -s ${version}/ps/data/uvf_cubes -d ${file_path_cubes}/ps/data --recursive
+    az storage copy -s ${FHD_version}/ps/data/uvf_cubes -d ${file_path_cubes}/ps/data --recursive
     while [ $? -ne 0 ] && [ $i -lt 10 ]; do
         let "i += 1"  #increment counter
         >&2 echo "Moving eppsilon outputs to az failed. Retrying (attempt $i)."
-        az storage copy -s ps/data/uvf_cubes -d ${file_path_cubes}/ps/data --recursive
+        az storage copy -s ${FHD_version}/ps/data/uvf_cubes -d ${file_path_cubes}/ps/data --recursive
     done
 fi
 
