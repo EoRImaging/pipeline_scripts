@@ -32,11 +32,6 @@ if [ ! -z ${cube_type} ]; then
     echo Processing cube: ${pol} ${evenodd} ${cube_type}
 fi
 
-# Set single_obs default
-if [ -z ${single_obs} ]; then
-    single_obs=0
-fi
-
 # echo keywords
 echo Using file_path_cubes: $file_path_cubes
 echo Using version: $version

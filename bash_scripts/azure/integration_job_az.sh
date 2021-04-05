@@ -76,7 +76,7 @@ then
     echo "Integration Job Finished"
     error_mode=0
 else
-    echo "Job Failed"
+    echo "Integration Job Failed"
     error_mode=1
 fi
 

@@ -8,9 +8,9 @@
 while getopts ":d:f:v:n:i:c:p:h:s:x:q:" option
 do
    case $option in
-        d) export file_path_cubes=$OPTARG;;			#file path to fhd directory with cubes
+        d) export file_path_cubes=$OPTARG;;			#file path to fhd directory on azure storage
         f) export integrate_list="$OPTARG";;		#txt file of obs ids or subcubes or a single obsid
-        v) export version=$OPTARG;; # Integration/eppsilon job tag
+        v) export version=$OPTARG;; # Name associated with resulting integration/eppsilon outputs. Not the FHD version.
         n) export nslots=$OPTARG;;             	#Number of slots for grid engine
         i) int=$OPTARG;;           # Run FHD integration job
         c) cubes=$OPTARG;;         # Run eppsilon cube job
@@ -19,7 +19,7 @@ do
         s) export single_obs=$OPTARG;; # Working on a single obsid that has never seen integration.
         x) export pols=$OPTARG;; # String of space-separated pols
         q) partition=$OPTARG;; # Compute node partition
-        \?) echo "Unknown option: Accepted flags are -d (file path to fhd directory with cubes), -f (obs list or subcube path or single obsid), "
+        \?) echo "Unknown option: Accepted flags are -d (file path to fhd directory on azure storage), -f (obs list or subcube path or single obsid), "
 	          echo "-v (version), -n (number of slots), -i (integrate) -c (make 'weights', 'dirty', 'model' cubes) -p (make ps), "
 	          echo "-h (job id to hold int/ps script for), -s (single obsid), -x (string of pols), and -q (partition)"
             exit 1;;
@@ -33,7 +33,7 @@ shift $(($OPTIND - 1))
 
 #Error if no file path to FHD directory
 if [ -z ${file_path_cubes} ]; then
-   echo "Need to specify a file path to a FHD directory with cubes: Example /nfs/complicated_path/fhd_mine"
+   echo "Need to specify a file path to fhd directory on azure storage with cubes: Example /nfs/complicated_path/fhd_mine"
    exit 1
 else
     # strip the last / if present in FHD directory path
@@ -43,37 +43,54 @@ fi
 
 # Error if version is not set
 if [ -z ${version} ]; then
-    >&2 echo "Need to specify version."
+    >&2 echo "Need to specify version to associate with resulting integration/eppsilon outputs."
     exit 1
 else
     echo Using version: $version
 fi
 
+# Set default single_obs
+if [ -z ${single_obs} ]; then
+    export single_obs=0
+else
+    export single_obs=1
+fi
+echo Using single_obs: $single_obs
+
 #Set default to do integration
 if [ -z ${int} ]; then
     int=1
 fi
-# If doing an integration job, error if integration file is not submitted.
+# Run checks if doing an integration job.
 if [ ${int} -eq 1 ]; then
     #Error if integrate_list is not set
     if [ -z ${integrate_list} ]; then
         echo "Need to specify obs list file path or preintegrated subcubes list file path with option -f"
         exit 1
     fi
-
+    # Error if single_obs==1
+    if [ ${single_obs} -eq 1 ]; then
+        >&2 echo "It does not make sense to integrate a single observation. Run without integration or without single_obs"
+        exit 1
+    fi
     #Error if integrate list filename does not exist
     if [ ! -e "$integrate_list" ]; then
         >&2 echo "Integrate list file does not exist!"
         exit 1
     else
-        # Error if > 20 obs are submitted
         n_obs=$(wc -l < ${integrate_list})
-        echo "Number of cubes to integrate: ${n_obs}"
+        # Error if > 20 cubes are submitted
         if [ $n_obs -gt 20 ]; then
             >&2 echo "Integration list list must contain 20 or fewer cube prefixes. Resubmit with a shorter list."
             exit 1
         fi
+        # Error if a single cube is submitted
+        if [ $n_obs -eq 1 ]; then
+            >&2 echo "It does not make sense to integrate a single cube. Submit a longer text file."
+            exit 1
+        fi
         export int_list_path=${integrate_list}
+        echo "Number of cubes to integrate: ${n_obs}"
     fi
 fi
 
@@ -108,7 +125,7 @@ export n_pol=${#pol_arr[@]}
 
 #Set typical slots needed for standard PS with obs ids if not set.
 if [ -z ${nslots} ]; then
-    export nslots=4
+    export nslots=2
 fi
 
 # Set default partition to htc
