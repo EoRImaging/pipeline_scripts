@@ -38,6 +38,7 @@ if [ -z ${file_path_cubes} ]; then
 else
     # strip the last / if present in FHD directory path
     export file_path_cubes=${file_path_cubes%/}
+    echo Using file_path_cubes: ${file_path_cubes}
 fi
 
 # Error if version is not set
@@ -118,14 +119,6 @@ elif [[ ${partition} != "hpc" && ${partition} != "htc" ]]; then
   exit 1
 fi
 
-# create hold string
-if [ -z ${hold_job_id} ]; then
-    hold_str=""
-else 
-    hold_str="-d afterok:${hold_job_id}"
-    echo "hold string is ${hold_str}"
-fi
-
 # Make log directory if it doesn't already exist
 if [ ! -d ~/logs ]; then
     sudo mkdir -m 777 ~/logs
@@ -137,13 +130,20 @@ n_arr=$(($n_pol*2))
 
 # Run integration job
 if [ $int -eq 1 ]; then
+    # create hold string
+    if [ -z ${hold_job_id} ]; then
+        hold_str=""
+    else 
+        hold_str="-d afterok:${hold_job_id}"
+        echo "Hold string is ${hold_str}"
+    fi
     # Get job_id
     jid_int=$(sbatch ${hold_str} -D /mnt/scratch -c ${nslots} -p ${partition} -e ${logdir}/${version}_integration_job_az.sh.e%A.%a -o ${logdir}/${version}_integration_job_az.sh.o%A.%a -a 1-${n_arr} integration_job_az.sh)
     echo ${jid_int}
     echo "Submitting integration job"
     # Update hold string so that cube tasks wait on corresponding integration tasks
     hold_str="-d aftercorr:${jid_int##* }"
-    echo "integration hold string is '${hold_str}'"
+    echo "String for holding until integration job tasks finish is '${hold_str}'"
 fi
 
 # Cube definitions
@@ -152,6 +152,15 @@ export n_cubes=${#cube_type_arr[@]}
 
 # Run eppsilon cube job
 if [ $cubes -eq 1 ]; then
+    # create hold string
+    if [ -z ${hold_str} ]; then
+        if [ -z ${hold_job_id} ]; then
+            hold_str=""
+        else 
+            hold_str="-d aftercorr:${hold_job_id}"
+            echo "Hold string is ${hold_str}"
+        fi
+    fi
     cube_jobs=""
     for cube_type in "${cube_type_arr[@]}"; do
         echo "Submitting eppsilon ${cube_type} cube job"
@@ -162,11 +171,20 @@ if [ $cubes -eq 1 ]; then
     done
     # Update hold string so that power spectrum job waits on all cube jobs
     hold_str="-d afterok${cube_jobs}"
-    echo "cube hold string is '${hold_str}'"
+    echo "String for holding until eppsilon cube jobs finish is '${hold_str}'"
 fi
 
 # Run eppsilon power spectrum job
 if [ $ps -eq 1 ]; then
+    # create hold string
+    if [ -z ${hold_str} ]; then
+        if [ -z ${hold_job_id} ]; then
+            hold_str=""
+        else 
+            hold_str="-d afterok:${hold_job_id}"
+            echo "Hold string is ${hold_str}"
+        fi
+    fi
     echo "Submitting eppsilon ps job"
     unset cube_type
     sbatch ${hold_str} -D /mnt/scratch -c ${nslots} -p ${partition} -e ${logdir}/${version}_eppsilon_ps_job_az.sh.e%A -o ${logdir}/${version}_eppsilon_ps_job_az.sh.o%A eppsilon_job_az.sh
