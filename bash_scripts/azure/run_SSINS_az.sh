@@ -69,7 +69,7 @@ fi
 if [ -z ${ssins_output_az_path} ]
 then
     export ssins_output_az_path=https://mwadata.blob.core.windows.net/ssins/2013
-    echo Using default az location: $ssins_output_az_path
+    echo Using default ssins az location: $ssins_output_az_path
 else
     # strip the last / if present in output directory filepath
     export ssins_output_az_path=${ssins_output_az_path%/}
@@ -79,7 +79,7 @@ fi
 if [ -z ${uvfits_output_az_path} ]
 then
     export uvfits_output_az_path=https://mwadata.blob.core.windows.net/uvfits/2013
-    echo Using default az location: $uvfits_output_az_path
+    echo Using default uvfits az location: $uvfits_output_az_path
 else
     # strip the last / if present in output directory filepath
     export uvfits_output_az_path=${uvfits_output_az_path%/}
