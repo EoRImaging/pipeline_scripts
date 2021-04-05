@@ -1,5 +1,17 @@
-# call for processing 2014 data through ssins/pyuvdata for mike's thesis run
-bash run_SSINS_az.sh -f /shared/home/pyxiestar/2014_test.txt -b https://mwadata.blob.core.windows.net/ssins/2014 -n 8 -p https://mwadata.blob.core.windows.net/gpubox/2014 -t gpubox -c 1 -a 2
+# call for testing 2014 data through ssins/pyuvdata for mike's thesis run
+bash run_SSINS_az.sh -f ~/2014_test2.txt -b https://mwadata.blob.core.windows.net/ssins/2014 -n 8 -p https://mwadata.blob.core.windows.net/gpubox/2014 -t gpubox -c 1 -a 2
 
-# call for testing fhd script for mike's thesis run
+# call for testing fhd script for mike's thesis run (calibration only)
 bash run_fhd_az.sh -f ~/2014_test.txt -b https://mwadata.blob.core.windows.net/fhd/mike_thesis/test_run -v Barry_2019_calibration_step_cal_speedup_auto_ratio_no_auto_fit_no_dg_jump -n 4 -u mjw_fhd_versions -p https://mwadata.blob.core.windows.net/uvfits/2014/ssins_vv_cbflags_2s_80khz -m https://mwadata.blob.core.windows.net/metafits/2014
+
+# call for testing fhd script for mike's thesis run (imaging only)
+bash run_fhd_az.sh -f ~/2014_test.txt -b https://mwadata.blob.core.windows.net/fhd/mike_thesis/test_run -v Barry_2019_image_step_no_jump_auto_ratio_no_auto_fit -n 4 -u mjw_fhd_versions -p https://mwadata.blob.core.windows.net/uvfits/2014/ssins_vv_cbflags_2s_80khz -m https://mwadata.blob.core.windows.net/metafits/2014 -t https://mwadata.blob.core.windows.net/fhd/mike_thesis/test_run/fhd_Barry_2019_calibration_step_cal_speedup_auto_ratio_no_auto_fit_no_dg_jump -c https://mwadata.blob.core.windows.net/fhd/mike_thesis/test_run/fhd_Barry_2019_calibration_step_cal_speedup_auto_ratio_no_auto_fit_no_dg_jump
+
+# call for testing run_eppsilon script (integration only)
+bash run_eppsilon_az.sh -v 2014_test -f ~/2014_test.txt -d https://mwadata.blob.core.windows.net/fhd/mike_thesis/test_run/fhd_Barry_2019_image_step_no_jump_auto_ratio_no_auto_fit -n 4 -c 0 -p 0
+
+# call for testing run_eppsilon script (integration, cubes, power spectra)
+bash run_eppsilon_az.sh -v 2014_test -f ~/2014_test.txt -d https://mwadata.blob.core.windows.net/fhd/mike_thesis/test_run/fhd_Barry_2019_image_step_no_jump_auto_ratio_no_auto_fit -n 4
+
+# call for testing run_eppsilon script (cubes and power spectra only)
+bash run_eppsilon_az.sh -v 2014_test -f ~/2014_test.txt -d https://mwadata.blob.core.windows.net/fhd/mike_thesis/test_run/fhd_Barry_2019_image_step_no_jump_auto_ratio_no_auto_fit -n 4 -i 0
