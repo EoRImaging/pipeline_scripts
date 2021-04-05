@@ -52,7 +52,6 @@ if [ $input_type == "uvfits" ]; then
       # Download uvfits from az
       az storage copy -s ${input_az_loc}/${obs_id}.uvfits \
       -d uvfits/${obs_id}.uvfits
-      fi
 
       # Verify that the uvfits downloaded correctly
       if [ ! -f "uvfits/${obs_id}.uvfits" ]; then
@@ -108,7 +107,7 @@ while [ $? -ne 0 ] && [ $i -lt 10 ]; do
     let "i += 1"  # increment counter
     >&2 echo "Moving SSINS outputs to az failed. Retrying (attempt $i)."
     az storage copy -s ${outdir} -d ${az_path} --include-pattern "*${obs_id}*" --recursive
-# done
+done
 
 # Remove vis files and metafits from the instance
 if [ $input_type == "uvfits" ]; then
