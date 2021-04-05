@@ -111,11 +111,11 @@ done
 
 # Move uvfits outputs to az
 i=1  # initialize counter
-az storage copy -s ${outdir} -d ${uvfits_output_az_path} --include-pattern "*.uvfits" --recursive
+az storage copy -s ${outdir}/${obs_id}.uvfits -d ${uvfits_output_az_path}
 while [ $? -ne 0 ] && [ $i -lt 10 ]; do
     let "i += 1"  # increment counter
     >&2 echo "Moving SSINS outputs to az failed. Retrying (attempt $i)."
-    az storage copy -s ${outdir} -d ${uvfits_output_az_path} --include-pattern "*.uvfits" --recursive
+    az storage copy -s ${outdir}/${obs_id}.uvfits -d ${uvfits_output_az_path}
 done
 
 # Remove vis files and metafits from the instance
