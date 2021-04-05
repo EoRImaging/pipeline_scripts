@@ -1,11 +1,12 @@
 #!/bin/bash
 
-while getopts ":f:o:b:n:q:p:t:c:a:m:" option
+while getopts ":f:o:b:v:n:q:p:t:c:a:m:" option
 do
   case $option in
     f) export obs_file_name="$OPTARG";;
     o) export outdir=$OPTARG;;
-    b) export az_path=$OPTARG;;
+    b) export ssins_output_az_path=$OPTARG;;
+    v) export uvfits_output_az_path=$OPTARG;;
     n) nslots=$OPTARG;;
     q) partition=$OPTARG;;
     p) export input_az_loc=$OPTARG;;
@@ -14,7 +15,8 @@ do
     a) export freq_avg=$OPTARG;;
     m) export time_avg=$OPTARG;;
     \?) echo "Unknown option: Accepted flags are -f (obs_file_name), -o (output directory), "
-        echo "-b (output container on az),  -n (number of nodes to use), -q (slurm partition: hpc or htc)"
+        echo "-b (ssins output container on az), -v (uvfits output container on az), "
+        echo "-n (number of nodes to use), -q (slurm partition: hpc or htc)"
         echo "-p (path to input files on az), -t (type of input file), -c (whether to correct digital things)"
         echo "-a (number of frequency channels to average) -m (number of times to average)"
         exit 1;;
@@ -64,14 +66,24 @@ else
     echo Using input_az_loc: $input_az_loc
 fi
 
-if [ -z ${az_path} ]
+if [ -z ${ssins_output_az_path} ]
 then
-    export az_path=https://mwadata.blob.core.windows.net/ssins/2013
-    echo Using default az location: $az_path
+    export ssins_output_az_path=https://mwadata.blob.core.windows.net/ssins/2013
+    echo Using default az location: $ssins_output_az_path
 else
     # strip the last / if present in output directory filepath
-    export az_path=${az_path%/}
-    echo Using az bucket: $az_path
+    export ssins_output_az_path=${ssins_output_az_path%/}
+    echo Using az bucket: $ssins_output_az_path
+fi
+
+if [ -z ${uvfits_output_az_path} ]
+then
+    export uvfits_output_az_path=https://mwadata.blob.core.windows.net/uvfits/2013
+    echo Using default az location: $uvfits_output_az_path
+else
+    # strip the last / if present in output directory filepath
+    export uvfits_output_az_path=${uvfits_output_az_path%/}
+    echo Using az bucket: $uvfits_output_az_path
 fi
 
 if [ -z $correct ]; then
