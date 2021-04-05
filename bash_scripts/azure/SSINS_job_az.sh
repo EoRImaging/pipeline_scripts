@@ -15,7 +15,7 @@ az login --identity
 # echo keywords
 echo Using output directory: $outdir
 
-echo Using output az location: $az_path
+echo Using ssins output az location: $ssins_output_az_path
 
 echo Using input_az_loc: $input_az_loc
 
@@ -70,7 +70,7 @@ else
 
       # Download box files and metafits from az
       az storage copy -s ${input_az_loc}/${obs_id}_vis --include-pattern "*fits" -d gpubox --recursive
-      
+
       # Verify that the box files downloaded correctly
       file_num=$(ls gpubox/${obs_id}_vis/${obs_id}*.fits | wc -l)
       if [ $file_num -eq "0" ]; then
@@ -102,11 +102,20 @@ fi
 
 # Move SSINS outputs to az
 i=1  # initialize counter
-az storage copy -s ${outdir} -d ${az_path} --include-pattern "*${obs_id}*" --recursive
+az storage copy -s ${outdir} -d ${ssins_output_az_path} --include-pattern "*${obs_id}*" --exclude-pattern "*.uvfits" --recursive
 while [ $? -ne 0 ] && [ $i -lt 10 ]; do
     let "i += 1"  # increment counter
     >&2 echo "Moving SSINS outputs to az failed. Retrying (attempt $i)."
-    az storage copy -s ${outdir} -d ${az_path} --include-pattern "*${obs_id}*" --recursive
+    az storage copy -s ${outdir} -d ${ssins_output_az_path} --include-pattern "*${obs_id}*" --exclude-pattern "*.uvfits" --recursive
+done
+
+# Move uvfits outputs to az
+i=1  # initialize counter
+az storage copy -s ${outdir} -d ${uvfits_output_az_path} --include-pattern "*.uvfits" --recursive
+while [ $? -ne 0 ] && [ $i -lt 10 ]; do
+    let "i += 1"  # increment counter
+    >&2 echo "Moving SSINS outputs to az failed. Retrying (attempt $i)."
+    az storage copy -s ${outdir} -d ${uvfits_output_az_path} --include-pattern "*.uvfits" --recursive
 done
 
 # Remove vis files and metafits from the instance
@@ -118,10 +127,10 @@ fi
 
 # Copy stdout to az
 az storage copy -s ~/logs/SSINS_job_az.sh.o${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID} \
--d ${az_path}/logs/SSINS_job_az.sh.o${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID}_${myip}.txt
+-d ${ssins_output_az_path}/logs/SSINS_job_az.sh.o${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID}_${myip}.txt
 
 # Copy stderr to az
 az storage copy -s ~/logs/SSINS_job_az.sh.e${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID} \
--d ${az_path}/logs/SSINS_job_az.sh.e${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID}_${myip}.txt
+-d ${ssins_output_az_path}/logs/SSINS_job_az.sh.e${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID}_${myip}.txt
 
 echo "JOB END TIME" `date +"%Y-%m-%d_%H:%M:%S"`
