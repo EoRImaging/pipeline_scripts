@@ -159,6 +159,74 @@ pro mjw_fhd_versions
     restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
     end
 
+    'kernel_window_control_run_leave_flags_0.1': begin
+    kernel_window=1
+    calibrate_visibilities=0
+    return_cal_visibilities=0
+    calibration_visibilities_subtract=0
+    model_visibilities=1
+    save_visibilities=1
+    debug_dim=1
+    beam_mask_threshold=1e3
+    beam_clip_floor=1
+    beam_nfreq_avg=384
+    ps_kspan=200.
+    interpolate_kernel=1
+    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    model_catalog_file_path=filepath('GLEAM_v2_plus_rlb2019_pos_0.1.sav', root=rootdir('FHD'),subdir='catalog_data')
+    end
+
+    'kernel_window_control_run_leave_flags_0.3': begin
+    kernel_window=1
+    calibrate_visibilities=0
+    return_cal_visibilities=0
+    calibration_visibilities_subtract=0
+    model_visibilities=1
+    save_visibilities=1
+    debug_dim=1
+    beam_mask_threshold=1e3
+    beam_clip_floor=1
+    beam_nfreq_avg=384
+    ps_kspan=200.
+    interpolate_kernel=1
+    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    model_catalog_file_path=filepath('GLEAM_v2_plus_rlb2019_pos_0.3.sav', root=rootdir('FHD'),subdir='catalog_data')
+    end
+
+    'kernel_window_control_run_leave_flags_0.5': begin
+    kernel_window=1
+    calibrate_visibilities=0
+    return_cal_visibilities=0
+    calibration_visibilities_subtract=0
+    model_visibilities=1
+    save_visibilities=1
+    debug_dim=1
+    beam_mask_threshold=1e3
+    beam_clip_floor=1
+    beam_nfreq_avg=384
+    ps_kspan=200.
+    interpolate_kernel=1
+    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    model_catalog_file_path=filepath('GLEAM_v2_plus_rlb2019_pos_0.5.sav', root=rootdir('FHD'),subdir='catalog_data')
+    end
+
+    'kernel_window_control_run_leave_flags_0.7': begin
+    kernel_window=1
+    calibrate_visibilities=0
+    return_cal_visibilities=0
+    calibration_visibilities_subtract=0
+    model_visibilities=1
+    save_visibilities=1
+    debug_dim=1
+    beam_mask_threshold=1e3
+    beam_clip_floor=1
+    beam_nfreq_avg=384
+    ps_kspan=200.
+    interpolate_kernel=1
+    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    model_catalog_file_path=filepath('GLEAM_v2_plus_rlb2019_pos_0.7.sav', root=rootdir('FHD'),subdir='catalog_data')
+    end
+
     'kernel_window_control_run_leave_flags_no_edge': begin
     kernel_window=1
     calibrate_visibilities=0
