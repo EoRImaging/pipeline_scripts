@@ -14,7 +14,7 @@ unset outdir
 # # # # # # # Gathering the input arguments and applying defaults if necessary
 
 # Parse flags for inputs
-while getopts ":f:s:e:o:b:n:p:q:w:" option
+while getopts ":f:s:e:o:b:m:n:p:q:w:" option
 do
   case $option in
     f) export obs_file_name="$OPTARG";; # text file of observation id's
@@ -22,6 +22,7 @@ do
     e) ending_obs=$OPTARG;; # ending observation in text file for choosing a range
     o) export outdir=$OPTARG;; # output directory for unzipping
     b) export az_path=$OPTARG;; # output bucket on azure
+    m) export metafits_az_path=$OPTARG;; # output bucket for metafits files
     n) export nslots=$OPTARG;; # Number of slots for slurm
     p) export zip_az_loc=$OPTARG;; # Path to zipped files on azure
     q) partition=$OPTARG;; # Compute node partition
@@ -52,6 +53,16 @@ else
     # strip the last / if present in output directory filepath
     export az_path=${az_path%/}
     echo Using azure container: $az_path
+fi
+
+# Throw error if no metafits_az_path set
+if [ -z ${metafits_az_path} ]; then
+    echo "Need to specify an az storage url for metafits outputs."
+    exit 1
+else
+    # strip the last / if present in output directory filepath
+    export metafits_az_path=${metafits_az_path%/}
+    echo Using metafits azure container: $metafits_az_path
 fi
 
 # Set default output directory if one is not supplied and update user
