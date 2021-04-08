@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # Batch script for slurm job. Second level program for
 # running firstpass on azure machines. First level program is run_fhd_az.sh
 # Adapted from fhd_job_aws.sh
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 
 echo JOBID ${SLURM_ARRAY_JOB_ID}
@@ -61,7 +61,7 @@ if [ ! -f "uvfits/${obs_id}.uvfits" ]; then
 
     # Download uvfits from az
     az storage copy -s ${uvfits_az_loc}/${obs_id}.uvfits \
-    -d uvfits/${obs_id}.uvfits 
+    -d uvfits/${obs_id}.uvfits
 
     # Verify that the uvfits downloaded correctly
     if [ ! -f "uvfits/${obs_id}.uvfits" ]; then
@@ -258,10 +258,10 @@ if [ "$run_ps" -eq 1 ]; then
         --recursive --include-pattern "*${obs_id}*"
     done
 
-    # Remove outputs from the instance
-    sudo rm -r ${outdir}/fhd_${version}
-
 fi
+
+# Remove outputs from the instance
+sudo rm -r ${outdir}/fhd_${version}/*/*${obs_id}*
 
 # Maybe add this later
 # kill $(jobs -p)  # Kill fhd_on_aws_backup.sh
