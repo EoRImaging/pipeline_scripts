@@ -71,6 +71,15 @@ while [ $? -ne 0 ] && [ $i -lt 10 ]; do
     az storage copy -s ${outdir}/${obs_id}_vis -d ${az_path} --recursive
 done
 
+# Copy metafits to az
+i=1  # initialize counter
+az storage copy -s ${outdir}/${obs_id}_vis/${obs_id}.metafits -d ${metafits_az_path}/${obs_id}.metafits
+while [ $? -ne 0 ] && [ $i -lt 10 ]; do
+    let "i += 1"  # increment counter
+    >&2 echo "Moving metafits to az failed. Retrying (attempt $i)."
+    az storage copy -s ${outdir}/${obs_id}_vis/${obs_id}.metafits -d ${metafits_az_path}/${obs_id}.metafits
+done
+
 # Remove zip files from instance
 sudo rm box_zips/${obs_id}_vis.zip
 
