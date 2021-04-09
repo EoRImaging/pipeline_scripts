@@ -118,6 +118,9 @@ while [ $? -ne 0 ] && [ $i -lt 10 ]; do
     az storage copy -s ${outdir}/${obs_id}.uvfits -d ${uvfits_output_az_path}
 done
 
+# Remove outputs from instance
+sudo rm ${outdir}/*${obs_id}*
+
 # Remove vis files and metafits from the instance
 if [ $input_type == "uvfits" ]; then
   sudo rm uvfits/${obs_id}.uvfits
