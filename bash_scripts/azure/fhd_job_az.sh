@@ -195,6 +195,9 @@ else
     error_mode=1
 fi
 
+# sign into azure again
+az login --identity
+
 # Copy FHD outputs to az
 i=1  # initialize counter
 # az storage copy -s ${outdir}/fhd_${version} -d ${az_path}/fhd_${version} --recursive --include-pattern "*${obs_id}*"
