@@ -6,6 +6,7 @@ echo "JOB START TIME" `date +"%Y-%m-%d_%H:%M:%S"`
 myip="$(dig +short myip.opendns.com @resolver1.opendns.com)"
 echo PUBLIC IP ${myip}
 
+echo "Using obs_file_name ${obs_file_name}"
 obs_id=$(cat ${obs_file_name} | sed -n ${SLURM_ARRAY_TASK_ID}p)
 echo "Processing $obs_id"
 
