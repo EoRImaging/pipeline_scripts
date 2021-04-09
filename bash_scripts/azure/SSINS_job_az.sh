@@ -101,6 +101,9 @@ else
   python -u ~/repos/SSINS/scripts/MWA_EoR_High_uvfits_write.py -o ${obs_id} -u ${input_files} -d $outdir -t ${time_avg} -a ${freq_avg} -f
 fi
 
+# sign into azure again
+az login --identity
+
 # Move SSINS outputs to az
 i=1  # initialize counter
 az storage copy -s ${outdir} -d ${ssins_output_az_path} --include-pattern "*${obs_id}*" --exclude-pattern "*.uvfits" --recursive
