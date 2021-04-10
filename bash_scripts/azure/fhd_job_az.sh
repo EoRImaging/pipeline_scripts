@@ -13,7 +13,7 @@ echo "JOB START TIME" `date +"%Y-%m-%d_%H:%M:%S"`
 myip="$(dig +short myip.opendns.com @resolver1.opendns.com)"
 echo PUBLIC IP ${myip}
 
-obs_id=$(cat ${obs_file_name} | sed -n ${SLURM_ARRAY_TASK_ID}p)
+obs_id=$(sed -n ${SLURM_ARRAY_TASK_ID}p ${obs_file_name})
 echo "OBSID $obs_id"
 
 # sign into azure
