@@ -6,10 +6,17 @@ echo "JOB START TIME" `date +"%Y-%m-%d_%H:%M:%S"`
 myip="$(dig +short myip.opendns.com @resolver1.opendns.com)"
 echo PUBLIC IP ${myip}
 
-echo "Using obs_file_name ${obs_file_name}"
-obs_id=$(cat ${obs_file_name} | sed -n ${SLURM_ARRAY_TASK_ID}p)
+obs_id=$(sed -n ${SLURM_ARRAY_TASK_ID}p ${obs_file_name})
 echo "Processing $obs_id"
 
+if [ -z $obs_id ]; then
+    >&2 echo obs_id came up empty. 
+    >&2 echo "obs_file_name was ${obs_file_name}"
+    >&2 echo "Contents of obs file were $(cat ${obs_file_name})"
+    >&2 echo "TASKID was ${SLURM_ARRAY_TASK_ID}"
+    echo ${SLURM_ARRAY_TASK_ID} >> ~/logs/obs_fail_${SLURM_ARRAY_JOB_ID}.txt
+    exit 1
+fi
 # sign into azure
 az login --identity
 
@@ -57,7 +64,7 @@ if [ $input_type == "uvfits" ]; then
       # Verify that the uvfits downloaded correctly
       if [ ! -f "uvfits/${obs_id}.uvfits" ]; then
           >&2 echo "ERROR: downloading uvfits from az failed"
-          echo $obs_id >> ~/logs/obs_fail_${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID}.txt
+          echo $obs_id >> ~/logs/obs_fail_${SLURM_ARRAY_JOB_ID}.txt
           echo "Job Failed"
           exit 1
       fi
@@ -76,7 +83,7 @@ else
       file_num=$(ls gpubox/${obs_id}_vis/${obs_id}*.fits | wc -l)
       if [ $file_num -eq "0" ]; then
           >&2 echo "ERROR: downloading box files from az failed"
-          echo $obs_id >> ~/logs/obs_fail_${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID}.txt
+          echo $obs_id >> ~/logs/obs_fail_${SLURM_ARRAY_JOB_ID}.txt
           echo "Job Failed"
           exit 1
       fi
@@ -84,7 +91,7 @@ else
       # Verify that the metafits file downloaded correctly.
       if [ ! -f $(ls gpubox/${obs_id}_vis/${obs_id}.metafits) ]; then
           >&2 echo "ERROR: downloading metafits file from az failed"
-          echo $obs_id >> ~/logs/obs_fail_${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID}.txt
+          echo $obs_id >> ~/logs/obs_fail_${SLURM_ARRAY_JOB_ID}.txt
           echo "Job Failed"
           exit 1
       fi
@@ -104,23 +111,36 @@ fi
 # sign into azure again
 az login --identity
 
-# Move SSINS outputs to az
+# Move uvfits to az
 i=1  # initialize counter
-az storage copy -s ${outdir} -d ${ssins_output_az_path} --include-pattern "*${obs_id}*" --exclude-pattern "*.uvfits" --recursive
+az storage copy -s ${outdir}/${obs_id}.uvfits -d ${uvfits_output_az_path}/${obs_id}.uvfits
 while [ $? -ne 0 ] && [ $i -lt 10 ]; do
     let "i += 1"  # increment counter
     >&2 echo "Moving SSINS outputs to az failed. Retrying (attempt $i)."
-    az storage copy -s ${outdir} -d ${ssins_output_az_path} --include-pattern "*${obs_id}*" --exclude-pattern "*.uvfits" --recursive
+    az storage copy -s ${outdir}/${obs_id}.uvfits -d ${uvfits_output_az_path}/${obs_id}.uvfits
 done
 
-# Move uvfits outputs to az
+if [ $? -ne 0]; then
+    >&2 echo "Transferring uvfits to az completely failed."
+    echo $obs_id >> ~/logs/obs_fail_${SLURM_ARRAY_JOB_ID}.txt
+fi
+
+# Remove uvfits from instance because can't separate from other SSINS outputs due to buggy az
+sudo rm ${outdir}/${obs_id}.uvfits
+
+# Move SSINS outputs to az
 i=1  # initialize counter
-az storage copy -s ${outdir}/${obs_id}.uvfits -d ${uvfits_output_az_path}
+az storage copy -s ${outdir} -d ${ssins_output_az_path} --include-pattern "*${obs_id}*" --recursive
 while [ $? -ne 0 ] && [ $i -lt 10 ]; do
     let "i += 1"  # increment counter
     >&2 echo "Moving SSINS outputs to az failed. Retrying (attempt $i)."
-    az storage copy -s ${outdir}/${obs_id}.uvfits -d ${uvfits_output_az_path}
+    az storage copy -s ${outdir} -d ${ssins_output_az_path} --include-pattern "*${obs_id}*" --recursive
 done
+
+if [ $? -ne 0]; then
+    >&2 echo "Transferring SSINS outputs to az completely failed."
+    echo $obs_id >> ~/logs/obs_fail_${SLURM_ARRAY_JOB_ID}.txt
+fi
 
 # Remove outputs from instance
 sudo rm ${outdir}/*${obs_id}*
