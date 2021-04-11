@@ -20,8 +20,9 @@ do
     \?) echo "Unknown option: accepted options are -u (uvfits_az_path), "
         echo "-s (ssins_az_path), -f (fhd_az_path) -v (check_cal_vis), -c (check_cal), "
         echo "-m (check_model_uv_arr), -h (check_healpix), -o (outdir, required)"
+        exit 1;;
     :)  echo "Missing argument option for input flag"
-        exit 1
+        exit 1;;
   esac
 done
 
@@ -31,6 +32,7 @@ check_empty_flag (){
     return 0
   else
     return 1
+  fi
 }
 
 compare_to_list(){
@@ -48,7 +50,8 @@ compare_to_list(){
 check_path (){
   local yml_out="${prefix}_${3}_on_az.yml"
   local txt_out="${prefix}_${3}_on_az.txt"
-  az storage fs file list --account-name mwadata -f $1 -p $2 -o yaml >> $yml_out
+  echo "Executing az storage fs file list --account-name mwadata -f $1 --path $2 -o yaml >> $yml_out"
+  az storage fs file list --account-name mwadata -f $1 --path $2 -o yaml >> $yml_out
   # Extract the obs by deleting the "name" prefix from the yml file input to sed
   # and then finding all files with appropriate prefix.
   basename -a -s $4 $(sed -n 's/name\: //p' ${yml_out} | grep "/.*${4}") >> $txt_out
@@ -64,8 +67,8 @@ check_cal=$(check_empty_flag $check_cal)
 check_model_uv_arr=$(check_empty_flag $check_model_uv_arr)
 check_healpix=$(check_empty_flag $check_healpix)
 
-if [ -z $outdir ]; then
-  echo "-o outdir must be supplied"
+if [ -z $prefix ]; then
+  echo "-o unique must be supplied"
   exit 1
 fi
 
@@ -73,7 +76,7 @@ if [ ! -z $uvfits_az_path ]; then
   check_path uvfits $uvfits_az_path "uvfits" ".uvfits"
 fi
 
-if [ ! -z $SSINS_az_path ]; then
+if [ ! -z $ssins_az_path ]; then
   check_path ssins $ssins_az_path "SSINS_data" "_SSINS_data.h5"
   check_path ssins $ssins_az_path "SSINS_match_events" "_SSINS_match_events.yml"
   comm -12 "${prefix}_SSINS_data_on_az.txt" "${prefix}_SSINS_match_events_on_az.txt" >> "${prefix}_SSINS_data_events_on_az.txt"
