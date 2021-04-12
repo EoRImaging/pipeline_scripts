@@ -56,10 +56,6 @@ check_path (){
   # and then finding all files with appropriate prefix.
   basename -a -s $4 $(sed -n 's/name\: //p' ${yml_out} | grep "/.*${4}") >> $txt_out
   compare_to_list $3 $txt_out
-  if [ ! -z $compare_list ]; then
-    local not_txt_out="${prefix}_${3}_not_on_az.txt"
-    comm -23 $compare_list $txt_out >> $not_txt_out
-  fi
 }
 
 check_cal_vis=$(check_empty_flag $check_cal_vis)
