@@ -13,6 +13,27 @@ echo PUBLIC IP ${myip}
 obs_id=$(cat ${obs_file_name} | sed -n ${SLURM_ARRAY_TASK_ID}p)
 echo "OBSID $obs_id"
 
+if [ -z $obs_id ]; then
+   echo OBSID is empty
+   echo Trying again, slightly differently.
+   obs_id=$(sed -n ${SLURM_ARRAY_TASK_ID}p ${obs_file_name})
+   echo "OBSID $obs_id"
+fi
+
+if [ -z $obs_id ]; then
+   echo OBSID is still empty
+   echo obsfile name was $obs_file_name
+   echo "contents of obsfile were $(cat ${obs_file_name})"
+   echo first >> test_file.txt
+   echo second >> second_file.txt
+   testind=2
+   testout=$(sed -n 2p)
+   testout_sub=$(sed -n ${testind}p)
+   echo test sed output no sub: $testout
+   echo test sed output with variable sub $testout_sub
+   exit 1
+fi
+
 # sign into azure
 az login --identity
 
