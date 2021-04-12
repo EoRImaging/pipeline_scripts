@@ -5,7 +5,7 @@
 # not need to be run from azure, but does require azure-cli.                   #
 ################################################################################
 
-while getopts ":u:s:f:v:c:m:h:p:x:" option
+while getopts ":u:s:f:v:c:m:h:p:g:x:" option
 do
   case $option in
     u) uvfits_az_path=$OPTARG;; # Path to uvfits files on azure
@@ -16,6 +16,7 @@ do
     m) check_model_uv_arr=$OPTARG;; # If set to 1, check for model_uv_arr in fhd outputs
     h) check_healpix=$OPTARG;; # If set to 1, for healpix outputs
     p) prefix=$OPTARG;; # The output prefix
+    g) gpubox_path=$OPTARG;; # Path to gpubox directory on azure
     x) compare_list=$OPTARG;; # An obslist to compare against. Will return all obsids on this list without outputs.
     \?) echo "Unknown option: accepted options are -u (uvfits_az_path), "
         echo "-s (ssins_az_path), -f (fhd_az_path) -v (check_cal_vis), -c (check_cal), "
@@ -52,6 +53,17 @@ check_path (){
   local txt_out="${prefix}_${3}_on_az.txt"
   echo "Executing az storage fs file list --account-name mwadata -f $1 --path $2 -o yaml >> $yml_out"
   az storage fs file list --account-name mwadata -f $1 --path $2 -o yaml --recursive false --exclude-dir >> $yml_out
+  # Extract the obs by deleting the "name" prefix from the yml file input to sed
+  # and then finding all files with appropriate prefix.
+  basename -a -s $4 $(sed -n 's/name\: //p' ${yml_out} | grep "/.*${4}") >> $txt_out
+  compare_to_list $3 $txt_out
+}
+
+check_dir (){
+  local yml_out="${prefix}_${3}_on_az.yml"
+  local txt_out="${prefix}_${3}_on_az.txt"
+  echo "Executing az storage fs directory list --account-name mwadata -f $1 --path $2 -o yaml >> $yml_out"
+  az storage fs directory list --account-name mwadata -f $1 --path $2 -o yaml >> $yml_out
   # Extract the obs by deleting the "name" prefix from the yml file input to sed
   # and then finding all files with appropriate prefix.
   basename -a -s $4 $(sed -n 's/name\: //p' ${yml_out} | grep "/.*${4}") >> $txt_out
@@ -116,4 +128,8 @@ if [ ! -z $fhd_az_path ]; then
   if [ $check_model_uv_arr -eq 1 ]; then
     check_path fhd ${fhd_az_path}/cal_prerun "model_uv_arr" "_model_uv_arr.sav"
   fi
+fi
+
+if [ ! -z $gpubox_path ]; then
+  check_dir "gpubox" $gpubox_path "unzipp_gpubox" "_vis"
 fi
