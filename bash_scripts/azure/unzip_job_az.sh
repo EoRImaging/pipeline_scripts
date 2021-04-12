@@ -11,13 +11,12 @@ myip="$(dig +short myip.opendns.com @resolver1.opendns.com)"
 echo PUBLIC IP ${myip}
 
 obs_id=$(cat ${obs_file_name} | sed -n ${SLURM_ARRAY_TASK_ID}p)
-echo "OBSID $obs_id"
 
+# az sed madness
 if [ -z $obs_id ]; then
    echo OBSID is empty
    echo Trying again, slightly differently.
    obs_id=$(sed -n ${SLURM_ARRAY_TASK_ID}p ${obs_file_name})
-   echo "OBSID $obs_id"
 fi
 
 if [ -z $obs_id ]; then
@@ -31,8 +30,19 @@ if [ -z $obs_id ]; then
    testout_sub=$(sed -n ${testind}p)
    echo test sed output no sub: $testout
    echo test sed output with variable sub $testout_sub
-   exit 1
+
+   echo Trying a different option using cat and array indexing
+   obs=($(cat ${obs_file_name}))
+   obs_id=(${obs[${SLURM_ARRAY_TASK_ID}]})
 fi
+
+if [ -z $obs_id ]; then
+    echo "After much effort, obs_id is still empty. Exiting."
+    >&2 "OBSID could not be identified. Check output log."
+    exit 1
+fi
+
+echo OBSID "${obs_id}"
 
 # sign into azure
 az login --identity
