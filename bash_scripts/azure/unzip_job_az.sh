@@ -37,14 +37,14 @@ else
 fi
 
 # Check if the uvfits file exists locally; if not, download it from az
-if [ ! -f "box_zip/${obs_id}_vis.zip" ]; then
+if [ ! -f "box_zips/${obs_id}_vis.zip" ]; then
 
     # Download uvfits from az
     az storage copy -s ${zip_az_loc}/${obs_id}_vis.zip \
-    -d box_zip/${obs_id}_vis.zip
+    -d box_zips/${obs_id}_vis.zip
 
     # Verify that the uvfits downloaded correctly
-    if [ ! -f "box_zip/${obs_id}_vis.zip" ]; then
+    if [ ! -f "box_zips/${obs_id}_vis.zip" ]; then
         >&2 echo "ERROR: downloading zipped files from az failed"
         echo "Job Failed"
         exit 1
