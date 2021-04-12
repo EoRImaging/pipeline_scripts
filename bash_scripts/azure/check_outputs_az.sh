@@ -51,7 +51,7 @@ check_path (){
   local yml_out="${prefix}_${3}_on_az.yml"
   local txt_out="${prefix}_${3}_on_az.txt"
   echo "Executing az storage fs file list --account-name mwadata -f $1 --path $2 -o yaml >> $yml_out"
-  az storage fs file list --account-name mwadata -f $1 --path $2 -o yaml >> $yml_out
+  az storage fs file list --account-name mwadata -f $1 --path $2 -o yaml --recursive false --exclude-dir >> $yml_out
   # Extract the obs by deleting the "name" prefix from the yml file input to sed
   # and then finding all files with appropriate prefix.
   basename -a -s $4 $(sed -n 's/name\: //p' ${yml_out} | grep "/.*${4}") >> $txt_out
