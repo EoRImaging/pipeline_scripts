@@ -131,5 +131,5 @@ if [ ! -z $fhd_az_path ]; then
 fi
 
 if [ ! -z $gpubox_path ]; then
-  check_dir "gpubox" $gpubox_path "unzipp_gpubox" "_vis"
+  check_dir "gpubox" $gpubox_path "unzipped_gpubox" "_vis"
 fi
