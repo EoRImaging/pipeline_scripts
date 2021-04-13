@@ -13,11 +13,42 @@ echo "JOB START TIME" `date +"%Y-%m-%d_%H:%M:%S"`
 myip="$(dig +short myip.opendns.com @resolver1.opendns.com)"
 echo PUBLIC IP ${myip}
 
-obs_id=$(sed -n ${SLURM_ARRAY_TASK_ID}p ${obs_file_name})
-echo "OBSID $obs_id"
+obs_id=$(cat ${obs_file_name} | sed -n ${SLURM_ARRAY_TASK_ID}p)
+
+# az sed madness
+if [ -z $obs_id ]; then
+   echo OBSID is empty
+   echo Trying again, slightly differently.
+   obs_id=$(sed -n ${SLURM_ARRAY_TASK_ID}p ${obs_file_name})
+fi
+
+if [ -z $obs_id ]; then
+   echo OBSID is still empty
+   echo obsfile name was $obs_file_name
+   echo "contents of obsfile were $(cat ${obs_file_name})"
+   echo first >> test_file.txt
+   echo second >> second_file.txt
+   testind=2
+   testout=$(sed -n 2p)
+   testout_sub=$(sed -n ${testind}p)
+   echo test sed output no sub: $testout
+   echo test sed output with variable sub $testout_sub
+
+   echo Trying a different option using cat and array indexing
+   obs=($(cat ${obs_file_name}))
+   obs_id=(${obs[${SLURM_ARRAY_TASK_ID}]})
+fi
+
+if [ -z $obs_id ]; then
+    echo "After much effort, obs_id is still empty. Exiting."
+    >&2 "OBSID could not be identified. Check output log."
+    exit 1
+fi
+
+echo OBSID $obs_id
 
 # sign into azure
-az login --identity
+azcopy login --identity
 
 # echo keywords
 echo Using outdir: $outdir
@@ -40,8 +71,7 @@ fi
 # Currently az storage copy used with --include-pattern moves folder as well as files - March 2021
 # az storage copy -s ${az_path}/fhd_${version} -d ${outdir}/fhd_${version} \
 # --include-pattern "*${obs_id}*" --recursive
-az storage copy -s ${az_path}/fhd_${version} -d ${outdir} \
---include-pattern "*${obs_id}*" --recursive
+azcopy copy ${az_path}/fhd_${version} ${outdir} --include-pattern "*${obs_id}*" --recursive
 
 # Maybe add this later
 # Run backup script in the background
@@ -60,8 +90,7 @@ fi
 if [ ! -f "uvfits/${obs_id}.uvfits" ]; then
 
     # Download uvfits from az
-    az storage copy -s ${uvfits_az_loc}/${obs_id}.uvfits \
-    -d uvfits/${obs_id}.uvfits
+    azcopy copy ${uvfits_az_loc}/${obs_id}.uvfits uvfits/${obs_id}.uvfits
 
     # Verify that the uvfits downloaded correctly
     if [ ! -f "uvfits/${obs_id}.uvfits" ]; then
@@ -75,7 +104,7 @@ fi
 if [ ! -f "uvfits/${obs_id}.metafits" ]; then
 
     # Download metafits from az
-    az storage copy -s ${metafits_az_loc}/${obs_id}.metafits -d uvfits/${obs_id}.metafits
+    azcopy copy ${metafits_az_loc}/${obs_id}.metafits uvfits/${obs_id}.metafits
     # Verify that the metafits downloaded correctly
     if [ ! -f "uvfits/${obs_id}.metafits" ]; then
         echo "WARNING: downloading metafits from az failed. Running without metafits."
@@ -91,8 +120,7 @@ if [ ! -z ${input_vis} ]; then
         sudo mkdir -m 777 uvfits/input_vis
     fi
     # Download input_vis from az
-    az storage copy -s ${input_vis} \
-    -d uvfits/input_vis/vis_data --recursive --include-pattern "${obs_id}*"
+    azcopy copy ${input_vis} uvfits/input_vis/vis_data --recursive --include-pattern "${obs_id}*"
     # Check download
     if [ ! -f "uvfits/input_vis/vis_data/${obs_id}_vis_model_XX.sav" ] || [ ! -f "uvfits/input_vis/vis_data/${obs_id}_vis_model_YY.sav" ]; then
         >&2 echo "ERROR: input_vis file not found"
@@ -111,8 +139,7 @@ if [ ! -z ${input_eor} ]; then
         sudo mkdir -m 777 uvfits/input_eor
     fi
     # Download input_eor from az
-    az storage copy -s ${input_eor} \
-    -d uvfits/input_eor/vis_data --recursive
+    azcopy copy ${input_eor} uvfits/input_eor/vis_data --recursive
     # Check download
     if [ -z $(ls uvfits/input_eor/vis_data/) ]; then
         >&2 echo "ERROR: input_eor file not found on filesystem"
@@ -131,7 +158,7 @@ if [ ! -z ${extra_vis} ]; then
         sudo mkdir -m 777 uvfits/extra_vis
     fi
     # Download extra_vis from az
-    az storage copy -s ${extra_vis} -d uvfits/extra_vis
+    azcopy copy ${extra_vis} uvfits/extra_vis
     # Check the download
     if [ -z $(ls uvfits/extra_vis/) ]; then
         >&2 echo "ERROR: extra_vis file not found on filesystem"
@@ -152,7 +179,7 @@ if [ ! -z ${cal_transfer} ]; then
         sudo mkdir -m 777 $transfer_dir
     fi
     # Download the cal_transfer file
-    az storage copy -s $cal_transfer_az_path -d $transfer_dir/${obs_id}_cal.sav
+    azcopy copy $cal_transfer_az_path $transfer_dir/${obs_id}_cal.sav
     # Check the download
     if [ ! -f "${transfer_dir}/${obs_id}_cal.sav" ]; then
     >&2 echo "ERROR: cal_transfer file not found on filesystem"
@@ -173,7 +200,7 @@ if [ ! -z ${model_uv_transfer} ]; then
         sudo mkdir -m 777 $transfer_dir
     fi
     # Download the model_uv_transfer file
-    az storage copy -s $model_uv_transfer_az_path -d $transfer_dir/${obs_id}_model_uv_arr.sav
+    azcopy copy $model_uv_transfer_az_path $transfer_dir/${obs_id}_model_uv_arr.sav
     # Check the download
     if [ ! -f "${transfer_dir}/${obs_id}_model_uv_arr.sav" ]; then
     >&2 echo "ERROR: model_uv_transfer file not found on filesystem"
@@ -202,12 +229,12 @@ az login --identity
 i=1  # initialize counter
 # az storage copy -s ${outdir}/fhd_${version} -d ${az_path}/fhd_${version} --recursive --include-pattern "*${obs_id}*"
 # az storage copy currently moves source directory when calling --recursive and --include-pattern 3/2021
-az storage copy -s ${outdir}/fhd_${version} -d ${az_path} --recursive --include-pattern "*${obs_id}*"
+azcopy copy ${outdir}/fhd_${version} ${az_path} --recursive --include-pattern "*${obs_id}*"
 while [ $? -ne 0 ] && [ $i -lt 10 ]; do
     let "i += 1"  # increment counter
     >&2 echo "Moving FHD outputs to az failed. Retrying (attempt $i)."
     # az storage copy -s ${outdir}/fhd_${version} -d ${az_path}/fhd_${version} --recursive --include-pattern "*${obs_id}*"
-    az storage copy -s ${outdir}/fhd_${version} -d ${az_path} --recursive --include-pattern "*${obs_id}*"
+    azcopy copy ${outdir}/fhd_${version} ${az_path} --recursive --include-pattern "*${obs_id}*"
 done
 
 # Remove uvfits and metafits from the instance
@@ -252,12 +279,12 @@ if [ "$run_ps" -eq 1 ]; then
 
     # Move outputs to az
     i=1  # initialize counter
-    az storage copy -s ${outdir}/fhd_${version}/ps -d ${az_path}/fhd_${version} \
+    azcopy copy ${outdir}/fhd_${version}/ps ${az_path}/fhd_${version} \
     --recursive --include-pattern "*${obs_id}*"
     while [ $? -ne 0 ] && [ $i -lt 10 ]; do
         let "i += 1"  # increment counter
         >&2 echo "Moving eppsilon outputs to az failed. Retrying (attempt $i)."
-        az storage copy -s ${outdir}/fhd_${version}/ps -d ${az_path}/fhd_${version} \
+        azcopy copy ${outdir}/fhd_${version}/ps ${az_path}/fhd_${version} \
         --recursive --include-pattern "*${obs_id}*"
     done
 
@@ -270,12 +297,12 @@ sudo rm -r ${outdir}/fhd_${version}/*/*${obs_id}*
 # kill $(jobs -p)  # Kill fhd_on_aws_backup.sh
 
 # Copy stdout to az
-az storage copy -s ~/logs/fhd_job_az.sh.o${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID} \
--d ${az_path}/fhd_${version}/logs/fhd_job_az.sh.o${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID}_${myip}.txt
+azcopy copy ~/logs/fhd_job_az.sh.o${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID} \
+${az_path}/fhd_${version}/logs/fhd_job_az.sh.o${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID}_${myip}.txt
 
 # Copy stderr to az
-az storage copy -s ~/logs/fhd_job_az.sh.e${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID} \
--d ${az_path}/fhd_${version}/logs/fhd_job_az.sh.e${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID}_${myip}.txt
+azcopy copy ~/logs/fhd_job_az.sh.e${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID} \
+${az_path}/fhd_${version}/logs/fhd_job_az.sh.e${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID}_${myip}.txt
 
 echo "JOB END TIME" `date +"%Y-%m-%d_%H:%M:%S"`
 
