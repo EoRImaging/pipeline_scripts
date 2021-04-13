@@ -141,7 +141,7 @@ while [ $? -ne 0 ] && [ $i -lt 10 ]; do
     azcopy copy ${outdir}/${obs_id}.uvfits ${uvfits_output_az_path}/${obs_id}.uvfits
 done
 
-if [ $? -ne 0]; then
+if [ $? -ne 0 ]; then
     >&2 echo "Transferring uvfits to az completely failed."
     echo $obs_id >> ~/logs/obs_fail_${SLURM_ARRAY_JOB_ID}.txt
 fi
@@ -158,7 +158,7 @@ while [ $? -ne 0 ] && [ $i -lt 10 ]; do
     azcopy copy ${outdir} ${ssins_output_az_path} --include-pattern "*${obs_id}*" --recursive
 done
 
-if [ $? -ne 0]; then
+if [ $? -ne 0 ]; then
     >&2 echo "Transferring SSINS outputs to az completely failed."
     echo $obs_id >> ~/logs/obs_fail_${SLURM_ARRAY_JOB_ID}.txt
 fi
