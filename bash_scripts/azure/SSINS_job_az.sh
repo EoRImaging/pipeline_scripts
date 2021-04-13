@@ -6,19 +6,43 @@ echo "JOB START TIME" `date +"%Y-%m-%d_%H:%M:%S"`
 myip="$(dig +short myip.opendns.com @resolver1.opendns.com)"
 echo PUBLIC IP ${myip}
 
-obs_id=$(sed -n ${SLURM_ARRAY_TASK_ID}p ${obs_file_name})
-echo "Processing $obs_id"
+obs_id=$(cat ${obs_file_name} | sed -n ${SLURM_ARRAY_TASK_ID}p)
+
+# az sed madness
+if [ -z $obs_id ]; then
+   echo OBSID is empty
+   echo Trying again, slightly differently.
+   obs_id=$(sed -n ${SLURM_ARRAY_TASK_ID}p ${obs_file_name})
+fi
 
 if [ -z $obs_id ]; then
-    >&2 echo obs_id came up empty. 
-    >&2 echo "obs_file_name was ${obs_file_name}"
-    >&2 echo "Contents of obs file were $(cat ${obs_file_name})"
-    >&2 echo "TASKID was ${SLURM_ARRAY_TASK_ID}"
-    echo ${SLURM_ARRAY_TASK_ID} >> ~/logs/obs_fail_${SLURM_ARRAY_JOB_ID}.txt
+   echo OBSID is still empty
+   echo obsfile name was $obs_file_name
+   echo "contents of obsfile were $(cat ${obs_file_name})"
+   echo first >> test_file.txt
+   echo second >> second_file.txt
+   testind=2
+   testout=$(sed -n 2p)
+   testout_sub=$(sed -n ${testind}p)
+   echo test sed output no sub: $testout
+   echo test sed output with variable sub $testout_sub
+
+   echo Trying a different option using cat and array indexing
+   obs=($(cat ${obs_file_name}))
+   obs_id=(${obs[${SLURM_ARRAY_TASK_ID}]})
+fi
+
+if [ -z $obs_id ]; then
+    echo "After much effort, obs_id is still empty. Exiting."
+    >&2 "OBSID could not be identified. Check output log."
     exit 1
 fi
+
+echo OBSID $obs_id
+
+
 # sign into azure
-az login --identity
+azcopy login --identity
 
 # echo keywords
 echo Using output directory: $outdir
@@ -58,8 +82,7 @@ if [ $input_type == "uvfits" ]; then
   # Check if the uvfits file exists locally; if not, download it from az
   if [ ! -f "uvfits/${obs_id}.uvfits" ]; then
       # Download uvfits from az
-      az storage copy -s ${input_az_loc}/${obs_id}.uvfits \
-      -d uvfits/${obs_id}.uvfits
+      azcopy copy ${input_az_loc}/${obs_id}.uvfits uvfits/${obs_id}.uvfits
 
       # Verify that the uvfits downloaded correctly
       if [ ! -f "uvfits/${obs_id}.uvfits" ]; then
@@ -77,7 +100,7 @@ else
   if [ $file_num -eq "0" ]; then
 
       # Download box files and metafits from az
-      az storage copy -s ${input_az_loc}/${obs_id}_vis --include-pattern "*fits" -d gpubox --recursive
+      azcopy copy ${input_az_loc}/${obs_id}_vis gpubox --include-pattern "*fits" --recursive
 
       # Verify that the box files downloaded correctly
       file_num=$(ls gpubox/${obs_id}_vis/${obs_id}*.fits | wc -l)
@@ -108,16 +131,14 @@ else
   python -u ~/repos/SSINS/scripts/MWA_EoR_High_uvfits_write.py -o ${obs_id} -u ${input_files} -d $outdir -t ${time_avg} -a ${freq_avg} -f
 fi
 
-# sign into azure again
-az login --identity
 
 # Move uvfits to az
 i=1  # initialize counter
-az storage copy -s ${outdir}/${obs_id}.uvfits -d ${uvfits_output_az_path}/${obs_id}.uvfits
+azcopy copy ${outdir}/${obs_id}.uvfits ${uvfits_output_az_path}/${obs_id}.uvfits
 while [ $? -ne 0 ] && [ $i -lt 10 ]; do
     let "i += 1"  # increment counter
-    >&2 echo "Moving SSINS outputs to az failed. Retrying (attempt $i)."
-    az storage copy -s ${outdir}/${obs_id}.uvfits -d ${uvfits_output_az_path}/${obs_id}.uvfits
+    >&2 echo "Moving uvfits to az failed. Retrying (attempt $i)."
+    azcopy copy ${outdir}/${obs_id}.uvfits ${uvfits_output_az_path}/${obs_id}.uvfits
 done
 
 if [ $? -ne 0]; then
@@ -130,11 +151,11 @@ sudo rm ${outdir}/${obs_id}.uvfits
 
 # Move SSINS outputs to az
 i=1  # initialize counter
-az storage copy -s ${outdir} -d ${ssins_output_az_path} --include-pattern "*${obs_id}*" --recursive
+azcopy copy ${outdir} ${ssins_output_az_path} --include-pattern "*${obs_id}*" --recursive
 while [ $? -ne 0 ] && [ $i -lt 10 ]; do
     let "i += 1"  # increment counter
     >&2 echo "Moving SSINS outputs to az failed. Retrying (attempt $i)."
-    az storage copy -s ${outdir} -d ${ssins_output_az_path} --include-pattern "*${obs_id}*" --recursive
+    azcopy copy ${outdir} ${ssins_output_az_path} --include-pattern "*${obs_id}*" --recursive
 done
 
 if [ $? -ne 0]; then
@@ -153,11 +174,11 @@ else
 fi
 
 # Copy stdout to az
-az storage copy -s ~/logs/SSINS_job_az.sh.o${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID} \
--d ${ssins_output_az_path}/logs/SSINS_job_az.sh.o${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID}_${myip}.txt
+azcopy copy ~/logs/SSINS_job_az.sh.o${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID} \
+${ssins_output_az_path}/logs/SSINS_job_az.sh.o${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID}_${myip}.txt
 
 # Copy stderr to az
-az storage copy -s ~/logs/SSINS_job_az.sh.e${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID} \
--d ${ssins_output_az_path}/logs/SSINS_job_az.sh.e${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID}_${myip}.txt
+azcopy copy ~/logs/SSINS_job_az.sh.e${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID} \
+${ssins_output_az_path}/logs/SSINS_job_az.sh.e${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID}_${myip}.txt
 
 echo "JOB END TIME" `date +"%Y-%m-%d_%H:%M:%S"`

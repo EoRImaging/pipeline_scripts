@@ -45,7 +45,7 @@ fi
 echo OBSID "${obs_id}"
 
 # sign into azure
-az login --identity
+azcopy login --identity
 
 # echo keywords
 echo Using outdir: $outdir
@@ -71,8 +71,7 @@ fi
 if [ ! -f "box_zips/${obs_id}_vis.zip" ]; then
 
     # Download uvfits from az
-    az storage copy -s ${zip_az_loc}/${obs_id}_vis.zip \
-    -d box_zips/${obs_id}_vis.zip
+    azcopy copy ${zip_az_loc}/${obs_id}_vis.zip box_zips/${obs_id}_vis.zip
 
     # Verify that the uvfits downloaded correctly
     if [ ! -f "box_zips/${obs_id}_vis.zip" ]; then
@@ -95,20 +94,20 @@ fi
 
 # Copy unzipped outputs to az
 i=1  # initialize counter
-az storage copy -s ${outdir}/${obs_id}_vis -d ${az_path} --recursive
+azcopy copy ${outdir}/${obs_id}_vis ${az_path} --recursive
 while [ $? -ne 0 ] && [ $i -lt 10 ]; do
     let "i += 1"  # increment counter
     >&2 echo "Moving unzipped outputs to az failed. Retrying (attempt $i)."
-    az storage copy -s ${outdir}/${obs_id}_vis -d ${az_path} --recursive
+    azcopy copy ${outdir}/${obs_id}_vis ${az_path} --recursive
 done
 
 # Copy metafits to az
 i=1  # initialize counter
-az storage copy -s ${outdir}/${obs_id}_vis/${obs_id}.metafits -d ${metafits_az_path}/${obs_id}.metafits
+azcopy copy ${outdir}/${obs_id}_vis/${obs_id}.metafits ${metafits_az_path}/${obs_id}.metafits
 while [ $? -ne 0 ] && [ $i -lt 10 ]; do
     let "i += 1"  # increment counter
     >&2 echo "Moving metafits to az failed. Retrying (attempt $i)."
-    az storage copy -s ${outdir}/${obs_id}_vis/${obs_id}.metafits -d ${metafits_az_path}/${obs_id}.metafits
+    azcopy copy ${outdir}/${obs_id}_vis/${obs_id}.metafits ${metafits_az_path}/${obs_id}.metafits
 done
 
 # Remove zip files from instance
@@ -118,11 +117,11 @@ sudo rm box_zips/${obs_id}_vis.zip
 sudo rm -r ${outdir}/${obs_id}_vis
 
 # Copy stdout to az
-az storage copy -s ~/logs/unzip_job_az.sh.o${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID} \
--d ${az_path}/unzip_${version}/logs/unzip_job_az.sh.o${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID}_${myip}.txt
+azcopy copy ~/logs/unzip_job_az.sh.o${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID} \
+${az_path}/unzip_${version}/logs/unzip_job_az.sh.o${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID}_${myip}.txt
 
 # Copy stderr to az
-az storage copy -s ~/logs/unzip_job_az.sh.e${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID} \
--d ${az_path}/unzip_${version}/logs/unzip_job_az.sh.e${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID}_${myip}.txt
+azcopy copy ~/logs/unzip_job_az.sh.e${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID} \
+${az_path}/unzip_${version}/logs/unzip_job_az.sh.e${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID}_${myip}.txt
 
 echo "UNZIP JOB END TIME" `date +"%Y-%m-%d_%H:%M:%S"`
