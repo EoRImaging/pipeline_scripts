@@ -1,6 +1,6 @@
 #!/bin/bash
 
-while getopts ":f:o:b:v:n:q:p:t:c:a:m:s:" option
+while getopts ":f:o:b:v:n:q:p:t:c:a:m:s:u:" option
 do
   case $option in
     f) export obs_file_name="$OPTARG";;
@@ -15,12 +15,13 @@ do
     a) export freq_avg=$OPTARG;;
     m) export time_avg=$OPTARG;;
     s) export cal_az_path=$OPTARG;;
+    u) export write_new_uvfits=$OPTARG;;
     \?) echo "Unknown option: Accepted flags are -f (obs_file_name), -o (output directory), "
         echo "-b (ssins output container on az), -v (uvfits output container on az), "
         echo "-n (number of nodes to use), -q (slurm partition: hpc or htc)"
         echo "-p (path to input files on az), -t (type of input file), -c (whether to correct digital things)"
         echo "-a (number of frequency channels to average) -m (number of times to average)"
-        echo "-s (path to cal solutions on azure)"
+        echo "-s (path to cal solutions on azure) -u (write new uvfits file)"
         exit 1;;
     :) echo "Missing option argument for input flag"
        exit 1;;
@@ -110,9 +111,23 @@ else
   echo Using time_avg: $time_avg
 fi
 
-if [ ! -z $cal_az_path ] && [ $input_type -eq gpubox ]; then
-  echo "Cannot make calibrated SSINS on box files currently - only takes pre-processed data."
-  exit 1
+# Write new uvfits by default. Only other case is that it was set to 0, in which case don't write.
+if [ -z $write_new_uvfits ] || [ $write_new_uvfits -ne 0 ]; then
+  export write_new_uvfits=1
+fi
+
+echo "Using write_new_uvfits: $write_new_uvfits"
+
+
+if [ ! -z $cal_az_path ]; then
+  if [ $input_type -eq gpubox ]; then
+    echo "Cannot make calibrated SSINS on box files currently - only takes pre-processed data."
+    exit 1
+  fi
+  if [ $write_new_uvfits -eq 1 ]; then
+    echo "Currently cannot write new uvfits when applying cals."
+    exit 1
+  fi
 fi
 
 # Make log directory if it doesn't already exist

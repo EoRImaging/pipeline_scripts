@@ -163,7 +163,11 @@ arg_string="-o ${obs_id} -u ${input_files} -d ${outdir}"
 if [ ! -z $cal_az_path ]; then
   arg_string="${arg_string} -s -p ${cal_az_path}"
 else
-  arg_string="${arg_string} -t ${time_avg} -a ${freq_avg} -f -w"
+  # Assume if you are not writing calibrated SSINS then you want to RFI flag and get the outputs at least. New uvfits optional.
+  arg_string="${arg_string} -t ${time_avg} -a ${freq_avg} -f"
+  if [ $write_new_uvfits -eq 1 ]; then
+    arg_string="${arg_string} -w"
+  fi
   if [ $correct -eq 1 ]; then
     arg_string="${arg_string} -c"
   fi
