@@ -1,6 +1,6 @@
 #!/bin/bash
 
-while getopts ":f:o:b:v:n:q:p:t:c:a:m:" option
+while getopts ":f:o:b:v:n:q:p:t:c:a:m:s:" option
 do
   case $option in
     f) export obs_file_name="$OPTARG";;
@@ -14,11 +14,13 @@ do
     c) export correct=$OPTARG;;
     a) export freq_avg=$OPTARG;;
     m) export time_avg=$OPTARG;;
+    s) export cal_az_path=$OPTARG;;
     \?) echo "Unknown option: Accepted flags are -f (obs_file_name), -o (output directory), "
         echo "-b (ssins output container on az), -v (uvfits output container on az), "
         echo "-n (number of nodes to use), -q (slurm partition: hpc or htc)"
         echo "-p (path to input files on az), -t (type of input file), -c (whether to correct digital things)"
         echo "-a (number of frequency channels to average) -m (number of times to average)"
+        echo "-s (path to cal solutions on azure)"
         exit 1;;
     :) echo "Missing option argument for input flag"
        exit 1;;
@@ -106,6 +108,11 @@ if [ -z $time_avg ]; then
   echo Using default time_avg: $time_avg
 else
   echo Using time_avg: $time_avg
+fi
+
+if [ ! -z $cal_az_path ] && [ $input_type -eq gpubox ]; then
+  echo "Cannot make calibrated SSINS on box files currently - only takes pre-processed data."
+  exit 1
 fi
 
 # Make log directory if it doesn't already exist

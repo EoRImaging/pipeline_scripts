@@ -94,6 +94,41 @@ if [ $input_type == "uvfits" ]; then
   fi
   input_files="uvfits/${obs_id}.uvfits"
 
+  if [ ! -z $cal_az_path ]; then
+    echo Using cal_az_path: $cal_az_path
+    if [ -d cal_for_SSINS ]; then
+      sudo chmod -R 777 cal_for_SSINS
+    else
+      sudo mkdir -m 777 cal_for_SSINS
+    fi
+
+    # Check if cal files exist locally. If not, download them from az.
+    if [ ! -f cal_for_SSINS/${obs_id}_cal.sav ]; then
+      azcopy copy ${cal_az_path}/calibration/${obs_id}_cal.sav cal_for_SSINS/${obs_id}_cal.sav
+    fi
+    cal_file=cal_for_SSINS/${obs_id}_cal.sav
+
+    if [ ! -f cal_for_SSINS/${obs_id}_obs.sav ]; then
+      azcopy copy ${cal_az_path}/metadata/${obs_id}_obs.sav cal_for_SSINS/${obs_id}_obs.sav
+    fi
+    cal_obs_file=cal_for_SSINS/${obs_id}_obs.sav
+
+    if [ ! -f cal_for_SSINS/${obs_id}_settings.txt ]; then
+      azcopy copy ${cal_az_path}/metadata/${obs_id}_settings.txt cal_for_SSINS/${obs_id}_settings.txt
+    fi
+    settings_file=cal_for_SSINS/${obs_id}_settings.txt
+
+    # Verfiy that the files downloaded correctly.
+    for file in $cal_file $cal_obs_file $settings_file; do
+      if [ ! -f $file ];then
+        >&2 echo "ERROR: downloading one of the calibration files failed."
+        echo $obs_id >> ~/logs/obs_fail_${SLURM_ARRAY_JOB_ID}.txt
+        echo "Job Failed"
+        exit 1
+      fi
+    done
+  fi
+
 else
   # Check if the gpubox files exist locally; if not, download them from az
   file_num=$(ls gpubox/${obs_id}_vis/${obs_id}*.fits | wc -l)
@@ -124,30 +159,38 @@ fi
 
 echo "The input files for this run are: ${input_files}"
 
-# Run python catalog script
-if [ $correct -eq 1 ]; then
-  python -u ~/repos/SSINS/scripts/MWA_EoR_High_uvfits_write.py -o ${obs_id} -u ${input_files} -d $outdir -t ${time_avg} -a ${freq_avg} -f -c
+arg_string="-o ${obs_id} -u ${input_files} -d ${outdir}"
+if [ ! -z $cal_az_path ]; then
+  arg_string="${arg_string} -s -p ${cal_az_path}"
 else
-  python -u ~/repos/SSINS/scripts/MWA_EoR_High_uvfits_write.py -o ${obs_id} -u ${input_files} -d $outdir -t ${time_avg} -a ${freq_avg} -f
+  arg_string="${arg_string} -t ${time_avg} -a ${freq_avg} -f -w"
+  if [ $correct -eq 1 ]; then
+    arg_string="${arg_string} -c"
+  fi
 fi
 
+# Run python catalog script
+python -u ~/repos/pipeline_scripts/SSINS_python_scripts/MWA_EoR_High_ssins_uvfits_write.py $arg_string
 
-# Move uvfits to az
-i=1  # initialize counter
-azcopy copy ${outdir}/${obs_id}.uvfits ${uvfits_output_az_path}/${obs_id}.uvfits
-while [ $? -ne 0 ] && [ $i -lt 10 ]; do
-    let "i += 1"  # increment counter
-    >&2 echo "Moving uvfits to az failed. Retrying (attempt $i)."
-    azcopy copy ${outdir}/${obs_id}.uvfits ${uvfits_output_az_path}/${obs_id}.uvfits
-done
+# Only case where you would not write a uvfits is if this string is nonempty. Might consider just having a flag for writing uvfits.
+if [ -z $cal_az_path ]; then
+  # Move uvfits to az
+  i=1  # initialize counter
+  azcopy copy ${outdir}/${obs_id}.uvfits ${uvfits_output_az_path}/${obs_id}.uvfits
+  while [ $? -ne 0 ] && [ $i -lt 10 ]; do
+      let "i += 1"  # increment counter
+      >&2 echo "Moving uvfits to az failed. Retrying (attempt $i)."
+      azcopy copy ${outdir}/${obs_id}.uvfits ${uvfits_output_az_path}/${obs_id}.uvfits
+  done
 
-if [ $? -ne 0 ]; then
-    >&2 echo "Transferring uvfits to az completely failed."
-    echo $obs_id >> ~/logs/obs_fail_${SLURM_ARRAY_JOB_ID}.txt
+  if [ $? -ne 0 ]; then
+      >&2 echo "Transferring uvfits to az completely failed."
+      echo $obs_id >> ~/logs/obs_fail_${SLURM_ARRAY_JOB_ID}.txt
+  fi
+
+  # Remove uvfits from instance because can't separate from other SSINS outputs due to buggy az
+  sudo rm ${outdir}/${obs_id}.uvfits
 fi
-
-# Remove uvfits from instance because can't separate from other SSINS outputs due to buggy az
-sudo rm ${outdir}/${obs_id}.uvfits
 
 # Move SSINS outputs to az
 i=1  # initialize counter
