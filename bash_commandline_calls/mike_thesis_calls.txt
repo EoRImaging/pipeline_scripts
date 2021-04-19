@@ -1,0 +1,5 @@
+***Run the cals on the first half of the 2014 thesis run***
+bash run_fhd_az.sh -f /shared/home/mwilensky/obslists/2014_iono_cut_first_half.txt -b https://mwadata.blob.core.windows.net/fhd/mike_thesis/thesis_run -v Wilensky_thesis_cal -n 4 -u mjw_fhd_versions -p https://mwadata.blob.core.windows.net/uvfits/2014/ssins_vv_cbflags_2s_80khz -m https://mwadata.blob.core.windows.net/metafits/2014 -q hpc
+
+***Rest the hpx nodes***
+sudo scontrol update nodename=hpc-pg0-[1-7] state=idle
