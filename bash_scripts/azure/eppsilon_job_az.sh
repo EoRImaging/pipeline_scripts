@@ -47,12 +47,11 @@ FHD_version=$(basename ${file_path_cubes})
 #   into this script
 input_folder=/mnt/scratch/$FHD_version/
 if [[ -z ${cube_type} ]] && [[ -z ${pol} ]] && [[ -z ${evenodd} ]]; then
-    # create arg string for ps job
-	arg_string="${input_folder} ${version}"
+        arg_string="${input_folder} ${version}"
 else
     if [[ ! -z ${cube_type} ]] && [[ ! -z ${pol} ]] && [[ ! -z ${evenodd} ]]; then
         # create arg string for cube job
-	    arg_string="${input_folder} ${version} ${cube_type} ${pol,,} ${evenodd}"
+            arg_string="${input_folder} ${version} ${cube_type} ${pol,,} ${evenodd}"
     else
         echo "Need to specify cube_type, pol, and evenodd altogether"
         exit 1
@@ -109,16 +108,30 @@ if [ ! -z ${cube_type} ]; then
 # If doing a power spectra job, need all the weights, model, and dirty cubes.
 # If not found locally, download from azure
 else
+    # Need to download HEALPix to make info files?
+    for ps_pol in XX YY; do
+        for ps_evenodd in even odd; do
+            if [ ! -f "${FHD_version}/Healpix/${cube_prefix}_${evenodd}_cube${pol^^}.sav" ]; then
+		azcopy copy ${file_path_cubes}/Healpix/${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}.sav \
+                ${FHD_version}/Healpix/${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}.sav
+	    fi
+	    # Check that file downloaded
+            if [ ! -f "${FHD_version}/Healpix/${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}.sav" ]; then
+                >&2 echo "Integration cube ${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}.sav not found"
+                exit 1
+            fi
+	done
+    done
     # should have n_cubes * n_pols * n_evenodd cubes
-    n_epps_cubes = $((n_cubes*n_pol*2))
-    file_num=$(ls ${FHD_version}/ps/data/uvf_cubes/${cube_prefix}* | wc -li)
+    n_epps_cubes=$((n_cubes*n_pol*2))
+    file_num=$(ls ${FHD_version}/ps/data/uvf_cubes/${cube_prefix}* | wc -l)
     echo "file_num is $file_num"
     if [ $file_num -ne $n_epps_cubes ]; then
         # Download from azure
         azcopy copy ${file_path_cubes}/ps/data/uvf_cubes ${FHD_version}/ps/data --recursive
     fi
     # Check download
-    file_num=$(ls ${FHD_version}/ps/data/uvf_cubes/${cube_prefix}* | wc -li)
+    file_num=$(ls ${FHD_version}/ps/data/uvf_cubes/${cube_prefix}* | wc -l)
     if [ $file_num -ne $n_epps_cubes ]; then
         >&2 echo "Unable to make power spectra. Missing uvf cubes."
         echo "Job Failed"
@@ -126,7 +139,6 @@ else
     fi
 fi
 
-# Run eppsilon
 echo "arg_string is $arg_string"
 idl -IDL_DEVICE ps -IDL_CPU_TPOOL_NTHREADS $nslots -e az_ps_job -args $arg_string || :
 
