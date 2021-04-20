@@ -130,6 +130,8 @@ if args.write_cal_SSINS:
     # Should already be pre-processed, so no frills on read.
     ss = SS()
     ss.read(args.uvd, diff=False)
+    # Manually unflag so that cal flags can be used without original SSINS flags, otherwise RFI flux cannot be gathered
+    ss.flag_array[:] = False
 
     uvc = UVCal()
     uvc.read_fhd_cal(cal_file, obs_file, settings_file=settings_file, raw=False)
