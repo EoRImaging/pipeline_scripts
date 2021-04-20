@@ -38,12 +38,14 @@ fi
 # set integrated cube file name
 save_file_evenoddpol=Healpix/Combined_obs_${version}_${evenodd}_cube${pol^^}.sav
 
+azcopy login --identity
+
 # check if Healpix cubes exist locally; if not, try to download
 unset exit_flag
 for int_cube in $(cat $int_list_path); do
     if [ ! -f "${FHD_version}/Healpix/${int_cube}_${evenodd}_cube${pol^^}.sav" ]; then
-        az storage copy -s ${file_path_cubes}/Healpix/${int_cube}_${evenodd}_cube${pol^^}.sav \
-        -d ${FHD_version}/Healpix/${int_cube}_${evenodd}_cube${pol^^}.sav
+        azcopy copy ${file_path_cubes}/Healpix/${int_cube}_${evenodd}_cube${pol^^}.sav \
+        ${FHD_version}/Healpix/${int_cube}_${evenodd}_cube${pol^^}.sav
     fi
     # check if cube downloaded
     if [ ! -f "${FHD_version}/Healpix/${int_cube}_${evenodd}_cube${pol^^}.sav" ]; then
@@ -83,22 +85,22 @@ fi
 
 # Move integration output file to az
 i=1  #initialize counter
-az storage copy -s ${FHD_version}/${save_file_evenoddpol} -d ${file_path_cubes}/${save_file_evenoddpol}
+azcopy copy ${FHD_version}/${save_file_evenoddpol} ${file_path_cubes}/${save_file_evenoddpol}
 while [ $? -ne 0 ] && [ $i -lt 10 ]; do
     let "i += 1"  #increment counter
     >&2 echo "Moving FHD outputs to az failed. Retrying (attempt $i)."
-    az storage copy -s ${FHD_version}/${save_file_evenoddpol} -d ${file_path_cubes}/${save_file_evenoddpol}
+    azcopy copy ${FHD_version}/${save_file_evenoddpol} ${file_path_cubes}/${save_file_evenoddpol}
 done
 
 echo "JOB END TIME" `date +"%Y-%m-%d_%H:%M:%S"`
 
-# Copy stdout to S3
-az storage copy -s ~/logs/${version}_integration_job_az.sh.o${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID} \
--d ${file_path_cubes}/Healpix/logs/${version}_integration_job_az.sh.o${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID}_${myip}.txt
+# Copy stdout to az
+azcopy copy ~/logs/${version}_integration_job_az.sh.o${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID} \
+${file_path_cubes}/Healpix/logs/${version}_integration_job_az.sh.o${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID}_${myip}.txt
 
-# Copy stderr to S3
-az storage copy -s ~/logs/${version}_integration_job_az.sh.e${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID} \
--d ${file_path_cubes}/Healpix/logs/${version}_integration_job_az.sh.e${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID}_${myip}.txt
+# Copy stderr to az
+azcopy copy ~/logs/${version}_integration_job_az.sh.e${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID} \
+${file_path_cubes}/Healpix/logs/${version}_integration_job_az.sh.e${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID}_${myip}.txt
 
 # Remove integration cubes from the instance
 for int_cube in $(cat $int_list_path); do
