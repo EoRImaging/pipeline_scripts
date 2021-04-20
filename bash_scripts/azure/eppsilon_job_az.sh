@@ -91,7 +91,7 @@ if [ $single_obs -eq 1 ]; then
 else
 	cube_prefix="Combined_obs_${version}"
 	echo Working on combined obsids. Using cube prefix ${cube_prefix}.
-fi 
+fi
 
 # If doing a cube job, look for integration cube locally.
 # If not found, download from azure
@@ -111,29 +111,29 @@ else
     # Need to download HEALPix to make info files?
     for ps_pol in ${pols}; do
         for ps_evenodd in even odd; do
-            if [ ! -f "${FHD_version}/Healpix/${cube_prefix}_${evenodd}_cube${pol^^}.sav" ]; then
-		echo "Using file_path_cubes for Healpix download: ${file_path_cubes}"
-		azcopy copy ${file_path_cubes}/Healpix/${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}.sav \
-                ${FHD_version}/Healpix/${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}.sav
-	    fi
-	    # Check that file downloaded
+            if [ ! -f "${FHD_version}/Healpix/${cube_prefix}_${evenodd}_cube${ps_pol^^}.sav" ]; then
+		            echo "Using file_path_cubes for Healpix download: ${file_path_cubes}"
+		            azcopy copy ${file_path_cubes}/Healpix/${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}.sav \
+                  ${FHD_version}/Healpix/${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}.sav
+	          fi
+	          # Check that file downloaded
             if [ ! -f "${FHD_version}/Healpix/${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}.sav" ]; then
                 >&2 echo "Integration cube ${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}.sav not found"
                 exit 1
             fi
 
-	    for ps_cube_type in weights dirty model; do
-		if [ ! -f "${FHD_version}/ps/data/uvf_cubes/${cube_prefix}_cube${ps_pol^^}_noimgclip_${ps_cube_type}_uvf.idlsave" ]; then
-		    echo "Using file_path_cubes for uvf download: ${file_path_cubes}"
-		    azcopy copy ${file_path_cubes}/ps/data/uvf_cubes/${cube_prefix}_cube${ps_pol^^}_noimgclip_${ps_cube_type}_uvf.idlsave ${FHD_version}/ps/data/uvf_cubes/${cube_prefix}_cube${ps_pol^^}_noimgclip_${ps_cube_type}_uvf.idlsave
-		fi	
+	          for ps_cube_type in weights dirty model; do
+            		if [ ! -f "${FHD_version}/ps/data/uvf_cubes/${cube_prefix}_cube${ps_pol^^}_noimgclip_${ps_cube_type}_uvf.idlsave" ]; then
+            		    echo "Using file_path_cubes for uvf download: ${file_path_cubes}"
+            		    azcopy copy ${file_path_cubes}/ps/data/uvf_cubes/${cube_prefix}_cube${ps_pol^^}_noimgclip_${ps_cube_type}_uvf.idlsave ${FHD_version}/ps/data/uvf_cubes/${cube_prefix}_cube${ps_pol^^}_noimgclip_${ps_cube_type}_uvf.idlsave
+            		fi
 
-		if [ ! -f "${FHD_version}/ps/data/uvf_cubes/${cube_prefix}_cube${ps_pol^^}_noimgclip_${ps_cube_type}_uvf.idlsave" ]; then
-                    >&2 echo "uvf cube ${cube_prefix}_cube${ps_pol^^}_noimgclip_${ps_cube_type}_uvf.idlsave not found"
-                    exit 1
-		fi
-	    done
-	done
+            		if [ ! -f "${FHD_version}/ps/data/uvf_cubes/${cube_prefix}_cube${ps_pol^^}_noimgclip_${ps_cube_type}_uvf.idlsave" ]; then
+                                >&2 echo "uvf cube ${cube_prefix}_cube${ps_pol^^}_noimgclip_${ps_cube_type}_uvf.idlsave not found"
+                                exit 1
+            		fi
+	           done
+	      done
     done
 fi
 
