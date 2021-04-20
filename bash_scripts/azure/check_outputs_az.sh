@@ -20,7 +20,7 @@ do
     x) compare_list=$OPTARG;; # An obslist to compare against. Will return all obsids on this list without outputs.
     \?) echo "Unknown option: accepted options are -u (uvfits_az_path), "
         echo "-s (ssins_az_path), -f (fhd_az_path) -v (check_cal_vis), -c (check_cal), "
-        echo "-m (check_model_uv_arr), -h (check_healpix), -o (outdir, required)"
+        echo "-m (check_model_uv_arr), -h (check_healpix), -p (prefix, required)"
         exit 1;;
     :)  echo "Missing argument option for input flag"
         exit 1;;
@@ -30,9 +30,9 @@ done
 # Define some functions
 check_empty_flag (){
   if [ -z $1 ]; then
-    return 0
+    echo 0
   else
-    return 1
+    echo 1
   fi
 }
 
@@ -75,8 +75,9 @@ check_cal=$(check_empty_flag $check_cal)
 check_model_uv_arr=$(check_empty_flag $check_model_uv_arr)
 check_healpix=$(check_empty_flag $check_healpix)
 
+
 if [ -z $prefix ]; then
-  echo "-o unique must be supplied"
+  echo "-p unique prefix must be supplied"
   exit 1
 fi
 
