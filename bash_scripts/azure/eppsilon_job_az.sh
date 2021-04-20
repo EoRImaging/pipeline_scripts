@@ -123,14 +123,15 @@ else
             fi
 
 	          for ps_cube_type in weights dirty model; do
-            		if [ ! -f "${FHD_version}/ps/data/uvf_cubes/${cube_prefix}_cube${ps_pol^^}_noimgclip_${ps_cube_type}_uvf.idlsave" ]; then
+                cube_name="${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}_noimgclip_${ps_cube_type}_uvf.idlsave"
+            		if [ ! -f "${FHD_version}/ps/data/uvf_cubes/${cube_name}" ]; then
             		    echo "Using file_path_cubes for uvf download: ${file_path_cubes}"
-            		    azcopy copy ${file_path_cubes}/ps/data/uvf_cubes/${cube_prefix}_cube${ps_pol^^}_noimgclip_${ps_cube_type}_uvf.idlsave ${FHD_version}/ps/data/uvf_cubes/${cube_prefix}_cube${ps_pol^^}_noimgclip_${ps_cube_type}_uvf.idlsave
+            		    azcopy copy ${file_path_cubes}/ps/data/uvf_cubes/${cube_name} ${FHD_version}/ps/data/uvf_cubes/${cube_name}
             		fi
 
-            		if [ ! -f "${FHD_version}/ps/data/uvf_cubes/${cube_prefix}_cube${ps_pol^^}_noimgclip_${ps_cube_type}_uvf.idlsave" ]; then
-                                >&2 echo "uvf cube ${cube_prefix}_cube${ps_pol^^}_noimgclip_${ps_cube_type}_uvf.idlsave not found"
-                                exit 1
+            		if [ ! -f "${FHD_version}/ps/data/uvf_cubes/${cube_name}" ]; then
+                    >&2 echo "uvf cube ${cube_name} not found"
+                    exit 1
             		fi
 	           done
 	      done
