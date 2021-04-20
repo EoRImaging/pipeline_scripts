@@ -120,7 +120,7 @@ echo "Using write_new_uvfits: $write_new_uvfits"
 
 
 if [ ! -z $cal_az_path ]; then
-  if [ $input_type -eq gpubox ]; then
+  if [ $input_type == gpubox ]; then
     echo "Cannot make calibrated SSINS on box files currently - only takes pre-processed data."
     exit 1
   fi
