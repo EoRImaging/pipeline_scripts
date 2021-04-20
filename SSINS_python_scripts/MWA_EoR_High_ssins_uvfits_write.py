@@ -25,7 +25,7 @@ parser.add_argument('-w', '--write_uvfits', action='store_true',
                     help="Write out new uvfits files.")
 parser.add_argument('-s', '--write_cal_SSINS', action='store_true',
                     help="Whether to write calibrated SSINS")
-parser.add_argument('-p', '--cal_soln_dir', nargs=1,
+parser.add_argument('-p', '--cal_soln_dir',
                     help="Path to FHD cal solution directory. Needs obs file and settings file as well.")
 args = parser.parse_args()
 
@@ -77,7 +77,7 @@ if args.rfi_flag:
 
     # Make the flag object
     uvd = UVData()
-    uvd.read(args.uvd read_data=False)
+    uvd.read(args.uvd, read_data=False)
     uvf = UVFlag(uvd, mode='flag', waterfall=True)
     uvf.flag_array = ins.mask_to_flags()
 

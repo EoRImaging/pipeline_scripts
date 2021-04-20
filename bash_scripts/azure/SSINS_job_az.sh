@@ -161,7 +161,7 @@ echo "The input files for this run are: ${input_files}"
 
 arg_string="-o ${obs_id} -u ${input_files} -d ${outdir}"
 if [ ! -z $cal_az_path ]; then
-  arg_string="${arg_string} -s -p ${cal_az_path}"
+  arg_string="${arg_string} -s -p cal_for_SSINS"
 else
   # Assume if you are not writing calibrated SSINS then you want to RFI flag and get the outputs at least. New uvfits optional.
   arg_string="${arg_string} -t ${time_avg} -a ${freq_avg} -f"
