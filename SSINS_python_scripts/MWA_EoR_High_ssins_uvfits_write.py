@@ -142,3 +142,6 @@ if args.write_cal_SSINS:
 
     prefix = f"{args.outdir}/{args.obsid}_cal"
     ins.write(prefix)
+    Catalog_Plot.INS_plot(ins, prefix, data_cmap=cm.plasma, ms_vmin=-5, ms_vmax=5,
+                          title=args.obsid, xlabel='Frequency (Mhz)',
+                          ylabel='Time (UTC)')
