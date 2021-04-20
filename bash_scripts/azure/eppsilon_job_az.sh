@@ -37,6 +37,9 @@ echo Using file_path_cubes: $file_path_cubes
 echo Using version: $version
 echo Using single_obs: $single_obs
 
+# log into azcopy
+azcopy login --identity
+
 # get unique directory
 FHD_version=$(basename ${file_path_cubes})
 
@@ -95,8 +98,8 @@ fi
 # If not found, download from azure
 if [ ! -z ${cube_type} ]; then
     if [ ! -f "${FHD_version}/Healpix/${cube_prefix}_${evenodd}_cube${pol^^}.sav" ]; then
-        az storage copy -s ${file_path_cubes}/Healpix/${cube_prefix}_${evenodd}_cube${pol^^}.sav \
-        -d ${FHD_version}/Healpix/${cube_prefix}_${evenodd}_cube${pol^^}.sav
+        azcopy copy ${file_path_cubes}/Healpix/${cube_prefix}_${evenodd}_cube${pol^^}.sav \
+        ${FHD_version}/Healpix/${cube_prefix}_${evenodd}_cube${pol^^}.sav
     fi
     # Check that file downloaded
     if [ ! -f "${FHD_version}/Healpix/${cube_prefix}_${evenodd}_cube${pol^^}.sav" ]; then
@@ -112,7 +115,7 @@ else
     echo "file_num is $file_num"
     if [ $file_num -ne $n_epps_cubes ]; then
         # Download from azure
-        az storage copy -s ${file_path_cubes}/ps/data/uvf_cubes -d ${FHD_version}/ps/data --recursive
+        azcopy copy ${file_path_cubes}/ps/data/uvf_cubes ${FHD_version}/ps/data --recursive
     fi
     # Check download
     file_num=$(ls ${FHD_version}/ps/data/uvf_cubes/${cube_prefix}* | wc -li)
@@ -139,19 +142,19 @@ fi
 # Move eppsilon outputs to az
 if [ -z ${cube_type} ]; then
     i=1  #initialize counter
-    az storage copy -s ${FHD_version}/ps -d ${file_path_cubes} --recursive
+    azcopy copy ${FHD_version}/ps ${file_path_cubes} --recursive
     while [ $? -ne 0 ] && [ $i -lt 10 ]; do
         let "i += 1"  #increment counter
         >&2 echo "Moving eppsilon outputs to az failed. Retrying (attempt $i)."
-        az storage copy -s ${FHD_version}/ps -d ${file_path_cubes} --recursive
+        azcopy copy ${FHD_version}/ps ${file_path_cubes} --recursive
     done
 else
     i=1  #initialize counter
-    az storage copy -s ${FHD_version}/ps/data/uvf_cubes -d ${file_path_cubes}/ps/data --recursive
+    azcopy copy ${FHD_version}/ps/data/uvf_cubes ${file_path_cubes}/ps/data --recursive
     while [ $? -ne 0 ] && [ $i -lt 10 ]; do
         let "i += 1"  #increment counter
         >&2 echo "Moving eppsilon outputs to az failed. Retrying (attempt $i)."
-        az storage copy -s ${FHD_version}/ps/data/uvf_cubes -d ${file_path_cubes}/ps/data --recursive
+        azcopy copy ${FHD_version}/ps/data/uvf_cubes ${file_path_cubes}/ps/data --recursive
     done
 fi
 
@@ -160,18 +163,18 @@ echo "JOB END TIME" `date +"%Y-%m-%d_%H:%M:%S"`
 # Move logs to az
 if [ ! -z ${cube_type} ]; then
     # Copy stdout to S3
-    az storage copy -s ~/logs/${version}_eppsilon_cube_job_az.sh.o${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID} \
-    -d ${file_path_cubes}/ps/logs/${version}_eppsilon_cube_job_az.sh.o${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID}_${myip}.txt
+    azcopy copy ~/logs/${version}_eppsilon_cube_job_az.sh.o${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID} \
+    ${file_path_cubes}/ps/logs/${version}_eppsilon_cube_job_az.sh.o${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID}_${myip}.txt
     # Copy stderr to S3
-    az storage copy -s ~/logs/${version}_eppsilon_cube_job_az.sh.e${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID} \
-    -d ${file_path_cubes}/ps/logs/${version}_eppsilon_cube_job_az.sh.e${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID}_${myip}.txt
+    azcopy copy ~/logs/${version}_eppsilon_cube_job_az.sh.e${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID} \
+    ${file_path_cubes}/ps/logs/${version}_eppsilon_cube_job_az.sh.e${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID}_${myip}.txt
 else
     # Copy stdout to S3
-    az storage copy -s ~/logs/${version}_eppsilon_ps_job_az.sh.o${SLURM_ARRAY_JOB_ID} \
-    -d ${file_path_cubes}/ps/logs/${version}_eppsilon_ps_job_az.sh.o${SLURM_ARRAY_JOB_ID}_${myip}.txt
+    azcopy copy ~/logs/${version}_eppsilon_ps_job_az.sh.o${SLURM_ARRAY_JOB_ID} \
+    ${file_path_cubes}/ps/logs/${version}_eppsilon_ps_job_az.sh.o${SLURM_ARRAY_JOB_ID}_${myip}.txt
     # Copy stderr to S3
-    az storage copy -s ~/logs/${version}_eppsilon_ps_job_az.sh.e${SLURM_ARRAY_JOB_ID} \
-    -d ${file_path_cubes}/ps/logs/${version}_eppsilon_ps_job_az.sh.e${SLURM_ARRAY_JOB_ID}_${myip}.txt
+    azcopy copy ~/logs/${version}_eppsilon_ps_job_az.sh.e${SLURM_ARRAY_JOB_ID} \
+    ${file_path_cubes}/ps/logs/${version}_eppsilon_ps_job_az.sh.e${SLURM_ARRAY_JOB_ID}_${myip}.txt
 fi
 
 exit $error_mode
