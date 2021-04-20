@@ -109,9 +109,10 @@ if [ ! -z ${cube_type} ]; then
 # If not found locally, download from azure
 else
     # Need to download HEALPix to make info files?
-    for ps_pol in XX YY; do
+    for ps_pol in ${pols}; do
         for ps_evenodd in even odd; do
             if [ ! -f "${FHD_version}/Healpix/${cube_prefix}_${evenodd}_cube${pol^^}.sav" ]; then
+		echo "Using file_path_cubes for Healpix download: ${file_path_cubes}"
 		azcopy copy ${file_path_cubes}/Healpix/${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}.sav \
                 ${FHD_version}/Healpix/${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}.sav
 	    fi
@@ -120,23 +121,20 @@ else
                 >&2 echo "Integration cube ${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}.sav not found"
                 exit 1
             fi
+
+	    for ps_cube_type in weights dirty model; do
+		if [ ! -f "${FHD_version}/ps/data/uvf_cubes/${cube_prefix}_cube${ps_pol^^}_noimgclip_${ps_cube_type}_uvf.idlsave" ]; then
+		    echo "Using file_path_cubes for uvf download: ${file_path_cubes}"
+		    azcopy copy ${file_path_cubes}/ps/data/uvf_cubes/${cube_prefix}_cube${ps_pol^^}_noimgclip_${ps_cube_type}_uvf.idlsave ${FHD_version}/ps/data/uvf_cubes/${cube_prefix}_cube${ps_pol^^}_noimgclip_${ps_cube_type}_uvf.idlsave
+		fi	
+
+		if [ ! -f "${FHD_version}/ps/data/uvf_cubes/${cube_prefix}_cube${ps_pol^^}_noimgclip_${ps_cube_type}_uvf.idlsave" ]; then
+                    >&2 echo "uvf cube ${cube_prefix}_cube${ps_pol^^}_noimgclip_${ps_cube_type}_uvf.idlsave not found"
+                    exit 1
+		fi
+	    done
 	done
     done
-    # should have n_cubes * n_pols * n_evenodd cubes
-    n_epps_cubes=$((n_cubes*n_pol*2))
-    file_num=$(ls ${FHD_version}/ps/data/uvf_cubes/${cube_prefix}* | wc -l)
-    echo "file_num is $file_num"
-    if [ $file_num -ne $n_epps_cubes ]; then
-        # Download from azure
-        azcopy copy ${file_path_cubes}/ps/data/uvf_cubes ${FHD_version}/ps/data --recursive
-    fi
-    # Check download
-    file_num=$(ls ${FHD_version}/ps/data/uvf_cubes/${cube_prefix}* | wc -l)
-    if [ $file_num -ne $n_epps_cubes ]; then
-        >&2 echo "Unable to make power spectra. Missing uvf cubes."
-        echo "Job Failed"
-        exit 1
-    fi
 fi
 
 echo "arg_string is $arg_string"
