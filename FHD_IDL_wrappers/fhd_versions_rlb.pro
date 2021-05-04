@@ -3779,7 +3779,7 @@ pro fhd_versions_rlb
       recalculate_all = 0
       cal_bp_transfer = 0  ; changed this for calibration transfer
       transfer_calibration = '/home/ubuntu/calibration_gain_amp_adjusted/'+string(obs_id)+'_cal.sav'
-      transfer_weights = '/home/ubuntu/transfer_flags/'+string(obs_id)+'_flags_4pol.sav'
+      transfer_weights = '/home/ubuntu/transfer_flags/'+string(obs_id)+'_flags.sav'
       model_visibilities = 1
       model_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
       subtract_sidelobe_catalog = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
