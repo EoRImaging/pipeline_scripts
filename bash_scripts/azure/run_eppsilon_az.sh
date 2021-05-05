@@ -5,7 +5,7 @@
 ######################################################################################
 
 #Parse flags for inputs
-while getopts ":d:f:v:n:i:c:p:h:s:x:q:" option
+while getopts ":d:f:v:n:i:c:p:h:s:x:q:o:" option
 do
    case $option in
         d) export file_path_cubes=$OPTARG;;			#file path to fhd directory on azure storage
@@ -19,9 +19,11 @@ do
         s) export single_obs=$OPTARG;; # Working on a single obsid that has never seen integration.
         x) export pols=$OPTARG;; # String of space-separated pols
         q) partition=$OPTARG;; # Compute node partition
-        \?) echo "Unknown option: Accepted flags are -d (file path to fhd directory on azure storage), -f (obs list or subcube path or single obsid), "
+	o) force_single_obs=$OPTARG;; # Force single obs when doing integration
+	\?) echo "Unknown option: Accepted flags are -d (file path to fhd directory on azure storage), -f (obs list or subcube path or single obsid), "
 	          echo "-v (version), -n (number of slots), -i (integrate) -c (make 'weights', 'dirty', 'model' cubes) -p (make ps), "
 	          echo "-h (job id to hold int/ps script for), -s (single obsid), -x (string of pols), and -q (partition)"
+		  echo "-o (force single obs integration)"
             exit 1;;
         :) echo "Missing option argument for input flag"
            exit 1;;
@@ -57,6 +59,13 @@ else
 fi
 echo Using single_obs: $single_obs
 
+# Set default to not force single obs integration
+if [ -z ${force_single_obs} ]; then
+    force_single_obs=0
+elif [ ${force_single_obs} -ne 0 ]; then
+    force_single_obs=1
+fi
+
 #Set default to do integration
 if [ -z ${int} ]; then
     int=1
@@ -69,7 +78,7 @@ if [ ${int} -eq 1 ]; then
         exit 1
     fi
     # Error if single_obs==1
-    if [ ${single_obs} -eq 1 ]; then
+    if [ ${single_obs} -eq 1 ] && [ $force_single_obs -eq 0 ]; then
         >&2 echo "It does not make sense to integrate a single observation. Run without integration or without single_obs"
         exit 1
     fi
@@ -85,7 +94,7 @@ if [ ${int} -eq 1 ]; then
             exit 1
         fi
         # Error if a single cube is submitted
-        if [ $n_obs -eq 1 ]; then
+        if [ $n_obs -eq 1 ] && [ $force_single_obs -eq 0  ]; then
             >&2 echo "It does not make sense to integrate a single cube. Submit a longer text file."
             exit 1
         fi
