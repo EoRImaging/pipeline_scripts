@@ -75,6 +75,7 @@ pro mjw_fhd_versions
     auto_ratio_calibration=1
     cal_bp_transfer=0
     beam_clip_floor=1
+    tile_flag_list=['44']
     end
 
     'kernel_window_rfi_sim_single_source_run_no_bubbles_Double_DTV_25_times_flagged_achromatic_GLEAM': begin
