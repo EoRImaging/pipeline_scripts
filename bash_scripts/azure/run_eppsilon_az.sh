@@ -168,7 +168,10 @@ if [ $int -eq 1 ]; then
     echo ${jid_int}
     echo "Submitting integration job"
     # Update hold string so that cube tasks wait on corresponding integration tasks
-    hold_str="-d aftercorr:${jid_int##* }"
+    # Currently, a single cube job in eppsilon requires that all evenodd/pol combos be present
+    # If this is changed so that a cube job only needs the corresponding cube,
+    # then can use 'hold_str="-d aftercorr:${jid_int##* }"'
+    hold_str="-d afterok:${jid_int##* }"
     echo "String for holding until integration job tasks finish is '${hold_str}'"
 fi
 
@@ -183,7 +186,7 @@ if [ $cubes -eq 1 ]; then
         if [ -z ${hold_job_id} ]; then
             hold_str=""
         else 
-            hold_str="-d aftercorr:${hold_job_id}"
+            hold_str="-d afterok:${hold_job_id}"
             echo "Hold string is ${hold_str}"
         fi
     fi
