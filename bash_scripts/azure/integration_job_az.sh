@@ -107,4 +107,6 @@ for int_cube in $(cat $int_list_path); do
     sudo rm ${FHD_version}/Healpix/${int_cube}_${evenodd}_cube${pol^^}.sav
 done
 
+sudo rm ${FHD_version}/${save_file_evenoddpol}
+
 exit $error_mode
