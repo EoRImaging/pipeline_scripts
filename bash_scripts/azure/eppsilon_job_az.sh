@@ -102,6 +102,7 @@ for ps_pol in ${pols}; do
     for ps_evenodd in even odd; do
         if [ ! -f "${FHD_version}/Healpix/${cube_prefix}_${evenodd}_cube${ps_pol^^}.sav" ]; then
 		        echo "Using file_path_cubes for Healpix download: ${file_path_cubes}"
+            echo "Attempting to download ${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}.sav"
 		        azcopy copy ${file_path_cubes}/Healpix/${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}.sav \
               ${FHD_version}/Healpix/${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}.sav
 	      fi
