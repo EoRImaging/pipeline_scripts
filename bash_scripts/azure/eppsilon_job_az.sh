@@ -93,36 +93,27 @@ else
 	echo Working on combined obsids. Using cube prefix ${cube_prefix}.
 fi
 
-# If doing a cube job, look for integration cube locally.
-# If not found, download from azure
-if [ ! -z ${cube_type} ]; then
-    if [ ! -f "${FHD_version}/Healpix/${cube_prefix}_${evenodd}_cube${pol^^}.sav" ]; then
-        azcopy copy ${file_path_cubes}/Healpix/${cube_prefix}_${evenodd}_cube${pol^^}.sav \
-        ${FHD_version}/Healpix/${cube_prefix}_${evenodd}_cube${pol^^}.sav
-    fi
-    # Check that file downloaded
-    if [ ! -f "${FHD_version}/Healpix/${cube_prefix}_${evenodd}_cube${pol^^}.sav" ]; then
-        >&2 echo "Integration cube ${cube_prefix}_${evenodd}_cube${pol^^}.sav not found"
-        exit 1
-    fi
-# If doing a power spectra job, need all the weights, model, and dirty cubes.
-# If not found locally, download from azure
-else
-    # Need to download HEALPix to make info files?
-    for ps_pol in ${pols}; do
-        for ps_evenodd in even odd; do
-            if [ ! -f "${FHD_version}/Healpix/${cube_prefix}_${evenodd}_cube${ps_pol^^}.sav" ]; then
-		            echo "Using file_path_cubes for Healpix download: ${file_path_cubes}"
-		            azcopy copy ${file_path_cubes}/Healpix/${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}.sav \
-                  ${FHD_version}/Healpix/${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}.sav
-	          fi
-	          # Check that file downloaded
-            if [ ! -f "${FHD_version}/Healpix/${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}.sav" ]; then
-                >&2 echo "Integration cube ${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}.sav not found"
-                exit 1
-            fi
 
-	          for ps_cube_type in weights dirty model; do
+
+# Currently need all HEALPix cubes for single cube jobs so that info file
+# behaves sensibly given a dynamic filesystem.
+
+for ps_pol in ${pols}; do
+    for ps_evenodd in even odd; do
+        if [ ! -f "${FHD_version}/Healpix/${cube_prefix}_${evenodd}_cube${ps_pol^^}.sav" ]; then
+		        echo "Using file_path_cubes for Healpix download: ${file_path_cubes}"
+		        azcopy copy ${file_path_cubes}/Healpix/${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}.sav \
+              ${FHD_version}/Healpix/${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}.sav
+	      fi
+	      # Check that file downloaded
+        if [ ! -f "${FHD_version}/Healpix/${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}.sav" ]; then
+            >&2 echo "Integration cube ${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}.sav not found"
+            exit 1
+        fi
+
+        # Grab the uvf cubes if it is a power spectrum job.
+        if [ -z ${cube_type} ]; then
+	         for ps_cube_type in weights dirty model; do
                 cube_name="${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}_noimgclip_${ps_cube_type}_uvf.idlsave"
             		if [ ! -f "${FHD_version}/ps/data/uvf_cubes/${cube_name}" ]; then
             		    echo "Using file_path_cubes for uvf download: ${file_path_cubes}"
@@ -134,9 +125,9 @@ else
                     exit 1
             		fi
 	           done
-	      done
-    done
-fi
+        fi
+	  done
+done
 
 echo "arg_string is $arg_string"
 idl -IDL_DEVICE ps -IDL_CPU_TPOOL_NTHREADS $nslots -e az_ps_job -args $arg_string || :
@@ -187,5 +178,8 @@ else
     azcopy copy ~/logs/${version}_eppsilon_ps_job_az.sh.e${SLURM_ARRAY_JOB_ID} \
     ${file_path_cubes}/ps/logs/${version}_eppsilon_ps_job_az.sh.e${SLURM_ARRAY_JOB_ID}_${myip}.txt
 fi
+
+# Go ahead and delete output directory on instance since they are not currently sharing jobs
+sudo rm -r ${FHD_version}
 
 exit $error_mode
