@@ -65,6 +65,11 @@ echo All cubes on instance
 #Create a name for the downloaded cube file based off of inputs
 evenoddpol_file_paths=${FHD_version}/${version}_${evenodd}${pol^^}_list.txt
 
+# Delete if it already exists, otherwise will create redundant integrations
+if [ -f $evenoddpol_file_paths ]; then
+   sudo rm $evenoddpol_file_paths
+fi
+
 # Fill the downloaded cube file with paths to cubes to integrate
 for int_cube in $(cat $int_list_path); do
     cube_path=${FHD_version}/Healpix/${int_cube}_${evenodd}_cube${pol^^}.sav
