@@ -87,7 +87,7 @@ if [ ${int} -eq 1 ]; then
         >&2 echo "Integrate list file does not exist!"
         exit 1
     else
-        n_obs=$(wc -l < ${integrate_list})
+        export n_obs=$(wc -l < ${integrate_list})
         # Error if > 20 cubes are submitted
         if [ $n_obs -gt 20 ]; then
             >&2 echo "Integration list list must contain 20 or fewer cube prefixes. Resubmit with a shorter list."
@@ -159,7 +159,7 @@ if [ $int -eq 1 ]; then
     # create hold string
     if [ -z ${hold_job_id} ]; then
         hold_str=""
-    else 
+    else
         hold_str="-d afterok:${hold_job_id}"
         echo "Hold string is ${hold_str}"
     fi
@@ -185,7 +185,7 @@ if [ $cubes -eq 1 ]; then
     if [ $int -eq 0 ]; then
         if [ -z ${hold_job_id} ]; then
             hold_str=""
-        else 
+        else
             hold_str="-d afterok:${hold_job_id}"
             echo "Hold string is ${hold_str}"
         fi
@@ -209,7 +209,7 @@ if [ $ps -eq 1 ]; then
     if [[ $int -eq 0 ]] && [[ $cubes -eq 0 ]]; then
         if [ -z ${hold_job_id} ]; then
             hold_str=""
-        else 
+        else
             hold_str="-d afterok:${hold_job_id}"
             echo "Hold string is ${hold_str}"
         fi

@@ -25,6 +25,7 @@ echo Processing cube: ${pol} ${evenodd}
 # echo keywords
 echo Using file_path_cubes: $file_path_cubes
 echo Using version: $version
+echo n_obs for this run: $n_obs
 
 #create Healpix download location with full permissions
 FHD_version=$(basename ${file_path_cubes})
@@ -42,7 +43,21 @@ azcopy login --identity
 
 # check if Healpix cubes exist locally; if not, try to download
 unset exit_flag
-for int_cube in $(cat $int_list_path); do
+
+# Sometimes cat is uncooperative
+int_cubes=$(cat $int_list_path)
+n_obs_var=$(echo $int_cubes | wc -w)
+if [ $n_obs -ne $n_obs_var ]; then
+  echo "cat seemt to have misbehaved. Trying again."
+  int_cubes=$(cat $int_list_path)
+  n_obs_var=$(echo $int_cubes | wc -w)
+  if [ $n_obs -ne $n_obs_var ]; then
+    echo "cat misbehaved twice! Something the author did not understand is afoot."
+    exit 1
+  fi
+fi
+
+for int_cube in ${int_cubes}; do
     if [ ! -f "${FHD_version}/Healpix/${int_cube}_${evenodd}_cube${pol^^}.sav" ]; then
         azcopy copy ${file_path_cubes}/Healpix/${int_cube}_${evenodd}_cube${pol^^}.sav \
         ${FHD_version}/Healpix/${int_cube}_${evenodd}_cube${pol^^}.sav
