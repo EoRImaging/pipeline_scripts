@@ -17,7 +17,9 @@ do
       for shape in narrow all_TV all_RFI_types streak
       do
         filename="2014_iono_cut_z_band_${z_band}_${shape}_${pointing}${clean_tag}.txt"
-        if [ -f $filename ] && [ $(wc -l ${filename}) -gt 20 ]; then
+	num_lines=$(wc -l $filename | cut -f 1 -d ' ')
+	echo $num_lines
+	if [ -f $filename ] && [ $num_lines -gt 20 ]; then
           bn=$(basename -s .txt ${filename})
           chunk_pre="${bn}_chunk_"
           split -l 20 -a 1 $filename "${chunk_pre}"
