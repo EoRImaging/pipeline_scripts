@@ -32,15 +32,16 @@ echo "clean is $clean"
 for pointing in $pointings
 do
     if [ $clean -eq 1 ]; then
-        obsfile=${indir}/${version}_${pointing}_clean.txt
+	version_str=${version}_${pointing}_clean
     else
-        obsfile=${indir}/${version}_${pointing}.txt
+    	version_str=${version}_${pointing}
     fi
+    obsfile=${indir}/${version_str}.txt
     if [ -f $obsfile ]; then
         
 	# These lines might be used in the future    
 	#num_obs=$(wc -l ${obsfile} | tr -s ' ' | cut -f 1 -d ' ')
 	#nslots=$((${num_obs} / 4 + 1))
-	bash run_eppsilon_az.sh -d https://mwadata.blob.core.windows.net/fhd/mike_thesis/thesis_run/fhd_Wilensky_thesis_image -f ${obsfile} -v ${version}_${pointing} -n 8 -i $integrate -c 1 -p 1 -q htc -o 1 
+	bash run_eppsilon_az.sh -d https://mwadata.blob.core.windows.net/fhd/mike_thesis/thesis_run/fhd_Wilensky_thesis_image -f ${obsfile} -v ${version_str} -n 8 -i $integrate -c 1 -p 1 -q htc -o 1 
     fi
 done
