@@ -1,7 +1,9 @@
 #!/bin/bash
 
-cd /shared/home/mwilensky/obslists/thesis_jackknife/final_jackknife
+indir="/shared/home/mwilensky/obslists/thesis_jackknife/final_jackknife"
 file_path_cubes="https://mwadata.blob.core.windows.net/fhd/mike_thesis/thesis_run/fhd_Wilensky_thesis_image"
+
+cd $indir
 
 for pointing in minus_two minus_one zenith plus_one plus_two
 do
@@ -27,12 +29,12 @@ do
             chunks="$(ls ${chunk_pre}?)"
             for obsfile in $chunks
               do
-                bash run_eppsilon_az.sh -d ${file_path_cubes} -f ${obsfile} -v ${obsfile} -n 8 -i 1 -q htc -o 1 -c 0 -p 0
+                bash run_eppsilon_az.sh -d ${file_path_cubes} -f ${indir}/${obsfile} -v ${obsfile} -n 8 -i 1 -q htc -o 1 -c 0 -p 0
               done
               echo $chunks >> ${bn}_chunk_list.txt
           else
             version="2014_iono_cut_z_band_${z_band}_${shape}_${pointing}${clean_tag}"
-            bash run_eppsilon_az.sh -d ${file_path_cubes} -f ${filename} -v ${version} -n 8 -i 1 -q htc -o 1
+            bash run_eppsilon_az.sh -d ${file_path_cubes} -f ${indir}/${filename} -v ${version} -n 8 -i 1 -q htc -o 1
           fi
         fi
       done
