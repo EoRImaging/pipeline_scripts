@@ -73,6 +73,7 @@ done
 
 # Error if any cubes did not download
 if [ ! -z ${exit_flag} ]; then
+    sudo rm -rf $FHD_version
     exit 1
 fi
 echo All cubes on instance
@@ -123,7 +124,7 @@ azcopy copy ~/logs/${version}_integration_job_az.sh.e${SLURM_ARRAY_JOB_ID}.${SLU
 ${file_path_cubes}/Healpix/logs/${version}_integration_job_az.sh.e${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID}_${myip}.txt
 
 # Remove integration cubes from the instance
-for int_cube in $(cat $int_list_path); do
+for int_cube in ${int_cubes}; do
     sudo rm ${FHD_version}/Healpix/${int_cube}_${evenodd}_cube${pol^^}.sav
 done
 
