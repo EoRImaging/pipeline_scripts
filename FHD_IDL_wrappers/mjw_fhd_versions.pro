@@ -78,6 +78,31 @@ pro mjw_fhd_versions
     tile_flag_list=['44']
     end
 
+    'Wilensky_thesis_image_no_rfi_flags': begin
+    model_uv_transfer='uvfits/transfer/' + obs_id + '_model_uv_arr.sav'
+    kernel_window=1
+    debug_dim=1
+    beam_mask_threshold=1e3
+    beam_nfreq_avg=1
+    interpolate_kernel=1
+    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+    return_cal_visibilities=0
+    FoV=0
+    interpolate_kernel=1
+    cal_time_average=0
+    model_visibilities=1
+    transfer_calibration = 'uvfits/transfer/' + obs_id + '_cal.sav'
+    diffuse_calibrate=0
+    diffuse_model=0
+    digital_gain_jump_polyfit=0
+    ps_kspan=200.
+    calibration_auto_fit=0
+    auto_ratio_calibration=1
+    cal_bp_transfer=0
+    beam_clip_floor=1
+    tile_flag_list=['44']
+    end
+
     'kernel_window_rfi_sim_single_source_run_no_bubbles_Double_DTV_25_times_flagged_achromatic_GLEAM': begin
     kernel_window=1
     calibrate_visibilities=0
@@ -251,7 +276,7 @@ pro mjw_fhd_versions
     restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
     model_catalog_file_path=filepath('GLEAM_v2_plus_rlb2019_pos_0.3.sav', root=rootdir('FHD'),subdir='catalog_data')
     end
-    
+
     'kernel_window_control_run_leave_flags_no_edge_0.5': begin
     kernel_window=1
     calibrate_visibilities=0
@@ -973,7 +998,7 @@ pro mjw_fhd_versions
     restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
     model_catalog_file_path=filepath('test_RFI_source_1061315448_zenith.sav',root=rootdir('FHD'),subdir='catalog_data')
     end
-    
+
     'kernel_window_control_run_plaw_zenith': begin
       kernel_window=1
       calibrate_visibilities=0
@@ -1366,7 +1391,7 @@ pro mjw_fhd_versions
     snapshot_healpix_export = 0
     model_catalog_file_path = filepath('RFI_PLAW_Cat.sav',root=rootdir('FHD'),subdir='catalog_data')
     end
-    
+
     'kernel_window_rfi_run_single_source': begin
     kernel_window=1
     calibrate_visibilities=0
