@@ -164,20 +164,23 @@ if [ ! -z $cal_az_path ]; then
   arg_string="${arg_string} -s -p cal_for_SSINS"
 else
   # Assume if you are not writing calibrated SSINS then you want to RFI flag and get the outputs at least. New uvfits optional.
-  arg_string="${arg_string} -t ${time_avg} -a ${freq_avg} -f"
+  arg_string="${arg_string} -t ${time_avg} -a ${freq_avg}"
   if [ $write_new_uvfits -eq 1 ]; then
     arg_string="${arg_string} -w"
   fi
   if [ $correct -eq 1 ]; then
     arg_string="${arg_string} -c"
   fi
+  if [ $do_rfi_flagging -eq 1 ]; then
+    arg_string="${arg_string} -f"
+  fi
 fi
 
 # Run python catalog script
 python -u ~/repos/pipeline_scripts/SSINS_python_scripts/MWA_EoR_High_ssins_uvfits_write.py $arg_string
 
-# Only case where you would not write a uvfits is if this string is nonempty. Might consider just having a flag for writing uvfits.
-if [ -z $cal_az_path ]; then
+# Transfer uvfirs if you wrote one.
+if [ $write_new_uvfits -eq 1 ]; then
   # Move uvfits to az
   i=1  # initialize counter
   azcopy copy ${outdir}/${obs_id}.uvfits ${uvfits_output_az_path}/${obs_id}.uvfits

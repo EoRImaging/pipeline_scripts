@@ -16,12 +16,14 @@ do
     m) export time_avg=$OPTARG;;
     s) export cal_az_path=$OPTARG;;
     u) export write_new_uvfits=$OPTARG;;
+    r) export do_rfi_flagging=$OPTARG;;
     \?) echo "Unknown option: Accepted flags are -f (obs_file_name), -o (output directory), "
         echo "-b (ssins output container on az), -v (uvfits output container on az), "
         echo "-n (number of nodes to use), -q (slurm partition: hpc or htc)"
         echo "-p (path to input files on az), -t (type of input file), -c (whether to correct digital things)"
         echo "-a (number of frequency channels to average) -m (number of times to average)"
         echo "-s (path to cal solutions on azure) -u (write new uvfits file)"
+        echo "-r (do RFI flagging)"
         exit 1;;
     :) echo "Missing option argument for input flag"
        exit 1;;
@@ -109,6 +111,13 @@ if [ -z $time_avg ]; then
   echo Using default time_avg: $time_avg
 else
   echo Using time_avg: $time_avg
+fi
+
+if [ -z $do_rfi_flagging ]; then
+  export do_rfi_flagging=1
+  echo "Using default do_rfi_flagging: ${do_rfi_flagging}"
+else
+  echo Using do_rfi_flagging: $do_rfi_flagging
 fi
 
 # Write new uvfits by default. Only other case is that it was set to 0, in which case don't write.
