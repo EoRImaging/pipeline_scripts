@@ -3792,6 +3792,34 @@ pro fhd_versions_rlb
       cal_bp_transfer = 0
       restrict_hpx_inds='EoR0_high_healpix_inds.idlsave'
     end
+    
+    'rlb_pol_test_old_crosspol_phase_calc_May2021': begin
+      recalculate_all = 0
+      write_healpix_fits = 1
+      calibration_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
+      subtract_sidelobe_catalog = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
+      pad_uv_image = 1
+      diffuse_calibrate = 0
+      return_sidelobe_catalog = 1
+      ring_radius = 0
+      debug_region_grow = 0
+      cal_bp_transfer = 0
+      n_pol=4
+    end
+    
+    'rlb_pol_test_new_crosspol_phase_calc_May2021': begin
+      recalculate_all = 0
+      write_healpix_fits = 1
+      calibration_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
+      subtract_sidelobe_catalog = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
+      pad_uv_image = 1
+      diffuse_calibrate = 0
+      return_sidelobe_catalog = 1
+      ring_radius = 0
+      debug_region_grow = 0
+      cal_bp_transfer = 0
+      n_pol=4
+    end
 
   endcase
 
