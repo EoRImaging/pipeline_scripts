@@ -3823,7 +3823,6 @@ pro fhd_versions_rlb
     
     'rlb_diffuse_survey_decon_4pol_May2021': begin
       recalculate_all = 1
-      flag_calibration = 0
       uvfits_version = 5
       uvfits_subversion = 1
       max_deconvolution_components = 200000
