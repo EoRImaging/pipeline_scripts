@@ -3850,6 +3850,36 @@ pro fhd_versions_rlb
       time_cut = -4 ;flag an extra 4 seconds from the end of each obs
       snapshot_healpix_export = 0 ;don't need eppsilon inputs (added May 2020)
     end
+    
+    'rlb_diffuse_baseline_cut_optimal_weighting_Jun2021': begin
+      recalculate_all = 1
+      uvfits_version = 5
+      uvfits_subversion = 1
+      return_cal_visibilities = 0  ; changed this for calibration transfer
+      catalog_file_path = 0
+      diffuse_calibrate = 0
+      diffuse_model = 0
+      model_visibilities = 1
+      model_catalog_file_path = '/home/ubuntu/pol_leakage_corrected_catalogs_Jun2021/'+string(obs_id)+'_decon_catalog_pol_leakage_corrected.sav'
+      cal_bp_transfer = 0  ; changed this for calibration transfer
+      transfer_calibration = '/home/ubuntu/calibration_transferred/'+string(obs_id)+'_cal.sav'
+      transfer_weights = '/home/ubuntu/calibration_transferred/'+string(obs_id)+'_flags.sav'
+      rephase_weights = 0
+      restrict_hpx_inds = 0
+      hpx_radius = 15
+      subtract_sidelobe_catalog = filepath('GLEAM_v2_plus_rlb2019',root=rootdir('FHD'),subdir='catalog_data')
+      return_sidelobe_catalog = 1
+      dft_threshold = 0
+      ring_radius = 0
+      write_healpix_fits = 1
+      max_baseline = 50  ; use only baselines shorter than 50 wavelength
+      debug_region_grow = 0
+      n_pol = 4
+      dimension = 208 ; limit the UV plane to regions that contain data
+      image_filter_fn = 'filter_uv_optimal' ;filter has been renamed to optimal
+      time_cut = -4 ;flag an extra 4 seconds from the end of each obs
+      nside = 512 ;increase default Healpix nside
+    end
 
   endcase
 
