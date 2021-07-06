@@ -3932,6 +3932,78 @@ pro fhd_versions_rlb
       n_pol = 4
       time_cut = -4 ;flag an extra 4 seconds from the end of each obs
     end
+    
+    'rlb_subtract_diffuse_and_GLEAM_Jul2021': begin
+      recalculate_all = 0
+      return_cal_visibilities = 0  ; changed this for calibration transfer
+      catalog_file_path = 0
+      diffuse_calibrate = 0
+      model_visibilities = 1
+      model_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
+      subtract_sidelobe_catalog = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
+      diffuse_model = '/home/ubuntu/average_map_1131454296_rm_undone_IQU.sav'
+      cal_bp_transfer = 0  ; changed this for calibration transfer
+      transfer_calibration = '/home/ubuntu/calibration_transferred/'+string(obs_id)+'_cal.sav'
+      transfer_weights = '/home/ubuntu/calibration_transferred/'+string(obs_id)+'_flags.sav'
+      rephase_weights = 0
+      restrict_hpx_inds = 'EoR0_high_healpix_inds.idlsave'
+      hpx_radius = 15
+      subtract_sidelobe_catalog = 0
+      dft_threshold = 0
+      ring_radius = 0
+      write_healpix_fits = 1
+      debug_region_grow = 0
+      n_pol = 4 
+      save_uvf = 1
+    end
+    
+    'rlb_subtract_diffuse_only_Jul2021': begin
+      recalculate_all = 0
+      return_cal_visibilities = 0  ; changed this for calibration transfer
+      catalog_file_path = 0
+      diffuse_calibrate = 0
+      model_visibilities = 1
+      model_catalog_file_path = 0
+      subtract_sidelobe_catalog = 0
+      diffuse_model = '/home/ubuntu/average_map_1131454296_rm_undone_IQU.sav'
+      cal_bp_transfer = 0  ; changed this for calibration transfer
+      transfer_calibration = '/home/ubuntu/calibration_transferred/'+string(obs_id)+'_cal.sav'
+      transfer_weights = '/home/ubuntu/calibration_transferred/'+string(obs_id)+'_flags.sav'
+      rephase_weights = 0
+      restrict_hpx_inds = 'EoR0_high_healpix_inds.idlsave'
+      hpx_radius = 15
+      subtract_sidelobe_catalog = 0
+      dft_threshold = 0
+      ring_radius = 0
+      write_healpix_fits = 1
+      debug_region_grow = 0
+      n_pol = 4 
+      save_uvf = 1
+    end
+    
+    'rlb_subtract_StokesI_diffuse_and_GLEAM_Jul2021': begin
+      recalculate_all = 0
+      return_cal_visibilities = 0  ; changed this for calibration transfer
+      catalog_file_path = 0
+      diffuse_calibrate = 0
+      model_visibilities = 1
+      model_catalog_file_path = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
+      subtract_sidelobe_catalog = filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
+      diffuse_model = '/home/ubuntu/average_map_I.sav'
+      cal_bp_transfer = 0  ; changed this for calibration transfer
+      transfer_calibration = '/home/ubuntu/calibration_transferred/'+string(obs_id)+'_cal.sav'
+      transfer_weights = '/home/ubuntu/calibration_transferred/'+string(obs_id)+'_flags.sav'
+      rephase_weights = 0
+      restrict_hpx_inds = 'EoR0_high_healpix_inds.idlsave'
+      hpx_radius = 15
+      subtract_sidelobe_catalog = 0
+      dft_threshold = 0
+      ring_radius = 0
+      write_healpix_fits = 1
+      debug_region_grow = 0
+      n_pol = 4 
+      save_uvf = 1
+    end
 
   endcase
 
