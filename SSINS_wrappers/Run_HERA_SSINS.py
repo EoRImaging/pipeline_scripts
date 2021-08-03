@@ -64,6 +64,8 @@ for i,f1 in enumerate(file_names[::10]):
         xants = yaml.safe_load(xfile)
     use_ants = [ant for ant in uvd.antenna_numbers if ant not in xants]
     uvd.select(antenna_nums=use_ants)
+    print('Antennas included are:')
+    print(uvd.antenna_numbers)
     
     if args.internode_only==1 or args.intersnap_only==1:
         if i==0:
