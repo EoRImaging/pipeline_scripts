@@ -308,7 +308,7 @@ if [ "$ps_only" -ne "1" ] && [ "$wrapper_only" -ne "1" ]; then
         errfile=${FHDdir}/Healpix/${version}_int_chunk${chunk}_err.log
 	for evenodd in even odd; do
 	    for pol in ${pol_list[@]}; do
-                message=$(sbatch ${hold_str} --partition=$partition--mem=$mem -t ${wallclock_time} -n ${ncores} --export=file_path_cubes=$FHDdir,obs_list_path=$chunk_obs_list,version=$version,chunk=$chunk,ncores=$ncores,legacy=$legacy,evenodd=$evenodd,pol=$pol -e $errfile -o $outfile ${PSpath}../pipeline_scripts/bash_scripts/ozstar/integrate_slurm_job.sh)
+                message=$(sbatch ${hold_str} --partition=$partition --mem=$mem -t ${wallclock_time} -n ${ncores} --export=file_path_cubes=$FHDdir,obs_list_path=$chunk_obs_list,version=$version,chunk=$chunk,ncores=$ncores,legacy=$legacy,evenodd=$evenodd,pol=$pol -e $errfile -o $outfile ${PSpath}../pipeline_scripts/bash_scripts/ozstar/integrate_slurm_job.sh)
        		message=($message)
 		if [[ "$evenodd" = "even" ]] && [[ "$pol" = "XX" ]]; then idlist_int=${message[3]}; else idlist_int=${idlist_int}:${message[3]}; fi
 	    done
