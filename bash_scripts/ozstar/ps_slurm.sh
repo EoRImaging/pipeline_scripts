@@ -48,7 +48,7 @@ Help()
 
 
 #Parse flags for inputs
-while getopts ":d:f:p:w:n:m:s:o:i:l:H:h" option
+while getopts ":d:f:p:w:n:m:s:o:i:l:p:H:h" option
 do
    case $option in
         d) FHDdir="$OPTARG";;			#file path to fhd directory with cubes
