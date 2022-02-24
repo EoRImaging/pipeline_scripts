@@ -121,13 +121,13 @@ if [ -z ${version} ]; then
    exit 1
 fi
 
-if grep -q \'${version}\' ${FHDpath}../pipeline_scripts/FHD_IDL_wrappers/nb_eor_firstpass_versions.pro
-then
-    echo Using version $version
-else
-    echo Version \'${version}\' was not found in ${FHDpath}../pipeline_scripts/FHD_IDL_wrappers/nb_eor_firstpass_versions_wrapper.pro
-    exit 1
-fi
+#if grep -q \'${version}\' ${FHDpath}../pipeline_scripts/FHD_IDL_wrappers/nb_eor_firstpass_versions.pro
+#then
+#    echo Using version $version
+#else
+#    echo Version \'${version}\' was not found in ${FHDpath}../pipeline_scripts/FHD_IDL_wrappers/nb_eor_firstpass_versions_wrapper.pro
+#    exit 1
+#fi
 
 #Default priority if not set.
 #if [ -z ${priority} ]; then
