@@ -33,7 +33,7 @@ Help()
    # Display Help
    echo "Script to submit FHD jobs into the OzStar queue"
    echo
-   echo "Syntax: nohup ./pipe_slurm.sh [-f -s -e -o -v -w -n -m -H] >> ~/log.txt &"
+   echo "Syntax: nohup ./pipe_slurm.sh [-f -s -e -o -v -w -n -m -p -H] >> ~/log.txt &"
    echo "options:"
    echo "-f (text file of observation id's, required)," 
    echo "-s (starting observation, optional),"
@@ -42,7 +42,8 @@ Help()
    echo "-v (version input for FHD, required, i.e. foo creates output folder named fhd_foo),"
    echo "-w (wallclock time, default:10:00:00),"
    echo "-n (number of cores, default:1),"
-   echo "-m (memory allocation, default:40G)." 
+   echo "-m (memory allocation, default:40G)."
+   echo "-p (partition, default:skylake)."  
    echo "-H (hold run till specified jobid is finished, optional)." 
    echo
 }
@@ -64,6 +65,7 @@ do
 	w) wallclock_time=$OPTARG;;	#Time for execution in slurm
 	n) ncores=$OPTARG;;		#Number of cores for slurm
 	m) mem=$OPTARG;;		#Memory per node for slurm
+        p) partition=$OPTARG;;          #Partition to run on 
         H) hold=$OPTARG;;  
 	t) thresh=$OPTARG;;		#Wedge threshold to use to determine whether or not to run
         h) Help
@@ -145,6 +147,10 @@ fi
 if [ -z ${mem} ]; then
     mem=40G
 fi
+#Set partition for OzStar
+if [ -z ${partition} ]; then
+    partition=skylake
+fi
 # create hold string
 if [ -z ${hold} ]; then hold_str=""; else hold_str="--dependency=afterok:${hold}"; fi
 if [ -z ${thresh} ]; then
@@ -219,7 +225,7 @@ done
 #Find the number of obsids to run in array
 nobs=${#good_obs_list[@]}
 
-message=$(sbatch ${hold_str} --mem=$mem -t ${wallclock_time} -n ${ncores} --array=0-$(($nobs - 1)) --export=ncores=$ncores,outdir=$outdir,version=$version,thresh=$thresh -o ${outdir}/fhd_${version}/grid_out/firstpass-%A_%a.out -e ${outdir}/fhd_${version}/grid_out/firstpass-%A_%a.err ${FHDpath}../pipeline_scripts/bash_scripts/ozstar/eor_firstpass_slurm_job.sh ${good_obs_list[@]})
+message=$(sbatch ${hold_str} --partition=$partition --mem=$mem -t ${wallclock_time} -n ${ncores} --array=0-$(($nobs - 1)) --export=ncores=$ncores,outdir=$outdir,version=$version,thresh=$thresh -o ${outdir}/fhd_${version}/grid_out/firstpass-%A_%a.out -e ${outdir}/fhd_${version}/grid_out/firstpass-%A_%a.err ${FHDpath}../pipeline_scripts/bash_scripts/ozstar/eor_firstpass_slurm_job.sh ${good_obs_list[@]})
 
 #echo $message
 
@@ -368,7 +374,7 @@ if [ "$rerun_flag" -ne 1 ];then
 
    nobs=${#resubmit_list[@]}
 
-   message=$(sbatch --mem=$mem -t ${wallclock_time} -n ${ncores} --array=0-$nobs --export=ncores=$ncores,outdir=$outdir,version=$version,thresh=$thresh -o ${outdir}/fhd_${version}/grid_out/firstpass-%A_%a.out -e ${outdir}/fhd_${version}/grid_out/firstpass-%A_%a.err ${FHDpath}../pipeline_scripts/FHD_IDL_wrappers/eor_firstpass_slurm_job.sh ${resubmit_list[@]})
+   message=$(sbatch --partition=$partition --mem=$mem -t ${wallclock_time} -n ${ncores} --array=0-$nobs --export=ncores=$ncores,outdir=$outdir,version=$version,thresh=$thresh -o ${outdir}/fhd_${version}/grid_out/firstpass-%A_%a.out -e ${outdir}/fhd_${version}/grid_out/firstpass-%A_%a.err ${FHDpath}../pipeline_scripts/FHD_IDL_wrappers/eor_firstpass_slurm_job.sh ${resubmit_list[@]})
    message=($message)
    id=`echo ${message[3]}`
 
@@ -382,7 +388,7 @@ fi
 ### NOTE this only works if idlstartup doesn't have any print statements (e.g. healpix check)
 PSpath=$(idl -e 'print,rootdir("eppsilon")')
 
-${PSpath}../pipeline_scripts/bash_scripts/ozstar/ps_slurm.sh -f $obs_file_name -d $outdir/fhd_$version -w ${wallclock_time} -m ${mem}
+${PSpath}../pipeline_scripts/bash_scripts/ozstar/ps_slurm.sh -f $obs_file_name -d $outdir/fhd_$version -w ${wallclock_time} -m ${mem} -p ${partition}
 
 
 echo "Cube integration and PS submitted"

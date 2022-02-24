@@ -30,7 +30,7 @@ Help()
    echo "Script to submit eppsilon integration and image dft + power spectrum analysis into the OzStar queue"
    echo "All binary options require a 1 to be passed to be activated, i.e. -o 1"
    echo
-   echo "Syntax: nohup ./ps_slurm.sh [-d -f -p -w -n -m -s -o -i -l -H] >> ~/log.txt &"
+   echo "Syntax: nohup ./ps_slurm.sh [-d -f -p -w -n -m -s -o -i -l -p -H] >> ~/log.txt &"
    echo "options:"
    echo "-d (file path to fhd directory which contains a Healpix directory with cubes, required),"
    echo "-f (text file with observation list or subcube path or single obsid, required), "
@@ -41,6 +41,7 @@ Help()
    echo "-o (skip integration and run image dft with power spectrum analysis, optional), " 
    echo "-i (run integration only and skip image dft with power spectrum analysis, optional),"
    echo "-s (skip integration and image dft and only run with power spectrum analysis, optional),"
+   echo "-p (partition, default:skylake)." 
    echo "-H (hold int/ps script on a running job id, optional)"
    echo
 }
@@ -60,6 +61,7 @@ do
 	o) ps_only=$OPTARG;;			#Flag for skipping integration to make PS only
         i) int_only=$OPTARG;;                   #Flag for skipping PS to make integration only
         l) legacy=$OPTARG;;                     #Use legacy directory structure. hacky solution to a silly problem.
+        p) partition=$OPTARG;;                  #Partition to run on 
         H) hold=$OPTARG;;                       #Hold for a job to finish before running. Useful when running immediately after firstpass
         h) Help
            exit 1;;
@@ -134,6 +136,11 @@ if [ -z ${ncores} ]; then ncores=1; fi
 
 #Set typical memory needed for standard PS with obs ids if not set.
 if [ -z ${mem} ]; then mem=15G; fi
+
+#Set partition for OzStar
+if [ -z ${partition} ]; then
+    partition=skylake
+fi
 
 #Set default to do integration
 if [ -z ${ps_only} ]; then ps_only=0; fi
@@ -270,7 +277,7 @@ if [ "$ps_only" -ne "1" ] && [ "$wrapper_only" -ne "1" ]; then
 	    errfile=${FHDdir}/Healpix/${version}_int_chunk${chunk}_err.log
 	    for evenodd in even odd; do
 		for pol in ${pol_list[@]}; do 
-		    message=$(sbatch ${hold_str} --mem=$mem -t ${wallclock_time} -n ${ncores} --export=file_path_cubes=$FHDdir,obs_list_path=$chunk_obs_list,version=$version,chunk=$chunk,ncores=$ncores,legacy=$legacy,evenodd=$evenodd,pol=$pol -e $errfile -o $outfile ${PSpath}../pipeline_scripts/bash_scripts/ozstar/integrate_slurm_job.sh)
+		    message=$(sbatch ${hold_str} --partition=$partition --mem=$mem -t ${wallclock_time} -n ${ncores} --export=file_path_cubes=$FHDdir,obs_list_path=$chunk_obs_list,version=$version,chunk=$chunk,ncores=$ncores,legacy=$legacy,evenodd=$evenodd,pol=$pol -e $errfile -o $outfile ${PSpath}../pipeline_scripts/bash_scripts/ozstar/integrate_slurm_job.sh)
 	    	    message=($message)
 	    	    if [ "$chunk" -eq 1 ] && [[ "$evenodd" = "even" ]] && [[ "$pol" = "XX" ]]; then idlist=${message[3]}; else idlist=${idlist}:${message[3]}; fi
 		done
@@ -284,7 +291,7 @@ if [ "$ps_only" -ne "1" ] && [ "$wrapper_only" -ne "1" ]; then
         errfile=${FHDdir}/Healpix/${version}_int_chunk${chunk}_err.log
 	for evenodd in even odd; do
 	    for pol in ${pol_list[@]}; do
-                message=$(sbatch --dependency=afterok:$idlist --mem=$mem -t $wallclock_time -n $ncores --export=file_path_cubes=$FHDdir,obs_list_path=$sub_cubes_list,version=$version,chunk=$chunk,ncores=$ncores,legacy=$legacy,evenodd=$evenodd,pol=$pol -e $errfile -o $outfile ${PSpath}../pipeline_scripts/bash_scripts/ozstar/integrate_slurm_job.sh)
+                message=$(sbatch --dependency=afterok:$idlist --partition=$partition --mem=$mem -t $wallclock_time -n $ncores --export=file_path_cubes=$FHDdir,obs_list_path=$sub_cubes_list,version=$version,chunk=$chunk,ncores=$ncores,legacy=$legacy,evenodd=$evenodd,pol=$pol -e $errfile -o $outfile ${PSpath}../pipeline_scripts/bash_scripts/ozstar/integrate_slurm_job.sh)
         	message=($message)
 		if [[ "$evenodd" = "even" ]] && [[ "$pol" = "XX" ]]; then idlist_master=${message[3]}; else idlist_master=${idlist_master}:${message[3]}; fi
 	    done
@@ -301,7 +308,7 @@ if [ "$ps_only" -ne "1" ] && [ "$wrapper_only" -ne "1" ]; then
         errfile=${FHDdir}/Healpix/${version}_int_chunk${chunk}_err.log
 	for evenodd in even odd; do
 	    for pol in ${pol_list[@]}; do
-                message=$(sbatch ${hold_str} --mem=$mem -t ${wallclock_time} -n ${ncores} --export=file_path_cubes=$FHDdir,obs_list_path=$chunk_obs_list,version=$version,chunk=$chunk,ncores=$ncores,legacy=$legacy,evenodd=$evenodd,pol=$pol -e $errfile -o $outfile ${PSpath}../pipeline_scripts/bash_scripts/ozstar/integrate_slurm_job.sh)
+                message=$(sbatch ${hold_str} --partition=$partition--mem=$mem -t ${wallclock_time} -n ${ncores} --export=file_path_cubes=$FHDdir,obs_list_path=$chunk_obs_list,version=$version,chunk=$chunk,ncores=$ncores,legacy=$legacy,evenodd=$evenodd,pol=$pol -e $errfile -o $outfile ${PSpath}../pipeline_scripts/bash_scripts/ozstar/integrate_slurm_job.sh)
        		message=($message)
 		if [[ "$evenodd" = "even" ]] && [[ "$pol" = "XX" ]]; then idlist_int=${message[3]}; else idlist_int=${idlist_int}:${message[3]}; fi
 	    done
@@ -349,7 +356,7 @@ for pol in ${pol_list[@]}; do
         for cube_type in ${cube_type_list[@]}; do
 	    if [ "$cube_type" == "weights" ]; then hold_str_cubes=$hold_str; fi
             if [ "$cube_type" != "weights" ]; then wallclock_time_use=$wallclock_time_half; else wallclock_time_use=$wallclock_time; fi
-            message=$(sbatch ${hold_str_cubes} --mem=$mem -t ${wallclock_time_use} -n ${ncores} --export=file_path_cubes=$FHDdir,obs_list_path=$integrate_list,version=$version,ncores=$ncores,cube_type=$cube_type,pol=$pol,evenodd=$evenodd -e ${errfile}_${pol}_${evenodd}_${cube_type}.log -o ${outfile}_${pol}_${evenodd}_${cube_type}.log -J PS_${pol}${evenodd_initial}_${cube_type} ${PSpath}${pipe_path}PS_list_slurm_job.sh)
+            message=$(sbatch ${hold_str_cubes} --partition=$partition --mem=$mem -t ${wallclock_time_use} -n ${ncores} --export=file_path_cubes=$FHDdir,obs_list_path=$integrate_list,version=$version,ncores=$ncores,cube_type=$cube_type,pol=$pol,evenodd=$evenodd -e ${errfile}_${pol}_${evenodd}_${cube_type}.log -o ${outfile}_${pol}_${evenodd}_${cube_type}.log -J PS_${pol}${evenodd_initial}_${cube_type} ${PSpath}${pipe_path}PS_list_slurm_job.sh)
             message=($message)
             if [ "$cube_type" == "weights" ]; then hold_str_cubes="--dependency=afterok:${message[3]}"; fi
                 if [ "$cube_type" == "weights" ]; then
@@ -373,4 +380,4 @@ fi
 #final plots
 plot_walltime=00:30:00
 if [[ -n ${wrapper_only} ]]; then plot_walltime=$wallclock_time; fi
-sbatch $hold_str --mem=$mem -t ${plot_walltime} -n ${ncores} --export=file_path_cubes=$FHDdir,obs_list_path=$integrate_list,version=$version,ncores=$ncores -e ${errfile}_plots.log -o ${outfile}_plots.log -J PS_plots ${PSpath}${pipe_path}PS_list_slurm_job.sh
+sbatch $hold_str --partition=$partition --mem=$mem -t ${plot_walltime} -n ${ncores} --export=file_path_cubes=$FHDdir,obs_list_path=$integrate_list,version=$version,ncores=$ncores -e ${errfile}_plots.log -o ${outfile}_plots.log -J PS_plots ${PSpath}${pipe_path}PS_list_slurm_job.sh
