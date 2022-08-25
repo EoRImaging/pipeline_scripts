@@ -181,6 +181,6 @@ else
 fi
 
 # Go ahead and delete output directory on instance since they are not currently sharing jobs
-sudo rm -r ${FHD_version}
+# sudo rm -r ${FHD_version}
 
 exit $error_mode

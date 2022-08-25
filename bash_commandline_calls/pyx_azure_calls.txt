@@ -1,3 +1,15 @@
+# call for running ssins only on mwa gpubox files (not writing out uvfits file) (2022)
+bash repos/pipeline_scripts/bash_scripts/azure/run_SSINS_az.sh -f ~/mwax_obs_lists/ssins_flag_test.txt -b https://june22mwax.blob.core.windows.net/ssins/2021 -n 6 -p https://june22mwax.blob.core.windows.net/gpubox/2021 -t gpubox -u 0
+
+# call for running pyuvdata on mwa gpubox files & applying ssins flags (2022)
+bash repos/pipeline_scripts/pyuvdata_wrappers/run_pyuvdata_gpubox_slurm_cluster.sh -f /shared/home/pyxie/mwax_obs_lists/ssins_flag_test.txt -s https://june22mwax.blob.core.windows.net/ssins/2021/SSINS_output -o https://june22mwax.blob.core.windows.net/uvfits/2021 -d https://june22mwax.blob.core.windows.net/gpubox/2021 -z repos/pipeline_scripts/pyuvdata_wrappers/pyuvdata_gpubox_job_az.sh -w /mnt/scratch -q hpc -n 8 -p -g -b -u uvfits 
+
+# call for running fhd cal stage  on mwax (2022)
+bash run_fhd_az.sh -f ~/mwax_obs_lists/mwax_1_z_test.txt -b https://june22mwax.blob.core.windows.net/fhd/long_run -v eor_latest_greatest_cal_phase2_no_freq_av_no_freq_flag -n 12 -u fhd_versions_pls -p https://june22mwax.blob.core.windows.net/uvfits/2021/ssins_phased_gains_bandpass_2.0sec_40kHz_flagzero -m https://june22mwax.blob.core.windows.net/metafits/2021 -q hpc
+
+# call for running fhd image stage on mwax (2022)
+bash run_fhd_az.sh -f ~/mwax_obs_lists/mwax_1_z_test.txt -b https://june22mwax.blob.core.windows.net/fhd/long_run -v eor_latest_greatest_image_phase2_no_freq_av_no_freq_flag -n 8 -u fhd_versions_pls -p https://june22mwax.blob.core.windows.net/uvfits/2021/ssins_phased_gains_bandpass_2.0sec_40kHz_flagzero -m https://june22mwax.blob.core.windows.net/metafits/2021 -q hpc -t https://june22mwax.blob.core.windows.net/fhd/long_run/fhd_eor_latest_greatest_cal_phase2_no_freq_av_no_freq_flag -c https://june22mwax.blob.core.windows.net/fhd/long_run/fhd_eor_latest_greatest_cal_phase2_no_freq_av_no_freq_flag
+
 # call for testing 2014 data through ssins/pyuvdata for mike's thesis run
 bash run_SSINS_az.sh -f ~/2014_test2.txt -b https://mwadata.blob.core.windows.net/ssins/2014 -n 8 -p https://mwadata.blob.core.windows.net/gpubox/2014 -t gpubox -c 1 -a 2
 

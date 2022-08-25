@@ -1,6 +1,6 @@
 #!/bin/bash
 
-while getopts ":f:o:b:v:n:q:p:t:c:a:m:s:u:" option
+while getopts ":f:o:b:v:n:q:p:t:c:a:m:s:u:r:" option
 do
   case $option in
     f) export obs_file_name="$OPTARG";;
@@ -154,7 +154,7 @@ fi
 # Set default partition
 if [ -z ${partition} ]; then
     partition=hpc
-elif [[ ${partition} != "hpc" && ${input_type} != "htc" ]]; then
+elif [[ ${partition} != "hpc" && ${partition} != "htc" ]]; then
   echo "${partition} is not a valid input type. Valid options are 'hpc' or 'htc'"
   exit 1
 fi

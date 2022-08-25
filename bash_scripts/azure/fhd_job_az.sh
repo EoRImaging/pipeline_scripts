@@ -172,6 +172,7 @@ fi
 if [ ! -z ${cal_transfer} ]; then
     # Check that the cal_transfer file exists on az
     cal_transfer_az_path="${cal_transfer}/calibration/${obs_id}_cal.sav"
+    echo ${cal_transfer_az_path}
     transfer_dir=uvfits/transfer
     if [ -d $transfer_dir ]; then
         sudo chmod -R 777 $transfer_dir
