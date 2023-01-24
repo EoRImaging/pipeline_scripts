@@ -59,6 +59,7 @@ fi
 
 for int_cube in ${int_cubes}; do
     if [ ! -f "${FHD_version}/Healpix/${int_cube}_${evenodd}_cube${pol^^}.sav" ]; then
+	echo "${file_path_cubes}/Healpix/${int_cube}_${evenodd}_cube${pol^^}.sav"
         azcopy copy ${file_path_cubes}/Healpix/${int_cube}_${evenodd}_cube${pol^^}.sav \
         ${FHD_version}/Healpix/${int_cube}_${evenodd}_cube${pol^^}.sav
     fi
@@ -71,9 +72,10 @@ for int_cube in ${int_cubes}; do
     fi
 done
 
+echo $(ls ${FHD_version}/Healpix)
 # Error if any cubes did not download
 if [ ! -z ${exit_flag} ]; then
-    sudo rm -rf $FHD_version
+    # sudo rm -rf $FHD_version
     exit 1
 fi
 echo All cubes on instance
@@ -92,6 +94,9 @@ for int_cube in $(cat $int_list_path); do
     echo $cube_path >> $evenoddpol_file_paths
 done
 
+# make license directory to avoid licensing issues
+sudo mkdir -m 777 License
+sudo mkdir -m 777 License/flexera-sv
 # Run the integration IDL script
 idl -IDL_DEVICE ps -IDL_CPU_TPOOL_NTHREADS $nslots -e integrate_healpix_cubes -args "$evenoddpol_file_paths" "${FHD_version}/$save_file_evenoddpol" || :
 

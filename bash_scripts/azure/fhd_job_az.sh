@@ -212,6 +212,9 @@ if [ ! -z ${model_uv_transfer} ]; then
 fi
 
 # Run FHD
+# make license directory to avoid licensing issues
+sudo mkdir -m 777 License
+sudo mkdir -m 777 License/flexera-sv
 idl -IDL_DEVICE ps -IDL_CPU_TPOOL_NTHREADS $nslots -e $versions_script -args \
 $obs_id $outdir $version azure || :
 

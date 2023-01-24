@@ -131,6 +131,9 @@ for ps_pol in ${pols}; do
 done
 
 echo "arg_string is $arg_string"
+# make license directory to avoid licensing issues
+sudo mkdir -m 777 License
+sudo mkdir -m 777 License/flexera-sv
 idl -IDL_DEVICE ps -IDL_CPU_TPOOL_NTHREADS $nslots -e az_ps_job -args $arg_string || :
 
 if [ $? -eq 0 ]

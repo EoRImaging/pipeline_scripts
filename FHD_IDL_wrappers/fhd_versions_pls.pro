@@ -66,7 +66,7 @@ pro fhd_versions_pls
     digital_gain_jump_polyfit=0 ; this is default
     end
 
-    'eor_latest_greatest_cal_phase2_no_freq_av_no_freq_flag_gaussbeam': begin
+    'eor_latest_greatest_cal_phase2_no_freq_av_no_freq_flag_gaussbeam_instrum': begin
     instrument='mwa2'
     calibration_catalog_file_path=filepath('GLEAM_v2_plus_rlb2019.sav',root=rootdir('FHD'),subdir='catalog_data')
     restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'

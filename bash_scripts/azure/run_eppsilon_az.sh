@@ -5,7 +5,7 @@
 ######################################################################################
 
 #Parse flags for inputs
-while getopts ":d:f:v:n:i:c:p:h:s:x:q:o:" option
+while getopts ":d:f:v:n:i:c:p:h:s:x:t:q:o:" option
 do
    case $option in
         d) export file_path_cubes=$OPTARG;;			#file path to fhd directory on azure storage
@@ -18,11 +18,12 @@ do
         h) hold_job_id=$OPTARG;;             #Job_id for a job to finish before running. Useful when running immediately after firstpass
         s) export single_obs=$OPTARG;; # Working on a single obsid that has never seen integration.
         x) export pols=$OPTARG;; # String of space-separated pols
+	t) export cube_types=$OPTARG;; # String of space-separated cube types
         q) partition=$OPTARG;; # Compute node partition
 	o) force_single_obs=$OPTARG;; # Force single obs when doing integration
 	\?) echo "Unknown option: Accepted flags are -d (file path to fhd directory on azure storage), -f (obs list or subcube path or single obsid), "
 	          echo "-v (version), -n (number of slots), -i (integrate) -c (make 'weights', 'dirty', 'model' cubes) -p (make ps), "
-	          echo "-h (job id to hold int/ps script for), -s (single obsid), -x (string of pols), and -q (partition)"
+		  echo "-h (job id to hold int/ps script for), -s (single obsid), -x (string of pols), -t (string of cube types), and -q (partition)"
 		  echo "-o (force single obs integration)"
             exit 1;;
         :) echo "Missing option argument for input flag"
@@ -176,7 +177,12 @@ if [ $int -eq 1 ]; then
 fi
 
 # Cube definitions
-cube_type_arr=('weights' 'dirty' 'model')
+if [ -z ${cube_types} ]; then
+	cube_type_arr=('weights' 'dirty' 'model')
+else
+	cube_type_arr=($cube_types)
+fi
+
 export n_cubes=${#cube_type_arr[@]}
 
 # Run eppsilon cube job
