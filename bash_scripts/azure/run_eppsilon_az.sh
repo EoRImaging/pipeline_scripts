@@ -5,9 +5,10 @@
 ######################################################################################
 
 #Parse flags for inputs
-while getopts ":d:f:v:n:i:c:p:h:s:x:t:q:o:" option
+while getopts ":u:d:f:v:n:i:c:p:h:s:x:t:q:o:" option
 do
    case $option in
+        u) export versions_script=$OPTARG;;     # optional versions script; if not submitted az_ps_job will be used
         d) export file_path_cubes=$OPTARG;;			#file path to fhd directory on azure storage
         f) export integrate_list="$OPTARG";;		#txt file of obs ids or subcubes or a single obsid
         v) export version=$OPTARG;; # Name associated with resulting integration/eppsilon outputs. Not the FHD version.
@@ -52,6 +53,11 @@ else
     echo Using version: $version
 fi
 
+# set default versions_script
+if [ -z ${versions_script} ]; then
+    versions_script=az_ps_job
+fi
+export versions_script=${versions_script}
 # Set default single_obs
 if [ -z ${single_obs} ]; then
     export single_obs=0
