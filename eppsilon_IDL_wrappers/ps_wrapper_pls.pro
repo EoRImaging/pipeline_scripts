@@ -7,9 +7,9 @@ pro ps_wrapper_pls
   compile_opt strictarr
   args = Command_Line_Args(count=nargs)
   folder_name = args[0]
-  output_directory = args[1]
+  obs_range = args[1]
   version = args[2]
-  if nargs gt 3 then platform = args[3] else platform = '' ;indicates if running on AWS
+  # if nargs gt 3 then platform = args[3] else platform = '' ;indicates if running on AWS
 
   cmd_args={version:version}
 

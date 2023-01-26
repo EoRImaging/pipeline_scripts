@@ -4,7 +4,7 @@
 # running integration on azure machines. First level program is run_eppsilon_az.sh
 # Adapted from eppsilon_job_aws.sh
 
-#inputs needed: file_path_cubes, obs_list_path, obs_list_array, version, nslots
+#inputs needed: file_path_cubes, obs_list_path, obs_list_array, cube_prefix, nslots
 #inputs optional: cube_type, pol, evenodd
 
 # If cube_type is unset, do a power spectrum job. Otherwise, do a cube job.
@@ -13,7 +13,7 @@ echo JOBID ${SLURM_ARRAY_JOB_ID}
 if [ ! -z ${cube_type} ]; then
     echo TASKID ${SLURM_ARRAY_TASK_ID}
 fi
-echo VERSION ${version}
+echo CUBE_PREFIX ${cube_prefix}
 echo "JOB START TIME" `date +"%Y-%m-%d_%H:%M:%S"`
 myip="$(dig +short myip.opendns.com @resolver1.opendns.com)"
 echo PUBLIC IP ${myip}
@@ -34,7 +34,7 @@ fi
 
 # echo keywords
 echo Using file_path_cubes: $file_path_cubes
-echo Using version: $version
+echo Using cube_prefix: $cube_prefix
 echo Using single_obs: $single_obs
 
 # log into azcopy
@@ -47,16 +47,19 @@ FHD_version=$(basename ${file_path_cubes})
 #   into this script
 input_folder=/mnt/scratch/$FHD_version/
 if [[ -z ${cube_type} ]] && [[ -z ${pol} ]] && [[ -z ${evenodd} ]]; then
-        arg_string="${input_folder} ${version}"
+        arg_string="${input_folder} ${cube_prefix}"
 else
     if [[ ! -z ${cube_type} ]] && [[ ! -z ${pol} ]] && [[ ! -z ${evenodd} ]]; then
         # create arg string for cube job
-            arg_string="${input_folder} ${version} ${cube_type} ${pol,,} ${evenodd}"
+            arg_string="${input_folder} ${cube_prefix} ${cube_type} ${pol,,} ${evenodd}"
     else
         echo "Need to specify cube_type, pol, and evenodd altogether"
         exit 1
     fi
 fi
+
+if [ ! -z ${version} ]; then
+    arg_string=arg_string + " ${version}"
 
 #create Healpix download location with full permissions
 if [ -d ${FHD_version}/Healpix ]; then
@@ -86,10 +89,10 @@ else
 fi
 
 if [ $single_obs -eq 1 ]; then
-    cube_prefix=${version}
+    cube_prefix=${cube_prefix}
 	echo Working on a single obsid. Using cube prefix ${cube_prefix}.
 else
-	cube_prefix="Combined_obs_${version}"
+	cube_prefix="Combined_obs_${cube_prefix}"
 	echo Working on combined obsids. Using cube prefix ${cube_prefix}.
 fi
 
@@ -171,18 +174,18 @@ echo "JOB END TIME" `date +"%Y-%m-%d_%H:%M:%S"`
 # Move logs to az
 if [ ! -z ${cube_type} ]; then
     # Copy stdout to S3
-    azcopy copy ~/logs/${version}_eppsilon_cube_job_az.sh.o${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID} \
-    ${file_path_cubes}/ps/logs/${version}_eppsilon_cube_job_az.sh.o${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID}_${myip}.txt
+    azcopy copy ~/logs/${cube_prefix}_eppsilon_cube_job_az.sh.o${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID} \
+    ${file_path_cubes}/ps/logs/${cube_prefix}_eppsilon_cube_job_az.sh.o${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID}_${myip}.txt
     # Copy stderr to S3
-    azcopy copy ~/logs/${version}_eppsilon_cube_job_az.sh.e${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID} \
-    ${file_path_cubes}/ps/logs/${version}_eppsilon_cube_job_az.sh.e${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID}_${myip}.txt
+    azcopy copy ~/logs/${cube_prefix}_eppsilon_cube_job_az.sh.e${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID} \
+    ${file_path_cubes}/ps/logs/${cube_prefix}_eppsilon_cube_job_az.sh.e${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID}_${myip}.txt
 else
     # Copy stdout to S3
-    azcopy copy ~/logs/${version}_eppsilon_ps_job_az.sh.o${SLURM_ARRAY_JOB_ID} \
-    ${file_path_cubes}/ps/logs/${version}_eppsilon_ps_job_az.sh.o${SLURM_ARRAY_JOB_ID}_${myip}.txt
+    azcopy copy ~/logs/${cube_prefix}_eppsilon_ps_job_az.sh.o${SLURM_ARRAY_JOB_ID} \
+    ${file_path_cubes}/ps/logs/${cube_prefix}_eppsilon_ps_job_az.sh.o${SLURM_ARRAY_JOB_ID}_${myip}.txt
     # Copy stderr to S3
-    azcopy copy ~/logs/${version}_eppsilon_ps_job_az.sh.e${SLURM_ARRAY_JOB_ID} \
-    ${file_path_cubes}/ps/logs/${version}_eppsilon_ps_job_az.sh.e${SLURM_ARRAY_JOB_ID}_${myip}.txt
+    azcopy copy ~/logs/${cube_prefix}_eppsilon_ps_job_az.sh.e${SLURM_ARRAY_JOB_ID} \
+    ${file_path_cubes}/ps/logs/${cube_prefix}_eppsilon_ps_job_az.sh.e${SLURM_ARRAY_JOB_ID}_${myip}.txt
 fi
 
 # Go ahead and delete output directory on instance since they are not currently sharing jobs
