@@ -97,42 +97,74 @@ else
 	echo Working on combined obsids. Using cube prefix ${cube_prefix}.
 fi
 
-
-
+# if running a power spectrum job, pull the uvf cubes and info cube
+if [ -z ${cube_type} ]; then
+    azcopy copy ${file_path_cubes}/ps ${FHD_version} --recursive --include-pattern="*${cube_prefix}*"
+    # check that all uvf cubes were downloaded
+    for ps_pol in ${pols}; do
+        for ps_evenodd in even odd; do
+            for ps_cube_type in weights dirty model; do
+                cube_name="${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}_noimgclip_${ps_cube_type}_uvf.idlsave"
+                if [ ! -f "${FHD_version}/ps/data/uvf_cubes/${cube_name}" ]; then
+                >&2 echo "uvf cube ${cube_name} not found"
+                exit 1
+                fi
+            done
+        done
+    done
+else
+# if running a dft job, pull the Healpix cubes
 # Currently need all HEALPix cubes for single cube jobs so that info file
 # behaves sensibly given a dynamic filesystem.
+    for ps_pol in ${pols}; do
+        for ps_evenodd in even odd; do
+            if [ ! -f "${FHD_version}/Healpix/${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}.sav" ]; then
+                    echo "Using file_path_cubes for Healpix download: ${file_path_cubes}"
+                echo "Attempting to download ${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}.sav"
+                    azcopy copy ${file_path_cubes}/Healpix/${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}.sav \
+                ${FHD_version}/Healpix/${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}.sav
+            fi
+            # Check that file downloaded
+            if [ ! -f "${FHD_version}/Healpix/${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}.sav" ]; then
+                >&2 echo "Integration cube ${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}.sav not found"
+                exit 1
+            fi
+        done
+    done
+fi
 
-for ps_pol in ${pols}; do
-    for ps_evenodd in even odd; do
-        if [ ! -f "${FHD_version}/Healpix/${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}.sav" ]; then
-		        echo "Using file_path_cubes for Healpix download: ${file_path_cubes}"
-            echo "Attempting to download ${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}.sav"
-		        azcopy copy ${file_path_cubes}/Healpix/${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}.sav \
-              ${FHD_version}/Healpix/${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}.sav
-	      fi
-	      # Check that file downloaded
-        if [ ! -f "${FHD_version}/Healpix/${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}.sav" ]; then
-            >&2 echo "Integration cube ${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}.sav not found"
-            exit 1
-        fi
+# for ps_pol in ${pols}; do
+#     for ps_evenodd in even odd; do
+#         if [ ! -f "${FHD_version}/Healpix/${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}.sav" ]; then
+# 		        echo "Using file_path_cubes for Healpix download: ${file_path_cubes}"
+#             echo "Attempting to download ${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}.sav"
+# 		        azcopy copy ${file_path_cubes}/Healpix/${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}.sav \
+#               ${FHD_version}/Healpix/${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}.sav
+# 	      fi
+# 	      # Check that file downloaded
+#         if [ ! -f "${FHD_version}/Healpix/${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}.sav" ]; then
+#             >&2 echo "Integration cube ${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}.sav not found"
+#             exit 1
+#         fi
+#         # Grab the uvf cubes if it is a power spectrum job.
+#         if [ -z ${cube_type} ]; then
+# 	         for ps_cube_type in weights dirty model; do
+#                 cube_name="${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}_noimgclip_${ps_cube_type}_uvf.idlsave"
+#             		if [ ! -f "${FHD_version}/ps/data/uvf_cubes/${cube_name}" ]; then
+#             		    echo "Using file_path_cubes for uvf download: ${file_path_cubes}"
+#             		    azcopy copy ${file_path_cubes}/ps/data/uvf_cubes/${cube_name} ${FHD_version}/ps/data/uvf_cubes/${cube_name}
+#             		fi
 
-        # Grab the uvf cubes if it is a power spectrum job.
-        if [ -z ${cube_type} ]; then
-	         for ps_cube_type in weights dirty model; do
-                cube_name="${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}_noimgclip_${ps_cube_type}_uvf.idlsave"
-            		if [ ! -f "${FHD_version}/ps/data/uvf_cubes/${cube_name}" ]; then
-            		    echo "Using file_path_cubes for uvf download: ${file_path_cubes}"
-            		    azcopy copy ${file_path_cubes}/ps/data/uvf_cubes/${cube_name} ${FHD_version}/ps/data/uvf_cubes/${cube_name}
-            		fi
+#             		if [ ! -f "${FHD_version}/ps/data/uvf_cubes/${cube_name}" ]; then
+#                     >&2 echo "uvf cube ${cube_name} not found"
+#                     exit 1
+#             		fi
+# 	           done
+#         fi
+# 	  done
+# done
 
-            		if [ ! -f "${FHD_version}/ps/data/uvf_cubes/${cube_name}" ]; then
-                    >&2 echo "uvf cube ${cube_name} not found"
-                    exit 1
-            		fi
-	           done
-        fi
-	  done
-done
+
 
 echo "arg_string is $arg_string"
 # make license directory to avoid licensing issues
@@ -151,24 +183,32 @@ else
     error_mode=1
 fi
 
-# Move eppsilon outputs to az
-if [ -z ${cube_type} ]; then
-    i=1  #initialize counter
+i=1  #initialize counter
+azcopy copy ${FHD_version}/ps ${file_path_cubes} --recursive
+while [ $? -ne 0 ] && [ $i -lt 10 ]; do
+    let "i += 1"  #increment counter
+    >&2 echo "Moving eppsilon outputs to az failed. Retrying (attempt $i)."
     azcopy copy ${FHD_version}/ps ${file_path_cubes} --recursive
-    while [ $? -ne 0 ] && [ $i -lt 10 ]; do
-        let "i += 1"  #increment counter
-        >&2 echo "Moving eppsilon outputs to az failed. Retrying (attempt $i)."
-        azcopy copy ${FHD_version}/ps ${file_path_cubes} --recursive
-    done
-else
-    i=1  #initialize counter
-    azcopy copy ${FHD_version}/ps/data/uvf_cubes ${file_path_cubes}/ps/data --recursive
-    while [ $? -ne 0 ] && [ $i -lt 10 ]; do
-        let "i += 1"  #increment counter
-        >&2 echo "Moving eppsilon outputs to az failed. Retrying (attempt $i)."
-        azcopy copy ${FHD_version}/ps/data/uvf_cubes ${file_path_cubes}/ps/data --recursive
-    done
-fi
+done
+
+# # Move eppsilon outputs to az
+# if [ -z ${cube_type} ]; then
+#     i=1  #initialize counter
+#     azcopy copy ${FHD_version}/ps ${file_path_cubes} --recursive
+#     while [ $? -ne 0 ] && [ $i -lt 10 ]; do
+#         let "i += 1"  #increment counter
+#         >&2 echo "Moving eppsilon outputs to az failed. Retrying (attempt $i)."
+#         azcopy copy ${FHD_version}/ps ${file_path_cubes} --recursive
+#     done
+# else
+#     i=1  #initialize counter
+#     azcopy copy ${FHD_version}/ps/data/uvf_cubes ${file_path_cubes}/ps/data --recursive
+#     while [ $? -ne 0 ] && [ $i -lt 10 ]; do
+#         let "i += 1"  #increment counter
+#         >&2 echo "Moving eppsilon outputs to az failed. Retrying (attempt $i)."
+#         azcopy copy ${FHD_version}/ps/data/uvf_cubes ${file_path_cubes}/ps/data --recursive
+#     done
+# fi
 
 echo "JOB END TIME" `date +"%Y-%m-%d_%H:%M:%S"`
 
