@@ -36,7 +36,7 @@ fi
 echo Using file_path_cubes: $file_path_cubes
 echo Using cube_prefix: $cube_prefix
 echo Using single_obs: $single_obs
-
+echo Using versions_script: $versions_script
 # log into azcopy
 azcopy login --identity
 
@@ -59,7 +59,8 @@ else
 fi
 
 if [ ! -z ${version} ]; then
-    arg_string=arg_string + " ${version}"
+    arg_string="$arg_string ${version}"
+fi
 
 #create Healpix download location with full permissions
 if [ -d ${FHD_version}/Healpix ]; then
@@ -137,7 +138,7 @@ echo "arg_string is $arg_string"
 # make license directory to avoid licensing issues
 sudo mkdir -m 777 License
 sudo mkdir -m 777 License/flexera-sv
-idl -IDL_DEVICE ps -IDL_CPU_TPOOL_NTHREADS $nslots -e $versions_script -args $arg_string || :
+idl -IDL_DEVICE ps -IDL_CPU_TPOOL_NTHREADS $nslots -e ${versions_script} -args $arg_string || :
 
 # idl -IDL_DEVICE ps -IDL_CPU_TPOOL_NTHREADS $nslots -e az_ps_job -args $arg_string || :
 
@@ -189,6 +190,6 @@ else
 fi
 
 # Go ahead and delete output directory on instance since they are not currently sharing jobs
-# sudo rm -r ${FHD_version}
+sudo rm -r ${FHD_version}
 
 exit $error_mode

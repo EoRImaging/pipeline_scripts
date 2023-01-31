@@ -5,14 +5,14 @@
 ######################################################################################
 
 #Parse flags for inputs
-while getopts ":u:d:f:b:v:n:i:c:p:h:s:x:t:q:o:" option
+while getopts ":u:d:f:v:b:n:i:c:p:h:s:x:t:q:o:" option
 do
    case $option in
         u) export versions_script=$OPTARG;;     # optional versions script; if not submitted az_ps_job will be used
         d) export file_path_cubes=$OPTARG;;			#file path to fhd directory on azure storage
         f) export integrate_list="$OPTARG";;		#txt file of obs ids or subcubes or a single obsid
-        b) export cube_prefix=$OPTARG;;  # Name associated with resulting integration/eppsilon outputs. Not the FHD version.
-        v) export version=$OPTARG;; # version from script
+        v) export cube_prefix=$OPTARG;;  # Name associated with resulting integration/eppsilon outputs. Not the FHD version.
+        b) export version=$OPTARG;; # version from script
         n) export nslots=$OPTARG;;             	#Number of slots for grid engine
         i) int=$OPTARG;;           # Run FHD integration job
         c) cubes=$OPTARG;;         # Run eppsilon cube job
@@ -65,6 +65,9 @@ if [ ! -z ${versions_script} ]; then
 else
     versions_script=az_ps_job
 fi
+export versions_script=$versions_script
+echo Using versions_script: $versions_script
+
 # export versions_script=${versions_script}
 # Set default single_obs
 if [ -z ${single_obs} ]; then
