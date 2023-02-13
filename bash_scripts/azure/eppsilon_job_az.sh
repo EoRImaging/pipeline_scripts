@@ -99,7 +99,8 @@ fi
 
 # if running a power spectrum job, pull the uvf cubes and info cube
 if [ -z ${cube_type} ]; then
-    azcopy copy ${file_path_cubes}/ps ${FHD_version} --recursive --include-pattern="*${cube_prefix}*"
+    echo ps job, pulling all uvf files
+    azcopy copy ${file_path_cubes}/ps ${FHD_version} --recursive --include-pattern="*${cube_prefix}*idlsave"
     # check that all uvf cubes were downloaded
     for ps_pol in ${pols}; do
         for ps_evenodd in even odd; do
@@ -112,26 +113,26 @@ if [ -z ${cube_type} ]; then
             done
         done
     done
-else
+fi
 # if running a dft job, pull the Healpix cubes
 # Currently need all HEALPix cubes for single cube jobs so that info file
 # behaves sensibly given a dynamic filesystem.
-    for ps_pol in ${pols}; do
-        for ps_evenodd in even odd; do
-            if [ ! -f "${FHD_version}/Healpix/${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}.sav" ]; then
-                    echo "Using file_path_cubes for Healpix download: ${file_path_cubes}"
-                echo "Attempting to download ${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}.sav"
-                    azcopy copy ${file_path_cubes}/Healpix/${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}.sav \
-                ${FHD_version}/Healpix/${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}.sav
-            fi
-            # Check that file downloaded
-            if [ ! -f "${FHD_version}/Healpix/${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}.sav" ]; then
-                >&2 echo "Integration cube ${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}.sav not found"
-                exit 1
-            fi
-        done
+for ps_pol in ${pols}; do
+    for ps_evenodd in even odd; do
+        if [ ! -f "${FHD_version}/Healpix/${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}.sav" ]; then
+                echo "Using file_path_cubes for Healpix download: ${file_path_cubes}"
+            echo "Attempting to download ${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}.sav"
+                azcopy copy ${file_path_cubes}/Healpix/${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}.sav \
+            ${FHD_version}/Healpix/${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}.sav
+        fi
+	# Check that file downloaded
+        if [ ! -f "${FHD_version}/Healpix/${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}.sav" ]; then
+            >&2 echo "Integration cube ${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}.sav not found"
+            exit 1
+        fi
     done
-fi
+done
+
 
 # for ps_pol in ${pols}; do
 #     for ps_evenodd in even odd; do
