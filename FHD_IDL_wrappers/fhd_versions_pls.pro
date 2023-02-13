@@ -1,4 +1,4 @@
-pro fhd_versions_pls
+pro fhd_versions_pls, obs_id=obs_id, version=version, outdir=output_directory, indir=indir
   except=!except
   !except=0
   heap_gc
@@ -6,11 +6,13 @@ pro fhd_versions_pls
   ; parse command line args
   compile_opt strictarr
   args = Command_Line_Args(count=nargs)
-  obs_id = args[0]
-  output_directory = args[1]
-  version = args[2]
-  if nargs gt 3 then platform = args[3] else platform = '' ;indicates if running on AWS
-
+  print, nargs
+  if nargs ne 0 then begin
+    obs_id = args[0]
+    output_directory = args[1]
+    version = args[2]
+    if nargs gt 3 then platform = args[3] else platform = '' ;indicates if running on AWS
+  endif
   cmd_args={version:version}
 
   case version of
@@ -376,6 +378,10 @@ pro fhd_versions_pls
       cal_mode_fit = 0
     end
   endcase
+
+  if keyword_set(indir) then begin
+    vis_file_list = STRING(indir) + STRING(obs_id) + '.uvfits'
+  endif
 
   if ~keyword_set(vis_file_list) then begin
     if platform eq 'aws' then begin

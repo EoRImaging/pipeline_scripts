@@ -1,4 +1,4 @@
-pro ps_wrapper_pls
+pro ps_wrapper_pls, folder_name=folder_name, obs_range=obs_range, eppsversion=eppsversion
   except=!except
   !except=0
   heap_gc
@@ -6,13 +6,14 @@ pro ps_wrapper_pls
   ; parse command line args
   compile_opt strictarr
   args = Command_Line_Args(count=nargs)
-  print,nargs
-  print,args
-  folder_name = args[0]
-  obs_range = args[1]
-  eppsversion = args[2]
+  if nargs ne 0 then begin
+    folder_name = args[0]
+    obs_range = args[1]
+    eppsversion = args[2]
+  endif
   ; if nargs gt 3 then platform = args[3] else platform = '' ;indicates if running on AWS
 
+  ; have to use eppsversion instead of version or keywords will be set incorrectly
   cmd_args={eppsversion:eppsversion}
 
   case eppsversion of
