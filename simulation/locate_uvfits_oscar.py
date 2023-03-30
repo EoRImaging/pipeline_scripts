@@ -16,7 +16,7 @@ def main():
 
     (options,args) = parser.parse_args()
 
-    cmd = 'find /gpfs/data/jpober/alanman -name \"'+options.obsid+ '\".uvfits ! -path \"/gpfs/data/jpober/alanman/OLD/*\"'
+    cmd = 'find /gpfs/data/jpober/alanman  /gpfs/data/jpober/shared/Phase2OneDaySet -name \"'+options.obsid+ '\".uvfits ! -path \"/gpfs/data/jpober/alanman/OLD/*\"'
     cmd = cmd + " ! -path \"/gpfs/data/jpober/alanman/FHD_out/*\""
     out = subprocess.Popen(cmd, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     (stdout, stderr) = out.communicate()
