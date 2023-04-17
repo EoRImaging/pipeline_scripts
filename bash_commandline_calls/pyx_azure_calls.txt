@@ -16,6 +16,12 @@ bash run_eppsilon_az.sh -v mwax_1_12 -d https://june22mwax.blob.core.windows.net
 # call for running cube and power spectrum jobs on mwax (2022)
 bash run_eppsilon_az.sh -v mwax_1_12 -d https://june22mwax.blob.core.windows.net/fhd/long_run/fhd_eor_latest_greatest_image_phase2_no_freq_av_no_freq_flag -n 8 -f ~/mwax_flag_cut_lists/mwax_1_12.txt -i 0
 
+# call for running cube job on single obs id (2023)
+bash run_eppsilon_az.sh -v 1321445704 -d https://june22mwax.blob.core.windows.net/fhd/cat_nossins/fhd_eor_latest_greatest_image_phase2_no_freq_av_no_freq_flag -n 8 -i 0 -p 0 -s 1
+
+# call for running ps job with versions script (2023)
+bash run_eppsilon_az.sh -v 1321445584 -u ps_wrapper_pls -b cat_return_sum_cubes -d https://june22mwax.blob.core.windows.net/fhd/long_run/fhd_eor_latest_greatest_image_phase2_no_freq_av_no_freq_flag -n 8 -i 0 -c 0 -s 1
+
 # call for testing 2014 data through ssins/pyuvdata for mike's thesis run
 bash run_SSINS_az.sh -f ~/2014_test2.txt -b https://mwadata.blob.core.windows.net/ssins/2014 -n 8 -p https://mwadata.blob.core.windows.net/gpubox/2014 -t gpubox -c 1 -a 2
 

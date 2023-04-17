@@ -2,6 +2,7 @@ import argparse
 import os
 from pyuvdata import UVData, utils, UVFlag
 import time
+import numpy as np
 
 t = time.time()
 print(time.strftime('%Y-%m-%d %H:%M %Z', time.localtime(t)))
@@ -42,6 +43,7 @@ parser.add_argument("-k", "--select", help="Option to select autos or crosses")
 parser.add_argument(
     "-f", "--output_format", default="uvfits", help="Format of output file"
 )
+parser.add_argument("-x", "--flagzero", action="store_true", help="Option to flag zeroeth fine channels")
 args = parser.parse_args()
 
 if not os.path.exists(args.outdir):
@@ -71,8 +73,9 @@ uvd.read(
 print('finished reading file')
 t = time.time()
 print(time.strftime('%Y-%m-%d %H:%M %Z', time.localtime(t)))
-print(uvd.flag_array.shape)
-print(uvd.flag_array[176000, 0, 0:72, 0])
+if args.flagzero:
+    zero_flags = np.arange(0,768, 32)
+    uvd.flag_array[:, :, zero_flags, :] = True
 if args.ssins is not None:
     uvf = UVFlag()
     uvf.read(args.ssins + "/" + args.obsid + "_SSINS_flags.h5")
@@ -109,7 +112,8 @@ try:
     file_string += "_" + str(int(uvd.channel_width[0] / 1000)) + "kHz"
 except Exception:
     file_string += "_" + str(int(uvd.channel_width / 1000)) + "kHz"
-file_string += "_flagzero"
+if args.flagzero:    
+    file_string += "_flagzero"
 if args.select is not None:
     file_string += "_" + str(args.select)
 if file_string[0] == "_":

@@ -24,7 +24,7 @@ echo Processing cube: ${pol} ${evenodd}
 
 # echo keywords
 echo Using file_path_cubes: $file_path_cubes
-echo Using version: $version
+echo Using cube_prefix: $cube_prefix
 echo n_obs for this run: $n_obs
 
 #create Healpix download location with full permissions
@@ -37,7 +37,7 @@ else
 fi
 
 # set integrated cube file name
-save_file_evenoddpol=Healpix/Combined_obs_${version}_${evenodd}_cube${pol^^}.sav
+save_file_evenoddpol=Healpix/Combined_obs_${cube_prefix}_${evenodd}_cube${pol^^}.sav
 
 azcopy login --identity
 
@@ -81,7 +81,7 @@ fi
 echo All cubes on instance
 
 #Create a name for the downloaded cube file based off of inputs
-evenoddpol_file_paths=${FHD_version}/${version}_${evenodd}${pol^^}_list.txt
+evenoddpol_file_paths=${FHD_version}/${cube_prefix}_${evenodd}${pol^^}_list.txt
 
 # Delete if it already exists, otherwise will create redundant integrations
 if [ -f $evenoddpol_file_paths ]; then

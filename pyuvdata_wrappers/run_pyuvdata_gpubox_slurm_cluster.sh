@@ -1,6 +1,6 @@
 #!/bin/bash
 
-while getopts ":f:o:d:s:pgbvce:a:t:u:k:z:w:n:q:" option
+while getopts ":f:o:d:s:pgbvcxe:a:t:u:k:z:w:n:q:" option
 do
   case $option in
     f) export obs_file_name="$OPTARG";;
@@ -12,6 +12,7 @@ do
     b) export bandpass='true';;
     v) export vanvleck='true';;
     c) export dc_flags='true';;
+    x) export edge_flags='true';;
     e) export edge_flags=$OPTARG;;
     a) export freq_avg=$OPTARG;;
     t) export time_avg=$OPTARG;;
@@ -30,7 +31,7 @@ do
         echo "-u (format of output file (must be 'uvfits', 'uvh5', 'ms', 'mir')), "
 	echo "-k (visibilities to select (must be 'autos' or 'crosses'), "
 	echo "-z (job script to run), -w (compute working directory),  -n (number of cpus to use), "
-	echo "-q (slurm partition to use)"
+	echo "-q (slurm partition to use), -x (option to flag zeroeth fine channel of each coarse channel)"
 	exit 1;;
     :) echo "Missing option argument for input flag"
        exit 1;;
@@ -116,6 +117,11 @@ fi
 if [ ! -z $dc_flags ]; then
     arg_string="${arg_string} -c"
     echo "flagging dc channels"
+fi
+
+if [ ! -z $flag_zero ]; then
+    arg_string="${arg_string} -x"
+    echo "flagging zeroeth fine channels"
 fi
 
 if [ ! -z $vanvleck ]; then

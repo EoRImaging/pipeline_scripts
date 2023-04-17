@@ -165,7 +165,7 @@ done
 # 	  done
 # done
 
-
+echo $(ls /mnt/scratch/${FHD_version}/ps/data/uvf_cubes)
 
 echo "arg_string is $arg_string"
 # make license directory to avoid licensing issues
@@ -183,6 +183,7 @@ else
     echo "Eppsilon Job Failed"
     error_mode=1
 fi
+echo $(ls /mnt/scratch/${FHD_version}/ps/data/uvf_cubes)
 
 i=1  #initialize counter
 azcopy copy ${FHD_version}/ps ${file_path_cubes} --recursive
