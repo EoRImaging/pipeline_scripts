@@ -22,6 +22,7 @@ pro ps_wrapper_pls, folder_name=folder_name, obs_range=obs_range, eppsversion=ep
   png=1
   plot_k0_power=1
   exact_obsnames=1
+  ; type_inc=['dirty','model']
   ; refresh_ps=1
 
   case eppsversion of
@@ -112,23 +113,195 @@ pro ps_wrapper_pls, folder_name=folder_name, obs_range=obs_range, eppsversion=ep
 	force_even_freqs=1
     end
 
+    'single_edge_flagging_av_four_uneven': begin
+        freq_flag_repeat=24
+        edge_flags2=fltarr(32)
+        edge_flags2[0]=1
+	freq_flag_name='edge1'
+        edge_flags2[31]=1
+        freq_flags=edge_flags2
+        freq_avg_factor=4
+        force_even_freqs=0
+    end
+
     'double_edge_flagging_av_four_uneven': begin
         freq_flag_repeat=24
 	edge_flags2=fltarr(32)
         edge_flags2[0:1]=1
         edge_flags2[30:31]=1
         freq_flags=edge_flags2
+	freq_flag_name='edge2'
 	freq_avg_factor=4
 	force_even_freqs=0
     end
 
-    'freq_av_four_force_even_freqs': begin
-        allow_uneven_freqs=0
-        freq_av_factor=4
+    'triple_edge_flagging_av_four_uneven': begin
+        freq_flag_repeat=24
+        edge_flags2=fltarr(32)
+        edge_flags2[0:2]=1
+        edge_flags2[29:31]=1
+        freq_flags=edge_flags2
+	freq_flag_name='edge3'
+        freq_avg_factor=4
+        force_even_freqs=0
     end
 
-    'freq_av_four_allow_uneven_freqs': begin
-        freq_av_factor=4
+    'quad_edge_flagging_av_four_uneven': begin
+        freq_flag_repeat=24
+        edge_flags2=fltarr(32)
+        edge_flags2[0:3]=1
+        edge_flags2[28:31]=1
+        freq_flags=edge_flags2
+	freq_flag_name='edge4'
+        freq_avg_factor=4
+        force_even_freqs=0
+    end
+
+     'single_edge_flagging_asym_av_four': begin
+        freq_flag_repeat=24
+        edge_flags2=fltarr(32)
+        edge_flags2[0:1]=1
+        freq_flag_name='edge1asym'
+        edge_flags2[31]=1
+        freq_flags=edge_flags2
+        freq_avg_factor=4
+        force_even_freqs=1
+    end
+
+    'double_edge_flagging_asym_av_four': begin
+        freq_flag_repeat=24
+        edge_flags2=fltarr(32)
+        edge_flags2[0:2]=1
+        edge_flags2[30:31]=1
+        freq_flags=edge_flags2
+        freq_flag_name='edge2asym'
+        freq_avg_factor=4
+        force_even_freqs=1
+    end
+
+     'single_edge_flagging_asym_av_four_uneven': begin
+        freq_flag_repeat=24
+        edge_flags2=fltarr(32)
+        edge_flags2[0:1]=1
+        freq_flag_name='edge1asym'
+        edge_flags2[31]=1
+        freq_flags=edge_flags2
+        freq_avg_factor=4
+        force_even_freqs=0
+    end
+
+    'double_edge_flagging_asym_av_four_uneven': begin
+        freq_flag_repeat=24
+        edge_flags2=fltarr(32)
+        edge_flags2[0:2]=1
+        edge_flags2[30:31]=1
+        freq_flags=edge_flags2
+        freq_flag_name='edge2asym'
+        freq_avg_factor=4
+        force_even_freqs=0
+    end
+
+     'single_edge_flagging_asym_av_six': begin
+        freq_flag_repeat=24
+        edge_flags2=fltarr(32)
+        edge_flags2[0:1]=1
+        freq_flag_name='edge1asym'
+        edge_flags2[31]=1
+        freq_flags=edge_flags2
+        freq_avg_factor=6
+        force_even_freqs=1
+    end
+
+    'double_edge_flagging_asym_av_six': begin
+        freq_flag_repeat=24
+        edge_flags2=fltarr(32)
+        edge_flags2[0:2]=1
+        edge_flags2[30:31]=1
+        freq_flags=edge_flags2
+        freq_flag_name='edge2asym'
+        freq_avg_factor=6
+        force_even_freqs=1
+    end
+
+    'triple_edge_flagging_asym_av_six': begin
+        freq_flag_repeat=24
+        edge_flags2=fltarr(32)
+        edge_flags2[0:3]=1
+        edge_flags2[29:31]=1
+        freq_flags=edge_flags2
+        freq_flag_name='edge3asym'
+        freq_avg_factor=6
+        force_even_freqs=1
+    end
+
+    'quad_edge_flagging_asym_av_six': begin
+        freq_flag_repeat=24
+        edge_flags2=fltarr(32)
+        edge_flags2[0:4]=1
+        edge_flags2[28:31]=1
+        freq_flags=edge_flags2
+        freq_flag_name='edge4asym'
+        freq_avg_factor=6
+        force_even_freqs=1
+    end
+
+     'single_edge_flagging_asym_av_six_uneven': begin
+        freq_flag_repeat=24
+        edge_flags2=fltarr(32)
+        edge_flags2[0:1]=1
+        freq_flag_name='edge1asym'
+        edge_flags2[31]=1
+        freq_flags=edge_flags2
+        freq_avg_factor=6
+        force_even_freqs=0
+    end
+
+    'double_edge_flagging_asym_av_six_uneven': begin
+        freq_flag_repeat=24
+        edge_flags2=fltarr(32)
+        edge_flags2[0:2]=1
+        edge_flags2[30:31]=1
+        freq_flags=edge_flags2
+        freq_flag_name='edge2asym'
+        freq_avg_factor=6
+        force_even_freqs=0
+    end
+
+    'triple_edge_flagging_asym_av_six_uneven': begin
+        freq_flag_repeat=24
+        edge_flags2=fltarr(32)
+        edge_flags2[0:3]=1
+        edge_flags2[29:31]=1
+        freq_flags=edge_flags2
+        freq_flag_name='edge3asym'
+        freq_avg_factor=6
+        force_even_freqs=0
+    end
+
+    'quad_edge_flagging_asym_av_six_uneven': begin
+        freq_flag_repeat=24
+        edge_flags2=fltarr(32)
+        edge_flags2[0:4]=1
+        edge_flags2[28:31]=1
+        freq_flags=edge_flags2
+        freq_flag_name='edge4asym'
+        freq_avg_factor=6
+        force_even_freqs=0
+    end
+
+    'freq_av_four_uneven': begin
+        freq_avg_factor=4
+	force_even_freqs=0
+    end
+
+    'freq_av_six_uneven': begin
+        freq_avg_factor=6
+        force_even_freqs=0
+    end
+
+    'freq_av_six': begin
+        freq_avg_factor=6
+        force_even_freqs=1
     end
 
     'default_eor_ps_settings': begin

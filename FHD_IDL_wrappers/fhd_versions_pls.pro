@@ -270,6 +270,97 @@ pro fhd_versions_pls, obs_id=obs_id, version=version, outdir=output_directory, i
 
     end
 
+    'eor_latest_greatest_image_phase2_ps_freq_av_four_no_freq_flag': begin
+
+    instrument='mwa2'
+    ; for phase 2, larger default dimension is not necessary
+    dimension = 1024
+
+    ; set file pathways
+    model_uv_transfer='uvfits/transfer/' + obs_id + '_model_uv_arr.sav'
+    transfer_calibration = 'uvfits/transfer/' + obs_id + '_cal.sav'
+    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+
+    ; apply 'Blackman-Harris^2' window function to gridding kernel
+    kernel_window=1
+
+    ; not in dictionary
+    debug_dim=1
+
+    ; set the factor at which to clip the beam model
+    beam_mask_threshold=1e3
+
+    ; turn off beam averaging (this is set at 16 in eor_defaults)
+    beam_nfreq_avg=1
+    
+    ; set frequency averaging to 4 in healpix space
+    n_avg=1
+    ps_nfreq_avg=4
+
+    ; turn off time averaging
+    cal_time_average=0
+
+    ; don't save out calibrated visibilities
+    return_cal_visibilities=0
+
+    ; make visibilities for the subtraction model separately from the model used in calibration
+    model_visibilities=1
+
+    ; prevent power leakage by not gridding longer baselines (this is set at 600 in eor_defaults)
+    ps_kspan=200.
+
+    ; not sure why calibration keywords are needed for gridding
+    cal_time_average=0
+    auto_ratio_calibration=1
+    cal_bp_transfer=0
+
+    end
+
+    'eor_latest_greatest_image_phase2_freq_av_four_no_freq_flag': begin
+
+    instrument='mwa2'
+    ; for phase 2, larger default dimension is not necessary
+    dimension = 1024
+
+    ; set file pathways
+    model_uv_transfer='uvfits/transfer/' + obs_id + '_model_uv_arr.sav'
+    transfer_calibration = 'uvfits/transfer/' + obs_id + '_cal.sav'
+    restrict_hpx_inds='EoR0_high_healpix_inds_3x.idlsave'
+
+    ; apply 'Blackman-Harris^2' window function to gridding kernel
+    kernel_window=1
+
+    ; not in dictionary
+    debug_dim=1
+
+    ; set the factor at which to clip the beam model
+    beam_mask_threshold=1e3
+
+    ; turn off beam averaging (this is set at 16 in eor_defaults)
+    beam_nfreq_avg=1
+
+    ; set frequency averaging to 4
+    n_avg=4
+
+    ; turn off time averaging
+    cal_time_average=0
+
+    ; don't save out calibrated visibilities
+    return_cal_visibilities=0
+
+    ; make visibilities for the subtraction model separately from the model used in calibration
+    model_visibilities=1
+
+    ; prevent power leakage by not gridding longer baselines (this is set at 600 in eor_defaults)
+    ps_kspan=200.
+
+    ; not sure why calibration keywords are needed for gridding
+    cal_time_average=0
+    auto_ratio_calibration=1
+    cal_bp_transfer=0
+
+    end
+
     'eor_latest_greatest_image_phase2_no_freq_av_no_freq_flag': begin
 
     instrument='mwa2'
@@ -314,10 +405,13 @@ pro fhd_versions_pls, obs_id=obs_id, version=version, outdir=output_directory, i
 
     end
 
-    'eor_latest_greatest_image_phase2_no_freq_av_no_freq_flag_res': begin
+    'eor_latest_greatest_image_phase2_no_freq_av_no_freq_flag_res_uvf': begin
 
     ; produce a residual cube instead of a dirty cube
     calibration_visibilities_subtract=1
+
+    ; have fhd save uvf outputs
+    save_uvf=1
 
     instrument='mwa2'
     ; for phase 2, larger default dimension is not necessary

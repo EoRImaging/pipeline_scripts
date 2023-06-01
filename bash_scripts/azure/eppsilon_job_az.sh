@@ -100,13 +100,14 @@ fi
 # if running a power spectrum job, pull the uvf cubes and info cube
 if [ -z ${cube_type} ]; then
     echo ps job, pulling all uvf files
-    azcopy copy ${file_path_cubes}/ps ${FHD_version} --recursive --include-pattern="*${cube_prefix}*idlsave"
+    azcopy copy ${file_path_cubes}/ps ${FHD_version} --recursive --include-pattern="*${cube_prefix}*info.idlsave"
     # check that all uvf cubes were downloaded
     for ps_pol in ${pols}; do
         for ps_evenodd in even odd; do
             for ps_cube_type in weights dirty model; do
                 cube_name="${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}_noimgclip_${ps_cube_type}_uvf.idlsave"
-                if [ ! -f "${FHD_version}/ps/data/uvf_cubes/${cube_name}" ]; then
+                azcopy copy ${file_path_cubes}/ps/data/uvf_cubes/${cube_name} ${FHD_version}/ps/data/uvf_cubes/${cube_name}
+		if [ ! -f "${FHD_version}/ps/data/uvf_cubes/${cube_name}" ]; then
                 >&2 echo "uvf cube ${cube_name} not found"
                 exit 1
                 fi
