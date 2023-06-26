@@ -34,6 +34,7 @@ PRO eor_wrapper_defaults,extra
   beam_clip_floor=1
   interpolate_kernel=1
   beam_recalculate=1
+  import_pyuvdata_beam_filepath=0
 
   ;Calibration keywords
   cable_bandpass_fit=1
