@@ -6,7 +6,13 @@ pro orthoslant_interp_versions;, obs_id, output_directory, version, platform
   obs_id = args[0]
   output_directory = args[1]
   version = args[2]
-  if nargs gt 3 then platform = args[3] else platform = '' ;indicates if running on AWS
+  if nargs gt 3 then begin
+    ; will be "aws" if running on AWS
+    platform = args[3]
+  endif else begin
+    platform = ''
+    spawn, 'hostname', hostname
+  endelse
 
     case version of
         "orthoslant_interp_cal1": begin
@@ -65,10 +71,15 @@ pro orthoslant_interp_versions;, obs_id, output_directory, version, platform
     endcase
 
     if platform eq 'aws' then begin
-        vis_file_list = '/uvfits/' + string(obs_id) + '.uvfits'
+        vis_path = '/uvfits/'
     endif else begin
-        vis_file_list = '/data3/users/bryna/van_vleck_corrected/' + string(obs_id) + '.uvfits'
+        if stregex(hostname, 'salix', /boolean) eq 1 then begin
+            vis_path = '/Volumes/Data1/bryna/van_vleck_uvfits/'
+        endif else begin
+            vis_path = '/data3/users/bryna/van_vleck_corrected/'
+        endelse
     endelse
+    vis_file_list = vis_path  + string(obs_id) + '.uvfits'
 
     fhd_file_list=fhd_path_setup(vis_file_list,version=version,output_directory=output_directory)
     healpix_path=fhd_path_setup(output_dir=output_directory,subdir='Healpix',output_filename='Combined_obs',version=version)
