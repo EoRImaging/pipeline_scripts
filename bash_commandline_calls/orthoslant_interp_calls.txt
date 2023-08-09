@@ -1,0 +1,10 @@
+based on van_vleck runs, need to get out gridded uvf cubes
+
+on enterprise
+just the center zenith obsid for testing:
+idl -e "orthoslant_interp_versions" -args 1061316296 '/data3/users/bryna/fhd_outs/' 'orthoslant_interp_cal1'
+
+
+on salix
+just the center zenith obsid for testing:
+idl -IDL_DEVICE ps -e "orthoslant_interp_versions" -args 1061316296 '/Volumes/Data1/bryna/orthoslant_interp/' 'orthoslant_interp_cal1'
