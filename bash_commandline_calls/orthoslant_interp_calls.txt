@@ -25,11 +25,10 @@ orthoslant_interp_versions, 1061315448, '/Volumes/Data1/bryna/orthoslant_interp/
 
 orthoslant_interp_versions, 1061315448, '/Volumes/Data1/bryna/orthoslant_interp/', 'orthoslant_interp_grid1'
 
-obs_file = "1061316296_even_gridded_uvf.sav"     
-grid_file = "1061315448_even_gridded_uvf.sav"    
-interp_different_orthoslant, grid_file, obs_file
+interp_different_orthoslant, '1061315448_even_gridded_uvf.sav', '1061316296_even_gridded_uvf.sav'
+interp_different_orthoslant, '1061315448_odd_gridded_uvf.sav', '1061316296_odd_gridded_uvf.sav'
 
-obs_file = "1061316296_odd_gridded_uvf.sav"     
-grid_file = "1061315448_odd_gridded_uvf.sav"    
-interp_different_orthoslant, grid_file, obs_file
+ps_wrapper, '/Volumes/Data1/bryna/orthoslant_interp/fhd_orthoslant_interp_grid1/', '1061315448_interp', /uvf_input
 
+
+interp_different_orthoslant, '/Volumes/Data1/bryna/orthoslant_interp/fhd_orthoslant_interp_grid1/', 1061315448, 1061316296
