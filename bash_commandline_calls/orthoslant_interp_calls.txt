@@ -8,3 +8,28 @@ idl -e "orthoslant_interp_versions" -args 1061316296 '/data3/users/bryna/fhd_out
 on salix
 just the center zenith obsid for testing:
 idl -IDL_DEVICE ps -e "orthoslant_interp_versions" -args 1061316296 '/Volumes/Data1/bryna/orthoslant_interp/' 'orthoslant_interp_cal1'
+
+in idl shell:
+orthoslant_interp_versions, 1061316296, '/Volumes/Data1/bryna/orthoslant_interp/', 'orthoslant_interp_cal1'
+
+Memory required (GB): 64
+Full pipeline time (minutes): 99
+
+orthoslant_interp_versions, 1061316296, '/Volumes/Data1/bryna/orthoslant_interp/', 'orthoslant_interp_grid1'
+
+Memory required (GB): 90
+Full pipeline time (minutes): 406
+
+now run the first zenith obs_id: 1061315448
+orthoslant_interp_versions, 1061315448, '/Volumes/Data1/bryna/orthoslant_interp/', 'orthoslant_interp_cal1'
+
+orthoslant_interp_versions, 1061315448, '/Volumes/Data1/bryna/orthoslant_interp/', 'orthoslant_interp_grid1'
+
+obs_file = "1061316296_even_gridded_uvf.sav"     
+grid_file = "1061315448_even_gridded_uvf.sav"    
+interp_different_orthoslant, grid_file, obs_file
+
+obs_file = "1061316296_odd_gridded_uvf.sav"     
+grid_file = "1061315448_odd_gridded_uvf.sav"    
+interp_different_orthoslant, grid_file, obs_file
+
