@@ -42,3 +42,6 @@ save, obs_out, dirty_uv_arr, model_uv_arr, weights_uv_arr, variance_uv_arr, file
 ps_wrapper, '/Volumes/Data1/bryna/orthoslant_interp/fhd_orthoslant_interp_grid1/', '1061315448_interp', /uvf_input, /exact, /png
 
 ps_wrapper, '/Volumes/Data1/bryna/orthoslant_interp/fhd_orthoslant_interp_grid1/', '1061315448', /uvf_input, /exact, /png
+
+
+ps_diff_wrapper, '/Volumes/Data1/bryna/orthoslant_interp/fhd_orthoslant_interp_grid1/', ['1061315448', '1061315448_interp'], /uvf_input, /exact, /png
