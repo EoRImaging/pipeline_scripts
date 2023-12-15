@@ -1,0 +1,6 @@
+save_image_cube_versions, 1061316296, '/Volumes/Data1/bryna/save_image_cubes/', 'save_image_cube_grid1'
+
+filename = '/Volumes/Data1/bryna/save_image_cubes/fhd_save_image_cube_grid1/output_data/1061316296_even_image_cube_XX.sav'
+void = getvar_savefile(filename, names = varnames)
+
+ps_wrapper, '/Volumes/Data1/bryna/save_image_cubes/fhd_save_image_cube_grid1', '1061316296', /uvf_input, uv_downsample=6, /png
