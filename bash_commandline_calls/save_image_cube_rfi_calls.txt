@@ -1,0 +1,8 @@
+;;1
+save_image_cube_rfi_versions, 1090871744, '/Volumes/Data1/elillesk/interference/', 'save_image_cube_rfi_cal1'
+
+;;2
+save_image_cube_rfi_versions, 1090871744, '/Volumes/Data1/elillesk/interference/', 'save_image_cube_rfi_grid_unflagged1'
+
+;;3
+save_image_cube_rfi_versions, 1090871744, '/Volumes/Data2/elillesk/interference/', 'save_image_cube_rfi_grid_flagged1'
