@@ -1,4 +1,10 @@
 pro save_image_cube_rfi_versions, obs_id, output_directory, version, platform
+    ;;Note the following numerical suffixes for versions without parameter changes: 
+    ;;1 for initial run with calibration not using fill model visibilities (meant to avoid transferring flags from calibration)
+    ;;2 for runs after altering this (using the cal_fix versions calibration instead)
+    ;;3 for runs after moving to the new data path (Data2 instead of Data1)
+    ;;4 after manually altering flag arrays to have the center of the coarse band flagged
+
   ; parse command line args
   compile_opt strictarr
   cm_args = command_line_args(count = nargs)
@@ -57,16 +63,56 @@ pro save_image_cube_rfi_versions, obs_id, output_directory, version, platform
         vis_path = '/uvfits/'
         endif else begin
             if stregex(hostname, 'salix', /boolean) eq 1 then begin
-              vis_path = '/Volumes/Data1/elillesk/interference/interference_uvfits/flagged/'
+              vis_path = '/Volumes/Data2/elillesk/interference/interference_uvfits/flagged/'
             endif else begin
               vis_path = '';;'/data3/users/bryna/van_vleck_corrected/'
             endelse
         endelse
        
   end  
-    
   
-    'save_image_cube_rfi_grid_unflagged1': begin
+    "save_image_cube_rfi_cal_fix1": begin
+        ;;Fill model visibilities turned on
+        fill_model_visibilities=1
+        beam_nfreq_avg=1
+
+        model_delay_filter=1
+        cal_time_average=0
+        max_cal_iter=1000L
+
+        ; Wenyang's auto cal
+        auto_ratio_calibration=1
+
+        ; fit for the cable lengths
+        cal_reflection_mode_theory=1
+        cal_mode_fit=[90,150,230,320];,400,524]
+
+        digital_gain_jump_polyfit=1
+        cal_stop=1
+
+        ; use the DFT approximation rather than a flux cut
+        dft_threshold=1
+
+        ; Use Ian's new speedup
+        use_adaptive_calibration_gain=1
+        calibration_base_gain=0.5
+       
+       
+        if platform eq 'aws' then begin
+        vis_path = '/uvfits/'
+        endif else begin
+            if stregex(hostname, 'salix', /boolean) eq 1 then begin
+              vis_path = '/Volumes/Data2/elillesk/interference/interference_uvfits/flagged/'
+            endif else begin
+              vis_path = '';;'/data3/users/bryna/van_vleck_corrected/'
+            endelse
+        endelse
+       
+  end  
+
+
+  
+    'save_image_cube_rfi_grid_unflagged4': begin
       beam_nfreq_avg = 1
       restrict_hpx_inds = 'EoR0_high_healpix_inds_3x.idlsave'
 
@@ -92,7 +138,7 @@ pro save_image_cube_rfi_versions, obs_id, output_directory, version, platform
         transfer_calibration = '/uvfits/transfer/' + obs_id + '_cal.sav'
       endif else begin
         if stregex(hostname, 'salix', /boolean) eq 1 then begin
-          fhd_cal_folder = '/Volumes/Data1/elillesk/interference/fhd_save_image_cube_rfi_cal1/'
+          fhd_cal_folder = '/Volumes/Data2/elillesk/interference/fhd_save_image_cube_rfi_cal_fix1/'
         endif else begin
           fhd_cal_folder = '';;'/data3/users/bryna/fhd_outs/orthoslant_interp_cal1/'
         endelse
@@ -102,18 +148,19 @@ pro save_image_cube_rfi_versions, obs_id, output_directory, version, platform
       
       
       if platform eq 'aws' then begin
-    vis_path = '/uvfits/'
-  endif else begin
-    if stregex(hostname, 'salix', /boolean) eq 1 then begin
-      vis_path = '/Volumes/Data1/elillesk/interference/interference_uvfits/unflagged/'
-    endif else begin
-      vis_path = '';;'/data3/users/bryna/van_vleck_corrected/'
-    endelse
-  endelse
+        vis_path = '/uvfits/'
+      endif else begin
+        if stregex(hostname, 'salix', /boolean) eq 1 then begin
+          vis_path = '/Volumes/Data2/elillesk/interference/interference_uvfits/unflagged/'
+        endif else begin
+          vis_path = '';;'/data3/users/bryna/van_vleck_corrected/'
+        endelse
+      endelse
       
     end
+    
     ;;Should be the same as above except with different choice for vis_path
-    'save_image_cube_rfi_grid_flagged1': begin
+    'save_image_cube_rfi_grid_flagged4': begin
       beam_nfreq_avg = 1
       restrict_hpx_inds = 'EoR0_high_healpix_inds_3x.idlsave'
 
@@ -139,7 +186,7 @@ pro save_image_cube_rfi_versions, obs_id, output_directory, version, platform
         transfer_calibration = '/uvfits/transfer/' + obs_id + '_cal.sav'
       endif else begin
         if stregex(hostname, 'salix', /boolean) eq 1 then begin
-          fhd_cal_folder = '/Volumes/Data1/elillesk/interference/fhd_save_image_cube_rfi_cal1/'
+          fhd_cal_folder = '/Volumes/Data2/elillesk/interference/fhd_save_image_cube_rfi_cal_fix1/'
         endif else begin
           fhd_cal_folder = '';;'/data3/users/bryna/fhd_outs/orthoslant_interp_cal1/'
         endelse
@@ -152,7 +199,7 @@ pro save_image_cube_rfi_versions, obs_id, output_directory, version, platform
         vis_path = '/uvfits/'
     endif else begin
     if stregex(hostname, 'salix', /boolean) eq 1 then begin
-      vis_path = '/Volumes/Data1/elillesk/interference/interference_uvfits/flagged/'
+      vis_path = '/Volumes/Data2/elillesk/interference/interference_uvfits/flagged/'
     endif else begin
       vis_path = '';;'/data3/users/bryna/van_vleck_corrected/'
     endelse
@@ -160,7 +207,54 @@ pro save_image_cube_rfi_versions, obs_id, output_directory, version, platform
       
     end
 
+    
+    ;;Should be the same as above except with different choice for vis_path
+    'save_image_cube_rfi_grid_flipflagged4': begin
+      beam_nfreq_avg = 1
+      restrict_hpx_inds = 'EoR0_high_healpix_inds_3x.idlsave'
 
+      ; ; change from van_vleck:
+      ; ; use a bigger kspan. defaults to 600
+      ; ps_kspan=200.
+      ; ; save the uvf cubes out
+      save_uvf = 1
+      save_image_cubes = 1
+
+      kernel_window = 1 ; Modified gridding kernel, 1='Blackman-Harris^2'
+      calibrate_visibilities = 0
+      return_cal_visibilities = 0
+      model_visibilities = 1
+      beam_mask_threshold = 1e3
+
+      ; use the DFT approximation
+      dft_threshold = 1
+
+      if platform eq 'aws' then begin
+        ; these paths work because of the AWS wrapper that copies the files here
+        model_uv_transfer = '/uvfits/transfer/' + obs_id + '_model_uv_arr.sav'
+        transfer_calibration = '/uvfits/transfer/' + obs_id + '_cal.sav'
+      endif else begin
+        if stregex(hostname, 'salix', /boolean) eq 1 then begin
+          fhd_cal_folder = '/Volumes/Data2/elillesk/interference/fhd_save_image_cube_rfi_cal_fix1/'
+        endif else begin
+          fhd_cal_folder = '';;'/data3/users/bryna/fhd_outs/orthoslant_interp_cal1/'
+        endelse
+        model_uv_transfer = fhd_cal_folder + 'cal_prerun/' + obs_id + '_model_uv_arr.sav'
+        transfer_calibration = fhd_cal_folder + 'calibration/' + obs_id + '_cal.sav'
+      endelse
+      
+      
+    if platform eq 'aws' then begin
+        vis_path = '/uvfits/'
+    endif else begin
+    if stregex(hostname, 'salix', /boolean) eq 1 then begin
+      vis_path = '/Volumes/Data2/elillesk/interference/interference_uvfits/flipflagged/'
+    endif else begin
+      vis_path = '';;'/data3/users/bryna/van_vleck_corrected/'
+    endelse
+  endelse
+      
+    end
 
 endcase
 
