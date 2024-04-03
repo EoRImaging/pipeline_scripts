@@ -24,7 +24,7 @@ echo Processing cube: ${pol} ${evenodd}
 
 # echo keywords
 echo Using file_path_cubes: $file_path_cubes
-echo Using version: $version
+echo Using cube_prefix: $cube_prefix
 echo n_obs for this run: $n_obs
 
 #create Healpix download location with full permissions
@@ -37,7 +37,7 @@ else
 fi
 
 # set integrated cube file name
-save_file_evenoddpol=Healpix/Combined_obs_${version}_${evenodd}_cube${pol^^}.sav
+save_file_evenoddpol=Healpix/Combined_obs_${cube_prefix}_${evenodd}_cube${pol^^}.sav
 
 azcopy login --identity
 
@@ -59,6 +59,7 @@ fi
 
 for int_cube in ${int_cubes}; do
     if [ ! -f "${FHD_version}/Healpix/${int_cube}_${evenodd}_cube${pol^^}.sav" ]; then
+	echo "${file_path_cubes}/Healpix/${int_cube}_${evenodd}_cube${pol^^}.sav"
         azcopy copy ${file_path_cubes}/Healpix/${int_cube}_${evenodd}_cube${pol^^}.sav \
         ${FHD_version}/Healpix/${int_cube}_${evenodd}_cube${pol^^}.sav
     fi
@@ -71,15 +72,16 @@ for int_cube in ${int_cubes}; do
     fi
 done
 
+echo $(ls ${FHD_version}/Healpix)
 # Error if any cubes did not download
 if [ ! -z ${exit_flag} ]; then
-    sudo rm -rf $FHD_version
+    # sudo rm -rf $FHD_version
     exit 1
 fi
 echo All cubes on instance
 
 #Create a name for the downloaded cube file based off of inputs
-evenoddpol_file_paths=${FHD_version}/${version}_${evenodd}${pol^^}_list.txt
+evenoddpol_file_paths=${FHD_version}/${cube_prefix}_${evenodd}${pol^^}_list.txt
 
 # Delete if it already exists, otherwise will create redundant integrations
 if [ -f $evenoddpol_file_paths ]; then
@@ -92,6 +94,9 @@ for int_cube in $(cat $int_list_path); do
     echo $cube_path >> $evenoddpol_file_paths
 done
 
+# make license directory to avoid licensing issues
+sudo mkdir -m 777 License
+sudo mkdir -m 777 License/flexera-sv
 # Run the integration IDL script
 idl -IDL_DEVICE ps -IDL_CPU_TPOOL_NTHREADS $nslots -e integrate_healpix_cubes -args "$evenoddpol_file_paths" "${FHD_version}/$save_file_evenoddpol" || :
 

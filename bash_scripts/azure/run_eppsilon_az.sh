@@ -5,12 +5,14 @@
 ######################################################################################
 
 #Parse flags for inputs
-while getopts ":d:f:v:n:i:c:p:h:s:x:q:o:" option
+while getopts ":u:d:f:v:b:n:i:c:p:h:s:x:t:q:o:" option
 do
    case $option in
+        u) export versions_script=$OPTARG;;     # optional versions script; if not submitted az_ps_job will be used
         d) export file_path_cubes=$OPTARG;;			#file path to fhd directory on azure storage
         f) export integrate_list="$OPTARG";;		#txt file of obs ids or subcubes or a single obsid
-        v) export version=$OPTARG;; # Name associated with resulting integration/eppsilon outputs. Not the FHD version.
+        v) export cube_prefix=$OPTARG;;  # Name associated with resulting integration/eppsilon outputs. Not the FHD version.
+        b) export version=$OPTARG;; # version from script
         n) export nslots=$OPTARG;;             	#Number of slots for grid engine
         i) int=$OPTARG;;           # Run FHD integration job
         c) cubes=$OPTARG;;         # Run eppsilon cube job
@@ -18,11 +20,12 @@ do
         h) hold_job_id=$OPTARG;;             #Job_id for a job to finish before running. Useful when running immediately after firstpass
         s) export single_obs=$OPTARG;; # Working on a single obsid that has never seen integration.
         x) export pols=$OPTARG;; # String of space-separated pols
+	t) export cube_types=$OPTARG;; # String of space-separated cube types
         q) partition=$OPTARG;; # Compute node partition
 	o) force_single_obs=$OPTARG;; # Force single obs when doing integration
 	\?) echo "Unknown option: Accepted flags are -d (file path to fhd directory on azure storage), -f (obs list or subcube path or single obsid), "
 	          echo "-v (version), -n (number of slots), -i (integrate) -c (make 'weights', 'dirty', 'model' cubes) -p (make ps), "
-	          echo "-h (job id to hold int/ps script for), -s (single obsid), -x (string of pols), and -q (partition)"
+		  echo "-h (job id to hold int/ps script for), -s (single obsid), -x (string of pols), -t (string of cube types), and -q (partition)"
 		  echo "-o (force single obs integration)"
             exit 1;;
         :) echo "Missing option argument for input flag"
@@ -43,14 +46,29 @@ else
     echo Using file_path_cubes: ${file_path_cubes}
 fi
 
-# Error if version is not set
-if [ -z ${version} ]; then
-    >&2 echo "Need to specify version to associate with resulting integration/eppsilon outputs."
+# Error if cube_prefix is not set
+if [ -z ${cube_prefix} ]; then
+    >&2 echo "Need to specify cube_prefix to associate with resulting integration/eppsilon outputs."
     exit 1
 else
-    echo Using version: $version
+    echo Using cube_prefix: $cube_prefix
 fi
 
+# set default versions_script
+if [ ! -z ${versions_script} ]; then
+    if [ -z ${version} ]; then
+        >&2 echo "Need to specify version if using versions_script."
+        exit 1
+    else
+        echo Using version: $version
+    fi
+else
+    versions_script=az_ps_job
+fi
+export versions_script=$versions_script
+echo Using versions_script: $versions_script
+
+# export versions_script=${versions_script}
 # Set default single_obs
 if [ -z ${single_obs} ]; then
     export single_obs=0
@@ -164,7 +182,7 @@ if [ $int -eq 1 ]; then
         echo "Hold string is ${hold_str}"
     fi
     # Get job_id
-    jid_int=$(sbatch ${hold_str} -D /mnt/scratch -c ${nslots} -p ${partition} -e ${logdir}/${version}_integration_job_az.sh.e%A.%a -o ${logdir}/${version}_integration_job_az.sh.o%A.%a -a 1-${n_arr} integration_job_az.sh)
+    jid_int=$(sbatch ${hold_str} -D /mnt/scratch -c ${nslots} -p ${partition} -e ${logdir}/${cube_prefix}_integration_job_az.sh.e%A.%a -o ${logdir}/${cube_prefix}_integration_job_az.sh.o%A.%a -a 1-${n_arr} integration_job_az.sh)
     echo ${jid_int}
     echo "Submitting integration job"
     # Update hold string so that cube tasks wait on corresponding integration tasks
@@ -176,7 +194,12 @@ if [ $int -eq 1 ]; then
 fi
 
 # Cube definitions
-cube_type_arr=('weights' 'dirty' 'model')
+if [ -z ${cube_types} ]; then
+	cube_type_arr=('weights' 'dirty' 'model')
+else
+	cube_type_arr=($cube_types)
+fi
+
 export n_cubes=${#cube_type_arr[@]}
 
 # Run eppsilon cube job
@@ -194,7 +217,7 @@ if [ $cubes -eq 1 ]; then
     for cube_type in "${cube_type_arr[@]}"; do
         echo "Submitting eppsilon ${cube_type} cube job"
         export cube_type=${cube_type}
-        jid_cube=$(sbatch ${hold_str} -D /mnt/scratch -c ${nslots} -p ${partition} -e ${logdir}/${version}_eppsilon_cube_job_az.sh.e%A.%a -o ${logdir}/${version}_eppsilon_cube_job_az.sh.o%A.%a -a 1-${n_arr} eppsilon_job_az.sh)
+        jid_cube=$(sbatch ${hold_str} -D /mnt/scratch -c ${nslots} -p ${partition} -e ${logdir}/${cube_prefix}_eppsilon_cube_job_az.sh.e%A.%a -o ${logdir}/${cube_prefix}_eppsilon_cube_job_az.sh.o%A.%a -a 1-${n_arr} eppsilon_job_az.sh)
         echo ${jid_cube}
         cube_jobs+=":${jid_cube##* }"
     done
@@ -216,5 +239,5 @@ if [ $ps -eq 1 ]; then
     fi
     echo "Submitting eppsilon ps job"
     unset cube_type
-    sbatch ${hold_str} -D /mnt/scratch -c ${nslots} -p ${partition} -e ${logdir}/${version}_eppsilon_ps_job_az.sh.e%A -o ${logdir}/${version}_eppsilon_ps_job_az.sh.o%A eppsilon_job_az.sh
+    sbatch ${hold_str} -D /mnt/scratch -c ${nslots} -p ${partition} -e ${logdir}/${cube_prefix}_eppsilon_ps_job_az.sh.e%A -o ${logdir}/${cube_prefix}_eppsilon_ps_job_az.sh.o%A eppsilon_job_az.sh
 fi

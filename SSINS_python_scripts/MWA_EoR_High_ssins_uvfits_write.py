@@ -37,18 +37,21 @@ indir = args.uvd[0][:args.uvd[0].rfind('/')]
 if indir == args.outdir:
     raise ValueError("indir and outdir are the same")
 
+
+# for best sensitivity, only flag data that is actually bad (so don't flag
+# coarse band edges or dc channels)
 if args.rfi_flag:
     ss = SS()
     if args.correct:
         ss.read(args.uvd, phase_to_pointing_center=True,
                 correct_cable_len=True, flag_choice='original', diff=True,
                 remove_dig_gains=True, remove_coarse_band=True,
-                data_array_dtype=np.complex64)
+                data_array_dtype=np.complex64, edge_width=0, flag_dc_offset=False)
     else:
         ss.read(args.uvd, phase_to_pointing_center=True,
                 correct_cable_len=True, flag_choice='original', diff=True,
                 remove_dig_gains=False, remove_coarse_band=False,
-                data_array_dtype=np.complex64)
+                data_array_dtype=np.complex64, edge_width=0, flag_dc_offset=False)
 
     ins = INS(ss)
     prefix = f'{args.outdir}/{args.obsid}'
@@ -83,6 +86,8 @@ if args.rfi_flag:
 
     # Write SSINS outputs
     util.write_meta(prefix, ins, uvf=uvf, mf=mf)
+
+    print('finished running ssins')
 
 if args.write_uvfits:
     if (not args.rfi_flag) and (not args.correct):
