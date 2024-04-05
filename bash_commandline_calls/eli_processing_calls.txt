@@ -1,0 +1,10 @@
+aws s3api get-object --bucket mwapublic --key uvfits/pyuvdata/2014/ssins_vv_cbflags_2s_80khz/1090958272.uvfits /Volumes/Data2/elillesk/interference/interference_uvfits/flagged_backup/1090958272.uvfits
+
+python flag_alteration.py /Volumes/Data2/elillesk/interference/interference_uvfits/flagged_backup/ /Volumes/Data2/elillesk/interference/interference_uvfits/unflagged/ 1090958272
+
+idl -e "save_image_cube_rfi_versions, 1090958272, '/Volumes/Data2/elillesk/interference/', 'save_image_cube_rfi_cal_fix1">& idl_stuff/idl_newobsid2_calibration.out
+
+#################################
+./repos/pipeline_scripts/bash_scripts/aws/aws_fetch.sh mwapublic uvfits/pyuvdata/2014/ssins_vv_cbflags_2s_80khz /Volumes/Data2/elillesk/interference/interference_uvfits/flagged_backup repos/pipeline_scripts/fhd_obsid_lists/trimmed_2014_iono_cut_z_band_10_100_all_TV_plus_one.txt .uvfits
+
+azcopy copy /Volumes/Data2/elillesk/interference/interference_uvfits/flagged_backup/ https://mwadata.blob.core.windows.net/uvfits/2014/ssins_vv_cbflags_2s_80khz/ --recursive
