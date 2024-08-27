@@ -1,0 +1,7 @@
+
+dir = '/Users/bryna/Projects/Physics/data_files/lwa_beam_testing/fhd_uvbeam_support_v2'
+lwa_beam_versions, dir, "lwa1"
+
+
+dir = '/Users/bryna/Projects/Physics/data_files/lwa_beam_testing/fhd_uvbeam_support'
+lwa_beam_versions, dir, "lwa1"
