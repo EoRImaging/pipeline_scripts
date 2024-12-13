@@ -14,27 +14,50 @@ output_directory = args[1]
 version = args[2]
 sim_id = args[3]
 
+;;; Old
+;  '256' : bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/mwa_gaussian_flat_256.hdf5"
+;  '256_bigvar' : bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/mwa_gaussian_bigvar_256.hdf5"
+;  '512' : bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/mwa_gaussian_flat_512.hdf5"
+;  '1024' : bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/mwa_gaussian_flat_1024.hdf5"
+;  '256_smooth' : bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/mwa_gaussian_smoothed_256.hdf5"
+;  '512_smooth' : bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/mwa_gaussian_smoothed_512.hdf5"
+;  '1024_smooth' : bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/mwa_gaussian_smoothed_1024.hdf5"
+;  '256_ugrade' : bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/mwa_gaussian_ugrade_256.hdf5"
+;  '512_ugrade' : bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/mwa_gaussian_ugrade_512.hdf5"
+;  '1024_ugrade' : bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/mwa_gaussian_ugrade_1024.hdf5"
+;  '512_area-scale' : bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/mwa_gaussian_pixarea-scale_512.hdf5"
+;  '1024_area-scale' : bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/mwa_gaussian_pixarea-scale_1024.hdf5"
+;  '512_len-scale' : bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/mwa_gaussian_pixlen-scale_512.hdf5"
+;  '1024_len-scale' : bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/mwa_gaussian_pixlen-scale_1024.hdf5"
+;  '2048' : bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/mwa_gaussian_flat_2048.hdf5"
+
 ;; Vary choice of hdf5 input
 case sim_id of
-  '256' : bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/mwa_gaussian_flat_256.hdf5"
-  '256_bigvar' : bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/mwa_gaussian_bigvar_256.hdf5"
-  '512' : bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/mwa_gaussian_flat_512.hdf5"
-  '1024' : bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/mwa_gaussian_flat_1024.hdf5"
-  '256_smooth' : bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/mwa_gaussian_smoothed_256.hdf5"
-  '512_smooth' : bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/mwa_gaussian_smoothed_512.hdf5"
-  '1024_smooth' : bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/mwa_gaussian_smoothed_1024.hdf5"
-  '256_ugrade' : bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/mwa_gaussian_ugrade_256.hdf5"
-  '512_ugrade' : bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/mwa_gaussian_ugrade_512.hdf5"
-  '1024_ugrade' : bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/mwa_gaussian_ugrade_1024.hdf5"
-  '512_area-scale' : bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/mwa_gaussian_pixarea-scale_512.hdf5"
-  '1024_area-scale' : bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/mwa_gaussian_pixarea-scale_1024.hdf5"
-  '512_len-scale' : bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/mwa_gaussian_pixlen-scale_512.hdf5"
-  '1024_len-scale' : bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/mwa_gaussian_pixlen-scale_1024.hdf5"
-  '2048' : bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/mwa_gaussian_flat_2048.hdf5"
+    'hera_256_lowband' : bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/hera_gaussian_10MHz_nside256_K_sig2.0_lowband.hdf5"
+    'hera_512_lowband' : bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/hera_gaussian_10MHz_nside512_K_sig2.0_lowband.hdf5"
+    'hera_1024_lowband' : bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/hera_gaussian_10MHz_nside1024_K_sig2.0_lowband.hdf5"
+    'hera_256_freqfix' : bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/hera_gaussian_10MHz_nside256_K_var2.0_freqfix.hdf5"
+    'hera_512_freqfix' : bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/hera_gaussian_10MHz_nside512_K_var2.0_freqfix.hdf5"
+    'hera_1024_freqfix' : bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/hera_gaussian_10MHz_nside1024_K_var2.0_freqfix.hdf5"
+    'mwa_256' : bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/mwa_gaussian_256_K_var2.0.hdf5"
+    'mwa_512' : bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/mwa_gaussian_512_K_var2.0.hdf5"
+    'mwa_1024' : bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/mwa_gaussian_1024_K_var2.0.hdf5"
+    'sig3_256' : bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/mwa_gaussian_nside256_K_sig3.0.hdf5"
+    'sig3_512' : bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/mwa_gaussian_nside512_K_sig3.0.hdf5"
+    'sig3_1024' : bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/mwa_gaussian_nside1024_K_sig3.0.hdf5"
+    'vscale_sig2_256' : bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/voxscaled_mwa_gaussian_nside256_K_sig2.0.hdf5"
+    'vscale_sig2_512' : bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/voxscaled_mwa_gaussian_nside512_K_sig2.0.hdf5"
+    'vscale_sig2_1024' : bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/voxscaled_mwa_gaussian_nside1024_K_sig2.0.hdf5"
+    'vsq_scale_sig2_256' : bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/vox_sq_scaled_mwa_gaussian_nside256_K_sig2.0.hdf5"
+    'vsq_scale_sig2_512' : bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/vox_sq_scaled_mwa_gaussian_nside512_K_sig2.0.hdf5"
+    'vsq_scale_sig2_1024' : bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/voxscaled_mwa_gaussian_nside1024_K_sig2.0.hdf5"
+    'inv_vscale_sig2_256' : bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/vox_inv_scaled_mwa_gaussian_nside256_K_sig2.0.hdf5"
+    'inv_vscale_sig2_512' : bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/vox_inv_scaled_mwa_gaussian_nside512_K_sig2.0.hdf5"
+    'inv_vscale_sig2_1024' : bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/vox_inv_scaled_mwa_gaussian_nside1024_K_sig2.0.hdf5"
+    'inv_sq_vscale_sig2_256' : bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/vox_inv_sq_scaled_mwa_gaussian_nside256_K_sig2.0.hdf5"
+    'inv_sq_vscale_sig2_512' : bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/vox_inv_sq_scaled_mwa_gaussian_nside256_K_sig2.0.hdf5"
   else: print, 'No matches'
 END
-if keyword_set(bubble_fname) then print, bubble_fname
-
 if nargs eq 5 then begin
 	; This will be used if being run in variation mode. For this, I'll need to set an obs_id_suffix
 	print, "Passed successfully"
@@ -129,6 +152,169 @@ case version of
 ;eor_sim
 ;flat_sigma
 ;set_sidelobe_keywords=0
+
+    'gaussian_bubble_gauss_100d': begin
+        beam_model_version=0
+    	dimension=1024
+    	instrument='gaussian'
+    	nfreq_avg=102  ; 10 Mhz
+    	include_catalog_sources=0
+    	snapshot_healpix_export=0
+        select_radius_multiplier=1.5
+        save_antenna_model=0
+    end
+
+    'gaussian_bubble_gauss_70d': begin
+        beam_model_version=1
+    	dimension=1024
+    	instrument='gaussian'
+    	nfreq_avg=102  ; 10 Mhz
+    	include_catalog_sources=0
+    	snapshot_healpix_export=0
+        select_radius_multiplier=1.5
+        save_antenna_model=0
+    end
+
+    'gaussian_bubble_gauss_40d': begin
+        beam_model_version=2
+    	dimension=1024
+    	instrument='gaussian'
+    	nfreq_avg=102  ; 10 Mhz
+    	include_catalog_sources=0
+    	snapshot_healpix_export=0
+        select_radius_multiplier=1.5
+        save_antenna_model=0
+    end
+
+    'gaussian_bubble_gauss_35d': begin
+        beam_model_version=3
+    	dimension=1024
+    	instrument='gaussian'
+    	nfreq_avg=102  ; 10 Mhz
+    	include_catalog_sources=0
+    	snapshot_healpix_export=0
+        select_radius_multiplier=1.5
+        save_antenna_model=0
+    end
+
+    'gaussian_bubble_gauss_16d': begin
+        beam_model_version=4
+    	dimension=1024
+    	instrument='gaussian'
+    	nfreq_avg=102  ; 10 Mhz
+    	include_catalog_sources=0
+    	snapshot_healpix_export=0
+        select_radius_multiplier=1.5
+        save_antenna_model=0
+    end
+
+    'gaussian_bubble_gauss_10d': begin
+        beam_model_version=5
+    	dimension=1024
+    	instrument='gaussian'
+    	nfreq_avg=102  ; 10 Mhz
+    	include_catalog_sources=0
+    	snapshot_healpix_export=0
+        select_radius_multiplier=1.5
+        save_antenna_model=0
+    end
+
+
+    'gaussian_bubble_gauss_70d_nometafits': begin
+;    0: sigma = 100./(2*sqrt(2.*alog(2.)))
+;    1: sigma = 70./(2*sqrt(2.*alog(2.)))
+;    2: sigma = 40./(2*sqrt(2.*alog(2.)))
+;    3: sigma = 35./(2*sqrt(2.*alog(2.)))
+;    4: sigma = 16./(2*sqrt(2.*alog(2.)))
+;    5: sigma = 10./(2*sqrt(2.*alog(2.)))
+        ;beam_model_version=uint(sim_id)
+        beam_model_version=1
+    	dimension=1024
+    	instrument='gaussian'
+    	nfreq_avg=102  ; 10 Mhz
+    	include_catalog_sources=0
+;    	snapshot_healpix_export=1
+        select_radius_multiplier=1.5
+        save_antenna_model=0
+;        bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/mwa_gaussian_256_K_var2.0.hdf5"
+    end   ; Gaussian beam model. beam_model_version sets width
+
+    'tophat_bubble_gauss_shellreplace': begin
+        ;; 10MHz files
+    	dimension=1024
+    	instrument='tophat'
+    	nfreq_avg=102  ; 10 Mhz
+    	include_catalog_sources=0
+    	snapshot_healpix_export=0
+        select_radius_multiplier=1.5
+        shellreplace=1
+        save_antenna_model=0   ; Trying to cut down on file bloat for large run
+    end
+
+    'hera_bubble_gauss_shellreplace_saved': begin
+        ;; 10MHz files
+    	dimension=1024
+    	instrument='hera'
+    	nfreq_avg=102  ; 10 Mhz
+    	include_catalog_sources=0
+    	snapshot_healpix_export=0
+        select_radius_multiplier=1.5
+        shellreplace=1
+        save_antenna_model=0   ; Trying to cut down on file bloat for large run
+    end
+
+    'hera_bubble_gauss': begin
+        ;; 10MHz files
+    	dimension=1024
+    	instrument='hera'
+    	nfreq_avg=102  ; 10 Mhz
+    	include_catalog_sources=0
+    	snapshot_healpix_export=0
+        select_radius_multiplier=1.5
+        save_antenna_model=0   ; Trying to cut down on file bloat for large run
+    end
+
+    'hera_bubble_gauss_paperbeam': begin
+        ;; 10MHz files
+    	dimension=1024
+    	instrument='paper'
+    	nfreq_avg=102
+    	include_catalog_sources=0
+    	snapshot_healpix_export=0
+        select_radius_multiplier=1.5
+    end
+
+    'hera_bubble_gauss_mwabeam': begin
+        ;; 10MHz files
+    	dimension=1024
+    	instrument='mwa'
+    	nfreq_avg=102
+    	include_catalog_sources=0
+    	snapshot_healpix_export=0
+        select_radius_multiplier=1.5
+    end
+
+    'hera_bubble_gauss_mwabeam_shellreplace': begin
+        ;; 10MHz files
+    	dimension=1024
+    	instrument='mwa'
+    	nfreq_avg=102
+        shellreplace=1
+    	include_catalog_sources=0
+    	snapshot_healpix_export=0
+        select_radius_multiplier=1.5
+    end
+
+    'hera_bubble_gauss_herabeam': begin
+        ;; 10MHz files
+    	dimension=1024
+    	instrument='hera'
+    	nfreq_avg=102
+    	include_catalog_sources=0
+    	snapshot_healpix_export=0
+        select_radius_multiplier=1.5
+    end
+
     'hera19_uncomp_short_diffuse_k025': begin
 	dimension=1024
 	instrument='hera'
@@ -158,14 +344,14 @@ case version of
 	bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/gaussian_cube.hdf5"
     end
 
-    'calsky_mwa_gaussian' : begin
+    'euler_calsky_mwa_gaussian_256' : begin
         dimension=1024
         instrument='mwa'
         beam_nfreq_avg=384
         include_catalog_sources=0
         snapshot_healpix_export=1
         select_radius_multiplier=1.5
-        bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/mwa_calsky_gaussian_cube.hdf5"
+        bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/mwa_nside256_sig2.0_calsky_cube.hdf5"
     end
 
     'mwa128_hdf5_point' : begin
@@ -272,6 +458,17 @@ case version of
 ;    	bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/mwa_gaussian_flat.hdf5"
     end
 
+    'mwa_bubble_gauss_rootscale' : begin
+    	dimension=1024
+    	instrument='mwa'
+    	nfreq_avg=384
+    	include_catalog_sources=0
+    	snapshot_healpix_export=1
+        select_radius_multiplier=1.5
+    	bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/scaled_mwa_gaussian_var2_nside256.hdf5"
+    	;bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/rootscaled_mwa_gaussian_var2_nside256.hdf5"
+    end
+
     'mwa_bubble_gauss_bryna-scale' : begin
     	dimension=1024
     	instrument='mwa'
@@ -279,8 +476,8 @@ case version of
     	include_catalog_sources=0
     	snapshot_healpix_export=1
         select_radius_multiplier=1.5
-    	;bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/mwa_gaussian_eorsim_512_K_v2.hdf5"
-    	bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/mwa_gaussian_eorsim_256_K_v2.hdf5"
+    	bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/mwa_gaussian_eorsim_512_K_v2.hdf5"
+    	;bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/mwa_gaussian_eorsim_256_K_v2.hdf5"
     end
 
     'mwa_bubble_gauss_quarter-interp-wide' : begin
@@ -305,6 +502,92 @@ case version of
 ;    	bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/mwa_gaussian_flat.hdf5"
     end
 
+
+    'mwa_bubble_gauss_256_herabeam' : begin
+    	dimension=1024
+    	instrument='hera'
+    	nfreq_avg=384
+    	include_catalog_sources=0
+    	snapshot_healpix_export=1
+        select_radius_multiplier=1.5
+        kbinsize=0.1
+    	bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/mwa_gaussian_nside256_K_var2.0_freqfix.hdf5"
+    end
+
+    'mwa_bubble_gauss_256' : begin
+    	dimension=1024
+    	instrument='mwa'
+    	nfreq_avg=384
+    	include_catalog_sources=0
+    	snapshot_healpix_export=1
+        select_radius_multiplier=1.5
+;    	bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/mwa_gaussian_nside256_K_var2.0_freqfix.hdf5"      ; Commented out on 1/7/19. This is not vox-vol scaled
+        bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/vox_inv_scaled_mwa_gaussian_nside256_K_sig2.0.hdf5"
+    end
+
+    'mwa_bubble_gauss_256_chrom' : begin
+    	dimension=1024
+    	instrument='mwa'
+    	nfreq_avg=16
+    	include_catalog_sources=0
+    	snapshot_healpix_export=1
+        select_radius_multiplier=1.5
+;    	bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/mwa_gaussian_nside256_K_var2.0_freqfix.hdf5"      ; Commented out on 1/7/19. This is not vox-vol scaled
+        bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/vox_inv_scaled_mwa_gaussian_nside256_K_sig2.0.hdf5"
+    end
+
+    'mwa_bubble_gauss_512_shellreplace' : begin
+    	dimension=1024
+    	instrument='mwa'
+    	nfreq_avg=384
+    	include_catalog_sources=0
+    	snapshot_healpix_export=1
+        select_radius_multiplier=1.5
+        shellreplace=1
+        snapshot_healpix_export=0
+    	bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/mwa_gaussian_nside512_K_var2.0_freqfix.hdf5"
+    end
+
+    'mwa_bubble_gauss_512' : begin
+    	dimension=1024
+    	instrument='mwa'
+    	nfreq_avg=384
+    	include_catalog_sources=0
+    	snapshot_healpix_export=1
+        select_radius_multiplier=1.5
+    	bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/mwa_gaussian_nside512_K_var2.0_freqfix.hdf5"
+    end
+    'mwa_bubble_gauss_512_off-freq' : begin
+    	dimension=1024
+    	instrument='mwa'
+    	nfreq_avg=384
+    	include_catalog_sources=0
+    	snapshot_healpix_export=1
+        select_radius_multiplier=1.5
+    	bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/mwa_gaussian_512_K_var2.0.hdf5"
+    end
+
+    'mwa_bubble_gauss_1024' : begin
+    	dimension=1024
+    	instrument='mwa'
+    	nfreq_avg=384
+    	include_catalog_sources=0
+    	snapshot_healpix_export=1
+        select_radius_multiplier=1.5
+    	bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/mwa_gaussian_nside1024_K_var2.0_freqfix.hdf5"
+    end
+
+    'mwa_bubble_gauss_ugrade' : begin
+    	dimension=1024
+    	instrument='mwa'
+    	nfreq_avg=384
+    	include_catalog_sources=0
+    	snapshot_healpix_export=1
+        select_radius_multiplier=1.5
+    	bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/mwa_gaussian_ugrade_256.hdf5"
+    end
+
+
     'mwa_bubble_gauss' : begin
     	dimension=1024
     	instrument='mwa'
@@ -312,7 +595,7 @@ case version of
     	include_catalog_sources=0
     	snapshot_healpix_export=1
         select_radius_multiplier=1.5
-;    	bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/mwa_gaussian_flat.hdf5"
+    ;	bubble_fname="/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/variance_one/mwa_gaussian_flat_1024.hdf5"
     end
 
     'hera_bubble_calsky-patchy':begin
@@ -517,7 +800,18 @@ case version of
 	eor_sim=1
     end
 
-    'mwa128_eor_flat' : begin
+    'hera_eor_flat' : begin
+        dimension=1024
+        instrument='mwa'
+        nfreq_avg=102    ; Reduced bandwidth
+        snapshot_healpix_export=0
+        include_catalog_sources=0
+        save_antenna_model=0   ; Trying to cut down on file bloat for large run
+        eor_sim=1
+        flat_sigma=1
+    end
+
+    'mwa_eor_flat' : begin
         dimension=1024
         instrument='mwa'
         beam_nfreq_avg=384
@@ -534,6 +828,16 @@ case version of
         snapshot_healpix_export=1
         include_catalog_sources=0
         eor_sim=1
+    end
+
+    'mwa_point_gleam': begin
+        dimension=1024
+        instrument='mwa'
+        nfreq_avg=384
+        sources_file_name='GLEAM_EGC_catalog'
+        max_model_sources=7000
+        snapshot_healpix_export=1
+        dft_threshold=0
     end
 
 ;   'sim_mwa_mwabeams': begin
@@ -724,6 +1028,7 @@ IF N_Elements(n_avg) EQ 0 THEN n_avg=1
 ;IF N_Elements(ps_kbinsize) EQ 0 THEN ps_kbinsize=0.5
 ;IF N_Elements(ps_kspan) EQ 0 THEN ps_kspan=600.
 catalog_file_path=sources_file_path
+if keyword_set(bubble_fname) then print, 'bubble_fname: ', bubble_fname
 
 extra=var_bundle()
 
