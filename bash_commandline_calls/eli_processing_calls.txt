@@ -25,3 +25,26 @@ python working_directory/flag_alteration.py /Volumes/Data2/elillesk/interference
 
 #########################################################
 idl -e "save_image_cube_rfi_versions, 1094490936, '/Volumes/Data2/elillesk/interference/', 'save_image_cube_rfi_grid_unflagged_trimmed'">& idl_stuff/idl_1094490936_unflagged_trimmed.out
+
+########################################################
+azcopy copy https://june22mwax.blob.core.windows.net/uvfits/2021_final/ssins_phased_gains_bandpass_2.0sec_40kHz_flagzero/1321444744.uvfits /Volumes/Data2/elillesk/interference/interference_uvfits/flagged_backup/
+
+########################################################
+./repos/pipeline_scripts/bash_scripts/aws/aws_fetch.sh mwapublic uvfits/pyuvdata/2014/ssins_vv_cbflags_2s_80khz /Volumes/Data2/elillesk/clean/clean_uvfits/flagged/ /Volumes/Data2/elillesk/clean/clean_uvfits/2014/2014_obs_ids.txt
+
+aws s3 sync s3://mwapublic/gpubox/2014/1089745880_vis /Volumes/Data2/elillesk/clean/box_folder
+
+./repos/pipeline_scripts/bash_scripts/aws/aws_fetch.sh mwapublic gpubox/2014  /Volumes/Data2/elillesk/clean/clean_uvfits/2014_rebuilt --sync /Volumes/Data2/elillesk/clean/clean_uvfits/2014/2014_obs_ids.txt _vis
+
+uvfits_from_box.py -u /Volumes/Data2/elillesk/clean/clean_uvfits/2014_rebuilt/ -d -l /Volumes/Data2/elillesk/clean/box_folder/2014_rebuilt/ -i
+
+###################################
+azcopy copy https://june22mwax.blob.core.windows.net/metafits/2021/1321103568.metafits /Volumes/Data2/elillesk/clean/clean_uvfits/mwax/1321103568.metafits
+
+aws s3api list-objects-v2 --bucket mwapublic --prefix gpubox/2014/ --query 'Contents[].[Key]' --output text >> 2014_box_list.txt
+
+./repos/pipeline_scripts/bash_scripts/aws/aws_fetch.sh mwapublic metafits/2014  /Volumes/Data2/elillesk/clean/clean_uvfits/07-21-2014 /Volumes/Data2/elillesk/clean/clean_uvfits/07-21-2014_obsids.txt .metafits
+
+
+#####################################
+idl -e "save_image_cube_rfi_transfer_versions, 1093195672, '/Volumes/Data3/elillesk/data_and_analysis/fhd', 'save_image_cube_rfi_transfer_grid', 1093023344">& idl_stuff/idl_1093195672_grid.out
