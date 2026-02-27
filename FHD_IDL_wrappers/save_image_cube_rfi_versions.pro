@@ -1,10 +1,11 @@
-pro save_image_cube_rfi_versions, obs_id, output_directory, version, platform
+pro save_image_cube_rfi_versions, obs_id, output_directory, version, time_trim_early, time_trim_late, platform
     ;;Note the following numerical suffixes for versions without parameter changes: 
     ;;1 for initial run with calibration not using fill model visibilities (meant to avoid transferring flags from calibration)
     ;;2 for runs after altering this (using the cal_fix versions calibration instead)
     ;;3 for runs after moving to the new data path (Data2 instead of Data1)
     ;;4 after manually altering flag arrays to have the center of the coarse band flagged
     ;;5 after adding several print statements and a new output array (bin_n in the grid_data folder)
+    ;;6 after fixing model visibility rephasing
 
   ; parse command line args
   compile_opt strictarr
@@ -14,9 +15,15 @@ pro save_image_cube_rfi_versions, obs_id, output_directory, version, platform
     obs_id = args[0]
     output_directory = args[1]
     version = args[2]
+    
     if nargs gt 3 then begin
+      time_trim_early = float(args[3])
+      time_trim_late = float(args[4])
+    endif
+    
+    if nargs gt 5 then begin
       ; will be "aws" if running on AWS
-      platform = args[3]
+      platform = args[5]
     endif else begin
       platform = ''
       spawn, 'hostname', hostname
@@ -32,6 +39,12 @@ pro save_image_cube_rfi_versions, obs_id, output_directory, version, platform
   endelse
   ; ensure obs_id is a string for file naming
   obs_id = number_formatter(obs_id)
+  if obs_id ge 1156551320 then begin
+      instrument = "mwa2"
+      transfer_obs_id = 1160667040 
+  endif else begin
+      transfer_obs_id = 1094490936
+  endelse
 
   case version of
   
@@ -113,7 +126,7 @@ pro save_image_cube_rfi_versions, obs_id, output_directory, version, platform
 
 
   
-    'save_image_cube_rfi_grid_unflagged5': begin
+    'save_image_cube_rfi_grid_unflagged6': begin
       beam_nfreq_avg = 1
       restrict_hpx_inds = 'EoR0_high_healpix_inds_3x.idlsave'
 
@@ -159,6 +172,113 @@ pro save_image_cube_rfi_versions, obs_id, output_directory, version, platform
       endelse
       
     end
+    
+    
+    
+    'save_image_cube_rfi_grid_unflagged_trimmed': begin
+      if n_elements(time_trim_early) eq 0 then message, 'time_trim_early and time_trim_late must be provided for trimmed versions.'
+      if n_elements(time_trim_late) eq 0 then message, 'time_trim_early and time_trim_late must be provided for trimmed versions.'
+      ;time_cut = [48,-42] ;corresponds with the first time included being the time starting at 24th time index, the time stops being included at the 32nd time index, with 53 total time indices and 2 second intervals. (24*2 = 48, 53*2 - 32*2 = 42)
+      time_cut = [time_trim_early,time_trim_late]
+      beam_nfreq_avg = 1
+      restrict_hpx_inds = 'EoR0_high_healpix_inds_3x.idlsave'
+
+      ; ; change from van_vleck:
+      ; ; use a bigger kspan. defaults to 600
+      ; ps_kspan=200.
+      ; ; save the uvf cubes out
+      save_uvf = 1
+      save_image_cubes = 1
+
+      kernel_window = 1 ; Modified gridding kernel, 1='Blackman-Harris^2'
+      calibrate_visibilities = 0
+      return_cal_visibilities = 0
+      model_visibilities = 1
+      beam_mask_threshold = 1e3
+
+      ; use the DFT approximation
+      dft_threshold = 1
+
+      if platform eq 'aws' then begin
+        ; these paths work because of the AWS wrapper that copies the files here
+        model_uv_transfer = '/uvfits/transfer/' + obs_id + '_model_uv_arr.sav'
+        transfer_calibration = '/uvfits/transfer/' + obs_id + '_cal.sav'
+      endif else begin
+        if stregex(hostname, 'salix', /boolean) eq 1 then begin
+          fhd_cal_folder = '/Volumes/Data2/elillesk/interference/fhd_save_image_cube_rfi_cal_fix1/'
+        endif else begin
+          fhd_cal_folder = '';;'/data3/users/bryna/fhd_outs/orthoslant_interp_cal1/'
+        endelse
+        model_uv_transfer = fhd_cal_folder + 'cal_prerun/' + obs_id + '_model_uv_arr.sav'
+        transfer_calibration = fhd_cal_folder + 'calibration/' + obs_id + '_cal.sav'
+      endelse
+      
+      
+      if platform eq 'aws' then begin
+        vis_path = '/uvfits/'
+      endif else begin
+        if stregex(hostname, 'salix', /boolean) eq 1 then begin
+          vis_path = '/Volumes/Data2/elillesk/interference/interference_uvfits/unflagged/'
+        endif else begin
+          vis_path = '';;'/data3/users/bryna/van_vleck_corrected/'
+        endelse
+      endelse
+      
+    end
+    
+    'save_image_cube_rfi_grid_unflagged_trimmed_no_rfi': begin
+      if n_elements(time_trim_early) eq 0 then message, 'time_trim_early and time_trim_late must be provided for trimmed versions.'
+      if n_elements(time_trim_late) eq 0 then message, 'time_trim_early and time_trim_late must be provided for trimmed versions.'
+      ;time_cut = [48,-42]
+      time_cut = [time_trim_early,time_trim_late]
+      beam_nfreq_avg = 1
+      restrict_hpx_inds = 'EoR0_high_healpix_inds_3x.idlsave'
+
+      ; ; change from van_vleck:
+      ; ; use a bigger kspan. defaults to 600
+      ; ps_kspan=200.
+      ; ; save the uvf cubes out
+      save_uvf = 1
+      save_image_cubes = 1
+
+      kernel_window = 1 ; Modified gridding kernel, 1='Blackman-Harris^2'
+      calibrate_visibilities = 0
+      return_cal_visibilities = 0
+      model_visibilities = 1
+      beam_mask_threshold = 1e3
+
+      ; use the DFT approximation
+      dft_threshold = 1
+
+      if platform eq 'aws' then begin
+        ; these paths work because of the AWS wrapper that copies the files here
+        model_uv_transfer = '/uvfits/transfer/' + obs_id + '_model_uv_arr.sav'
+        transfer_calibration = '/uvfits/transfer/' + obs_id + '_cal.sav'
+      endif else begin
+        if stregex(hostname, 'salix', /boolean) eq 1 then begin
+          fhd_cal_folder = '/Volumes/Data2/elillesk/interference/fhd_save_image_cube_rfi_cal_fix1/'
+        endif else begin
+          fhd_cal_folder = '';;'/data3/users/bryna/fhd_outs/orthoslant_interp_cal1/'
+        endelse
+        model_uv_transfer = fhd_cal_folder + 'cal_prerun/' + obs_id + '_model_uv_arr.sav'
+        transfer_calibration = fhd_cal_folder + 'calibration/' + obs_id + '_cal.sav'
+      endelse
+      
+      
+      if platform eq 'aws' then begin
+        vis_path = '/uvfits/'
+      endif else begin
+        if stregex(hostname, 'salix', /boolean) eq 1 then begin
+          vis_path = '/Volumes/Data2/elillesk/interference/interference_uvfits/unflagged/'
+        endif else begin
+          vis_path = '';;'/data3/users/bryna/van_vleck_corrected/'
+        endelse
+      endelse
+      
+    end
+    
+    
+    
     
     ;;Should be the same as above except with different choice for vis_path
     'save_image_cube_rfi_grid_flagged5': begin
@@ -352,6 +472,59 @@ pro save_image_cube_rfi_versions, obs_id, output_directory, version, platform
   endelse
       
     end
+    
+    
+    'save_image_cube_rfi_grid_unflagged_badcal': begin
+      if obs_id ge 1156551320 then transfer_obs_id = 1160667040 else transfer_obs_id = 1094490936
+      
+      transfer_obs_id
+      beam_nfreq_avg = 1
+      restrict_hpx_inds = 'EoR0_high_healpix_inds_3x.idlsave'
+
+      ; ; change from van_vleck:
+      ; ; use a bigger kspan. defaults to 600
+      ; ps_kspan=200.
+      ; ; save the uvf cubes out
+      save_uvf = 1
+      save_image_cubes = 1
+
+      kernel_window = 1 ; Modified gridding kernel, 1='Blackman-Harris^2'
+      calibrate_visibilities = 0
+      return_cal_visibilities = 0
+      model_visibilities = 1
+      beam_mask_threshold = 1e3
+
+      ; use the DFT approximation
+      dft_threshold = 1
+
+      if platform eq 'aws' then begin
+        ; these paths work because of the AWS wrapper that copies the files here
+        ;model_uv_transfer = '/uvfits/transfer/' + obs_id + '_model_uv_arr.sav' ;;Want this off for this version!
+        transfer_calibration = '/uvfits/transfer/' + transfer_obs_id + '_cal.sav'
+      endif else begin
+        if stregex(hostname, 'salix', /boolean) eq 1 then begin
+          fhd_cal_folder = '/Volumes/Data2/elillesk/interference/fhd_save_image_cube_rfi_cal_fix1/'
+        endif else begin
+          fhd_cal_folder = '';;'/data3/users/bryna/fhd_outs/orthoslant_interp_cal1/'
+        endelse
+        ;model_uv_transfer = fhd_cal_folder + 'cal_prerun/' + obs_id + '_model_uv_arr.sav'
+        transfer_calibration = fhd_cal_folder + 'calibration/' + transfer_obs_id + '_cal.sav'
+      endelse
+      
+      
+      if platform eq 'aws' then begin
+        vis_path = '/uvfits/'
+      endif else begin
+        if stregex(hostname, 'salix', /boolean) eq 1 then begin
+          vis_path = '/Volumes/Data2/elillesk/interference/interference_uvfits/unflagged/'
+        endif else begin
+          vis_path = '';;'/data3/users/bryna/van_vleck_corrected/'
+        endelse
+      endelse
+      
+    end
+    
+    
 endcase
 
   
