@@ -33,8 +33,9 @@ shift 3
 # Check for the --sync option
 if [ "$1" == "--sync" ]; then
     use_sync=true
-    shift
+    shift 
 fi
+
 
 item_input="$1"
 suffix="$2"
@@ -67,6 +68,7 @@ function sync_or_download() {
     fi
     if [ "$use_sync" = true ]; then
         echo "Syncing item: $item"
+	echo aws s3 sync "s3://$bucket/$input_folder/$item" "$output_folder/$item"
         aws s3 sync "s3://$bucket/$input_folder/$item" "$output_folder/$item"
     else
         echo "Fetching item: $item"
