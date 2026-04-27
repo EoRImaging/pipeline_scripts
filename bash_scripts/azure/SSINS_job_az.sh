@@ -131,14 +131,14 @@ if [ $input_type == "uvfits" ]; then
 
 else
   # Check if the gpubox files exist locally; if not, download them from az
-  file_num=$(ls gpubox/${obs_id}_vis/${obs_id}*.fits | wc -l)
+  file_num=$(ls gpubox/${obs_id}*_vis/${obs_id}*.fits | wc -l)
   if [ $file_num -eq "0" ]; then
 
       # Download box files and metafits from az
-      azcopy copy ${input_az_loc}/${obs_id}_vis gpubox --include-pattern "*fits" --recursive
+      azcopy copy ${input_az_loc}/* gpubox --include-pattern "${obs_id}*fits" --recursive
 
       # Verify that the box files downloaded correctly
-      file_num=$(ls gpubox/${obs_id}_vis/${obs_id}*.fits | wc -l)
+      file_num=$(ls gpubox/${obs_id}*_vis/${obs_id}*.fits | wc -l)
       if [ $file_num -eq "0" ]; then
           >&2 echo "ERROR: downloading box files from az failed"
           echo $obs_id >> ~/logs/obs_fail_${SLURM_ARRAY_JOB_ID}.txt
@@ -154,7 +154,7 @@ else
           exit 1
       fi
   fi
-  input_files=$(ls gpubox/${obs_id}_vis/${obs_id}*fits)
+  input_files=$(ls gpubox/${obs_id}*_vis/${obs_id}*fits)
 fi
 
 echo "The input files for this run are: ${input_files}"
@@ -198,6 +198,9 @@ if [ $write_new_uvfits -eq 1 ]; then
   # Remove uvfits from instance because can't separate from other SSINS outputs due to buggy az
   sudo rm ${outdir}/${obs_id}.uvfits
 fi
+
+echo ${outdir}
+echo $(ls ${outdir})
 
 # Move SSINS outputs to az
 i=1  # initialize counter
