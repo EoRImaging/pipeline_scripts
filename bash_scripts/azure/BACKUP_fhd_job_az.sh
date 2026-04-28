@@ -261,4 +261,4 @@ echo "processing ${N_obs} observations"
 
 # # # # # # # Submit the firstpass jobs and wait for output
 
-sbatch -D /mnt/scratch -c ${nslots} -p ${partition} -o ${logdir}/fhd_job_az.sh.o%A.%a -a 1-${N_obs} fhd_job_az.sh
+sbatch -D /mnt/scratch -c ${nslots} -p ${partition} -e ${logdir}/fhd_job_az.sh.e%A.%a -o ${logdir}/fhd_job_az.sh.o%A.%a -a 1-${N_obs} fhd_job_az.sh

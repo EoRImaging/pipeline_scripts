@@ -1,1 +1,2 @@
-bash run_fhd_az.sh -f /shared/home/elillesk/repos/pipeline_scripts/fhd_obsid_lists/2014_iono_cut_z_band_10_100_all_TV_plus_one.txt -b https://mwadata.blob.core.windows.net/fhd/eli_interference -v "save_image_cube_rfi_cal_fix1" -n 4 -u save_image_cubes_rfi -p https://mwadata.blob.core.windows.net/uvfits/2014/ssins_vv_cbflags_2s_80khz/flagged_backup
+bash run_fhd_az.sh -f repos/pipeline_scripts/fhd_obsid_lists/good_day_2014_first_four.txt -b https://mwadatastore.blob.core.windows.net/fhd/initial_run -v eli_azure_cal -n 12 -u eli_azure_versions -p https://mwadatastore.blob.core.windows.net/uvfits -m https://mwadatastore.blob.core.windows.net/metafits -q hpc
+

@@ -215,7 +215,7 @@ fi
 # make license directory to avoid licensing issues
 sudo mkdir -m 777 License
 sudo mkdir -m 777 License/flexera-sv
-idl -IDL_DEVICE ps -IDL_CPU_TPOOL_NTHREADS $nslots -e $versions_script -args \
+/shared/idl_stuff/harris/idl/bin/idl -IDL_DEVICE ps -IDL_CPU_TPOOL_NTHREADS $nslots -e $versions_script -args \
 $obs_id $outdir $version azure || :
 
 if [ $? -eq 0 ]; then
@@ -267,7 +267,7 @@ if [ "$run_ps" -eq 1 ]; then
     fi
 
     # Run eppsilon
-    idl -IDL_DEVICE ps -IDL_CPU_TPOOL_NTHREADS $nslots -e az_ps_single_obs_job -args \
+    /shared/idl_stuff/harris/idl/bin/idl -IDL_DEVICE ps -IDL_CPU_TPOOL_NTHREADS $nslots -e az_ps_single_obs_job -args \
     $obs_id $outdir $version $refresh_ps $ps_uvf_input $ps_wt_cutoffs || :
 
     if [ $? -eq 0 ]; then
@@ -302,8 +302,8 @@ azcopy copy ~/logs/fhd_job_az.sh.o${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID} \
 ${az_path}/fhd_${version}/logs/fhd_job_az.sh.o${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID}_${myip}.txt
 
 # Copy stderr to az
-azcopy copy ~/logs/fhd_job_az.sh.e${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID} \
-${az_path}/fhd_${version}/logs/fhd_job_az.sh.e${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID}_${myip}.txt
+#azcopy copy ~/logs/fhd_job_az.sh.e${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID} \
+#${az_path}/fhd_${version}/logs/fhd_job_az.sh.e${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID}_${myip}.txt
 
 echo "JOB END TIME" `date +"%Y-%m-%d_%H:%M:%S"`
 
