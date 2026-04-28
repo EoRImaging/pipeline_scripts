@@ -54,8 +54,8 @@ pro eli_azure_versions
     end
 
     'eli_azure_image': begin
-    model_uv_transfer='fhd/initial_run/fhd_eli_azure_cal/cal_prerun/' + obs_id + '_model_uv_arr.sav'
-    transfer_calibration = 'fhd/initial_run/fhd_eli_azure_cal/calibration/' + obs_id + '_cal.sav'
+    model_uv_transfer='uvfits/transfer/' + obs_id + '_model_uv_arr.sav'
+    transfer_calibration = 'uvfits/transfer/' + obs_id + '_cal.sav'
     kernel_window=1
     debug_dim=1
     beam_mask_threshold=1e3
