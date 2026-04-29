@@ -1,2 +1,5 @@
-bash run_fhd_az.sh -f repos/pipeline_scripts/fhd_obsid_lists/good_day_2014_first_four.txt -b https://mwadatastore.blob.core.windows.net/fhd/initial_run -v eli_azure_cal -n 12 -u eli_azure_versions -p https://mwadatastore.blob.core.windows.net/uvfits -m https://mwadatastore.blob.core.windows.net/metafits -q hpc
+#Calibration run
+bash run_fhd_az.sh -f /shared/home/elillesk/repos/pipeline_scripts/fhd_obsid_lists/good_day_2014_first_four.txt -b https://mwadatastore.blob.core.windows.net/fhd/initial_run -v eli_azure_cal -n 12 -u eli_azure_versions -p https://mwadatastore.blob.core.windows.net/uvfits -m https://mwadatastore.blob.core.windows.net/metafits -q hpc
 
+#Imaging run
+bash run_fhd_az.sh -f /shared/home/elillesk/repos/pipeline_scripts/fhd_obsid_lists/good_day_2014_first_four.txt -b https://mwadatastore.blob.core.windows.net/fhd/initial_run -v eli_azure_image -n 8 -u eli_azure_versions -p https://mwadatastore.blob.core.windows.net/uvfits -m https://mwadatastore.blob.core.windows.net/metafits -q hpc -t https://mwadatastore.blob.core.windows.net/fhd/initial_run/fhd_eli_azure_cal -c https://mwadatastore.blob.core.windows.net/fhd/initial_run/fhd_eli_azure_cal
