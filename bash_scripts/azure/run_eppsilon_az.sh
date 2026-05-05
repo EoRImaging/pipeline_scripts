@@ -5,7 +5,7 @@
 ######################################################################################
 
 #Parse flags for inputs
-while getopts ":u:d:f:v:b:n:i:c:p:h:s:x:t:q:o:" option
+while getopts ":u:d:f:v:b:n:i:c:p:h:s:x:t:q:r:o:m:" option
 do
    case $option in
         u) export versions_script=$OPTARG;;     # optional versions script; if not submitted az_ps_job will be used
@@ -21,12 +21,14 @@ do
         s) export single_obs=$OPTARG;; # Working on a single obsid that has never seen integration.
         x) export pols=$OPTARG;; # String of space-separated pols
 	t) export cube_types=$OPTARG;; # String of space-separated cube types
-        q) partition=$OPTARG;; # Compute node partition
+        q) int_partition=$OPTARG;; # Compute node partition for integration
+	r) epp_partition=$OPTARG;; # Compute node partition for eppsilon
 	o) force_single_obs=$OPTARG;; # Force single obs when doing integration
+	m) export mem=$OPTARG;; # memory request for integration job
 	\?) echo "Unknown option: Accepted flags are -d (file path to fhd directory on azure storage), -f (obs list or subcube path or single obsid), "
 	          echo "-v (version), -n (number of slots), -i (integrate) -c (make 'weights', 'dirty', 'model' cubes) -p (make ps), "
-		  echo "-h (job id to hold int/ps script for), -s (single obsid), -x (string of pols), -t (string of cube types), and -q (partition)"
-		  echo "-o (force single obs integration)"
+		  echo "-h (job id to hold int/ps script for), -s (single obsid), -x (string of pols), -t (string of cube types), and -q (partition for integration)"
+		  echo "-r (partition for eppsilon), -o (force single obs integration), -m (memory request for integration job)"
             exit 1;;
         :) echo "Missing option argument for input flag"
            exit 1;;
@@ -155,13 +157,28 @@ if [ -z ${nslots} ]; then
     export nslots=2
 fi
 
+#Set default memory needed for integration job
+if [ -z ${mem} ]; then
+    export mem=64G
+fi
+
 # Set default partition to htc
-if [ -z ${partition} ]; then
-    partition=htc
-elif [[ ${partition} != "hpc" && ${partition} != "htc" ]]; then
-  echo "${partition} is not a valid input type. Valid options are 'hpc' or 'htc'"
+if [ -z ${int_partition} ]; then
+    int_partition=hpc
+elif [[ ${int_partition} != "hpc" && ${int_partition} != "htc" ]]; then
+  echo "${int_partition} is not a valid input type. Valid options are 'hpc' or 'htc'"
   exit 1
 fi
+
+
+# Set default partition to htc
+if [ -z ${epp_partition} ]; then
+    epp_partition=htc
+elif [[ ${epp_partition} != "hpc" && ${epp_partition} != "htc" ]]; then
+  echo "${epp_partition} is not a valid input type. Valid options are 'hpc' or 'htc'"
+  exit 1
+fi
+
 
 # Make log directory if it doesn't already exist
 if [ ! -d ~/logs ]; then
@@ -182,7 +199,7 @@ if [ $int -eq 1 ]; then
         echo "Hold string is ${hold_str}"
     fi
     # Get job_id
-    jid_int=$(sbatch ${hold_str} -D /mnt/scratch -c ${nslots} -p ${partition} -e ${logdir}/${cube_prefix}_integration_job_az.sh.e%A.%a -o ${logdir}/${cube_prefix}_integration_job_az.sh.o%A.%a -a 1-${n_arr} integration_job_az.sh)
+    jid_int=$(sbatch ${hold_str} -D /mnt/scratch -c ${nslots} -p ${int_partition} -o ${logdir}/${cube_prefix}_integration_job_az.sh.o%A.%a -a 1-${n_arr} integration_job_az.sh --mem=${mem})
     echo ${jid_int}
     echo "Submitting integration job"
     # Update hold string so that cube tasks wait on corresponding integration tasks
@@ -217,7 +234,7 @@ if [ $cubes -eq 1 ]; then
     for cube_type in "${cube_type_arr[@]}"; do
         echo "Submitting eppsilon ${cube_type} cube job"
         export cube_type=${cube_type}
-        jid_cube=$(sbatch ${hold_str} -D /mnt/scratch -c ${nslots} -p ${partition} -e ${logdir}/${cube_prefix}_eppsilon_cube_job_az.sh.e%A.%a -o ${logdir}/${cube_prefix}_eppsilon_cube_job_az.sh.o%A.%a -a 1-${n_arr} eppsilon_job_az.sh)
+        jid_cube=$(sbatch ${hold_str} -D /mnt/scratch -c ${nslots} -p ${epp_partition} -o ${logdir}/${cube_prefix}_eppsilon_cube_job_az.sh.o%A.%a -a 1-${n_arr} eppsilon_job_az.sh)
         echo ${jid_cube}
         cube_jobs+=":${jid_cube##* }"
     done
@@ -239,5 +256,5 @@ if [ $ps -eq 1 ]; then
     fi
     echo "Submitting eppsilon ps job"
     unset cube_type
-    sbatch ${hold_str} -D /mnt/scratch -c ${nslots} -p ${partition} -e ${logdir}/${cube_prefix}_eppsilon_ps_job_az.sh.e%A -o ${logdir}/${cube_prefix}_eppsilon_ps_job_az.sh.o%A eppsilon_job_az.sh
+    sbatch ${hold_str} -D /mnt/scratch -c ${nslots} -p ${epp_partition} -o ${logdir}/${cube_prefix}_eppsilon_ps_job_az.sh.o%A eppsilon_job_az.sh --mem=${mem}
 fi

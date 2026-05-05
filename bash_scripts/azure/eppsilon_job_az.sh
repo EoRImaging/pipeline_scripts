@@ -172,7 +172,7 @@ echo "arg_string is $arg_string"
 # make license directory to avoid licensing issues
 sudo mkdir -m 777 License
 sudo mkdir -m 777 License/flexera-sv
-idl -IDL_DEVICE ps -IDL_CPU_TPOOL_NTHREADS $nslots -e ${versions_script} -args $arg_string || :
+/shared/idl_stuff/harris/idl/bin/idl -IDL_DEVICE ps -IDL_CPU_TPOOL_NTHREADS $nslots -e ${versions_script} -args $arg_string || :
 
 # idl -IDL_DEVICE ps -IDL_CPU_TPOOL_NTHREADS $nslots -e az_ps_job -args $arg_string || :
 
@@ -233,6 +233,6 @@ else
 fi
 
 # Go ahead and delete output directory on instance since they are not currently sharing jobs
-sudo rm -r ${FHD_version}
+#sudo rm -r ${FHD_version}
 
 exit $error_mode

@@ -98,7 +98,7 @@ done
 sudo mkdir -m 777 License
 sudo mkdir -m 777 License/flexera-sv
 # Run the integration IDL script
-idl -IDL_DEVICE ps -IDL_CPU_TPOOL_NTHREADS $nslots -e integrate_healpix_cubes -args "$evenoddpol_file_paths" "${FHD_version}/$save_file_evenoddpol" || :
+/shared/idl_stuff/harris/idl/bin/idl -IDL_DEVICE ps -IDL_CPU_TPOOL_NTHREADS $nslots -e integrate_healpix_cubes -args "$evenoddpol_file_paths" "${FHD_version}/$save_file_evenoddpol" || :
 
 if [ $? -eq 0 ]
 then
@@ -125,14 +125,14 @@ azcopy copy ~/logs/${version}_integration_job_az.sh.o${SLURM_ARRAY_JOB_ID}.${SLU
 ${file_path_cubes}/Healpix/logs/${version}_integration_job_az.sh.o${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID}_${myip}.txt
 
 # Copy stderr to az
-azcopy copy ~/logs/${version}_integration_job_az.sh.e${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID} \
-${file_path_cubes}/Healpix/logs/${version}_integration_job_az.sh.e${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID}_${myip}.txt
+#azcopy copy ~/logs/${version}_integration_job_az.sh.e${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID} \
+#${file_path_cubes}/Healpix/logs/${version}_integration_job_az.sh.e${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID}_${myip}.txt
 
 # Remove integration cubes from the instance
-for int_cube in ${int_cubes}; do
-    sudo rm ${FHD_version}/Healpix/${int_cube}_${evenodd}_cube${pol^^}.sav
-done
+#for int_cube in ${int_cubes}; do
+#    sudo rm ${FHD_version}/Healpix/${int_cube}_${evenodd}_cube${pol^^}.sav
+#done
 
-sudo rm ${FHD_version}/${save_file_evenoddpol}
+#sudo rm ${FHD_version}/${save_file_evenoddpol}
 
 exit $error_mode
