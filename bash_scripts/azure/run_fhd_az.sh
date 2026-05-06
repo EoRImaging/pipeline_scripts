@@ -10,7 +10,7 @@ unset version
 # # # # # # # Gathering the input arguments and applying defaults if necessary
 
 # Parse flags for inputs
-while getopts ":f:s:e:o:b:v:n:r:d:u:p:m:i:j:k:c:t:a:q:w:" option
+while getopts ":f:s:e:o:b:v:n:r:d:u:p:m:i:j:k:c:t:a:q:w:x:" option
 do
    case $option in
     f) export obs_file_name="$OPTARG";; # text file of observation id's
@@ -34,6 +34,7 @@ do
     a) non_integer_obs=$OPTARG;; # Flag to specify that obsids are not integers - cannot sort.
     q) partition=$OPTARG;; # Compute node partition
     w) export temp_obs_file=$OPTARG;; # Temporary obs_id file used if starting_obs or ending_obs is set
+    x) export mem=$OPTARG;; # Memory specified per FHD run
     \?) echo "Unknown option: Accepted flags are -f (obs_file_name), -s (starting_obs), -e (ending obs), -o (output directory), "
         echo "-b (output bucket on azure), -v (version input for FHD),  -n (number of slots to use), "
         echo "-u (versions script), -p (path to uvfits files on azure), -m (path to metafits files on azure), "
@@ -41,7 +42,7 @@ do
         echo "-i (visibilities for in situ sim), -j (EoR sim), "
         echo "-k (extra visibilities to add to simulation visibilities), -c (calibration save files to transfer), "
         echo "-t (model_uv_arr.sav files to transfer from precalibration run), -a (indicate that obsids are not integers), "
-        echo "-q (compute partition), -w (temporary obs_id file)"
+	echo "-q (compute partition), -w (temporary obs_id file), -x (memory specified for each FHD run)"
         exit 1;;
     :) echo "Missing option argument for input flag"
        exit 1;;
@@ -164,6 +165,11 @@ if [ -z ${nslots} ]; then
     export nslots=8
 fi
 
+#Set default memory needed for integration job
+if [ -z ${mem} ]; then
+    export mem=96G
+fi
+
 # Set default partition
 if [ -z ${partition} ]; then
     partition=htc
@@ -261,4 +267,4 @@ echo "processing ${N_obs} observations"
 
 # # # # # # # Submit the firstpass jobs and wait for output
 
-sbatch -D /mnt/scratch -c ${nslots} -p ${partition} -o ${logdir}/fhd_job_az.sh.o%A.%a -a 1-${N_obs} fhd_job_az.sh
+sbatch -D /mnt/scratch -c ${nslots} -p ${partition} -o ${logdir}/fhd_job_az.sh.o%A.%a -a 1-${N_obs} fhd_job_az.sh  --mem=${mem}

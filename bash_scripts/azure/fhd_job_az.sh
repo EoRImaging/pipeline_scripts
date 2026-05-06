@@ -215,6 +215,8 @@ fi
 # make license directory to avoid licensing issues
 sudo mkdir -m 777 License
 sudo mkdir -m 777 License/flexera-sv
+yes 'yes' | rm /shared/idl_stuff/harris/license/flexera/*
+yes 'yes' | rm /shared/idl_stuff/harris/license/flexera-sv/*
 /shared/idl_stuff/harris/idl/bin/idl -IDL_DEVICE ps -IDL_CPU_TPOOL_NTHREADS $nslots -e $versions_script -args \
 $obs_id $outdir $version azure || :
 
@@ -267,6 +269,8 @@ if [ "$run_ps" -eq 1 ]; then
     fi
 
     # Run eppsilon
+    yes 'yes' | rm /shared/idl_stuff/harris/license/flexera/*
+    yes 'yes' | rm /shared/idl_stuff/harris/license/flexera-sv/*
     /shared/idl_stuff/harris/idl/bin/idl -IDL_DEVICE ps -IDL_CPU_TPOOL_NTHREADS $nslots -e az_ps_single_obs_job -args \
     $obs_id $outdir $version $refresh_ps $ps_uvf_input $ps_wt_cutoffs || :
 

@@ -98,6 +98,9 @@ done
 sudo mkdir -m 777 License
 sudo mkdir -m 777 License/flexera-sv
 # Run the integration IDL script
+yes 'yes' | rm /shared/idl_stuff/harris/license/flexera/*
+yes 'yes' | rm /shared/idl_stuff/harris/license/flexera-sv/*
+
 /shared/idl_stuff/harris/idl/bin/idl -IDL_DEVICE ps -IDL_CPU_TPOOL_NTHREADS $nslots -e integrate_healpix_cubes -args "$evenoddpol_file_paths" "${FHD_version}/$save_file_evenoddpol" || :
 
 if [ $? -eq 0 ]

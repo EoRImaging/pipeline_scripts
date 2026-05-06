@@ -159,10 +159,10 @@ fi
 
 #Set default memory needed for integration job
 if [ -z ${mem} ]; then
-    export mem=64G
+    export mem=20G
 fi
 
-# Set default partition to htc
+# Set default partition
 if [ -z ${int_partition} ]; then
     int_partition=hpc
 elif [[ ${int_partition} != "hpc" && ${int_partition} != "htc" ]]; then
@@ -171,9 +171,9 @@ elif [[ ${int_partition} != "hpc" && ${int_partition} != "htc" ]]; then
 fi
 
 
-# Set default partition to htc
+# Set default partition
 if [ -z ${epp_partition} ]; then
-    epp_partition=htc
+    epp_partition=hpc
 elif [[ ${epp_partition} != "hpc" && ${epp_partition} != "htc" ]]; then
   echo "${epp_partition} is not a valid input type. Valid options are 'hpc' or 'htc'"
   exit 1
@@ -256,5 +256,23 @@ if [ $ps -eq 1 ]; then
     fi
     echo "Submitting eppsilon ps job"
     unset cube_type
-    sbatch ${hold_str} -D /mnt/scratch -c ${nslots} -p ${epp_partition} -o ${logdir}/${cube_prefix}_eppsilon_ps_job_az.sh.o%A eppsilon_job_az.sh --mem=${mem}
+    jid_ps=$(sbatch ${hold_str} -D /mnt/scratch -c ${nslots} -p ${epp_partition} \
+    	-o ${logdir}/${cube_prefix}_eppsilon_ps_job_az.sh.o%A \
+	eppsilon_job_az.sh)
+
+    hold_str="-d afterok:${jid_ps##* }"
 fi
+
+
+# get unique directory
+FHD_version=$(basename ${file_path_cubes})
+
+input_folder=/mnt/scratch/$FHD_version/
+
+sbatch ${hold_str} -D /mnt/scratch -p ${int_partition} \
+    -o ${logdir}/${cube_prefix}_cleanup.o%A \
+    --wrap="rm -rf ${input_folder}"
+
+sbatch ${hold_str} -D /mnt/scratch -p ${epp_partition} \
+    -o ${logdir}/${cube_prefix}_cleanup.o%A \
+    --wrap="rm -rf ${input_folder}"

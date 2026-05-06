@@ -172,6 +172,8 @@ echo "arg_string is $arg_string"
 # make license directory to avoid licensing issues
 sudo mkdir -m 777 License
 sudo mkdir -m 777 License/flexera-sv
+yes 'yes' | rm /shared/idl_stuff/harris/license/flexera/*
+yes 'yes' | rm /shared/idl_stuff/harris/license/flexera-sv/*
 /shared/idl_stuff/harris/idl/bin/idl -IDL_DEVICE ps -IDL_CPU_TPOOL_NTHREADS $nslots -e ${versions_script} -args $arg_string || :
 
 # idl -IDL_DEVICE ps -IDL_CPU_TPOOL_NTHREADS $nslots -e az_ps_job -args $arg_string || :
