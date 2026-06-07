@@ -1,0 +1,3 @@
+Combined_obs_shorter_good_day
+Combined_obs_good_day_remaining
+Combined_obs_good_day_WoS
