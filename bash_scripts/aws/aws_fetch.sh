@@ -2,13 +2,14 @@
 
 # Function to display help
 function show_help() {
-    echo "Usage: $0 <bucket> <input_folder> <output_folder> [--sync] [<item_list.txt> | <item>] [<suffix>]"
+    echo "Usage: $0 <bucket> <input_folder> <output_folder> [--sync] [--force] [<item_list.txt> | <item>] [<suffix>]"
     echo
     echo "Options:"
     echo "  <bucket>           S3 bucket name."
     echo "  <input_folder>     Folder in the S3 bucket."
     echo "  <output_folder>    Local folder to save downloaded files."
     echo "  --sync             Use this option to sync directories instead of downloading individual files."
+    echo "  --force            Download even if the file already exists locally."
     echo "  <item_list.txt>    Optional: A text file containing a list of items (files or directories) to download or sync."
     echo "  <item>             Optional: A single item (file or directory) to download or sync."
     echo "  <suffix>           Optional: Suffix to append to each item name."
@@ -29,13 +30,24 @@ input_folder="$2"
 output_folder="$3"
 use_sync=false
 shift 3
+force_download=false
 
-# Check for the --sync option
-if [ "$1" == "--sync" ]; then
-    use_sync=true
-    shift 
-fi
-
+# Parse optional flags
+while [[ "$1" == --* ]]; do
+    case "$1" in
+        --sync)
+            use_sync=true
+            ;;
+        --force)
+            force_download=true
+            ;;
+        *)
+            echo "Unknown option: $1"
+            exit 1
+            ;;
+    esac
+    shift
+done
 
 item_input="$1"
 suffix="$2"
@@ -66,6 +78,17 @@ function sync_or_download() {
     if [ -n "$suffix" ]; then
         item="${item}${suffix}"
     fi
+
+    local target="$output_folder/$item"
+
+    # Skip existing files unless --force was specified
+    if [ "$use_sync" = false ] && \
+	[ "$force_download" = false ] && \
+	[ -e "$target" ]; then
+	echo "Skipping existing file: $target"
+        return 0
+    fi
+
     if [ "$use_sync" = true ]; then
         echo "Syncing item: $item"
 	echo aws s3 sync "s3://$bucket/$input_folder/$item" "$output_folder/$item"

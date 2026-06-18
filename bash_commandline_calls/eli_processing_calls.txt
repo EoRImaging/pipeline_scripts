@@ -51,3 +51,16 @@ idl -e "save_image_cube_rfi_transfer_versions, 1093195672, '/Volumes/Data3/elill
 
 ##############################################################################
 ./repos/pipeline_scripts/bash_scripts/aws/aws_fetch.sh mwapublic uvfits/pyuvdata/2014/ssins_vv_cbflags_2s_80khz /Volumes/Data3/elillesk/data_and_analysis/uvfits/2014_aws/ repos/pipeline_scripts/fhd_obsid_lists/good_limit_day_2014_08-22-2014.txt .uvfits
+
+##############################################################################
+./repos/pipeline_scripts/bash_scripts/azcopy_script.sh -l repos/pipeline_scripts/fhd_obsid_lists/good_day_2014_WoS.txt -s /Volumes/Data3/elillesk/data_and_analysis/uvfits/2014_aws/ -d https://mwadatastore.blob.core.windows.net/metafits -x .metafits
+
+##############################################################################
+azcopy copy --recursive https://mwadatastore.blob.core.windows.net/fhd/initial_run/fhd_eli_azure_image/ps /Volumes/Data3/elillesk/data_and_analysis/fhd/COPYSPOT/
+
+cp -r /Volumes/Data3/elillesk/data_and_analysis/fhd/COPYSPOT/ps/* /Volumes/Data3/elillesk/data_and_analysis/fhd/fhd_eli_azure_image/ps/
+
+./repos/pipeline_scripts/bash_scripts/epp_plot_script.sh good_day_combined
+
+##############################################################################
+azcopy list https://mwadatastore.blob.core.windows.net/fhd/initial_run/fhd_eli_azure_image/Healpix | ./read_script.sh -u >> repos/pipeline_scripts/fhd_obsid_lists/2014_completed_list.txt
