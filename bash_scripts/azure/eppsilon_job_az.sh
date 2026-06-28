@@ -37,6 +37,17 @@ echo Using file_path_cubes: $file_path_cubes
 echo Using cube_prefix: $cube_prefix
 echo Using single_obs: $single_obs
 echo Using versions_script: $versions_script
+
+# Set up per-job isolated license cache on local /tmp to avoid shared-filesystem race conditions
+JOB_LICENSE_DIR=/tmp/harris_license_${SLURM_ARRAY_JOB_ID}_${SLURM_ARRAY_TASK_ID}
+mkdir -p ${JOB_LICENSE_DIR}/flexera
+mkdir -p ${JOB_LICENSE_DIR}/flexera-sv
+cp /shared/idl_stuff/harris/license/o_licenseserverurl.txt ${JOB_LICENSE_DIR}/
+cp /shared/idl_stuff/harris/license/device.id0 ${JOB_LICENSE_DIR}/
+export EXELIS_DIR=${JOB_LICENSE_DIR}
+trap "rm -rf ${JOB_LICENSE_DIR}" EXIT
+echo "Using per-job license cache at ${JOB_LICENSE_DIR}"
+
 # log into azcopy
 azcopy login --identity
 
@@ -91,10 +102,10 @@ fi
 
 if [ $single_obs -eq 1 ]; then
     cube_prefix=${cube_prefix}
-	echo Working on a single obsid. Using cube prefix ${cube_prefix}.
+        echo Working on a single obsid. Using cube prefix ${cube_prefix}.
 else
-	cube_prefix="Combined_obs_${cube_prefix}"
-	echo Working on combined obsids. Using cube prefix ${cube_prefix}.
+        cube_prefix="Combined_obs_${cube_prefix}"
+        echo Working on combined obsids. Using cube prefix ${cube_prefix}.
 fi
 
 # if running a power spectrum job, pull the uvf cubes and info cube
@@ -107,7 +118,7 @@ if [ -z ${cube_type} ]; then
             for ps_cube_type in weights dirty model; do
                 cube_name="${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}_noimgclip_${ps_cube_type}_uvf.idlsave"
                 azcopy copy ${file_path_cubes}/ps/data/uvf_cubes/${cube_name} ${FHD_version}/ps/data/uvf_cubes/${cube_name}
-		if [ ! -f "${FHD_version}/ps/data/uvf_cubes/${cube_name}" ]; then
+                if [ ! -f "${FHD_version}/ps/data/uvf_cubes/${cube_name}" ]; then
                 >&2 echo "uvf cube ${cube_name} not found"
                 exit 1
                 fi
@@ -116,8 +127,6 @@ if [ -z ${cube_type} ]; then
     done
 fi
 # if running a dft job, pull the Healpix cubes
-# Currently need all HEALPix cubes for single cube jobs so that info file
-# behaves sensibly given a dynamic filesystem.
 for ps_pol in ${pols}; do
     for ps_evenodd in even odd; do
         if [ ! -f "${FHD_version}/Healpix/${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}.sav" ]; then
@@ -126,7 +135,7 @@ for ps_pol in ${pols}; do
                 azcopy copy ${file_path_cubes}/Healpix/${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}.sav \
             ${FHD_version}/Healpix/${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}.sav
         fi
-	# Check that file downloaded
+        # Check that file downloaded
         if [ ! -f "${FHD_version}/Healpix/${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}.sav" ]; then
             >&2 echo "Integration cube ${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}.sav not found"
             exit 1
@@ -134,49 +143,12 @@ for ps_pol in ${pols}; do
     done
 done
 
-
-# for ps_pol in ${pols}; do
-#     for ps_evenodd in even odd; do
-#         if [ ! -f "${FHD_version}/Healpix/${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}.sav" ]; then
-# 		        echo "Using file_path_cubes for Healpix download: ${file_path_cubes}"
-#             echo "Attempting to download ${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}.sav"
-# 		        azcopy copy ${file_path_cubes}/Healpix/${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}.sav \
-#               ${FHD_version}/Healpix/${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}.sav
-# 	      fi
-# 	      # Check that file downloaded
-#         if [ ! -f "${FHD_version}/Healpix/${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}.sav" ]; then
-#             >&2 echo "Integration cube ${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}.sav not found"
-#             exit 1
-#         fi
-#         # Grab the uvf cubes if it is a power spectrum job.
-#         if [ -z ${cube_type} ]; then
-# 	         for ps_cube_type in weights dirty model; do
-#                 cube_name="${cube_prefix}_${ps_evenodd}_cube${ps_pol^^}_noimgclip_${ps_cube_type}_uvf.idlsave"
-#             		if [ ! -f "${FHD_version}/ps/data/uvf_cubes/${cube_name}" ]; then
-#             		    echo "Using file_path_cubes for uvf download: ${file_path_cubes}"
-#             		    azcopy copy ${file_path_cubes}/ps/data/uvf_cubes/${cube_name} ${FHD_version}/ps/data/uvf_cubes/${cube_name}
-#             		fi
-
-#             		if [ ! -f "${FHD_version}/ps/data/uvf_cubes/${cube_name}" ]; then
-#                     >&2 echo "uvf cube ${cube_name} not found"
-#                     exit 1
-#             		fi
-# 	           done
-#         fi
-# 	  done
-# done
-
 echo $(ls /mnt/scratch/${FHD_version}/ps/data/uvf_cubes)
 
 echo "arg_string is $arg_string"
-# make license directory to avoid licensing issues
-sudo mkdir -m 777 License
-sudo mkdir -m 777 License/flexera-sv
-yes 'yes' | rm /shared/idl_stuff/harris/license/flexera/*
-yes 'yes' | rm /shared/idl_stuff/harris/license/flexera-sv/*
-/shared/idl_stuff/harris/idl/bin/idl -IDL_DEVICE ps -IDL_CPU_TPOOL_NTHREADS $nslots -e ${versions_script} -args $arg_string || :
 
-# idl -IDL_DEVICE ps -IDL_CPU_TPOOL_NTHREADS $nslots -e az_ps_job -args $arg_string || :
+# Run eppsilon
+/shared/idl_stuff/harris/idl88/bin/idl -IDL_DEVICE ps -IDL_CPU_TPOOL_NTHREADS $nslots -e ${versions_script} -args $arg_string || :
 
 if [ $? -eq 0 ]
 then
@@ -196,40 +168,21 @@ while [ $? -ne 0 ] && [ $i -lt 10 ]; do
     azcopy copy ${FHD_version}/ps ${file_path_cubes} --recursive
 done
 
-# # Move eppsilon outputs to az
-# if [ -z ${cube_type} ]; then
-#     i=1  #initialize counter
-#     azcopy copy ${FHD_version}/ps ${file_path_cubes} --recursive
-#     while [ $? -ne 0 ] && [ $i -lt 10 ]; do
-#         let "i += 1"  #increment counter
-#         >&2 echo "Moving eppsilon outputs to az failed. Retrying (attempt $i)."
-#         azcopy copy ${FHD_version}/ps ${file_path_cubes} --recursive
-#     done
-# else
-#     i=1  #initialize counter
-#     azcopy copy ${FHD_version}/ps/data/uvf_cubes ${file_path_cubes}/ps/data --recursive
-#     while [ $? -ne 0 ] && [ $i -lt 10 ]; do
-#         let "i += 1"  #increment counter
-#         >&2 echo "Moving eppsilon outputs to az failed. Retrying (attempt $i)."
-#         azcopy copy ${FHD_version}/ps/data/uvf_cubes ${file_path_cubes}/ps/data --recursive
-#     done
-# fi
-
 echo "JOB END TIME" `date +"%Y-%m-%d_%H:%M:%S"`
 
 # Move logs to az
 if [ ! -z ${cube_type} ]; then
-    # Copy stdout to S3
+    # Copy stdout to az
     azcopy copy ~/logs/${cube_prefix}_eppsilon_cube_job_az.sh.o${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID} \
     ${file_path_cubes}/ps/logs/${cube_prefix}_eppsilon_cube_job_az.sh.o${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID}_${myip}.txt
-    # Copy stderr to S3
+    # Copy stderr to az
     azcopy copy ~/logs/${cube_prefix}_eppsilon_cube_job_az.sh.e${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID} \
     ${file_path_cubes}/ps/logs/${cube_prefix}_eppsilon_cube_job_az.sh.e${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID}_${myip}.txt
 else
-    # Copy stdout to S3
+    # Copy stdout to az
     azcopy copy ~/logs/${cube_prefix}_eppsilon_ps_job_az.sh.o${SLURM_ARRAY_JOB_ID} \
     ${file_path_cubes}/ps/logs/${cube_prefix}_eppsilon_ps_job_az.sh.o${SLURM_ARRAY_JOB_ID}_${myip}.txt
-    # Copy stderr to S3
+    # Copy stderr to az
     azcopy copy ~/logs/${cube_prefix}_eppsilon_ps_job_az.sh.e${SLURM_ARRAY_JOB_ID} \
     ${file_path_cubes}/ps/logs/${cube_prefix}_eppsilon_ps_job_az.sh.e${SLURM_ARRAY_JOB_ID}_${myip}.txt
 fi

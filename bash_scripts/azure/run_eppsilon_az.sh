@@ -108,9 +108,9 @@ if [ ${int} -eq 1 ]; then
         exit 1
     else
         export n_obs=$(wc -l < ${integrate_list})
-        # Error if > 20 cubes are submitted
-        if [ $n_obs -gt 20 ]; then
-            >&2 echo "Integration list list must contain 20 or fewer cube prefixes. Resubmit with a shorter list."
+        # Error if > 1000 cubes are submitted
+        if [ $n_obs -gt 1000 ]; then
+            >&2 echo "Integration list list must contain 1000 or fewer cube prefixes. Resubmit with a shorter list."
             exit 1
         fi
         # Error if a single cube is submitted
@@ -195,7 +195,7 @@ if [ $int -eq 1 ]; then
     if [ -z ${hold_job_id} ]; then
         hold_str=""
     else
-        hold_str="-d afterok:${hold_job_id}"
+        hold_str="-d afterany:${hold_job_id}"
         echo "Hold string is ${hold_str}"
     fi
     # Get job_id
@@ -263,16 +263,17 @@ if [ $ps -eq 1 ]; then
     hold_str="-d afterok:${jid_ps##* }"
 fi
 
-
+# Clean-up step
 # get unique directory
 FHD_version=$(basename ${file_path_cubes})
 
 input_folder=/mnt/scratch/$FHD_version/
+logdir=~/logs
 
 sbatch ${hold_str} -D /mnt/scratch -p ${int_partition} \
-    -o ${logdir}/${cube_prefix}_cleanup.o%A \
-    --wrap="rm -rf ${input_folder}"
+    -o ${logdir}/cleanup.o%A \
+    --wrap="sudo rm -rf ${input_folder}"
 
 sbatch ${hold_str} -D /mnt/scratch -p ${epp_partition} \
-    -o ${logdir}/${cube_prefix}_cleanup.o%A \
-    --wrap="rm -rf ${input_folder}"
+    -o ${logdir}/cleanup.o%A \
+    --wrap="sudo rm -rf ${input_folder}"

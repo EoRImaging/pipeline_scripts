@@ -47,6 +47,16 @@ fi
 
 echo OBSID $obs_id
 
+# Set up per-job isolated license cache on local /tmp to avoid shared-filesystem race conditions
+JOB_LICENSE_DIR=/tmp/harris_license_${SLURM_ARRAY_JOB_ID}_${SLURM_ARRAY_TASK_ID}
+mkdir -p ${JOB_LICENSE_DIR}/flexera
+mkdir -p ${JOB_LICENSE_DIR}/flexera-sv
+cp /shared/idl_stuff/harris/license/o_licenseserverurl.txt ${JOB_LICENSE_DIR}/
+cp /shared/idl_stuff/harris/license/device.id0 ${JOB_LICENSE_DIR}/
+export EXELIS_DIR=${JOB_LICENSE_DIR}
+trap "rm -rf ${JOB_LICENSE_DIR}" EXIT
+echo "Using per-job license cache at ${JOB_LICENSE_DIR}"
+
 # sign into azure
 azcopy login --identity
 
@@ -68,16 +78,7 @@ else
 fi
 
 # Copy previous runs from az (allows FHD to not recalculate everything)
-# Currently az storage copy used with --include-pattern moves folder as well as files - March 2021
-# az storage copy -s ${az_path}/fhd_${version} -d ${outdir}/fhd_${version} \
-# --include-pattern "*${obs_id}*" --recursive
 azcopy copy ${az_path}/fhd_${version} ${outdir} --include-pattern "*${obs_id}*" --recursive
-
-# Maybe add this later
-# Run backup script in the background
-# fhd_on_aws_backup.sh $outdir $az_path $version $SLURM_ARRAY_JOB_ID $myip &
-# Run RAM use recording script in the background
-# record_ram_use_az.sh $obs_id $outdir $version $SLURM_ARRAY_JOB_ID $myip &
 
 # create uvfits download location with full permissions
 if [ -d "uvfits" ]; then
@@ -212,12 +213,7 @@ if [ ! -z ${model_uv_transfer} ]; then
 fi
 
 # Run FHD
-# make license directory to avoid licensing issues
-sudo mkdir -m 777 License
-sudo mkdir -m 777 License/flexera-sv
-yes 'yes' | rm /shared/idl_stuff/harris/license/flexera/*
-yes 'yes' | rm /shared/idl_stuff/harris/license/flexera-sv/*
-/shared/idl_stuff/harris/idl/bin/idl -IDL_DEVICE ps -IDL_CPU_TPOOL_NTHREADS $nslots -e $versions_script -args \
+/shared/idl_stuff/harris/idl88/bin/idl -IDL_DEVICE ps -IDL_CPU_TPOOL_NTHREADS $nslots -e $versions_script -args \
 $obs_id $outdir $version azure || :
 
 if [ $? -eq 0 ]; then
@@ -230,13 +226,10 @@ fi
 
 # Copy FHD outputs to az
 i=1  # initialize counter
-# az storage copy -s ${outdir}/fhd_${version} -d ${az_path}/fhd_${version} --recursive --include-pattern "*${obs_id}*"
-# az storage copy currently moves source directory when calling --recursive and --include-pattern 3/2021
 azcopy copy ${outdir}/fhd_${version} ${az_path} --recursive --include-pattern "*${obs_id}*"
 while [ $? -ne 0 ] && [ $i -lt 10 ]; do
     let "i += 1"  # increment counter
     >&2 echo "Moving FHD outputs to az failed. Retrying (attempt $i)."
-    # az storage copy -s ${outdir}/fhd_${version} -d ${az_path}/fhd_${version} --recursive --include-pattern "*${obs_id}*"
     azcopy copy ${outdir}/fhd_${version} ${az_path} --recursive --include-pattern "*${obs_id}*"
 done
 
@@ -269,9 +262,7 @@ if [ "$run_ps" -eq 1 ]; then
     fi
 
     # Run eppsilon
-    yes 'yes' | rm /shared/idl_stuff/harris/license/flexera/*
-    yes 'yes' | rm /shared/idl_stuff/harris/license/flexera-sv/*
-    /shared/idl_stuff/harris/idl/bin/idl -IDL_DEVICE ps -IDL_CPU_TPOOL_NTHREADS $nslots -e az_ps_single_obs_job -args \
+    /shared/idl_stuff/harris/idl88/bin/idl -IDL_DEVICE ps -IDL_CPU_TPOOL_NTHREADS $nslots -e az_ps_single_obs_job -args \
     $obs_id $outdir $version $refresh_ps $ps_uvf_input $ps_wt_cutoffs || :
 
     if [ $? -eq 0 ]; then
@@ -297,9 +288,6 @@ fi
 
 # Remove outputs from the instance
 sudo rm -r ${outdir}/fhd_${version}/*/*${obs_id}*
-
-# Maybe add this later
-# kill $(jobs -p)  # Kill fhd_on_aws_backup.sh
 
 # Copy stdout to az
 azcopy copy ~/logs/fhd_job_az.sh.o${SLURM_ARRAY_JOB_ID}.${SLURM_ARRAY_TASK_ID} \
