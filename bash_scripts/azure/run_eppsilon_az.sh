@@ -9,26 +9,26 @@ while getopts ":u:d:f:v:b:n:i:c:p:h:s:x:t:q:r:o:m:" option
 do
    case $option in
         u) export versions_script=$OPTARG;;     # optional versions script; if not submitted az_ps_job will be used
-        d) export file_path_cubes=$OPTARG;;			#file path to fhd directory on azure storage
-        f) export integrate_list="$OPTARG";;		#txt file of obs ids or subcubes or a single obsid
+        d) export file_path_cubes=$OPTARG;;                     #file path to fhd directory on azure storage
+        f) export integrate_list="$OPTARG";;            #txt file of obs ids or subcubes or a single obsid
         v) export cube_prefix=$OPTARG;;  # Name associated with resulting integration/eppsilon outputs. Not the FHD version.
         b) export version=$OPTARG;; # version from script
-        n) export nslots=$OPTARG;;             	#Number of slots for grid engine
+        n) export nslots=$OPTARG;;              #Number of slots for grid engine
         i) int=$OPTARG;;           # Run FHD integration job
         c) cubes=$OPTARG;;         # Run eppsilon cube job
-        p) ps=$OPTARG;;			# Run eppsilon power spectra job
+        p) ps=$OPTARG;;                 # Run eppsilon power spectra job
         h) hold_job_id=$OPTARG;;             #Job_id for a job to finish before running. Useful when running immediately after firstpass
         s) export single_obs=$OPTARG;; # Working on a single obsid that has never seen integration.
         x) export pols=$OPTARG;; # String of space-separated pols
-	t) export cube_types=$OPTARG;; # String of space-separated cube types
+        t) export cube_types=$OPTARG;; # String of space-separated cube types
         q) int_partition=$OPTARG;; # Compute node partition for integration
-	r) epp_partition=$OPTARG;; # Compute node partition for eppsilon
-	o) force_single_obs=$OPTARG;; # Force single obs when doing integration
-	m) export mem=$OPTARG;; # memory request for integration job
-	\?) echo "Unknown option: Accepted flags are -d (file path to fhd directory on azure storage), -f (obs list or subcube path or single obsid), "
-	          echo "-v (version), -n (number of slots), -i (integrate) -c (make 'weights', 'dirty', 'model' cubes) -p (make ps), "
-		  echo "-h (job id to hold int/ps script for), -s (single obsid), -x (string of pols), -t (string of cube types), and -q (partition for integration)"
-		  echo "-r (partition for eppsilon), -o (force single obs integration), -m (memory request for integration job)"
+        r) epp_partition=$OPTARG;; # Compute node partition for eppsilon
+        o) force_single_obs=$OPTARG;; # Force single obs when doing integration
+        m) export mem=$OPTARG;; # memory request for integration job
+        \?) echo "Unknown option: Accepted flags are -d (file path to fhd directory on azure storage), -f (obs list or subcube path or single obsid), "
+                  echo "-v (version), -n (number of slots), -i (integrate) -c (make 'weights', 'dirty', 'model' cubes) -p (make ps), "
+                  echo "-h (job id to hold int/ps script for), -s (single obsid), -x (string of pols), -t (string of cube types), and -q (partition for integration)"
+                  echo "-r (partition for eppsilon), -o (force single obs integration), -m (memory request for integration job)"
             exit 1;;
         :) echo "Missing option argument for input flag"
            exit 1;;
@@ -206,15 +206,15 @@ if [ $int -eq 1 ]; then
     # Currently, a single cube job in eppsilon requires that all evenodd/pol combos be present
     # If this is changed so that a cube job only needs the corresponding cube,
     # then can use 'hold_str="-d aftercorr:${jid_int##* }"'
-    hold_str="-d afterok:${jid_int##* }"
+    hold_str="-d afterany:${jid_int##* }"
     echo "String for holding until integration job tasks finish is '${hold_str}'"
 fi
 
 # Cube definitions
 if [ -z ${cube_types} ]; then
-	cube_type_arr=('weights' 'dirty' 'model')
+        cube_type_arr=('weights' 'dirty' 'model')
 else
-	cube_type_arr=($cube_types)
+        cube_type_arr=($cube_types)
 fi
 
 export n_cubes=${#cube_type_arr[@]}
@@ -226,7 +226,7 @@ if [ $cubes -eq 1 ]; then
         if [ -z ${hold_job_id} ]; then
             hold_str=""
         else
-            hold_str="-d afterok:${hold_job_id}"
+            hold_str="-d afterany:${hold_job_id}"
             echo "Hold string is ${hold_str}"
         fi
     fi
@@ -239,7 +239,7 @@ if [ $cubes -eq 1 ]; then
         cube_jobs+=":${jid_cube##* }"
     done
     # Update hold string so that power spectrum job waits on all cube jobs
-    hold_str="-d afterok${cube_jobs}"
+    hold_str="-d afterany${cube_jobs}"
     echo "String for holding until eppsilon cube jobs finish is '${hold_str}'"
 fi
 
@@ -250,17 +250,18 @@ if [ $ps -eq 1 ]; then
         if [ -z ${hold_job_id} ]; then
             hold_str=""
         else
-            hold_str="-d afterok:${hold_job_id}"
+            hold_str="-d afterany:${hold_job_id}"
             echo "Hold string is ${hold_str}"
         fi
     fi
     echo "Submitting eppsilon ps job"
     unset cube_type
     jid_ps=$(sbatch ${hold_str} -D /mnt/scratch -c ${nslots} -p ${epp_partition} \
-    	-o ${logdir}/${cube_prefix}_eppsilon_ps_job_az.sh.o%A \
-	eppsilon_job_az.sh)
+        -o ${logdir}/${cube_prefix}_eppsilon_ps_job_az.sh.o%A \
+        eppsilon_job_az.sh)
+    echo ${jid_ps}
 
-    hold_str="-d afterok:${jid_ps##* }"
+    hold_str="-d afterany:${jid_ps##* }"
 fi
 
 # Clean-up step
@@ -270,10 +271,12 @@ FHD_version=$(basename ${file_path_cubes})
 input_folder=/mnt/scratch/$FHD_version/
 logdir=~/logs
 
-sbatch ${hold_str} -D /mnt/scratch -p ${int_partition} \
+jid_cleanup_int=$(sbatch ${hold_str} -D /mnt/scratch -p ${int_partition} \
     -o ${logdir}/cleanup.o%A \
-    --wrap="sudo rm -rf ${input_folder}"
+    --wrap="sudo rm -rf ${input_folder}")
+echo ${jid_cleanup_int}
 
-sbatch ${hold_str} -D /mnt/scratch -p ${epp_partition} \
+jid_cleanup_epp=$(sbatch ${hold_str} -D /mnt/scratch -p ${epp_partition} \
     -o ${logdir}/cleanup.o%A \
-    --wrap="sudo rm -rf ${input_folder}"
+    --wrap="sudo rm -rf ${input_folder}")
+echo ${jid_cleanup_epp}
