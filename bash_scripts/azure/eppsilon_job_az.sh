@@ -38,15 +38,16 @@ echo Using cube_prefix: $cube_prefix
 echo Using single_obs: $single_obs
 echo Using versions_script: $versions_script
 
+# NOTE: shouldn't be necessary with new idl license server
 # Set up per-job isolated license cache on local /tmp to avoid shared-filesystem race conditions
-JOB_LICENSE_DIR=/tmp/harris_license_${SLURM_ARRAY_JOB_ID}_${SLURM_ARRAY_TASK_ID}
-mkdir -p ${JOB_LICENSE_DIR}/flexera
-mkdir -p ${JOB_LICENSE_DIR}/flexera-sv
-cp /shared/idl_stuff/harris/license/o_licenseserverurl.txt ${JOB_LICENSE_DIR}/
-cp /shared/idl_stuff/harris/license/device.id0 ${JOB_LICENSE_DIR}/
-export EXELIS_DIR=${JOB_LICENSE_DIR}
-trap "rm -rf ${JOB_LICENSE_DIR}" EXIT
-echo "Using per-job license cache at ${JOB_LICENSE_DIR}"
+#JOB_LICENSE_DIR=/tmp/harris_license_${SLURM_ARRAY_JOB_ID}_${SLURM_ARRAY_TASK_ID}
+#mkdir -p ${JOB_LICENSE_DIR}/flexera
+#mkdir -p ${JOB_LICENSE_DIR}/flexera-sv
+#cp /shared/idl_stuff/harris/license/o_licenseserverurl.txt ${JOB_LICENSE_DIR}/
+#cp /shared/idl_stuff/harris/license/device.id0 ${JOB_LICENSE_DIR}/
+#export EXELIS_DIR=${JOB_LICENSE_DIR}
+#trap "rm -rf ${JOB_LICENSE_DIR}" EXIT
+#echo "Using per-job license cache at ${JOB_LICENSE_DIR}"
 
 # log into azcopy
 azcopy login --identity
@@ -148,7 +149,7 @@ echo $(ls /mnt/scratch/${FHD_version}/ps/data/uvf_cubes)
 echo "arg_string is $arg_string"
 
 # Run eppsilon
-/shared/idl_stuff/harris/idl88/bin/idl -IDL_DEVICE ps -IDL_CPU_TPOOL_NTHREADS $nslots -e ${versions_script} -args $arg_string || :
+/shared/idl_stuff/nv5/idl91/bin/idl -IDL_DEVICE ps -IDL_CPU_TPOOL_NTHREADS $nslots -e ${versions_script} -args $arg_string || :
 
 if [ $? -eq 0 ]
 then

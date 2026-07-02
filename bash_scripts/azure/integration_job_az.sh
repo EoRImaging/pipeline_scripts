@@ -27,15 +27,16 @@ echo Using file_path_cubes: $file_path_cubes
 echo Using cube_prefix: $cube_prefix
 echo n_obs for this run: $n_obs
 
+# NOTE: shouldn't be necessary with new idl license server
 # Set up per-job isolated license cache on local /tmp to avoid shared-filesystem race conditions
-JOB_LICENSE_DIR=/tmp/harris_license_${SLURM_ARRAY_JOB_ID}_${SLURM_ARRAY_TASK_ID}
-mkdir -p ${JOB_LICENSE_DIR}/flexera
-mkdir -p ${JOB_LICENSE_DIR}/flexera-sv
-cp /shared/idl_stuff/harris/license/o_licenseserverurl.txt ${JOB_LICENSE_DIR}/
-cp /shared/idl_stuff/harris/license/device.id0 ${JOB_LICENSE_DIR}/
-export EXELIS_DIR=${JOB_LICENSE_DIR}
-trap "rm -rf ${JOB_LICENSE_DIR}" EXIT
-echo "Using per-job license cache at ${JOB_LICENSE_DIR}"
+#JOB_LICENSE_DIR=/tmp/harris_license_${SLURM_ARRAY_JOB_ID}_${SLURM_ARRAY_TASK_ID}
+#mkdir -p ${JOB_LICENSE_DIR}/flexera
+#mkdir -p ${JOB_LICENSE_DIR}/flexera-sv
+#cp /shared/idl_stuff/harris/license/o_licenseserverurl.txt ${JOB_LICENSE_DIR}/
+#cp /shared/idl_stuff/harris/license/device.id0 ${JOB_LICENSE_DIR}/
+#export EXELIS_DIR=${JOB_LICENSE_DIR}
+#trap "rm -rf ${JOB_LICENSE_DIR}" EXIT
+#echo "Using per-job license cache at ${JOB_LICENSE_DIR}"
 
 #create Healpix download location with full permissions
 FHD_version=$(basename ${file_path_cubes})
@@ -61,6 +62,8 @@ if [ $n_obs -ne $n_obs_var ]; then
   echo "cat seemt to have misbehaved. Trying again."
   int_cubes=$(cat $int_list_path)
   n_obs_var=$(echo $int_cubes | wc -w)
+  echo $int_cubes
+  echo $n_obs_var
   if [ $n_obs -ne $n_obs_var ]; then
     echo "cat misbehaved twice! Something the author did not understand is afoot."
     exit 1
@@ -105,7 +108,7 @@ for int_cube in $(cat $int_list_path); do
 done
 
 # Run the integration IDL script
-/shared/idl_stuff/harris/idl88/bin/idl -IDL_DEVICE ps -IDL_CPU_TPOOL_NTHREADS $nslots -e integrate_healpix_cubes -args "$evenoddpol_file_paths" "${FHD_version}/$save_file_evenoddpol" || :
+/shared/idl_stuff/nv5/idl91/bin/idl -IDL_DEVICE ps -IDL_CPU_TPOOL_NTHREADS $nslots -e integrate_healpix_cubes -args "$evenoddpol_file_paths" "${FHD_version}/$save_file_evenoddpol" || :
 
 if [ $? -eq 0 ]
 then

@@ -107,7 +107,7 @@ if [ ${int} -eq 1 ]; then
         >&2 echo "Integrate list file does not exist!"
         exit 1
     else
-        export n_obs=$(wc -l < ${integrate_list})
+        export n_obs=$(wc -w < ${integrate_list})
         # Error if > 1000 cubes are submitted
         if [ $n_obs -gt 1000 ]; then
             >&2 echo "Integration list list must contain 1000 or fewer cube prefixes. Resubmit with a shorter list."
