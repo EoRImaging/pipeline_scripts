@@ -1,0 +1,7 @@
+./compare_lists.sh <( azcopy list https://mwadatastore.blob.core.windows.net/fhd/initial_run/fhd_eli_azure_cal/cal_prerun/ | ./read_script.sh -u) repos/pipeline_scripts/fhd_obsid_lists/2014_to_do_SEPT.txt     
+
+grep 'OBS_ID 1' logs/fhd_job_az.sh.o392.* | ./read_script.sh -e -n 10 -s 2 -u
+
+./compare_lists.sh <(grep 'OBS_ID 1' logs/fhd_job_az.sh.o392.* | ./read_script.sh -e -n 10 -s 2 -u) repos/pipeline_scripts/fhd_obsid_lists/2014_to_do_SEPT.txt
+
+(while read -r item; do echo "Combined_obs_L${item}"; done < repos/pipeline_scripts/fhd_obsid_lists/2014_good_WoS,nb_list_titles.txt)> repos/pipeline_scripts/fhd_obsid_lists/2014_good_WoS,nb_list_titles_to_run.txt

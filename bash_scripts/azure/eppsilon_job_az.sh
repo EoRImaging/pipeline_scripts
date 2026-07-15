@@ -4,7 +4,7 @@
 # running integration on azure machines. First level program is run_eppsilon_az.sh
 # Adapted from eppsilon_job_aws.sh
 
-#inputs needed: file_path_cubes, obs_list_path, obs_list_array, cube_prefix, nslots
+#inputs needed: file_path_cubes, obs_list_path, obs_list_array, cube_prefix, nslots, scratch_dir
 #inputs optional: cube_type, pol, evenodd
 
 # If cube_type is unset, do a power spectrum job. Otherwise, do a cube job.
@@ -37,6 +37,16 @@ echo Using file_path_cubes: $file_path_cubes
 echo Using cube_prefix: $cube_prefix
 echo Using single_obs: $single_obs
 echo Using versions_script: $versions_script
+echo Using scratch_dir: $scratch_dir
+
+# /mnt/scratch is node-local (not shared between the scheduler or other
+# compute nodes), so scratch_dir can't be created ahead of time by the
+# launcher script -- it has to be created here, on whichever node this task
+# actually landed on. -D (from the launcher's sbatch call) points at the
+# plain /mnt/scratch, which does exist on every node; everything below then
+# runs inside the unique scratch_dir subdirectory of that.
+mkdir -p ${scratch_dir}
+cd ${scratch_dir} || { >&2 echo "ERROR: could not create/enter scratch_dir: ${scratch_dir}"; exit 1; }
 
 # NOTE: shouldn't be necessary with new idl license server
 # Set up per-job isolated license cache on local /tmp to avoid shared-filesystem race conditions
@@ -52,12 +62,14 @@ echo Using versions_script: $versions_script
 # log into azcopy
 azcopy login --identity
 
-# get unique directory
+# FHD_version names the subfolder for this FHD directory's data; true run-to-run
+# isolation comes from scratch_dir (created and cd'd into above), which the
+# launcher script (run_eppsilon_az.sh) generates uniquely per run.
 FHD_version=$(basename ${file_path_cubes})
 
 # Create a string of arguements to pass into az_ps_job given the input
 #   into this script
-input_folder=/mnt/scratch/$FHD_version/
+input_folder=${scratch_dir}/$FHD_version/
 if [[ -z ${cube_type} ]] && [[ -z ${pol} ]] && [[ -z ${evenodd} ]]; then
         arg_string="${input_folder} ${cube_prefix}"
 else
@@ -144,7 +156,7 @@ for ps_pol in ${pols}; do
     done
 done
 
-echo $(ls /mnt/scratch/${FHD_version}/ps/data/uvf_cubes)
+echo $(ls ${scratch_dir}/${FHD_version}/ps/data/uvf_cubes)
 
 echo "arg_string is $arg_string"
 
@@ -159,7 +171,7 @@ else
     echo "Eppsilon Job Failed"
     error_mode=1
 fi
-echo $(ls /mnt/scratch/${FHD_version}/ps/data/uvf_cubes)
+echo $(ls ${scratch_dir}/${FHD_version}/ps/data/uvf_cubes)
 
 i=1  #initialize counter
 azcopy copy ${FHD_version}/ps ${file_path_cubes} --recursive
