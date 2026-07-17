@@ -26,6 +26,16 @@ echo Processing cube: ${pol} ${evenodd}
 echo Using file_path_cubes: $file_path_cubes
 echo Using cube_prefix: $cube_prefix
 echo n_obs for this run: $n_obs
+echo Using scratch_dir: $scratch_dir
+
+# /mnt/scratch is node-local (not shared between the scheduler or other
+# compute nodes), so scratch_dir can't be created ahead of time by the
+# launcher script -- it has to be created here, on whichever node this task
+# actually landed on. -D (from the launcher's sbatch call) points at the
+# plain /mnt/scratch, which does exist on every node; everything below then
+# runs inside the unique scratch_dir subdirectory of that.
+mkdir -p ${scratch_dir}
+cd ${scratch_dir} || { >&2 echo "ERROR: could not create/enter scratch_dir: ${scratch_dir}"; exit 1; }
 
 # NOTE: shouldn't be necessary with new idl license server
 # Set up per-job isolated license cache on local /tmp to avoid shared-filesystem race conditions
@@ -38,7 +48,10 @@ echo n_obs for this run: $n_obs
 #trap "rm -rf ${JOB_LICENSE_DIR}" EXIT
 #echo "Using per-job license cache at ${JOB_LICENSE_DIR}"
 
-#create Healpix download location with full permissions
+# create Healpix download location with full permissions
+# NOTE: this and every other path below is relative, so it resolves under
+# scratch_dir (created and cd'd into above), which is unique per run.
+# FHD_version alone is not unique across runs.
 FHD_version=$(basename ${file_path_cubes})
 if [ -d ${FHD_version}/Healpix ]; then
     sudo chmod -R 777 ${FHD_version}/Healpix

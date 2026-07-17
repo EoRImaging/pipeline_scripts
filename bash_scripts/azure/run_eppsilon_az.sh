@@ -186,6 +186,20 @@ if [ ! -d ~/logs ]; then
 fi
 logdir=~/logs
 
+# Compute a unique scratch directory name for this run so that concurrent
+# runs (even ones using the same FHD directory / cube_prefix) never share --
+# and therefore never race on deleting -- the same working directory.
+#
+# NOTE: we only compute the *name* here and export it; we do NOT mkdir it on
+# this (scheduler) node. /mnt/scratch is node-local, not shared storage, so a
+# directory created here would not exist on whichever compute node each job
+# actually lands on. Each job script creates ${scratch_dir} itself as its
+# first action, on its own node. -D below stays pointed at the plain
+# /mnt/scratch path, which does exist locally on every node.
+export run_id="${cube_prefix}_$(date +%Y%m%d%H%M%S)_$$"
+export scratch_dir="/mnt/scratch/${run_id}"
+echo "Using scratch directory name: ${scratch_dir} (created per-job, on-node)"
+
 # Number of tasks for array job is n_pols*2 (each pol for each even and odd)
 n_arr=$(($n_pol*2))
 
@@ -265,18 +279,21 @@ if [ $ps -eq 1 ]; then
 fi
 
 # Clean-up step
-# get unique directory
-FHD_version=$(basename ${file_path_cubes})
-
-input_folder=/mnt/scratch/$FHD_version/
+# scratch_dir is unique to this run, so removing it never touches another
+# concurrent run's working files. Since /mnt/scratch is node-local, this
+# only cleans up whatever node happens to run this particular cleanup job;
+# if int/cube/ps stages landed on different nodes, each of those nodes'
+# copies of scratch_dir is left behind (this matches the previous script's
+# behavior -- a single cleanup job was never guaranteed to reach every node
+# that touched /mnt/scratch either).
 logdir=~/logs
 
 jid_cleanup_int=$(sbatch ${hold_str} -D /mnt/scratch -p ${int_partition} \
     -o ${logdir}/cleanup.o%A \
-    --wrap="sudo rm -rf ${input_folder}")
+    --wrap="sudo rm -rf ${scratch_dir}")
 echo ${jid_cleanup_int}
 
 jid_cleanup_epp=$(sbatch ${hold_str} -D /mnt/scratch -p ${epp_partition} \
     -o ${logdir}/cleanup.o%A \
-    --wrap="sudo rm -rf ${input_folder}")
+    --wrap="sudo rm -rf ${scratch_dir}")
 echo ${jid_cleanup_epp}
