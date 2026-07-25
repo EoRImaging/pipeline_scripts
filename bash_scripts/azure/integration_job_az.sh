@@ -28,25 +28,9 @@ echo Using cube_prefix: $cube_prefix
 echo n_obs for this run: $n_obs
 echo Using scratch_dir: $scratch_dir
 
-# /mnt/scratch is node-local (not shared between the scheduler or other
-# compute nodes), so scratch_dir can't be created ahead of time by the
-# launcher script -- it has to be created here, on whichever node this task
-# actually landed on. -D (from the launcher's sbatch call) points at the
-# plain /mnt/scratch, which does exist on every node; everything below then
-# runs inside the unique scratch_dir subdirectory of that.
 mkdir -p ${scratch_dir}
 cd ${scratch_dir} || { >&2 echo "ERROR: could not create/enter scratch_dir: ${scratch_dir}"; exit 1; }
 
-# NOTE: shouldn't be necessary with new idl license server
-# Set up per-job isolated license cache on local /tmp to avoid shared-filesystem race conditions
-#JOB_LICENSE_DIR=/tmp/harris_license_${SLURM_ARRAY_JOB_ID}_${SLURM_ARRAY_TASK_ID}
-#mkdir -p ${JOB_LICENSE_DIR}/flexera
-#mkdir -p ${JOB_LICENSE_DIR}/flexera-sv
-#cp /shared/idl_stuff/harris/license/o_licenseserverurl.txt ${JOB_LICENSE_DIR}/
-#cp /shared/idl_stuff/harris/license/device.id0 ${JOB_LICENSE_DIR}/
-#export EXELIS_DIR=${JOB_LICENSE_DIR}
-#trap "rm -rf ${JOB_LICENSE_DIR}" EXIT
-#echo "Using per-job license cache at ${JOB_LICENSE_DIR}"
 
 # create Healpix download location with full permissions
 # NOTE: this and every other path below is relative, so it resolves under
